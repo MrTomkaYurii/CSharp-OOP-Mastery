@@ -1,0 +1,60 @@
+## Build and Output Directories
+bin/
+obj/
+out/
+[Bb]uild/
+dist/
+
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.jfm
+*.opendb
+*.VC.opendb
+*.pidb
+*.booproj
+*.sln.docstates
+
+## JetBrains Rider / Resharper
+.idea/
+*.DotSettings.user
+_ReSharper*/
+
+## VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## Testing & Coverage
+TestResults/
+[Tt]est[Rr]esults/
+*.trx
+*.coverage
+*.coveragexml
+
+## NuGet & Packages
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+packages/
+
+## Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+## Temporary and Crash Files
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~

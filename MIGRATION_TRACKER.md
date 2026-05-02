@@ -1,0 +1,30 @@
+# Трекер Міграції: CSharp-OOP-Mastery
+
+| # | Вхідний репозиторій | Цільова директорія | .NET 10 | Очистка & Структура | Гайд (README) | Збірка (Build) | Статус |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| **01** | `OOP - Classes` | `01-Fundamentals/01-Classes-And-Encapsulation` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **02** | `OOP - More-About-Сlasses` | `01-Fundamentals/02-Advanced-Classes` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **03** | `OOP - Inheritance` | `02-OOP-Core/01-Inheritance` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **04** | `OOP - Interfaces` | `02-OOP-Core/02-Interfaces-And-Polymorphism` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **05** | `OOP - Generics` | `03-Csharp-Mechanics/01-Generics` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **06** | `OOP - CollectionsInC#` | `03-Csharp-Mechanics/02-Collections` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **07** | `OOP - Enumerators` | `03-Csharp-Mechanics/03-Enumerators-And-Iterators` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **08** | `OOP - Delegates-Events` | `03-Csharp-Mechanics/04-Delegates-And-Events` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **09** | `OOP - Exception` | `03-Csharp-Mechanics/05-Exceptions-Handling` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **10** | `OOP - LINQ-Samples` | `04-Data-And-IO/01-LINQ` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **11** | `OOP - WorkWithFilesInC#` | `04-Data-And-IO/02-Files-And-Streams` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **12** | `OOP - SOLID` | `05-Architecture-And-Patterns/01-SOLID-Principles` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **13** | `OOP - AutoMapper` | `05-Architecture-And-Patterns/02-AutoMapper-And-DTO` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **14** | `OOP - Asynchronous Programming` | `06-Advanced-DotNet/01-Asynchronous-Programming` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **15** | `OOP - Reflection` | `06-Advanced-DotNet/02-Reflection-And-Metadata` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **16** | `OOP - Reflection-Attributes` | `06-Advanced-DotNet/03-Custom-Attributes` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **17** | `OOP - SpectreConsoleExamplesWithComments` | `06-Advanced-DotNet/04-CLI-Spectre-Console` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **18** | `OOP - CodeFirstEntityFrameworkCore` | `07-DataAccess-EFCore/01-CodeFirst-Basics` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **19** | `OOP - EF-Core-Entertainment` | `07-DataAccess-EFCore/02-EFCore-Practical-Scenarios` | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+
+---
+
+### Легенда статусів:
+- `Pending` (⏳) — очікує перенесення за вказівкою користувача
+- `In Progress` (🔄) — в процесі переносу, модернізації або написання гайду
+- `Completed` (✅) — повністю перенесено, оновлено до .NET 10, задокументовано, протестовано збірку і закомічено
