@@ -2,7 +2,7 @@
 
 | # | Вхідний репозиторій | Цільова директорія | .NET 10 | Структура | Коментарі коду | MD-Гайд | Build (0 err) | Статус |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **01** | `OOP - Classes` | `01-Fundamentals/01-Classes-And-Encapsulation` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **01** | `OOP - Classes` | `01-Fundamentals/01-Classes-And-Encapsulation` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **02** | `OOP - More-About-Сlasses` | `01-Fundamentals/02-Advanced-Classes` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **03** | `OOP - Inheritance` | `02-OOP-Core/01-Inheritance` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **04** | `OOP - Interfaces` | `02-OOP-Core/02-Interfaces-And-Polymorphism` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
