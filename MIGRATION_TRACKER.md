@@ -5,7 +5,7 @@
 | **01** | `OOP - Classes` | `01-Fundamentals/01-Classes-And-Encapsulation` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **02** | `OOP - More-About-Сlasses` | `01-Fundamentals/02-Advanced-Classes` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **03** | `OOP - Inheritance` | `02-OOP-Core/01-Inheritance` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **04** | `OOP - Interfaces` | `02-OOP-Core/02-Interfaces-And-Polymorphism` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **04** | `OOP - Interfaces` | `02-OOP-Core/02-Interfaces-And-Polymorphism` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **05** | `OOP - Generics` | `03-Csharp-Mechanics/01-Generics` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **06** | `OOP - CollectionsInC#` | `03-Csharp-Mechanics/02-Collections` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **07** | `OOP - Enumerators` | `03-Csharp-Mechanics/03-Enumerators-And-Iterators` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
