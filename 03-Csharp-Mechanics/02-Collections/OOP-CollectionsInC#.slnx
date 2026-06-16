@@ -1,0 +1,47 @@
+<Solution>
+  <Folder Name="/00-Explanation/">
+    <File Path="Explanation/01.png" />
+    <File Path="Explanation/02.png" />
+    <File Path="Explanation/03.png" />
+    <File Path="Explanation/04.png" />
+  </Folder>
+  <Folder Name="/01-Array/">
+    <Project Path="01-01-Array/01-01-Array.csproj" />
+    <Project Path="01-02-2DArray/01-02-2DArray.csproj" />
+    <Project Path="01-03-JaggedArray/01-03-JaggedArray.csproj" />
+  </Folder>
+  <Folder Name="/02-ArrayList/">
+    <Project Path="02-01-ArrayList-Access/02-02-ArrayList-Access.csproj" Id="2d85e18e-3f73-43ee-857b-14f54540b422" />
+    <Project Path="02-03-ArrayList-Iterate/02-03-ArrayList-Iterate.csproj" Id="71eae984-edf2-40ce-a47f-7c2aac93484b" />
+    <Project Path="02-04-ArrayList-CloneTheNon-GenericArrayList/02-04-ArrayList-CloneTheNon-GenericArrayList.csproj" Id="4ca8fa75-0e4b-4eb6-9e9c-11b88e8c47ad" />
+    <Project Path="02-ArrayList/02-01-ArrayList.csproj" Id="66325684-640a-481f-8581-614199bd2c0b" />
+  </Folder>
+  <Folder Name="/03-Hashtable/">
+    <Project Path="03-01-HashTable/03-01-HashTable.csproj" Id="93df87cc-bf79-423a-be1f-b9b9c6f17a01" />
+    <Project Path="03-02-HashTable-Add/03-02-HashTable-Add.csproj" Id="1b16efbb-19b7-462a-9c20-77574cddfc58" />
+    <Project Path="03-03-HashTable-CloneHashtable/03-03-HashTable-CloneHashtable.csproj" Id="15bc9642-8f3a-468b-ab78-6eaba1b5bfe6" />
+    <Project Path="03-04-HashTable-CopyHashtableToArray/03-04-HashTable-CopyHashtableToArray.csproj" Id="2c4f6851-d783-48db-95da-dcce3f4dc8d3" />
+  </Folder>
+  <Folder Name="/04-GenericList/">
+    <Project Path="04-01-GenericList-Create/04-01-GenericList-Create.csproj" Id="a958a880-3bda-4c18-bd2a-fafffa8883a7" />
+    <Project Path="04-02-GenericList-Insert/04-02-GenericList-Insert.csproj" Id="1388a01b-5cf7-4a49-961b-44ef60dc9bf1" />
+    <Project Path="04-03-GenericList-FindElement/04-03-GenericList-FindElement.csproj" Id="65731d9a-64ee-4b32-8428-e4885ceb3008" />
+  </Folder>
+  <Folder Name="/05-GenericSortedList/">
+    <Project Path="05-01-SortedList-Сreate/05-01-SortedList-Сreate.csproj" Id="72616531-315a-4bfe-853f-51a7e377178a" />
+    <Project Path="05-02-SortedList-Add/05-02-SortedList-Add.csproj" Id="74b04673-d730-479d-a518-7da13c766956" />
+    <Project Path="05-03-SortedList-Remove/05-03-SortedList-Remove.csproj" Id="ce84bbae-48b4-4737-b58d-fe8785bd92f0" />
+    <Project Path="05-04-SortedList-CheckTheAvailability/05-04-SortedList-CheckTheAvailability.csproj" Id="cdd3faa2-bdd7-4d04-92f7-b658c7cb59d2" />
+  </Folder>
+  <Folder Name="/06-GenericDictionary/">
+    <Project Path="GenericDictionary-06-01/GenericDictionary-06-01.csproj" Id="25621e62-3c33-44b9-9f4b-ae95dd78d32c" />
+  </Folder>
+  <Folder Name="/07-GenericSortedDictionary/" />
+  <Folder Name="/08-GenericStack/" />
+  <Folder Name="/09-GenericQueue/" />
+  <Folder Name="/10-GenericHashSet/" />
+  <Folder Name="/11-GenericLinkedList/" />
+  <Folder Name="/12-GenericSortedSet/" />
+  <Folder Name="/13-ConcurrentCollection/" />
+  <Folder Name="/14-ConcurrentDictionary/" />
+</Solution>
