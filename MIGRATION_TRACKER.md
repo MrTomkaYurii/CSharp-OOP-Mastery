@@ -9,7 +9,7 @@
 | **05** | `OOP - Generics` | `03-Csharp-Mechanics/01-Generics` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **06** | `OOP - CollectionsInC#` | `03-Csharp-Mechanics/02-Collections` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **07** | `OOP - Enumerators` | `03-Csharp-Mechanics/03-Enumerators-And-Iterators` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **08** | `OOP - Delegates-Events` | `03-Csharp-Mechanics/04-Delegates-And-Events` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **08** | `OOP - Delegates-Events` | `03-Csharp-Mechanics/04-Delegates-And-Events` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **09** | `OOP - Exception` | `03-Csharp-Mechanics/05-Exceptions-Handling` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **10** | `OOP - LINQ-Samples` | `04-Data-And-IO/01-LINQ` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **11** | `OOP - WorkWithFilesInC#` | `04-Data-And-IO/02-Files-And-Streams` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
