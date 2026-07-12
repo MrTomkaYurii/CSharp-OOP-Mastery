@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <AssemblyName>101 LINQ Samples</AssemblyName>
+    <RootNamespace>_101_LINQ_Samples</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LINQ  - Grouping Operators\C#\GroupingOperators\e_GroupingOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Aggregate Operators\C#\AggregateOperators\k_AggregateOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Conversion Operators\C#\ConversionOperators\g_ConversionOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Custom Sequence Operators\C#\CustomSequenceOperators\m_CustomSequenceOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Element Operators\C#\ElementOperators\h_ElementOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Generation Operators\C#\GenerationOperators\i_GenerationOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Join Operators\C#\JoinOperators\o_JoinOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Miscellaneous Operators\C#\MiscellaneousOperators\l_MiscellaneousOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Ordering Operators\C#\OrderingOperators\d_OrderingOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Partitioning Operators\C#\PartitioningOperators\c_PartitioningOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Projection Operators\C#\ProjectionOperators\b_ProjectionOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Quantifiers\C#\Quantifiers\j_Quantifiers.csproj" />
+    <ProjectReference Include="..\LINQ - Query Execution\C#\QueryExecution\n_QueryExecution.csproj" />
+    <ProjectReference Include="..\LINQ - Restriction Operators\C#\RestrictionOperators\a_RestrictionOperators.csproj" />
+    <ProjectReference Include="..\LINQ - Set Operators\C#\SetOperators\f_SetOperators.csproj" />
+    <ProjectReference Include="..\LinqSamplesCommon\LinqSamplesCommon.csproj" />
+  </ItemGroup>
+</Project>
