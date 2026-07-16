@@ -11,7 +11,7 @@
 | **07** | `OOP - Enumerators` | `03-Csharp-Mechanics/03-Enumerators-And-Iterators` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **08** | `OOP - Delegates-Events` | `03-Csharp-Mechanics/04-Delegates-And-Events` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **09** | `OOP - Exception` | `03-Csharp-Mechanics/05-Exceptions-Handling` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **10** | `OOP - LINQ-Samples` | `04-Data-And-IO/01-LINQ` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **10** | `OOP - LINQ-Samples` | `04-Data-And-IO/01-LINQ` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **11** | `OOP - WorkWithFilesInC#` | `04-Data-And-IO/02-Files-And-Streams` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **12** | `OOP - SOLID` | `05-Architecture-And-Patterns/01-SOLID-Principles` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **13** | `OOP - AutoMapper` | `05-Architecture-And-Patterns/02-AutoMapper-And-DTO` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
