@@ -1,0 +1,56 @@
+<Solution>
+  <Folder Name="/01-FileStream/">
+    <Project Path="01-01-FileStream/01-01-FileStream.csproj" />
+    <Project Path="01-02-FileStream/01-02-FileStream.csproj" />
+    <Project Path="01-03-FileStream/01-03-FileStream.csproj" />
+  </Folder>
+  <Folder Name="/02-StreamReader-StreamWriter/">
+    <Project Path="02-01-StreamReader/02-01-StreamReader-StreamWriter.csproj" />
+    <Project Path="02-02-StreamReader-StreamWriter/02-02-StreamReader-StreamWriter.csproj" />
+    <Project Path="02-03-StreamReader-StreamWriter/02-03-StreamReader-StreamWriter.csproj" />
+    <Project Path="02-04-StreamReader-StreamWriter/02-04-StreamReader-StreamWriter.csproj" />
+    <Project Path="02-05-StreamReader-StreamWriter/02-05-StreamReader-StreamWriter.csproj" />
+    <Project Path="02-06-StreamReader-StreamWriter/02-06-StreamReader-StreamWriter.csproj" />
+  </Folder>
+  <Folder Name="/03-File-Class/">
+    <Project Path="03-01-FileClass/03-01-FileClass.csproj" />
+    <Project Path="03-02-FileClass/03-02-FileClass.csproj" />
+    <Project Path="03-03-FileClass/03-03-FileClass.csproj" />
+    <Project Path="03-04-FileClass/03-04-FileClass.csproj" />
+    <Project Path="03-05-FileClass/03-05-FileClass.csproj" />
+    <Project Path="03-06-FileClass/03-06-FileClass.csproj" />
+  </Folder>
+  <Folder Name="/04-TextWriter-TextReader/">
+    <Project Path="04-01-TextWriter-TextReader/04-01-TextWriter-TextReader.csproj" />
+    <Project Path="04-02-TextWriter-TextReader/04-02-TextWriter-TextReader.csproj" />
+  </Folder>
+  <Folder Name="/05-BinaryWriter-BinaryReader/">
+    <Project Path="05-01-BinaryWriter-BinaryReader/05-01-BinaryWriter-BinaryReader.csproj" />
+    <Project Path="05-02-BinaryWriter-BinaryReader/05-02-BinaryWriter-BinaryReader.csproj" />
+  </Folder>
+  <Folder Name="/06-StringWriter-StringReader/">
+    <Project Path="06-01-StringWriter-StringReader/06-01-StringWriter-StringReader.csproj" />
+    <Project Path="06-02-StringWriter-StringReader/06-02-StringWriter-StringReader.csproj" />
+  </Folder>
+  <Folder Name="/07-FileInfoClass/">
+    <Project Path="07-01-FileInfoClass/07-01-FileInfoClass.csproj" />
+    <Project Path="07-02-FileInfoClass/07-02-FileInfoClass.csproj" />
+    <Project Path="07-03-FileInfoClass/07-03-FileInfoClass.csproj" />
+    <Project Path="07-04-FileInfoClass/07-04-FileInfoClass.csproj" />
+    <Project Path="07-05-FileInfoClass/07-05-FileInfoClass.csproj" />
+    <Project Path="07-06-FileInfoClass/07-06-FileInfoClass.csproj" />
+    <Project Path="07-07-FileInfoClass/07-07-FileInfoClass.csproj" />
+    <Project Path="07-08-FileInfoClass/07-08-FileInfoClass.csproj" />
+  </Folder>
+  <Folder Name="/08-DirectoryInfoClass/">
+    <Project Path="08-01-08-DirectoryInfoClass/08-01-08-DirectoryInfoClass.csproj" />
+    <Project Path="08-02-DirectoryInfoClass/08-02-DirectoryInfoClass.csproj" />
+    <Project Path="08-03-DirectoryInfoClass/08-03-DirectoryInfoClass.csproj" />
+    <Project Path="08-04-DirectoryInfoClass/08-04-DirectoryInfoClass.csproj" />
+    <Project Path="08-05-DirectoryInfoClass/08-05-DirectoryInfoClass.csproj" />
+  </Folder>
+  <Folder Name="/09-ExportAndImportExcelData/">
+    <Project Path="09-01-ExportAndImportExcelData/09-01-ExportAndImportExcelData.csproj" />
+    <Project Path="09-02-ExportAndImportExcelData/09-02-ExportAndImportExcelData.csproj" />
+  </Folder>
+</Solution>
