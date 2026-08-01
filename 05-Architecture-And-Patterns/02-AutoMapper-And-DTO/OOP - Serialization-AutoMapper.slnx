@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AutoMapperDemo/AutoMapperDemo.csproj" />
+  <Project Path="SerializationDemo/SerializationDemo.csproj" />
+</Solution>
