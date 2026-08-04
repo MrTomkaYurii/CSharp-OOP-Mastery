@@ -14,7 +14,7 @@
 | **10** | `OOP - LINQ-Samples` | `04-Data-And-IO/01-LINQ` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **11** | `OOP - WorkWithFilesInC#` | `04-Data-And-IO/02-Files-And-Streams` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **12** | `OOP - SOLID` | `05-Architecture-And-Patterns/01-SOLID-Principles` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **13** | `OOP - AutoMapper` | `05-Architecture-And-Patterns/02-AutoMapper-And-DTO` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **13** | `OOP - AutoMapper` | `05-Architecture-And-Patterns/02-AutoMapper-And-DTO` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **14** | `OOP - Asynchronous Programming` | `06-Advanced-DotNet/01-Asynchronous-Programming` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **15** | `OOP - Reflection` | `06-Advanced-DotNet/02-Reflection-And-Metadata` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **16** | `OOP - Reflection-Attributes` | `06-Advanced-DotNet/03-Custom-Attributes` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
