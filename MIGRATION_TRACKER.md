@@ -17,7 +17,7 @@
 | **13** | `OOP - AutoMapper` | `05-Architecture-And-Patterns/02-AutoMapper-And-DTO` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **14** | `OOP - Asynchronous Programming` | `06-Advanced-DotNet/01-Asynchronous-Programming` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **15** | `OOP - Reflection` | `06-Advanced-DotNet/02-Reflection-And-Metadata` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **16** | `OOP - Reflection-Attributes` | `06-Advanced-DotNet/03-Custom-Attributes` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **16** | `OOP - Reflection-Attributes` | `06-Advanced-DotNet/03-Custom-Attributes` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **17** | `OOP - SpectreConsoleExamplesWithComments` | `06-Advanced-DotNet/04-CLI-Spectre-Console` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **18** | `OOP - CodeFirstEntityFrameworkCore` | `07-DataAccess-EFCore/01-CodeFirst-Basics` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 | **19** | `OOP - EF-Core-Entertainment` | `07-DataAccess-EFCore/02-EFCore-Practical-Scenarios` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
