@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11123.170 d18.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirst.DataAccess", "CodeFirst.DataAccess\CodeFirst.DataAccess.csproj", "{A0DBEFFC-F0C1-4D80-82A3-815033313DBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirst.Models", "CodeFirst.Models\CodeFirst.Models.csproj", "{9DAAB4FF-7F5C-4243-9EB0-D62A05E8CC3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirst.DataAccess.Tests", "CodeFirst.DataAccess.Tests\CodeFirst.DataAccess.Tests.csproj", "{2ACF211E-093A-4BC2-8696-34D08C290C1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirst.ConsoleUI", "CodeFirst.ConsoleUI\CodeFirst.ConsoleUI.csproj", "{0AD6C7E7-C5EF-463F-95B9-8E6833B4B1FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{F013ADEC-1032-4AC1-87DB-2AEC743DC42C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		SQL\03_CreateTable_Movies_AutoIncrement.sql = SQL\03_CreateTable_Movies_AutoIncrement.sql
+		SQL\04_Drop_And_Recreate_Database.sql = SQL\04_Drop_And_Recreate_Database.sql
+		SQL\05_CreateTable_Copies_FK_MovieId.sql = SQL\05_CreateTable_Copies_FK_MovieId.sql
+		SQL\06_CreateTable_Starrings_FK_MovieId.sql = SQL\06_CreateTable_Starrings_FK_MovieId.sql
+		SQL\07_CreateTable_Actors.sql = SQL\07_CreateTable_Actors.sql
+		SQL\08_CreateTable_Clients_PK.sql = SQL\08_CreateTable_Clients_PK.sql
+		SQL\09_CreateTable_Rentals_CompositePK.sql = SQL\09_CreateTable_Rentals_CompositePK.sql
+		SQL\10_CreateTable_Empolyees.sql = SQL\10_CreateTable_Empolyees.sql
+		DbSchema.JPG = DbSchema.JPG
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Explanation", "Explanation", "{F4547B33-2383-4135-9C2A-260606A414E1}"
+	ProjectSection(SolutionItems) = preProject
+		DbSchema.JPG = DbSchema.JPG
+		explanation.txt = explanation.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0DBEFFC-F0C1-4D80-82A3-815033313DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DBEFFC-F0C1-4D80-82A3-815033313DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DBEFFC-F0C1-4D80-82A3-815033313DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DBEFFC-F0C1-4D80-82A3-815033313DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DAAB4FF-7F5C-4243-9EB0-D62A05E8CC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DAAB4FF-7F5C-4243-9EB0-D62A05E8CC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DAAB4FF-7F5C-4243-9EB0-D62A05E8CC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DAAB4FF-7F5C-4243-9EB0-D62A05E8CC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ACF211E-093A-4BC2-8696-34D08C290C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ACF211E-093A-4BC2-8696-34D08C290C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ACF211E-093A-4BC2-8696-34D08C290C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ACF211E-093A-4BC2-8696-34D08C290C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD6C7E7-C5EF-463F-95B9-8E6833B4B1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD6C7E7-C5EF-463F-95B9-8E6833B4B1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD6C7E7-C5EF-463F-95B9-8E6833B4B1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD6C7E7-C5EF-463F-95B9-8E6833B4B1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {142D5635-798C-48D8-ADD1-1EB6DE6379FA}
+	EndGlobalSection
+EndGlobal

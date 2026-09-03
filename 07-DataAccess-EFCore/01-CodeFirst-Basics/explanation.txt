@@ -1,0 +1,23 @@
+
+>>>>>> Nuget Packages:
+
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.SqlServer
+Npgsql.EntityFrameworkCore.PostgreSQL
+
+
+>>>>>> Entity Framework CLI commands
+
+--------------
+Postgres:
+-------------
+dotnet-ef migrations add PostgreSqlInitialMigration --project CodeFirst.DataAccess --context PostgresDbContext
+dotnet-ef database update --project CodeFirst.DataAccess --context PostgresDbContext
+dotnet-ef database drop --project CodeFirst.DataAccess --context PostgresDbContext
+--------------
+MS SQL Server:
+--------------
+dotnet-ef migrations add SqlServerInitialMigration --project CodeFirst.DataAccess --context SqlServerDbContext
+dotnet-ef database update --project CodeFirst.DataAccess --context SqlServerDbContext
+dotnet-ef database drop --project CodeFirst.DataAccess --context PostgresDbContext
