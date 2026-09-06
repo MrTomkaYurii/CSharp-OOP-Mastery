@@ -19,7 +19,7 @@
 | **15** | `OOP - Reflection` | `06-Advanced-DotNet/02-Reflection-And-Metadata` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **16** | `OOP - Reflection-Attributes` | `06-Advanced-DotNet/03-Custom-Attributes` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **17** | `OOP - SpectreConsoleExamplesWithComments` | `06-Advanced-DotNet/04-CLI-Spectre-Console` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
-| **18** | `OOP - CodeFirstEntityFrameworkCore` | `07-DataAccess-EFCore/01-CodeFirst-Basics` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
+| **18** | `OOP - CodeFirstEntityFrameworkCore` | `07-DataAccess-EFCore/01-CodeFirst-Basics` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **19** | `OOP - EF-Core-Entertainment` | `07-DataAccess-EFCore/02-EFCore-Practical-Scenarios` | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | `Pending` |
 
 ---
