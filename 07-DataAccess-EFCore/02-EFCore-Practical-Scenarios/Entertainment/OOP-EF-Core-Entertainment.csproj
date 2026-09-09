@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <UICulture>en-US</UICulture>
+    </PropertyGroup>
+
+	<ItemGroup>
+		<!-- Entity Framework Core -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+
+		<!-- Generic Host та DI -->
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.0" />
+
+		<!-- Логування з Serilog -->
+		<PackageReference Include="Serilog" Version="4.2.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+
+		<!-- Spectre.Console для красивого виводу -->
+		<PackageReference Include="Spectre.Console" Version="0.53.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Копіювання конфігураційних файлів -->
+		<None Update="appsettings.Development.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="- Explanation -\" />
+	</ItemGroup>
+
+</Project>

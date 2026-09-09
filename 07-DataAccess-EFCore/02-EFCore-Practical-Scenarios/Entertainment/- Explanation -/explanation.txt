@@ -1,0 +1,41 @@
+﻿dotnet tool list -g
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+--
+dotnet ef migrations list
+dotnet ef migrations remove
+dotnet ef database update PreviousMigrationName
+dotnet ef database drop
+
+Remove-Migration
+Update-Database PreviousMigrationName
+--
+cd "C:\Users\Yurii\source\repos\OOP - EF-Core-Entertainment\Entertainment"
+dotnet ef migrations add Init
+dotnet ef database update
+--
+<ItemGroup>
+  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.*" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.*" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.*" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.*" />
+</ItemGroup>
+--
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+=====================================================================
+== ВДОСКОНАЛЕННЯ РОБОТИ З БАЗОЮ ДАНИХ В CONSOLE-APP З GENERIC HOST ==
+====================================================================
+ Потік виконання:
+Program.cs 
+  → Generic Host 
+    → Hosted Services (DB Init + Entertainment)
+      → MenuService 
+        → ConsoleLayoutService (показує меню)
+          → QueryServiceFactory.ExecuteQueryAsync()
+            → НОВИЙ Scope
+              → QueryService + DbContext
+                → Output.Results()
+                  → ConsoleLayoutService (показує в нижній панелі)
+            → Dispose Scope ✅
