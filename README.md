@@ -39,13 +39,13 @@ flowchart TD
 
 | Модуль | Тематика | Ключові концепції | Статус |
 |:---|:---|:---|:---:|
-| **[01-Fundamentals](01-Fundamentals/)** | Основи класів та типи даних | Поля, властивості, інваріанти, конструктори, `record`, `static`, `IDisposable` | ⏳ Очікує |
-| **[02-OOP-Core](02-OOP-Core/)** | Ядро ООП | Наслідування, `override`/`new`, явна реалізація інтерфейсів, поліморфізм | ⏳ Очікує |
-| **[03-Csharp-Mechanics](03-Csharp-Mechanics/)** | Механізми платформи C# | `Generics`, внутрішня будова колекцій, `IEnumerator`, лямбди, події, фільтри помилок | ⏳ Очікує |
-| **[04-Data-And-IO](04-Data-And-IO/)** | Дані та потоки введення/виведення | LINQ-оператори, ліниві обчислення, `FileStream`, бінарне/текстове читання | ⏳ Очікує |
-| **[05-Architecture-And-Patterns](05-Architecture-And-Patterns/)** | Архітектурне проектування | SOLID-практикум, еволюція DI-контейнерів, DTO-патерни | ⏳ Очікує |
-| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET | Асинхронність (`Task`, `async/await`), рефлексія типів, атрибути валідації | ⏳ Очікує |
-| **[07-DataAccess-EFCore](07-DataAccess-EFCore/)** | Доступ до реляційних БД | ORM Entity Framework Core, міграції, зв'язки сутностей | ⏳ Очікує |
+| **[01-Fundamentals](01-Fundamentals/)** | Основи класів та типи даних | Поля, властивості, інваріанти, конструктори, `record`, `static`, `IDisposable` | ✅ Завершено |
+| **[02-OOP-Core](02-OOP-Core/)** | Ядро ООП | Наслідування, `override`/`new`, явна реалізація інтерфейсів, поліморфізм | ✅ Завершено |
+| **[03-Csharp-Mechanics](03-Csharp-Mechanics/)** | Механізми платформи C# | `Generics`, внутрішня будова колекцій, `IEnumerator`, лямбди, події, фільтри помилок | ✅ Завершено |
+| **[04-Data-And-IO](04-Data-And-IO/)** | Дані та потоки введення/виведення | LINQ-оператори, ліниві обчислення, `FileStream`, бінарне/текстове читання | ✅ Завершено |
+| **[05-Architecture-And-Patterns](05-Architecture-And-Patterns/)** | Архітектурне проектування | SOLID-практикум, еволюція DI-контейнерів, DTO-патерни | ✅ Завершено |
+| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET | Асинхронність (`Task`, `async/await`), рефлексія типів, атрибути, CLI Spectre.Console | ✅ Завершено |
+| **[07-DataAccess-EFCore](07-DataAccess-EFCore/)** | Доступ до реляційних БД | ORM Entity Framework Core, Code-First, міграції, Multi-Provider, Generic Host | ✅ Завершено |
 
 ---
 
