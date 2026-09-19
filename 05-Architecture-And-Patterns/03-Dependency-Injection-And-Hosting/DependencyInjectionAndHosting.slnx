@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DI.CoreConcepts/DI.CoreConcepts.csproj" />
+  <Project Path="DI.GenericHost.Worker/DI.GenericHost.Worker.csproj" />
+  <Project Path="DI.WebHost.MinimalApi/DI.WebHost.MinimalApi.csproj" />
+</Solution>
