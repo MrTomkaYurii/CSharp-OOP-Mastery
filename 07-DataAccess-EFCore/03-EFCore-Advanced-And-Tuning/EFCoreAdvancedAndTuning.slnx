@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EFCore.AdvancedMapping/EFCore.AdvancedMapping.csproj" />
+  <Project Path="EFCore.Performance.Bulk/EFCore.Performance.Bulk.csproj" />
+  <Project Path="EFCore.Seeding.Bogus/EFCore.Seeding.Bogus.csproj" />
+</Solution>
