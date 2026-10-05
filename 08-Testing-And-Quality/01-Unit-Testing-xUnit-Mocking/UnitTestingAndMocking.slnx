@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Testing.Core.Domain/Testing.Core.Domain.csproj" />
+  <Project Path="Testing.EFCore.InMemoryTests/Testing.EFCore.InMemoryTests.csproj" />
+  <Project Path="Testing.UnitTests/Testing.UnitTests.csproj" />
+</Solution>
