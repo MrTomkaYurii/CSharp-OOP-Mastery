@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Concurrency.Channels.ProducerConsumer/Concurrency.Channels.ProducerConsumer.csproj" />
+  <Project Path="Concurrency.ParallelAndPLINQ/Concurrency.ParallelAndPLINQ.csproj" />
+  <Project Path="Concurrency.SynchronizationAndCancellation/Concurrency.SynchronizationAndCancellation.csproj" />
+</Solution>
