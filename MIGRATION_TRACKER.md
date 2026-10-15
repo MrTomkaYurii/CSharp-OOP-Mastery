@@ -1,6 +1,6 @@
 # Трекер Міграції: CSharp-OOP-Mastery (Лекції та Приклади)
 
-| # | Вхідний репозиторій | Цільова директорія | .NET 10 | Структура | Коментарі коду | MD-Гайд | Build (0 err) | Статус |
+| # | Вхідний репозиторій / Модуль | Цільова директорія | .NET 10 | Структура | Коментарі коду | MD-Гайд | Build (0 err) | Статус |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **01** | `OOP - Classes` | `01-Fundamentals/01-Classes-And-Encapsulation` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **02** | `OOP - More-About-Сlasses` | `01-Fundamentals/02-Advanced-Classes` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
@@ -21,6 +21,10 @@
 | **17** | `OOP - SpectreConsoleExamplesWithComments` | `06-Advanced-DotNet/04-CLI-Spectre-Console` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **18** | `OOP - CodeFirstEntityFrameworkCore` | `07-DataAccess-EFCore/01-CodeFirst-Basics` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 | **19** | `OOP - EF-Core-Entertainment` | `07-DataAccess-EFCore/02-EFCore-Practical-Scenarios` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
+| **20** | `NEW: Dependency Injection & Hosting` | `05-Architecture-And-Patterns/03-Dependency-Injection-And-Hosting` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
+| **21** | `NEW: EF Core Advanced & Tuning` | `07-DataAccess-EFCore/03-EFCore-Advanced-And-Tuning` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
+| **22** | `NEW: Unit Testing (xUnit & Mocks)` | `08-Testing-And-Quality/01-Unit-Testing-xUnit-Mocking` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
+| **23** | `NEW: Parallelism, Channels & Concurrency` | `06-Advanced-DotNet/05-Parallel-And-Channels` | ✅ | ✅ | ✅ | ✅ | ✅ (0 err) | `Completed` |
 
 ---
 

@@ -3,10 +3,11 @@
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512bd4.svg?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
 [![C# 13/14](https://img.shields.io/badge/C%23-13%20%2F%2014-239120.svg?style=flat-square&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![Architecture](https://img.shields.io/badge/Architecture-SOLID%20%26%20Clean%20Code-blue.svg?style=flat-square)](https://github.com/)
+[![Testing](https://img.shields.io/badge/Testing-xUnit%20%26%20NSubstitute-green.svg?style=flat-square)](https://xunit.net/)
 
-Ласкаво просимо до повного практичного курсу та живої бази знань з **об'єктно-орієнтованого програмування, інженерних практик та архітектури на платформі .NET 10**.
+Ласкаво просимо до повного практичного курсу та живої бази знань з **об'єктно-орієнтованого програмування, інженерних практик, сучасного хостингу та тестування на платформі .NET 10**.
 
-Цей репозиторій є результатом консолідації, модернізації та систематизації розрізнених навчальних матеріалів в єдину цілісну екосистему. Кожен модуль спроектовано за принципом **«Теорія ➔ Антипатерн (Bad) ➔ Еталонне рішення (Good)»**.
+Цей репозиторій є результатом консолідації, модернізації та систематизації навчальних матеріалів в єдину цілісну екосистему. Кожен модуль спроектовано за принципом **«Теорія ➔ Антипатерн (Bad) ➔ Еталонне рішення (Good)»**.
 
 ---
 
@@ -21,16 +22,18 @@ flowchart TD
     classDef archClass fill:#be123c,stroke:#fb7185,color:#ffffff,stroke-width:2px;
     classDef advClass fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
     classDef efClass fill:#15803d,stroke:#4ade80,color:#ffffff,stroke-width:2px;
+    classDef testClass fill:#059669,stroke:#34d399,color:#ffffff,stroke-width:2px;
 
     M1["01. Fundamentals<br/>Класи, інкапсуляція, records, конструктори"]:::fundClass
     M2["02. OOP Core<br/>Успадкування, поліморфізм, інтерфейси"]:::oopClass
     M3["03. C# Mechanics<br/>Generics, колекції, ітератори, делегати, події, exceptions"]:::mechClass
     M4["04. Data & I/O<br/>Глибокий LINQ, FileStream, серіалізація"]:::dataClass
-    M5["05. Architecture & Patterns<br/>SOLID, IoC/DI, AutoMapper"]:::archClass
-    M6["06. Advanced .NET<br/>Async/Await, Reflection, кастомні атрибути, Spectre.Console"]:::advClass
-    M7["07. Data Access (EF Core)<br/>Code First, DbContext, міграції"]:::efClass
+    M5["05. Architecture & Patterns<br/>SOLID, Dependency Injection, Generic/Web Host, AutoMapper"]:::archClass
+    M6["06. Advanced .NET<br/>Async/Await, Parallel.ForEachAsync, Channels, Reflection, Spectre.Console"]:::advClass
+    M7["07. Data Access (EF Core)<br/>Code-First, TPH/TPT/TPC, Bogus Seeding, Bulk Operations, Interceptors"]:::efClass
+    M8["08. Testing & Quality<br/>xUnit, NSubstitute, FluentAssertions, SQLite In-Memory"]:::testClass
 
-    M1 --> M2 --> M3 --> M4 --> M5 --> M6 --> M7
+    M1 --> M2 --> M3 --> M4 --> M5 --> M6 --> M7 --> M8
 ```
 
 ---
@@ -43,9 +46,10 @@ flowchart TD
 | **[02-OOP-Core](02-OOP-Core/)** | Ядро ООП | Наслідування, `override`/`new`, явна реалізація інтерфейсів, поліморфізм | ✅ Завершено |
 | **[03-Csharp-Mechanics](03-Csharp-Mechanics/)** | Механізми платформи C# | `Generics`, внутрішня будова колекцій, `IEnumerator`, лямбди, події, фільтри помилок | ✅ Завершено |
 | **[04-Data-And-IO](04-Data-And-IO/)** | Дані та потоки введення/виведення | LINQ-оператори, ліниві обчислення, `FileStream`, бінарне/текстове читання | ✅ Завершено |
-| **[05-Architecture-And-Patterns](05-Architecture-And-Patterns/)** | Архітектурне проектування | SOLID-практикум, еволюція DI-контейнерів, DTO-патерни | ✅ Завершено |
-| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET | Асинхронність (`Task`, `async/await`), рефлексія типів, атрибути, CLI Spectre.Console | ✅ Завершено |
-| **[07-DataAccess-EFCore](07-DataAccess-EFCore/)** | Доступ до реляційних БД | ORM Entity Framework Core, Code-First, міграції, Multi-Provider, Generic Host | ✅ Завершено |
+| **[05-Architecture-And-Patterns](05-Architecture-And-Patterns/)** | Архітектурне проектування | SOLID, **Dependency Injection** (Lifetimes, Captive Dependency, Keyed Services), **Generic Host & Web Host**, DTO | ✅ Завершено |
+| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET & Паралелізм | Асинхронність (`Task`, `async/await`), **Parallel.ForEachAsync, PLINQ, Channels, SemaphoreSlim**, Reflection, CLI Spectre | ✅ Завершено |
+| **[07-DataAccess-EFCore](07-DataAccess-EFCore/)** | Доступ до реляційних БД | ORM Entity Framework Core, **TPH/TPT/TPC, Bogus Seeding, JSON Columns, ExecuteUpdateAsync, Interceptors** | ✅ Завершено |
+| **[08-Testing-And-Quality](08-Testing-And-Quality/)** | Тестування та надійність | **xUnit, NSubstitute (мокінг), FluentAssertions, SQLite In-Memory тестування репозиторіїв** | ✅ Завершено |
 
 ---
 
