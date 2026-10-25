@@ -1,42 +1,45 @@
-﻿using System.Reflection;
-using System.Text;
-using Shared.Common;
+using System.Reflection;
 
-namespace GetParameterInfoDemo
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+Console.WriteLine("=== Демонстрація ParameterInfo (Інспекція параметрів методів) ===\n");
+
+Type sampleType = typeof(SampleService);
+MethodInfo[] methods = sampleType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+foreach (MethodInfo method in methods)
 {
-    class GetParameterInfoDemo
+    Console.WriteLine($"Метод: {method.ReturnType.Name} {method.Name}");
+    ParameterInfo[] parameters = method.GetParameters();
+
+    if (parameters.Length == 0)
     {
-        static void Main()
-        {
-            // Get name of type
-            Type t = typeof(Car);
-            GetParametersInfo(t);
+        Console.WriteLine("  (параметри відсутні)");
+        continue;
+    }
 
-            Console.ReadLine();
-        }
-        //Display Method return Type and paralmeters list
-        public static void GetParametersInfo(Type t)
-        {
-            Console.WriteLine("***** GetParametersInfo *****");
-            MethodInfo[] mi = t.GetMethods();
-            foreach (MethodInfo m in mi)
-            {
-                // Get return value.
-                string retVal = m.ReturnType.FullName;
-                StringBuilder paramInfo = new StringBuilder();
-                paramInfo.Append("(");
+    foreach (ParameterInfo param in parameters)
+    {
+        string refKind = param.ParameterType.IsByRef
+            ? (param.IsOut ? "out " : (param.IsIn ? "in " : "ref "))
+            : "";
 
-                // Get params.
-                foreach (ParameterInfo pi in m.GetParameters())
-                {
-                    paramInfo.Append(string.Format("{0} {1} ", pi.ParameterType, pi.Name));
-                }
-                paramInfo.Append(")");
+        string optionalInfo = param.IsOptional
+            ? $" [За замовчуванням: {param.DefaultValue ?? "null"}]"
+            : "";
 
-                // Now display the basic method sig.
-                Console.WriteLine("->{0} {1} {2}", retVal, m.Name, paramInfo);
-            }
-            Console.WriteLine("");
-        }
+        Console.WriteLine($"  [{param.Position}] {refKind}{param.ParameterType.Name} {param.Name}{optionalInfo}");
+    }
+    Console.WriteLine();
+}
+
+public class SampleService
+{
+    public void Configure(string host, int port = 8080, bool useSsl = true) { }
+
+    public bool TryParseData(string input, out int parsedValue, ref double multiplier)
+    {
+        parsedValue = 0;
+        return true;
     }
 }

@@ -1,19 +1,32 @@
-﻿using SerializationDeserialization;
+using SerializationDeserialization;
 
-// Serialize() method
-Console.WriteLine("---------------------------");
-Console.WriteLine("СЕРІАЛІЗАЦІЯ");
-Console.WriteLine("---------------------------");
-var obj = new User { Name = "John Doe", Age = 30 };
-var s = XmlConverter.Serialize(obj);
-Console.WriteLine(s);
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("---------------------------");
-Console.WriteLine("ДЕ -> СЕРІАЛІЗАЦІЯ");
-Console.WriteLine("---------------------------");
+Console.WriteLine("=== Демонстрація рушія серіалізації/десеріалізації на базі рефлексії ===\n");
 
-// DeSerialize() method
-var stringToDecode = "<User><Name>John Doe</Name><Age>30</Age></User>";
-var decodedUser = XmlConverter.Deserialize<User>(stringToDecode);
-Console.WriteLine("User name: " + decodedUser.Name);
-Console.WriteLine("User age: " + decodedUser.Age);
+// 1. Початковий об'єкт
+var originalUser = new User
+{
+    Name = "Тарас Шевченко",
+    Age = 47,
+    Rating = 9.85,
+    IsActive = true,
+    SecretApiKey = "TOP-SECRET-NEVER-SERIALIZE"
+};
+
+Console.WriteLine("--- Оригінальний об'єкт у пам'яті ---");
+Console.WriteLine($"Name: {originalUser.Name}, Age: {originalUser.Age}, Rating: {originalUser.Rating}, Secret: {originalUser.SecretApiKey}");
+
+// 2. Серіалізація в XML через рефлексію
+Console.WriteLine("\n--- Результат серіалізації в XML (з урахуванням [XmlIgnoreProperty] та [XmlElementName]) ---");
+string xml = XmlConverter.Serialize(originalUser);
+Console.WriteLine(xml);
+
+// 3. Десеріалізація назад в об'єкт User
+Console.WriteLine("--- Десеріалізація XML назад у новий екземпляр User ---");
+User restoredUser = XmlConverter.Deserialize<User>(xml);
+Console.WriteLine($"Restored Name:   {restoredUser.Name}");
+Console.WriteLine($"Restored Age:    {restoredUser.Age}");
+Console.WriteLine($"Restored Rating: {restoredUser.Rating}");
+Console.WriteLine($"Restored Active: {restoredUser.IsActive}");
+Console.WriteLine($"Secret (було проігноровано): {restoredUser.SecretApiKey}");

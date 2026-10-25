@@ -1,12 +1,28 @@
-﻿namespace Shared.Common
+namespace Shared.Common
 {
-    internal class SportsCar : Car
+    /// <summary>
+    /// Похідний клас спортивного автомобіля для демонстрації ієрархії наслідування та поліморфізму в рефлексії.
+    /// </summary>
+    public sealed class SportsCar : Car
     {
-        //Constructor
+        public bool HasTurbo { get; set; } = true;
+
         public SportsCar()
         {
-            //Change the default values
-            Color = "Green";
+            Color = "Red";
+        }
+
+        public SportsCar(string color, int speed, bool hasTurbo) : base(color, speed)
+        {
+            HasTurbo = hasTurbo;
+        }
+
+        public void ActivateTurbo()
+        {
+            if (HasTurbo)
+            {
+                Accelerate(50);
+            }
         }
     }
 }
