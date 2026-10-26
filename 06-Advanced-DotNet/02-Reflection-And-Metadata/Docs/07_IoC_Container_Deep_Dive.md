@@ -1,9 +1,15 @@
 # 07. Фінальний проєкт: Власний IoC/DI Контейнер (IoC Container Deep Dive & Architecture)
 
 > **Solution-тег (Solution Folder)**: `06. Frameworks & Dependency Injection`  
-> **Проєкт у тегу**: [19-DependencyInjection](../19-DependencyInjection/Program.cs) — Повнофункціональний інверсійний контейнер з підтримкою життєвих циклів, виявлення циклічних залежностей та жадібного вибору конструктора.
+> **Проєкти у тегу**:
+> - [19.1-DependencyInjectionDemo](../19.1-DependencyInjectionDemo/Program.cs) — Навчальний мінімальний IoC-контейнер для студентів (прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke`).
+> - [19.2-DependencyInjectionRealWorld](../19.2-DependencyInjectionRealWorld/Program.cs) — Промислова модульна архітектура: In-Memory база даних, репозиторії, сервіси, валідація циклів, Greedy Ctor, Property Injection.
 
-Цей проєкт є вершиною навчального модуля. Він демонструє практичне поєднання всіх вивчених концепцій рефлексії: інспекції типів, дослідження конструкторів і параметрів, аналізу атрибутів, роботи з інтерфейсами та динамічної активації об'єктів для побудови промислового Dependency Injection контейнера.
+Цей розділ є вершиною навчального модуля. Він демонструє практичне поєднання всіх вивчених концепцій рефлексії: інспекції типів, дослідження конструкторів і параметрів, аналізу атрибутів, роботи з інтерфейсами та динамічної активації об'єктів для побудови власного Dependency Injection контейнера.
+
+Матеріал розбито на два дидактичні рівні:
+1. **Рівень 1 (Проєкт 19.1)**: Прозорий мінімальний контейнер (~70 рядків), призначений для першого знайомства студентів із механізмом конструювання об'єктів через рефлексію.
+2. **Рівень 2 (Проєкт 19.2)**: Повнофункціональна модульна система з реальними бізнес-сервісами, контекстом бази даних, виявленням циклічних залежностей та жадібним вибором конструкторів.
 
 ---
 
@@ -27,7 +33,55 @@
 
 ---
 
-## 2. Математична модель: Орієнтований ациклічний граф (DAG)
+## 2. Рівень 1: Прозорий навчальний IoC-контейнер (Проєкт 19.1)
+
+Для первинного ознайомлення студентів створено проєкт [19.1-DependencyInjectionDemo](../19.1-DependencyInjectionDemo/Program.cs). Він демонструє, що під капотом будь-якого IoC-контейнера лежать лише **три базові методи рефлексії**:
+
+```mermaid
+flowchart TD
+    ResolveCall["1. container.Resolve(serviceType)"] --> FindReg["2. Пошук дескриптора реєстрації<br/>(Interface -> Implementation)"]
+    FindReg --> CheckSingleton{"Це Singleton і екземпляр уже створено?"}
+    CheckSingleton -- Так --> ReturnCached["Повернути кешований об'єкт"]
+    CheckSingleton -- Ні --> GetCtors["3. РЕФЛЕКСІЯ: targetType.GetConstructors()"]
+    GetCtors --> GetParams["4. РЕФЛЕКСІЯ: ctor.GetParameters()"]
+    GetParams --> LoopParams["5. Рекурсивне розв'язання кожного аргументу:<br/>Resolve(param.ParameterType)"]
+    LoopParams --> Invoke["6. РЕФЛЕКСІЯ: ctor.Invoke(resolvedArgs)"]
+    Invoke --> SaveSingleton{"Це Singleton?"}
+    SaveSingleton -- Так --> CacheObj["Зберегти у дескриптор"]
+    SaveSingleton -- Ні --> ReturnObj["Повернути новий екземпляр"]
+    CacheObj --> ReturnObj
+```
+
+### 2.1. Чотири кроки рефлексії в `SimpleContainer`
+
+```csharp
+// Крок 1: Отримуємо конструктор класу
+ConstructorInfo constructor = targetType.GetConstructors()[0];
+
+// Крок 2: Читаємо список необхідних параметрів
+ParameterInfo[] parameters = constructor.GetParameters();
+object[] parameterInstances = new object[parameters.Length];
+
+// Крок 3: Рекурсивно розв'язуємо кожен параметр через контейнер
+for (int i = 0; i < parameters.Length; i++)
+{
+    parameterInstances[i] = Resolve(parameters[i].ParameterType);
+}
+
+// Крок 4: Створюємо готовий екземпляр передачею параметрів
+object createdInstance = constructor.Invoke(parameterInstances);
+```
+
+- Посилання на реалізацію простого контейнера: [19.1-DependencyInjectionDemo/SimpleContainer.cs](../19.1-DependencyInjectionDemo/SimpleContainer.cs).
+- Посилання на консольну демонстрацію зі студентоорієнтованим виводом: [19.1-DependencyInjectionDemo/Program.cs](../19.1-DependencyInjectionDemo/Program.cs).
+
+---
+
+## 3. Рівень 2: Реальний промисловий DI-контейнер (Проєкт 19.2)
+
+Після засвоєння базового механізму у проєкті 19.1, проєкт [19.2-DependencyInjectionRealWorld](../19.2-DependencyInjectionRealWorld/Program.cs) демонструє повномасштабну промислову модульну архітектуру.
+
+### 3.1. Математична модель: Орієнтований ациклічний граф (DAG)
 
 Процес розв'язання залежностей у контейнері формалізується як побудова та топологічний обхід **орієнтованого ациклічного графу (Directed Acyclic Graph — DAG)**:
 - **Вершини ($V$)**: зареєстровані типи сервісів (`OrderService`, `IOrderRepository`, `ILogger`).
@@ -79,7 +133,7 @@ if (_resolutionStack.Contains(serviceType))
 }
 ```
 
-- Посилання на реалізацію алгоритму виявлення циклів: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs#L85-L95).
+- Посилання на реалізацію алгоритму виявлення циклів: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs#L85-L95).
 
 ---
 
@@ -110,7 +164,7 @@ flowchart TD
 3. **Параметри за замовчуванням**: якщо залежність не зареєстрована в контейнері, але параметр конструктора має значення за замовчуванням (`param.HasDefaultValue == true`), контейнер безпечно підставляє `param.DefaultValue`.
 4. **Впровадження у властивості (Property Injection)**: після створення екземпляра контейнер знаходить усі відкриті властивості з атрибутом `[InjectProperty]` і викликає для них `prop.SetValue(instance, resolvedDependency)`.
 
-- Посилання на реалізацію механізму інстанціювання: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs#L165-L215).
+- Посилання на реалізацію механізму інстанціювання: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs#L165-L215).
 
 ---
 
@@ -127,7 +181,7 @@ flowchart TD
 
 ## 6. Демонстраційний запуск та візуалізація дерева розв'язання
 
-Проєкт `19-DependencyInjection` містить повнофункціональну консольну демонстрацію інтернет-магазину зі структурованою емуляцією бази даних:
+Проєкт `19.2-DependencyInjectionRealWorld` містить повнофункціональну консольну демонстрацію інтернет-магазину зі структурованою емуляцією бази даних:
 
 ```csharp
 var container = new Container();
@@ -148,8 +202,8 @@ var orderService = container.Resolve<IOrderProcessingService>();
 orderService.PlaceOrder(customerId: 1, productId: 1, quantity: 2);
 ```
 
-- Посилання на вихідний код контейнера: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs).
-- Посилання на контракт контейнера: [19-DependencyInjection/Container/IContainer.cs](../19-DependencyInjection/Container/IContainer.cs).
-- Посилання на емуляцію бази даних: [19-DependencyInjection/Data/InMemoryDatabaseContext.cs](../19-DependencyInjection/Data/InMemoryDatabaseContext.cs).
-- Посилання на бізнес-сервіс замовлень: [19-DependencyInjection/Services/Orders/OrderProcessingService.cs](../19-DependencyInjection/Services/Orders/OrderProcessingService.cs).
-- Посилання на консольну демонстраційну програму: [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs).
+- Посилання на вихідний код контейнера: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs).
+- Посилання на контракт контейнера: [19.2-DependencyInjectionRealWorld/Container/IContainer.cs](../19.2-DependencyInjectionRealWorld/Container/IContainer.cs).
+- Посилання на емуляцію бази даних: [19.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs](../19.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs).
+- Посилання на бізнес-сервіс замовлень: [19.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs](../19.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs).
+- Посилання на консольну демонстраційну програму: [19.2-DependencyInjectionRealWorld/Program.cs](../19.2-DependencyInjectionRealWorld/Program.cs).

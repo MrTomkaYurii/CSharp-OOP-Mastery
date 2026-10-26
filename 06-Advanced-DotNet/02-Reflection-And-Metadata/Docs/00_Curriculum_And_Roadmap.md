@@ -78,7 +78,8 @@ flowchart TD
     end
 
     subgraph S6["06. Frameworks & Dependency Injection"]
-        P18 --> P19["19-DependencyInjection: Повний власний IoC/DI контейнер"]
+        P18 --> P19_1["19.1-DependencyInjectionDemo: Базовий навчальний IoC-контейнер"]
+        P19_1 --> P19_2["19.2-DependencyInjectionRealWorld: Промислова модульна DI архітектура"]
     end
 ```
 
@@ -110,7 +111,8 @@ flowchart TD
 | **16** | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Intrinsic `[UnsafeAccessor]` (.NET 8+): прямий доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) | Експертний |
 | **17** | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Власні атрибути `AttributeUsage`, валідація, потік `#Blob` | [17-CreateCustomAttributes/Program.cs](../17-CreateCustomAttributes/Program.cs) | Просунутий |
 | **18** | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний обхід графу властивостей, зіставлення та XML-серіалізація | [18-SerializationDeserialization/Program.cs](../18-SerializationDeserialization/Program.cs) | Просунутий |
-| **19** | `06. Frameworks & Dependency Injection` | `19-DependencyInjection` | **Фінальний проєкт**: повнофункціональний IoC/DI контейнер (Lifetimes, Cycles, Greedy Ctor) | [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs) | Експертний |
+| **19.1** | `06. Frameworks & Dependency Injection` | `19.1-DependencyInjectionDemo` | **Навчальний DI-контейнер**: прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke` | [19.1-DependencyInjectionDemo/Program.cs](../19.1-DependencyInjectionDemo/Program.cs) | Середній |
+| **19.2** | `06. Frameworks & Dependency Injection` | `19.2-DependencyInjectionRealWorld` | **Промисловий DI-контейнер**: повна модульна архітектура, In-Memory DB, валідація циклів | [19.2-DependencyInjectionRealWorld/Program.cs](../19.2-DependencyInjectionRealWorld/Program.cs) | Експертний |
 
 ---
 

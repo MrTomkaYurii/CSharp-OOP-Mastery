@@ -11,7 +11,7 @@ using DependencyInjection.Services.Payments;
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Console.WriteLine("==========================================================================");
-Console.WriteLine(" ФІНАЛЬНИЙ ПРОЄКТ: ВЛАСНИЙ IoC/DI КОНТЕЙНЕР НА БАЗІ РЕФЛЕКСІЇ .NET");
+Console.WriteLine(" 19.2. РЕАЛЬНИЙ ПРОМИСЛОВИЙ IoC/DI КОНТЕЙНЕР (REAL-WORLD MODULAR ARCHITECTURE)");
 Console.WriteLine(" Демонстрація системи сервісів, репозиторіїв та емуляції бази даних");
 Console.WriteLine("==========================================================================\n");
 

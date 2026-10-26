@@ -23,7 +23,7 @@
 
 ## 2. Архітектура та структура Solution-тегів у рішенні `OOP - Reflection.sln`
 
-Рішення містить **23 пронумерованих проєкти**, які рознесені по **6 тематичних Solution-тегах (Solution Folders)** для логічного структурування парадигм використання рефлексії:
+Рішення містить **24 пронумерованих проєкти**, які рознесені по **6 тематичних Solution-тегах (Solution Folders)** для логічного структурування парадигм використання рефлексії:
 
 ```mermaid
 graph TD
@@ -65,7 +65,8 @@ graph TD
     end
 
     subgraph S6["06. Frameworks & Dependency Injection (Фреймворки та IoC-контейнер)"]
-        P19["19-DependencyInjection"]
+        P19_1["19.1-DependencyInjectionDemo"]
+        P19_2["19.2-DependencyInjectionRealWorld"]
     end
 
     P0 --> P1
@@ -89,7 +90,8 @@ graph TD
     P15_3 --> P16
     P16 --> P17
     P17 --> P18
-    P18 --> P19
+    P18 --> P19_1
+    P19_1 --> P19_2
 ```
 
 ---
@@ -120,7 +122,8 @@ graph TD
 | 16 | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Compiler Intrinsic `[UnsafeAccessor]` (.NET 8+): доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](16-UnsafeAccessorDemo/Program.cs) |
 | 17 | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Створення користувацьких атрибутів та декларативна валідація | [17-CreateCustomAttributes/Program.cs](17-CreateCustomAttributes/Program.cs) |
 | 18 | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний XML-серіалізатор і десеріалізатор | [18-SerializationDeserialization/Program.cs](18-SerializationDeserialization/Program.cs) |
-| 19 | `06. Frameworks & Dependency Injection` | `19-DependencyInjection` | **Фінальний проєкт**: повноцінний рефлексивний IoC/DI контейнер | [19-DependencyInjection/Program.cs](19-DependencyInjection/Program.cs) |
+| 19.1 | `06. Frameworks & Dependency Injection` | `19.1-DependencyInjectionDemo` | **Навчальний DI-контейнер**: прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke` | [19.1-DependencyInjectionDemo/Program.cs](19.1-DependencyInjectionDemo/Program.cs) |
+| 19.2 | `06. Frameworks & Dependency Injection` | `19.2-DependencyInjectionRealWorld` | **Промисловий DI-контейнер**: модульна архітектура, In-Memory DB, репозиторії, валідація циклів | [19.2-DependencyInjectionRealWorld/Program.cs](19.2-DependencyInjectionRealWorld/Program.cs) |
 
 ---
 
