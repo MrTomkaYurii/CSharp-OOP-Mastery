@@ -47,7 +47,7 @@ flowchart TD
 | **[03-Csharp-Mechanics](03-Csharp-Mechanics/)** | Механізми платформи C# | `Generics`, внутрішня будова колекцій, `IEnumerator`, лямбди, події, фільтри помилок | ✅ Завершено |
 | **[04-Data-And-IO](04-Data-And-IO/)** | Дані та потоки введення/виведення | LINQ-оператори, ліниві обчислення, `FileStream`, бінарне/текстове читання | ✅ Завершено |
 | **[05-Architecture-And-Patterns](05-Architecture-And-Patterns/)** | Архітектурне проектування | SOLID, **Dependency Injection** (Lifetimes, Captive Dependency, Keyed Services), **Generic Host & Web Host**, DTO | ✅ Завершено |
-| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET & Паралелізм | Асинхронність (`Task`, `async/await`), **Parallel.ForEachAsync, PLINQ, Channels, SemaphoreSlim**, Reflection, CLI Spectre | ✅ Завершено |
+| **[06-Advanced-DotNet](06-Advanced-DotNet/)** | Просунутий .NET & Паралелізм | Асинхронність (`Task`, `async/await`), **Parallel.ForEachAsync, PLINQ, Channels, SemaphoreSlim**, Reflection, **Dynamic Programming (DP & DLR)**, CLI Spectre | ✅ Завершено |
 | **[07-DataAccess-EFCore](07-DataAccess-EFCore/)** | Доступ до реляційних БД | ORM Entity Framework Core, **TPH/TPT/TPC, Bogus Seeding, JSON Columns, ExecuteUpdateAsync, Interceptors** | ✅ Завершено |
 | **[08-Testing-And-Quality](08-Testing-And-Quality/)** | Тестування та надійність | **xUnit, NSubstitute (мокінг), FluentAssertions, SQLite In-Memory тестування репозиторіїв** | ✅ Завершено |
 
