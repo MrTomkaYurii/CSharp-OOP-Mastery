@@ -15,7 +15,7 @@ var invalidUser = new User
 Console.WriteLine("--- Перевірка невалідного об'єкта ---");
 if (!MinValueValidator.Validate(invalidUser, out List<string> errors))
 {
-    Console.WriteLine("❌ Валідація не пройдена! Виявлено помилки:");
+    Console.WriteLine("[ПОМИЛКА] Валідація не пройдена! Виявлено помилки:");
     foreach (string error in errors)
     {
         Console.WriteLine($"  - {error}");
@@ -33,7 +33,7 @@ var validUser = new User
 Console.WriteLine("\n--- Перевірка валідного об'єкта ---");
 if (MinValueValidator.Validate(validUser, out List<string> validErrors))
 {
-    Console.WriteLine("✅ Об'єкт успішно пройшов усі валідаційні перевірки!");
+    Console.WriteLine("[УСПІХ] Об'єкт успішно пройшов усі валідаційні перевірки!");
 }
 
 // 3. Інспекція метаданих атрибутів без інстанціювання (CustomAttributeData)

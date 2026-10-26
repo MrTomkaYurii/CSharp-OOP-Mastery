@@ -65,8 +65,11 @@ flowchart TD
 
     subgraph S4["04. Dynamic Execution & Performance"]
         P13 --> P14["14-LateBindingDemo: Activator та DLR пізнє зв'язування"]
-        P14 --> P15["15-ReflectionPerformanceDemo: Бенчмарк швидкодії"]
-        P15 --> P16["16-UnsafeAccessorDemo: JIT Intrinsic доступ до private"]
+        P14 --> P15_0["15.0-ExpressionTreesBasicsDemo: Код як дані та анатомія AST"]
+        P15_0 --> P15_1["15.1-ExpressionTreesBuildingDemo: Ручне конструювання формул та умов"]
+        P15_1 --> P15_2["15.2-ExpressionTreesMemberAccessDemo: Швидкі геттери, виклики та фабрики"]
+        P15_2 --> P15_3["15.3-ReflectionPerformanceDemo: Бенчмарк швидкодії та бустінг"]
+        P15_3 --> P16["16-UnsafeAccessorDemo: JIT Intrinsic доступ до private"]
     end
 
     subgraph S5["05. Attributes & Serialization"]
@@ -100,7 +103,10 @@ flowchart TD
 | **12** | `03. Generics Reflection` | `12-GenericsReflectionDemo` | Узагальнення: `MakeGenericType`, `MakeGenericMethod`, обмеження типів | [12-GenericsReflectionDemo/Program.cs](../12-GenericsReflectionDemo/Program.cs) | Просунутий |
 | **13** | `03. Generics Reflection` | `13-OpenGenericsAndVarianceDemo` | Відкриті типи в DI (`IRepository<>`), коваріантність (`out`), контраваріантність (`in`) | [13-OpenGenericsAndVarianceDemo/Program.cs](../13-OpenGenericsAndVarianceDemo/Program.cs) | Просунутий |
 | **14** | `04. Dynamic Execution & Performance` | `14-LateBindingDemo` | Пізнє зв'язування `Activator.CreateInstance`, `GetUninitializedObject` | [14-LateBindingDemo/Program.cs](../14-LateBindingDemo/Program.cs) | Середній |
-| **15** | `04. Dynamic Execution & Performance` | `15-ReflectionPerformanceDemo` | Порівняння швидкодії: Direct Call vs Delegates vs Expressions vs Invoke | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs) | Експертний |
+| **15.0** | `04. Dynamic Execution & Performance` | `15.0-ExpressionTreesBasicsDemo` | Дерева виразів (AST): різниця між `Func` та `Expression`, розбір вузлів, `.Compile()` | [15.0-ExpressionTreesBasicsDemo/Program.cs](../15.0-ExpressionTreesBasicsDemo/Program.cs) | Середній |
+| **15.1** | `04. Dynamic Execution & Performance` | `15.1-ExpressionTreesBuildingDemo` | Ручна побудова AST: `Expression.Parameter`, `Multiply`, `Add`, `Condition` (if-else) | [15.1-ExpressionTreesBuildingDemo/Program.cs](../15.1-ExpressionTreesBuildingDemo/Program.cs) | Просунутий |
+| **15.2** | `04. Dynamic Execution & Performance` | `15.2-ExpressionTreesMemberAccessDemo` | Бустінг рефлексії: `Expression.Property` (геттери), `Call` (методи), `New` (фабрики) | [15.2-ExpressionTreesMemberAccessDemo/Program.cs](../15.2-ExpressionTreesMemberAccessDemo/Program.cs) | Просунутий |
+| **15.3** | `04. Dynamic Execution & Performance` | `15.3-ReflectionPerformanceDemo` | Порівняння швидкодії: Direct Call vs Delegates vs Expressions vs Invoke | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs) | Експертний |
 | **16** | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Intrinsic `[UnsafeAccessor]` (.NET 8+): прямий доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) | Експертний |
 | **17** | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Власні атрибути `AttributeUsage`, валідація, потік `#Blob` | [17-CreateCustomAttributes/Program.cs](../17-CreateCustomAttributes/Program.cs) | Просунутий |
 | **18** | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний обхід графу властивостей, зіставлення та XML-серіалізація | [18-SerializationDeserialization/Program.cs](../18-SerializationDeserialization/Program.cs) | Просунутий |
@@ -114,5 +120,6 @@ flowchart TD
 2. [02. Члени типу, параметри та бітові прапорці BindingFlags](02_Members_And_BindingFlags.md) — Дослідження `FieldInfo`, `PropertyInfo`, `MethodInfo`, `ConstructorInfo`, `ParameterInfo`.
 3. [03. Пізнє зв'язування, активація та дженерики](03_Late_Binding_And_Generics.md) — `Activator`, dynamic invoke, динамічне конструювання узагальнених типів та методів.
 4. [04. Метадані, атрибути та валідаційні рушії](04_Attributes_And_Metadata_Validation.md) — Декларативне програмування, користувацькі атрибути, серіалізація.
-5. [05. Продуктивність рефлексії та скомпільовані дерева виразів](05_Performance_Optimization_And_Compiled_Expressions.md) — Аналіз вузьких місць, порівняння швидкості, оптимізація через Expression Trees.
-6. [06. Власний IoC/DI Контейнер: Повний розбір архітектури](06_IoC_Container_Deep_Dive.md) — Повне керівництво з побудови промислового міні-IoC контейнера.
+5. [05. Дерева виразів (Expression Trees) та динамічна компіляція в .NET](05_Expression_Trees_Deep_Dive.md) — Детальний розбір концепції «код як дані», конструювання AST та прискорення рефлексії.
+6. [06. Продуктивність рефлексії, UnsafeAccessor та Native AOT](06_Performance_Optimization_And_Native_AOT.md) — Аналіз вузьких місць `Invoke`, бенчмарки, `[UnsafeAccessor]` та Native AOT Trimming.
+7. [07. Власний IoC/DI Контейнер: Повний розбір архітектури](07_IoC_Container_Deep_Dive.md) — Повне керівництво з побудови промислового міні-IoC контейнера.

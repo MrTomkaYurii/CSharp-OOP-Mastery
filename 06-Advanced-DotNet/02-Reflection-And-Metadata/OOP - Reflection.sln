@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -33,7 +33,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13-OpenGenericsAndVarianceD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14-LateBindingDemo", "14-LateBindingDemo\14-LateBindingDemo.csproj", "{503459E2-48F5-4302-9E14-0F9EB1D8A95B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15-ReflectionPerformanceDemo", "15-ReflectionPerformanceDemo\15-ReflectionPerformanceDemo.csproj", "{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.0-ExpressionTreesBasicsDemo", "15.0-ExpressionTreesBasicsDemo\15.0-ExpressionTreesBasicsDemo.csproj", "{6D71B8D4-F093-44CF-BD42-A6F9E147500C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.1-ExpressionTreesBuildingDemo", "15.1-ExpressionTreesBuildingDemo\15.1-ExpressionTreesBuildingDemo.csproj", "{716068BE-B044-422E-8AFD-48B78FB35851}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.2-ExpressionTreesMemberAccessDemo", "15.2-ExpressionTreesMemberAccessDemo\15.2-ExpressionTreesMemberAccessDemo.csproj", "{C72B012E-5A65-43D7-81B5-2C6BA9CB7185}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.3-ReflectionPerformanceDemo", "15.3-ReflectionPerformanceDemo\15.3-ReflectionPerformanceDemo.csproj", "{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "16-UnsafeAccessorDemo", "16-UnsafeAccessorDemo\16-UnsafeAccessorDemo.csproj", "{379C32F7-8424-45BF-ACEB-2E7C18C8D802}"
 EndProject
@@ -53,8 +59,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E
 		Docs\02_Members_And_BindingFlags.md = Docs\02_Members_And_BindingFlags.md
 		Docs\03_Late_Binding_And_Generics.md = Docs\03_Late_Binding_And_Generics.md
 		Docs\04_Attributes_And_Metadata_Validation.md = Docs\04_Attributes_And_Metadata_Validation.md
-		Docs\05_Performance_Optimization_And_Compiled_Expressions.md = Docs\05_Performance_Optimization_And_Compiled_Expressions.md
-		Docs\06_IoC_Container_Deep_Dive.md = Docs\06_IoC_Container_Deep_Dive.md
+		Docs\05_Expression_Trees_Deep_Dive.md = Docs\05_Expression_Trees_Deep_Dive.md
+		Docs\06_Performance_Optimization_And_Native_AOT.md = Docs\06_Performance_Optimization_And_Native_AOT.md
+		Docs\07_IoC_Container_Deep_Dive.md = Docs\07_IoC_Container_Deep_Dive.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Dynamic Execution & Performance", "04. Dynamic Execution & Performance", "{E1B2C3D4-E5F6-7890-ABCD-EF1234567894}"
@@ -257,6 +264,18 @@ Global
 		{503459E2-48F5-4302-9E14-0F9EB1D8A95B}.Release|x64.Build.0 = Release|Any CPU
 		{503459E2-48F5-4302-9E14-0F9EB1D8A95B}.Release|x86.ActiveCfg = Release|Any CPU
 		{503459E2-48F5-4302-9E14-0F9EB1D8A95B}.Release|x86.Build.0 = Release|Any CPU
+				{6D71B8D4-F093-44CF-BD42-A6F9E147500C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D71B8D4-F093-44CF-BD42-A6F9E147500C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D71B8D4-F093-44CF-BD42-A6F9E147500C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D71B8D4-F093-44CF-BD42-A6F9E147500C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{716068BE-B044-422E-8AFD-48B78FB35851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716068BE-B044-422E-8AFD-48B78FB35851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716068BE-B044-422E-8AFD-48B78FB35851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716068BE-B044-422E-8AFD-48B78FB35851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C72B012E-5A65-43D7-81B5-2C6BA9CB7185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C72B012E-5A65-43D7-81B5-2C6BA9CB7185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C72B012E-5A65-43D7-81B5-2C6BA9CB7185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C72B012E-5A65-43D7-81B5-2C6BA9CB7185}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -337,6 +356,9 @@ Global
 		{3C93B026-BC6F-4652-9679-59E25D78996E} = {D1B2C3D4-E5F6-7890-ABCD-EF1234567893}
 		{B136437D-7F76-43AD-A421-53C21612680D} = {D1B2C3D4-E5F6-7890-ABCD-EF1234567893}
 		{503459E2-48F5-4302-9E14-0F9EB1D8A95B} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
+		{6D71B8D4-F093-44CF-BD42-A6F9E147500C} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
+		{716068BE-B044-422E-8AFD-48B78FB35851} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
+		{C72B012E-5A65-43D7-81B5-2C6BA9CB7185} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
 		{F93FAEFA-E1D9-45FA-9129-61B2EFB9B6DC} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
 		{379C32F7-8424-45BF-ACEB-2E7C18C8D802} = {E1B2C3D4-E5F6-7890-ABCD-EF1234567894}
 		{02B511E0-64B5-42F6-BDC7-0F26745FA6E4} = {F1B2C3D4-E5F6-7890-ABCD-EF1234567895}

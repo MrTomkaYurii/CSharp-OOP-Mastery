@@ -1,4 +1,10 @@
-# 05. Продуктивність рефлексії та скомпільовані вирази (Performance, Expression Trees & Native AOT)
+# 06. Продуктивність рефлексії, UnsafeAccessor та Native AOT (Performance & Optimization)
+
+> **Solution-тег (Solution Folder)**: `04. Dynamic Execution & Performance`  
+> **Проєкти у тегу**:
+> - [15.3-ReflectionPerformanceDemo](../15.3-ReflectionPerformanceDemo/Program.cs) — Комплексний бенчмарк викликів (Direct vs Compiled Expression vs Delegate vs dynamic vs `MethodInfo.Invoke`).
+> - [16-UnsafeAccessorDemo](../16-UnsafeAccessorDemo/Program.cs) — JIT Compiler Intrinsic доступ до приватних полів, методів і конструкторів (.NET 8+).
+> - Поглиблений розбір дерев виразів винесено в окремий розділ: [05. Дерева виразів (Expression Trees) та динамічна компіляція](05_Expression_Trees_Deep_Dive.md).
 
 Рефлексія — це потужний інструмент динамічного метапрограмування, проте її використання супроводжується значними накладними витратами на обчислювальні ресурси процесора та навантаженням на збирач сміття (Garbage Collector).
 
@@ -35,12 +41,12 @@ flowchart TD
 
 | Метод виклику | Архітектурний механізм | Час (1 млн) | Відносне співвідношення | Аллокації GC | Посилання на приклад |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **1. Direct Call** | Прямий компіляційний виклик за адресою | **18 ms** | **1.0x** (Еталон) | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L35-L43) |
+| **1. Direct Call** | Прямий компіляційний виклик за адресою | **18 ms** | **1.0x** (Еталон) | 0 B | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs#L46-L55) |
 | **2. [UnsafeAccessor]** (.NET 8+) | JIT Compiler Intrinsic (пряма асемблерна адресація) | **18 ms** | **1.0x** | 0 B | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) |
-| **3. Delegate.CreateDelegate** | Типізований делегат до відкритого методу | **2 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L45-L53) |
-| **4. Compiled Expression Tree** | Згенерований IL у рантаймі (`DynamicMethod`) | **1 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
-| **5. dynamic (DLR)** | Кешований CallSite із JIT-генератором поліморфного коду | **3 ms** | **~0.2x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L65-L73) |
-| **6. MethodInfo.Invoke** | Класична інтерпретована рефлексія | **27 ms** | **~1.5x** | ~32 MB | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L75-L84) |
+| **3. Delegate.CreateDelegate** | Типізований делегат до відкритого методу | **2 ms** | **~0.1x** | 0 B | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs#L67-L77) |
+| **4. Compiled Expression Tree** | Згенерований IL у рантаймі (`DynamicMethod`) | **1 ms** | **~0.1x** | 0 B | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs#L56-L66) |
+| **5. dynamic (DLR)** | Кешований CallSite із JIT-генератором поліморфного коду | **3 ms** | **~0.2x** | 0 B | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs#L78-L88) |
+| **6. MethodInfo.Invoke** | Класична інтерпретована рефлексія | **27 ms** | **~1.5x** | ~32 MB | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs#L89-L100) |
 
 > [!NOTE]
 > `Delegate.CreateDelegate` та скомпільовані дерева виразів (`Expression Trees`) у даному циклі виконуються швидше за прямий виклик завдяки тому, що JIT-компілятор агресивно оптимізує цикл виклику делегата з фіксованими інваріантами.
@@ -78,7 +84,8 @@ Action<Car, int> fastInvoker = Expression.Lambda<Action<Car, int>>(
 fastInvoker(myCar, 50);
 ```
 
-- Посилання на реалізацію бенчмарку дерев виразів: [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63).
+Детальний теоретичний розбір, покрокове конструювання та діаграми вузлів дивіться у документі:
+- [05. Дерева виразів (Expression Trees) та динамічна компіляція в .NET](05_Expression_Trees_Deep_Dive.md).
 
 ### 3.3. Рівень 3: Атрибут `[UnsafeAccessor]` (.NET 8+)
 Починаючи з .NET 8, середовище CoreCLR підтримує атрибут `[UnsafeAccessor]`. Це внутрішній механізм компілятора та середовища виконання (Compiler & Runtime Intrinsic), який дозволяє отримувати доступ до закритих (`private`) полів, методів і конструкторів зі швидкістю нативного виклику без жодних накладних витрат класичної рефлексії (`FieldInfo`, `MethodInfo`, `ConstructorInfo`).
