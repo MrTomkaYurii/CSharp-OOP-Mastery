@@ -52,6 +52,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19.2-DependencyInjectionRealWorld", "19.2-DependencyInjectionRealWorld\19.2-DependencyInjectionRealWorld.csproj", "{87D20DDF-A49A-4A5D-8E37-796719D53A58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Type System & Metadata Inspection", "01. Type System & Metadata Inspection", "{B1B2C3D4-E5F6-7890-ABCD-EF1234567891}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Type_System_And_Metadata_Inspection\Assembly.md = Docs\01_Type_System_And_Metadata_Inspection\Assembly.md
+		Docs\01_Type_System_And_Metadata_Inspection\MemberInfo.md = Docs\01_Type_System_And_Metadata_Inspection\MemberInfo.md
+		Docs\01_Type_System_And_Metadata_Inspection\OVERVIEW.md = Docs\01_Type_System_And_Metadata_Inspection\OVERVIEW.md
+		Docs\01_Type_System_And_Metadata_Inspection\Type.md = Docs\01_Type_System_And_Metadata_Inspection\Type.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 	ProjectSection(SolutionItems) = preProject
@@ -67,14 +73,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Dynamic Execution & Performance", "04. Dynamic Execution & Performance", "{E1B2C3D4-E5F6-7890-ABCD-EF1234567894}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\04_Dynamic_Execution_And_Performance\Activator.md = Docs\04_Dynamic_Execution_And_Performance\Activator.md
+		Docs\04_Dynamic_Execution_And_Performance\Expression.md = Docs\04_Dynamic_Execution_And_Performance\Expression.md
+		Docs\04_Dynamic_Execution_And_Performance\OVERVIEW.md = Docs\04_Dynamic_Execution_And_Performance\OVERVIEW.md
+		Docs\04_Dynamic_Execution_And_Performance\UnsafeAccessor.md = Docs\04_Dynamic_Execution_And_Performance\UnsafeAccessor.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Attributes & Serialization", "05. Attributes & Serialization", "{F1B2C3D4-E5F6-7890-ABCD-EF1234567895}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\05_Attributes_And_Serialization\CustomAttributes.md = Docs\05_Attributes_And_Serialization\CustomAttributes.md
+		Docs\05_Attributes_And_Serialization\OVERVIEW.md = Docs\05_Attributes_And_Serialization\OVERVIEW.md
+		Docs\05_Attributes_And_Serialization\ReflectionSerialization.md = Docs\05_Attributes_And_Serialization\ReflectionSerialization.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Members & Encapsulation", "02. Members & Encapsulation", "{C1B2C3D4-E5F6-7890-ABCD-EF1234567892}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Members_And_Encapsulation\BindingFlags.md = Docs\02_Members_And_Encapsulation\BindingFlags.md
+		Docs\02_Members_And_Encapsulation\ConstructorInfo.md = Docs\02_Members_And_Encapsulation\ConstructorInfo.md
+		Docs\02_Members_And_Encapsulation\EventInfo.md = Docs\02_Members_And_Encapsulation\EventInfo.md
+		Docs\02_Members_And_Encapsulation\FieldInfo.md = Docs\02_Members_And_Encapsulation\FieldInfo.md
+		Docs\02_Members_And_Encapsulation\MethodInfo.md = Docs\02_Members_And_Encapsulation\MethodInfo.md
+		Docs\02_Members_And_Encapsulation\OVERVIEW.md = Docs\02_Members_And_Encapsulation\OVERVIEW.md
+		Docs\02_Members_And_Encapsulation\ParameterInfo.md = Docs\02_Members_And_Encapsulation\ParameterInfo.md
+		Docs\02_Members_And_Encapsulation\PropertyInfo.md = Docs\02_Members_And_Encapsulation\PropertyInfo.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Frameworks & Dependency Injection", "06. Frameworks & Dependency Injection", "{A2B2C3D4-E5F6-7890-ABCD-EF1234567896}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\06_Frameworks_And_Dependency_Injection\ConstructorResolution.md = Docs\06_Frameworks_And_Dependency_Injection\ConstructorResolution.md
+		Docs\06_Frameworks_And_Dependency_Injection\DependencyInjectionLifecycle.md = Docs\06_Frameworks_And_Dependency_Injection\DependencyInjectionLifecycle.md
+		Docs\06_Frameworks_And_Dependency_Injection\OVERVIEW.md = Docs\06_Frameworks_And_Dependency_Injection\OVERVIEW.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Generics Reflection", "03. Generics Reflection", "{D1B2C3D4-E5F6-7890-ABCD-EF1234567893}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Generics_Reflection\GenericMethodReflection.md = Docs\03_Generics_Reflection\GenericMethodReflection.md
+		Docs\03_Generics_Reflection\GenericTypeReflection.md = Docs\03_Generics_Reflection\GenericTypeReflection.md
+		Docs\03_Generics_Reflection\OVERVIEW.md = Docs\03_Generics_Reflection\OVERVIEW.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
