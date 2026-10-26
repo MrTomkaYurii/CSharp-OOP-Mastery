@@ -180,4 +180,5 @@ bool isAssignable = typeof(IReadOnlyRepository<Car>).IsAssignableFrom(typeof(IRe
 // isAssignable == true завдяки коваріантності out T!
 ```
 
-- Посилання на практичну реалізацію розв'язання відкритих дженериків та інспекції варіативності: [13-OpenGenericsAndVarianceDemo/Program.cs](../13-OpenGenericsAndVarianceDemo/Program.cs).
+- Посилання на практичну реалізацію варіантності в ООП: [13.1-CovarianceAndContravarianceDemo/Program.cs](../13.1-CovarianceAndContravarianceDemo/Program.cs).
+- Посилання на інспекцію метаданих варіантності через рефлексію: [13.2-VarianceReflectionInspectionDemo/Program.cs](../13.2-VarianceReflectionInspectionDemo/Program.cs).

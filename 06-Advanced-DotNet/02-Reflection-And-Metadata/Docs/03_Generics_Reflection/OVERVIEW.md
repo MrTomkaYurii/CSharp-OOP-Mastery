@@ -3,16 +3,18 @@
 > **Solution-тег (Solution Folder)**: `03. Generics Reflection`  
 > **Проєкти у тегу**:
 > - [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs) — Дослідження узагальнених класів та методів, закриття типів через `MakeGenericType` та `MakeGenericMethod`.
-> - [13-OpenGenericsAndVarianceDemo/Program.cs](../../13-OpenGenericsAndVarianceDemo/Program.cs) — Відкриті дженерики у DI (`IRepository<>`), перевірка обмежень типів, коваріантність (`out`) та контраваріантність (`in`).
+> - [13.1-CovarianceAndContravarianceDemo/Program.cs](../../13.1-CovarianceAndContravarianceDemo/Program.cs) — Базові концепції варіантності: коваріантність (`out T`), контраваріантність (`in T`), інваріантність та безпека типів в ООП.
+> - [13.2-VarianceReflectionInspectionDemo/Program.cs](../../13.2-VarianceReflectionInspectionDemo/Program.cs) — Інспекція метаданих варіантності через рефлексію (`GenericParameterAttributes`), динамічна перевірка сумісності `IsAssignableFrom` та практичний Event Bus.
 
 ---
 
 ## 1. Концептуальний зріз розділу
 
 Цей розділ розкриває специфіку роботи рефлексії з узагальненнями (дженериками) в .NET:
-1. **Відкриті типи (Open Generics / Generic Type Definitions)**: шаблонні описи типу (наприклад, `List<>` або `Dictionary<,>`), екземпляр яких створити неможливо.
-2. **Закриті зконструйовані типи (Constructed Closed Generics)**: типи, в яких усі параметри типізації замінені реальними класами (наприклад, `List<int>`), готові до інстанціювання.
-3. **Варіативність (Variance)**: коваріантність (`out`) та контраваріантність (`in`) в інтерфейсах та делегатах.
+1. **Відкриті типи (Open Generics / Generic Type Definitions)**: шаблонні описи типу (наприклад, `List<>` або `Dictionary<,>`), екземпляр яких створити неможливо без підстановки конкретних аргументів.
+2. **Закриті сконструйовані типи (Constructed Closed Generics)**: типи, в яких усі параметри типізації замінені реальними класами (наприклад, `List<int>`), готові до інстанціювання.
+3. **Варіантність (Variance)**: коваріантність (`out`) та контраваріантність (`in`) в інтерфейсах та делегатах.
+4. **Інспекція метаданих варіантності**: зчитування атрибутів параметра типу (`GenericParameterAttributes.Covariant`, `GenericParameterAttributes.Contravariant`) та динамічна перевірка сумісності типів через `Type.IsAssignableFrom`.
 
 ### Охоплені ключові теми та класи:
 - [GenericTypeReflection.md](GenericTypeReflection.md) — робота з узагальненими класами та інтерфейсами (`System.Type`).
@@ -29,9 +31,10 @@
 | `Type` | `GetGenericTypeDefinition()` | Використано | Отримує дескриптор відкритого типу з закритого типу | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L22) | [Type.GetGenericTypeDefinition](https://learn.microsoft.com/en-us/dotnet/api/system.type.getgenerictypedefinition) |
 | `Type` | `GetGenericArguments()` | Використано | Повертає масив аргументів або параметрів типу | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L28) | [Type.GetGenericArguments](https://learn.microsoft.com/en-us/dotnet/api/system.type.getgenericarguments) |
 | `Type` | `MakeGenericType(Type[])` | Використано | Динамічно конструює закритий тип, підставляючи конкретні класи | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L36) | [Type.MakeGenericType](https://learn.microsoft.com/en-us/dotnet/api/system.type.makegenerictype) |
-| `Type` | `ContainsGenericParameters` | Використано | Визначає, чи містить тип хоча б один незакритий параметр типу | [13-OpenGenericsAndVarianceDemo/Program.cs](../../13-OpenGenericsAndVarianceDemo/Program.cs#L22) | [Type.ContainsGenericParameters](https://learn.microsoft.com/en-us/dotnet/api/system.type.containsgenericparameters) |
-| `Type` | `GenericParameterAttributes` | Використано | Бітові прапорці коваріантності (`Covariant`), контраваріантності (`Contravariant`) та обмежень | [13-OpenGenericsAndVarianceDemo/Program.cs](../../13-OpenGenericsAndVarianceDemo/Program.cs#L45) | [Type.GenericParameterAttributes](https://learn.microsoft.com/en-us/dotnet/api/system.type.genericparameterattributes) |
-| `Type` | `GetGenericParameterConstraints()`| Використано| Повертає масив обмежень на параметр типу (`where T : class, new()`) | [13-OpenGenericsAndVarianceDemo/Program.cs](../../13-OpenGenericsAndVarianceDemo/Program.cs#L52) | [Type.GetGenericParameterConstraints](https://learn.microsoft.com/en-us/dotnet/api/system.type.getgenericparameterconstraints) |
+| `Type` | `ContainsGenericParameters` | Використано | Визначає, чи містить тип хоча б один незакритий параметр типу | [13.2-VarianceReflectionInspectionDemo/Program.cs](../../13.2-VarianceReflectionInspectionDemo/Program.cs#L95) | [Type.ContainsGenericParameters](https://learn.microsoft.com/en-us/dotnet/api/system.type.containsgenericparameters) |
+| `Type` | `GenericParameterAttributes` | Використано | Бітові прапорці коваріантності (`Covariant`), контраваріантності (`Contravariant`) та обмежень | [13.2-VarianceReflectionInspectionDemo/Program.cs](../../13.2-VarianceReflectionInspectionDemo/Program.cs#L101) | [Type.GenericParameterAttributes](https://learn.microsoft.com/en-us/dotnet/api/system.type.genericparameterattributes) |
+| `Type` | `GetGenericParameterConstraints()`| Використано| Повертає масив обмежень на параметр типу (`where T : class, new()`) | [13.2-VarianceReflectionInspectionDemo/Program.cs](../../13.2-VarianceReflectionInspectionDemo/Program.cs#L125) | [Type.GetGenericParameterConstraints](https://learn.microsoft.com/en-us/dotnet/api/system.type.getgenericparameterconstraints) |
+| `Type` | `IsAssignableFrom(Type)` | Використано | Перевіряє сумісність типів з урахуванням коваріантності та контраваріантності | [13.2-VarianceReflectionInspectionDemo/Program.cs](../../13.2-VarianceReflectionInspectionDemo/Program.cs#L137) | [Type.IsAssignableFrom](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom) |
 | `MethodInfo` | `IsGenericMethod` | Використано | Визначає, чи є метод узагальненим | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L48) | [MethodBase.IsGenericMethod](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodbase.isgenericmethod) |
 | `MethodInfo` | `IsGenericMethodDefinition` | Використано | Визначає, чи є метод відкритим визначенням узагальненого методу | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L50) | [MethodBase.IsGenericMethodDefinition](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodbase.isgenericmethoddefinition) |
 | `MethodInfo` | `MakeGenericMethod(Type[])`| Використано | Підставляє конкретні типи замість `T` і повертає готовий до виклику метод | [12-GenericsReflectionDemo/Program.cs](../../12-GenericsReflectionDemo/Program.cs#L58) | [MethodInfo.MakeGenericMethod](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodinfo.makegenericmethod) |
@@ -41,7 +44,7 @@
 
 ## 3. Статистичний зріз охоплення API
 
-- **Методів та властивостей досліджено в прикладах**: 11
+- **Методів та властивостей досліджено в прикладах**: 12
 - **Загальних методів API BCL задокументовано додатково**: 1
-- **Сумарно в довіднику розділу**: 12 API елементів
+- **Сумарно в довіднику розділу**: 13 API елементів
 - **Відсоток фокусного практичного охоплення**: ~92%

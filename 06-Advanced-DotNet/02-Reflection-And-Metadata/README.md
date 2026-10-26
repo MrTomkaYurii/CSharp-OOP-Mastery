@@ -47,7 +47,8 @@ graph TD
 
     subgraph S3["03. Generics Reflection (Рефлексія дженериків)"]
         P12["12-GenericsReflectionDemo"]
-        P13["13-OpenGenericsAndVarianceDemo"]
+        P13_1["13.1-CovarianceAndContravarianceDemo"]
+        P13_2["13.2-VarianceReflectionInspectionDemo"]
     end
 
     subgraph S4["04. Dynamic Execution & Performance (Динамічне виконання та оптимізація)"]
@@ -81,8 +82,9 @@ graph TD
     P9 --> P10
     P10 --> P11
     P11 --> P12
-    P12 --> P13
-    P13 --> P14
+    P12 --> P13_1
+    P13_1 --> P13_2
+    P13_2 --> P14
     P14 --> P15_0
     P15_0 --> P15_1
     P15_1 --> P15_2
@@ -113,7 +115,8 @@ graph TD
 | 10 | `02. Members & Encapsulation` | `10-GetConstructorInfoDemo` | Аналіз конструкторів (`ConstructorInfo`), створення об'єктів | [10-GetConstructorInfoDemo/Program.cs](10-GetConstructorInfoDemo/Program.cs) |
 | 11 | `02. Members & Encapsulation` | `11-GetEventsDemo` | Інспекція `EventInfo`, динамічна підписка делегатів (`AddEventHandler`) | [11-GetEventsDemo/Program.cs](11-GetEventsDemo/Program.cs) |
 | 12 | `03. Generics Reflection` | `12-GenericsReflectionDemo` | Рефлексія дженериків: `MakeGenericType`, `MakeGenericMethod` | [12-GenericsReflectionDemo/Program.cs](12-GenericsReflectionDemo/Program.cs) |
-| 13 | `03. Generics Reflection` | `13-OpenGenericsAndVarianceDemo` | Відкриті дженерики (`IRepository<>`), коваріантність (`out`), контраваріантність (`in`) | [13-OpenGenericsAndVarianceDemo/Program.cs](13-OpenGenericsAndVarianceDemo/Program.cs) |
+| 13.1 | `03. Generics Reflection` | `13.1-CovarianceAndContravarianceDemo` | Базова варіантність в ООП: коваріантність (`out`), контраваріантність (`in`), інваріантність | [13.1-CovarianceAndContravarianceDemo/Program.cs](13.1-CovarianceAndContravarianceDemo/Program.cs) |
+| 13.2 | `03. Generics Reflection` | `13.2-VarianceReflectionInspectionDemo` | Рефлексія варіантності: `GenericParameterAttributes`, перевірка сумісності `IsAssignableFrom`, Event Bus | [13.2-VarianceReflectionInspectionDemo/Program.cs](13.2-VarianceReflectionInspectionDemo/Program.cs) |
 | 14 | `04. Dynamic Execution & Performance` | `14-LateBindingDemo` | Створення об'єкта (`Activator.CreateInstance`, `GetUninitializedObject`) | [14-LateBindingDemo/Program.cs](14-LateBindingDemo/Program.cs) |
 | 15.0 | `04. Dynamic Execution & Performance` | `15.0-ExpressionTreesBasicsDemo` | Дерева виразів (AST): різниця між `Func` та `Expression`, анатомія вузлів, `.Compile()` | [15.0-ExpressionTreesBasicsDemo/Program.cs](15.0-ExpressionTreesBasicsDemo/Program.cs) |
 | 15.1 | `04. Dynamic Execution & Performance` | `15.1-ExpressionTreesBuildingDemo` | Ручне конструювання AST: `Expression.Parameter`, `Multiply`, `Add`, `Condition` (if-else) | [15.1-ExpressionTreesBuildingDemo/Program.cs](15.1-ExpressionTreesBuildingDemo/Program.cs) |

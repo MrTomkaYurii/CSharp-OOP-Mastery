@@ -60,11 +60,12 @@ flowchart TD
 
     subgraph S3["03. Generics Reflection"]
         P11 --> P12["12-GenericsReflectionDemo: Дженерики у типах і методах"]
-        P12 --> P13["13-OpenGenericsAndVarianceDemo: Відкриті типи та коваріантність"]
+        P12 --> P13_1["13.1-CovarianceAndContravarianceDemo: Коваріантність та контраваріантність в ООП"]
+        P13_1 --> P13_2["13.2-VarianceReflectionInspectionDemo: Інспекція метаданих варіантності та сумісність"]
     end
 
     subgraph S4["04. Dynamic Execution & Performance"]
-        P13 --> P14["14-LateBindingDemo: Activator та DLR пізнє зв'язування"]
+        P13_2 --> P14["14-LateBindingDemo: Activator та DLR пізнє зв'язування"]
         P14 --> P15_0["15.0-ExpressionTreesBasicsDemo: Код як дані та анатомія AST"]
         P15_0 --> P15_1["15.1-ExpressionTreesBuildingDemo: Ручне конструювання формул та умов"]
         P15_1 --> P15_2["15.2-ExpressionTreesMemberAccessDemo: Швидкі геттери, виклики та фабрики"]
@@ -102,7 +103,8 @@ flowchart TD
 | **10** | `02. Members & Encapsulation` | `10-GetConstructorInfoDemo` | Конструктори `ConstructorInfo`, параметри ctor, вибір конструктора | [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs) | Середній |
 | **11** | `02. Members & Encapsulation` | `11-GetEventsDemo` | Події `EventInfo`, методи `add`/`remove`, динамічна підписка делегатів | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs) | Середній |
 | **12** | `03. Generics Reflection` | `12-GenericsReflectionDemo` | Узагальнення: `MakeGenericType`, `MakeGenericMethod`, обмеження типів | [12-GenericsReflectionDemo/Program.cs](../12-GenericsReflectionDemo/Program.cs) | Просунутий |
-| **13** | `03. Generics Reflection` | `13-OpenGenericsAndVarianceDemo` | Відкриті типи в DI (`IRepository<>`), коваріантність (`out`), контраваріантність (`in`) | [13-OpenGenericsAndVarianceDemo/Program.cs](../13-OpenGenericsAndVarianceDemo/Program.cs) | Просунутий |
+| **13.1** | `03. Generics Reflection` | `13.1-CovarianceAndContravarianceDemo` | Базова варіантність в ООП: коваріантність (`out`), контраваріантність (`in`), інваріантність | [13.1-CovarianceAndContravarianceDemo/Program.cs](../13.1-CovarianceAndContravarianceDemo/Program.cs) | Середній |
+| **13.2** | `03. Generics Reflection` | `13.2-VarianceReflectionInspectionDemo` | Рефлексія варіантності: `GenericParameterAttributes`, перевірка сумісності `IsAssignableFrom`, Event Bus | [13.2-VarianceReflectionInspectionDemo/Program.cs](../13.2-VarianceReflectionInspectionDemo/Program.cs) | Просунутий |
 | **14** | `04. Dynamic Execution & Performance` | `14-LateBindingDemo` | Пізнє зв'язування `Activator.CreateInstance`, `GetUninitializedObject` | [14-LateBindingDemo/Program.cs](../14-LateBindingDemo/Program.cs) | Середній |
 | **15.0** | `04. Dynamic Execution & Performance` | `15.0-ExpressionTreesBasicsDemo` | Дерева виразів (AST): різниця між `Func` та `Expression`, розбір вузлів, `.Compile()` | [15.0-ExpressionTreesBasicsDemo/Program.cs](../15.0-ExpressionTreesBasicsDemo/Program.cs) | Середній |
 | **15.1** | `04. Dynamic Execution & Performance` | `15.1-ExpressionTreesBuildingDemo` | Ручна побудова AST: `Expression.Parameter`, `Multiply`, `Add`, `Condition` (if-else) | [15.1-ExpressionTreesBuildingDemo/Program.cs](../15.1-ExpressionTreesBuildingDemo/Program.cs) | Просунутий |
