@@ -1,27 +1,34 @@
 # 06. Фінальний проєкт: Власний IoC/DI Контейнер (IoC Container Deep Dive & Architecture)
 
-Цей проєкт є вершиною навчального модуля. Він демонструє, як на базі рефлексії створюються індустріальні фреймворки на кшталт **`Microsoft.Extensions.DependencyInjection`**, **Autofac** або **Castle Windsor**.
+Цей проєкт є вершиною навчального модуля. Він демонструє практичне поєднання всіх вивчених концепцій рефлексії: інспекції типів, дослідження конструкторів і параметрів, аналізу атрибутів, роботи з інтерфейсами та динамічної активації об'єктів для побудови промислового Dependency Injection контейнера.
 
 ---
 
-## 🏛️ 1. Теоретичний фундамент: IoC, DIP та Hollywood Principle
+## 1. Понятійний апарат: Архітектурні принципи IoC та DI
 
-1. **Принцип інверсії залежностей (Dependency Inversion Principle - DIP із SOLID)**:
-   - Модулі верхніх рівнів не повинні залежати від модулів нижніх рівнів. Обидва типи мають залежати від абстракцій (інтерфейсів).
-   - Абстракції не повинні залежати від деталей. Деталі мають залежати від абстракцій.
-2. **Інверсія керування (Inversion of Control - IoC)**:
-   - Архітектурний патерн, за якого потік виконання програми передається зовнішньому каркасу (фреймворку).
-   - **Hollywood Principle**: *"Не дзвоніть нам, ми самі вам зателефонуємо"*. Замість того, щоб клас сам створював свої залежності (`new SqlDatabaseConnection()`), контейнер самостійно створює їх і передає класу ззовні.
-3. **Впровадження залежностей (Dependency Injection - DI)**:
-   - Конкретний механізм передачі залежностей у залежний об'єкт (через конструктор, властивості або методи).
+### 1.1. Що таке Inversion of Control (IoC)?
+**Інверсія керування (Inversion of Control — IoC)** — це архітектурний принцип проєктування програмного забезпечення, за якого традиційний потік керування змінюється на протилежний: замість того, щоб користувацький код самостійно створював залежні компоненти та викликав бібліотечні функції, зовнішній каркас (фреймворк) бере на себе керування життєвим циклом об'єктів і викликає користувацький код.
+
+- **Голлівудський принцип (Hollywood Principle)**: *"Не дзвоніть нам, ми самі вам зателефонуємо"*. Клас більше не пише `new SqlDatabase()`, а пасивно очікує, поки контейнер створить і надасть йому необхідний ресурс.
+
+### 1.2. Що таке Dependency Inversion Principle (DIP)?
+**Принцип інверсії залежностей (DIP)** — це літера "D" у принципах SOLID:
+1. Модулі високих рівнів не повинні залежати від модулів низьких рівнів. Обидва типи мають залежати від абстракцій (інтерфейсів).
+2. Абстракції не повинні залежати від деталей. Деталі повинні залежати від абстракцій.
+
+### 1.3. Що таке Dependency Injection (DI)?
+**Впровадження залежностей (Dependency Injection — DI)** — це конкретний патерн проектування, що реалізує принцип IoC. Він полягає в тому, що залежності передаються в об'єкт ззовні (найчастіше через параметри конструктора — Constructor Injection або через властивості — Property Injection), а не створюються об'єктом самостійно.
+
+### 1.4. Що таке IoC-контейнер?
+**IoC-контейнер (DI-контейнер)** — це програмний модуль (фреймворк), який автоматизує процес конструювання об'єктів. Він слугує централізованим реєстром відповідностей між абстракціями (інтерфейсами) та їхніми конкретними реалізаціями, рекурсивно розв'язує граф залежностей та керує життєвими циклами створених екземплярів.
 
 ---
 
-## 📐 2. Математична модель: Орієнтований ациклічний граф (DAG)
+## 2. Математична модель: Орієнтований ациклічний граф (DAG)
 
-Процес розв'язання залежностей у DI-контейнері — це побудова та топологічний обхід **орієнтованого ациклічного графу (Directed Acyclic Graph - DAG)**:
-- **Вершини графу ($V$)**: зареєстровані типи сервісів (`OrderService`, `IOrderRepository`, `ILogger`).
-- **Орієнтовані ребра ($E$)**: конструкторні та властивісні залежності між ними ($A \to B$ означає, що $A$ вимагає $B$).
+Процес розв'язання залежностей у контейнері формалізується як побудова та топологічний обхід **орієнтованого ациклічного графу (Directed Acyclic Graph — DAG)**:
+- **Вершини ($V$)**: зареєстровані типи сервісів (`OrderService`, `IOrderRepository`, `ILogger`).
+- **Орієнтовані ребра ($E$)**: конструкторні залежності між типами ($A \to B$ означає, що клас $A$ вимагає у своєму конструкторі тип $B$).
 
 ```mermaid
 graph TD
@@ -36,95 +43,99 @@ graph TD
 
     IPaymentGateway --> ILogger
     INotificationService --> ILogger
-
-    style OrderService fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style ILogger fill:#ffebee,stroke:#d32f2f,stroke-width:2px
-    style IDatabaseConnection fill:#ffebee,stroke:#d32f2f,stroke-width:2px
 ```
+
+Граф розв'язання обов'язково повинен бути **ациклічним**. Поява будь-якого циклу робить конструювання об'єктів неможливим.
 
 ---
 
-## 🛡️ 3. Захист від циклічних залежностей (Circular Dependency Detection)
+## 3. Захист від циклічних залежностей (Circular Dependency Detection)
 
-Якщо розробник помилився і створив замкнене коло:
+Якщо розробники припустилися архітектурної помилки і створили взаємну залежність класів:
 $$\text{ServiceA} \longrightarrow \text{ServiceB} \longrightarrow \text{ServiceC} \longrightarrow \text{ServiceA}$$
 
-Класичний наївний рекурсивний алгоритм увійде в нескінченну рекурсію, яка завершиться аварійним падінням процесу з фатальним **`StackOverflowException`** (який неможливо перехопити через звичайний `catch`!).
+Наївний рекурсивний алгоритм увійде в нескінченну рекурсію. У середовищі CLR це гарантовано призведе до вичерпання пам'яті стека потоку та фатального аварійного завершення процесу з помилкою **`StackOverflowException`**, яку в .NET неможливо перехопити через блок `try-catch`!
 
-### 3.1. Алгоритм відстеження через стек викликів
-Наш контейнер використовує структуру даних `Stack<Type> _resolutionStack`:
-1. Перед початком створення типу перевіряється: `_resolutionStack.Contains(serviceType)`.
-2. Якщо тип уже присутній у стеку — це означає наявність зворотного ребра в графі (цикл!).
-3. Викидається спеціалізований `CircularDependencyException` із відтвореним ланцюжком циклу:
+### 3.1. Алгоритм виявлення циклів за допомогою стеку
+Контейнер підтримує внутрішній контекстний стек поточного ланцюжка резолюції `Stack<Type> _resolutionStack`:
+1. Перед початком створення будь-якого типу перевіряється умова: `_resolutionStack.Contains(serviceType)`.
+2. Якщо тип уже є у стеку — зафіксовано наявність зворотного ребра в графі (цикл!).
+3. Контейнер негайно припиняє обхід і викидає виняток `CircularDependencyException`, формуючи зрозумілий ланцюжок помилки для діагностики:
 
 ```csharp
 if (_resolutionStack.Contains(serviceType))
 {
     var cycleList = _resolutionStack.Reverse().Concat(new[] { serviceType }).Select(t => t.Name);
-    string chain = string.Join(" ──> ", cycleList);
+    string chain = string.Join(" --> ", cycleList);
     throw new CircularDependencyException($"Виявлено циклічну залежність! Ланцюжок: {chain}");
 }
 ```
 
-🔗 Переглянути обробку циклів можна в [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L145-L165).
+- Посилання на реалізацію алгоритму виявлення циклів: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L145-L165).
 
 ---
 
-## ⚙️ 4. Алгоритм розв'язання конструкторів (Constructor Resolution Engine)
+## 4. Алгоритм розв'язання конструкторів (Constructor Resolution Engine)
 
-Як контейнер обирає, який саме конструктор викликати, якщо їх у класі декілька:
+Клас може мати декілька відкритих конструкторів. Контейнер використовує такий детермінований алгоритм вибору:
 
 ```mermaid
 flowchart TD
-    Start["Запит на створення типу T"] --> GetCtors["GetConstructors(Public | Instance)"]
+    Start["Запит на створення типу T"] --> GetCtors["type.GetConstructors(Public | Instance)"]
     GetCtors --> HasAttr{"Чи є конструктор з атрибутом [InjectConstructor]?"}
     HasAttr -- Так --> PickAttr["Обрати конструктор з [InjectConstructor]"]
-    HasAttr -- Ні --> SortGreedy["Відсортувати за спаданням кількості параметрів (Жадібний вибір)"]
-    PickAttr --> ResolveParams["Для кожного параметра ParameterInfo"]
+    HasAttr -- Ні --> SortGreedy["Відсортувати за кількістю параметрів (OrderByDescending)"]
+    PickAttr --> ResolveParams["Аналіз кожного параметра (ParameterInfo)"]
     SortGreedy --> ResolveParams
-    ResolveParams --> CheckDefault{"Чи зареєстрований тип або чи є DefaultValue?"}
-    CheckDefault -- Зареєстрований --> Recurse["Рекурсивний виклик Resolve(paramType)"]
-    CheckDefault -- Має DefaultValue --> UseDef["Підставити param.DefaultValue"]
-    Recurse --> InvokeCtor["Виклик ctor.Invoke(args)"]
+    ResolveParams --> CheckReg{"Тип зареєстрований або HasDefaultValue == true?"}
+    CheckReg -- Зареєстрований --> Recurse["Рекурсивний Resolve(param.ParameterType)"]
+    CheckReg -- Має дефолтне значення --> UseDef["Підставити param.DefaultValue"]
+    Recurse --> InvokeCtor["ctor.Invoke(resolvedArgs)"]
     UseDef --> InvokeCtor
-    InvokeCtor --> CheckPropInj["Сканування властивостей з [InjectProperty]"]
-    CheckPropInj --> Finish["Повернення зібраного об'єкта"]
+    InvokeCtor --> CheckProp["Пошук властивостей з [InjectProperty]"]
+    CheckProp --> Finish["Повернення повністю зібраного об'єкта"]
 ```
 
-🔗 Переглянути код рефлексивного рушія створення можна в [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L220-L270).
+### 4.1. Етапи конструювання:
+1. **Явна вказівка**: якщо присутній конструктор із міткою `[InjectConstructor]`, контейнер обирає його беззастережно.
+2. **Жадібний вибір (Greedy Constructor Selection)**: якщо мітки немає, конструктори сортуються за спаданням кількості параметрів (`c.GetParameters().Length`). Контейнер намагається задовольнити конструктор із найбільшою кількістю залежностей.
+3. **Параметри за замовчуванням**: якщо залежність не зареєстрована в контейнері, але параметр конструктора має значення за замовчуванням (`param.HasDefaultValue == true`), контейнер безпечно підставляє `param.DefaultValue`.
+4. **Впровадження у властивості (Property Injection)**: після створення екземпляра контейнер знаходить усі відкриті властивості з атрибутом `[InjectProperty]` і викликає для них `prop.SetValue(instance, resolvedDependency)`.
+
+- Посилання на реалізацію механізму інстанціювання: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L220-L270).
 
 ---
 
-## ⏳ 5. Керування життєвими циклами (Lifetimes)
+## 5. Керування життєвими циклами (Service Lifetimes)
 
-| Життєвий цикл | Поведінка в пам'яті | Збереження посилання | Коли використовувати |
+Контейнер підтримує дві фундаментальні моделі життєвого циклу:
+
+| Життєвий цикл | Поведінка в пам'яті | Збереження посилання | Сценарії застосування |
 | :--- | :--- | :--- | :--- |
-| **`Transient`** | Новий об'єкт створюється при **кожному** виклику `Resolve<T>()`. | Контейнер не утримує посилання. Об'єкт видаляється збирачем сміття (GC) одразу після виходу з області видимості. | Легкі сервіси без стану (Stateless services), репозиторії, платіжні операції. |
-| **`Singleton`** | Єдиний екземпляр створюється під час **першого** звернення, кешується в `ServiceDescriptor` і повертається для всіх наступних запитів. | Об'єкт живе протягом усього часу роботи контейнера (Rooted reference). | Логери, пули з'єднань з БД, конфігурації, кеші. |
-
-🔗 Переглянути верифікацію рівності посилань (`ReferenceEquals`) можна в [16-DependencyInjection/Program.cs](../16-DependencyInjection/Program.cs#L36-L47).
+| **`Transient`** | Новий об'єкт створюється при кожному зверненні до `Resolve<T>()`. | Посилання не зберігається контейнером. Об'єкт знищується збирачем сміття (GC), коли його перестає використовувати клієнтський код. | Легковагові сервіси без внутрішнього стану (без стану між операціями). |
+| **`Singleton`** | Створюється рівно один екземпляр при першому зверненні. | Контейнер кешує посилання у внутрішньому потокобезпечному словнику `_singletons` на весь час життя додатка. | Пули з'єднань, клієнти кешування, системні логери, конфігураційні менеджери. |
 
 ---
 
-## 📋 6. Повний довідник компонентів DI-контейнера
+## 6. Демонстраційний запуск та візуалізація дерева розв'язання
 
-| Клас / Метод | Призначення | Посилання на код |
-| :--- | :--- | :---: |
-| `Container` | Головний клас IoC-контейнера, який керує реєстраціями та графом залежностей. | [![Код](https://img.shields.io/badge/Код-16_Container-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L80-L140) |
-| `ServiceLifetime` | Перерахування життєвих циклів: `Transient` та `Singleton`. | [![Код](https://img.shields.io/badge/Код-16_Lifetimes-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L8-L23) |
-| `[InjectConstructor]` | Атрибут для явного вибору цільового конструктора при наявності кількох перевантажень. | [![Код](https://img.shields.io/badge/Код-16_InjectCtorAttr-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L25-L30) |
-| `[InjectProperty]` | Атрибут для автоматичного заповнення властивостей залежностями (Property Injection). | [![Код](https://img.shields.io/badge/Код-16_InjectPropAttr-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L32-L37) |
-| `CircularDependencyException` | Спеціалізований виняток із детальним відображенням циклічного ланцюжка. | [![Код](https://img.shields.io/badge/Код-16_CircularEx-red?style=flat-square)](../16-DependencyInjection/Container.cs#L39-L46) |
-| `RegisterSingleton<T, TImpl>()` | Реєстрація сервісу з єдиним спільним екземпляром на весь додаток. | [![Код](https://img.shields.io/badge/Код-16_RegisterSingleton-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L95-L105) |
-| `RegisterTransient<T, TImpl>()` | Реєстрація сервісу, що інстанціюється наново для кожного клієнта. | [![Код](https://img.shields.io/badge/Код-16_RegisterTransient-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L85-L94) |
-| `RegisterInstance<T>(instance)` | Реєстрація вже створеного Singleton-об'єкта. | [![Код](https://img.shields.io/badge/Код-16_RegisterInstance-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L110-L120) |
-| `RegisterFactory<T>(Func)` | Реєстрація фабричного лямбда-делегата для створення об'єкта. | [![Код](https://img.shields.io/badge/Код-16_RegisterFactory-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L122-L132) |
-| `Resolve(serviceType)` | Рекурсивний обхід графу, створення об'єктів та ін'єкція властивостей. | [![Код](https://img.shields.io/badge/Код-16_Resolve-red?style=flat-square)](../16-DependencyInjection/Container.cs#L145-L215) |
+Проєкт `16-DependencyInjection` містить повнофункціональну демонстрацію створення складної доменної моделі інтернет-магазину:
 
----
+```csharp
+var container = new Container();
 
-## 🚀 Як запустити фінальний проєкт
+// Реєстрація компонентів
+container.RegisterSingleton<ILogger, ConsoleLogger>();
+container.RegisterSingleton<IDatabaseConnection, SqlDatabaseConnection>();
+container.RegisterTransient<IOrderRepository, OrderRepository>();
+container.RegisterTransient<IPaymentGateway, CreditCardPaymentGateway>();
+container.RegisterTransient<INotificationService, EmailNotificationService>();
+container.RegisterTransient<OrderService>();
 
-```powershell
-dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/16-DependencyInjection/16-DependencyInjection.csproj" -c Release
+// Рекурсивне розв'язання зі створенням повного графа об'єктів
+var orderService = container.Resolve<OrderService>();
+orderService.PlaceOrder(101, 1499.99m);
 ```
+
+- Посилання на вихідний код контейнера: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs).
+- Посилання на демонстраційну програму: [16-DependencyInjection/Program.cs](../16-DependencyInjection/Program.cs).

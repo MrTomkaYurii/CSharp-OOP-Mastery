@@ -1,97 +1,110 @@
 # 05. Продуктивність рефлексії та скомпільовані вирази (Performance, Expression Trees & Native AOT)
 
-Рефлексія — це надзвичайно гнучкий інструмент метапрограмування, проте вона несе суттєвий оверхед на швидкодію процесора та навантаження на збирач сміття (Garbage Collector).
+Рефлексія — це потужний інструмент динамічного метапрограмування, проте її використання супроводжується значними накладними витратами на обчислювальні ресурси процесора та навантаженням на збирач сміття (Garbage Collector).
 
 ---
 
-## 🛑 1. Чому `MethodInfo.Invoke` повільний? (CLR Deep Dive)
+## 1. Понятійний апарат: Чому `MethodInfo.Invoke` повільний?
 
-Коли ви викликаєте `method.Invoke(instance, new object[] { 42 })`, середовище виконання **CoreCLR** змушене виконати такі обов'язкові етапи:
+Коли розробник викликає метод через `method.Invoke(instance, new object[] { 50 })`, середовище виконання **CoreCLR** змушене пройти кілька обов'язкових етапів:
 
 ```mermaid
 flowchart TD
     Invoke["1. MethodInfo.Invoke(target, args)"] --> SecCheck["2. Перевірка безпеки доступу<br/>(Security & Visibility Checks)"]
     SecCheck --> ParamCheck["3. Валідація кількості та типів аргументів<br/>(Type Compatibility Checks)"]
-    ParamCheck --> Boxing["4. Упаковка (Boxing) примітивів у heap-об'єкти<br/>(Allocation of object[])"]
-    Boxing --> Stub["5. Перехід через диспетчерський службовий стаб<br/>(CallDescrWorker)"]
+    ParamCheck --> Boxing["4. Упаковка (Boxing) примітивів у масив object[]<br/>(Heap Allocations)"]
+    Boxing --> Stub["5. Перехід через диспетчерський перехідник<br/>(CoreCLR CallDescrWorker)"]
     Stub --> Exec["6. Виконання тіла методу<br/>(JIT-інлайнінг НЕМОЖЛИВИЙ)"]
     Exec --> RetBoxing["7. Упаковка результату повернення<br/>(Boxing return value to object)"]
 ```
 
-### 1.1. Джерела втрати швидкодії:
-1. **Неможливість JIT-інлайнінгу (No Inlining)**: JIT-компілятор не може замінити виклик тілом методу, оскільки адреса методу стає відомою лише в момент виконання.
-2. **Аллокації в купі (Heap Allocations & GC Pressure)**: Аргументи передаються через масив `object[]`. Якщо ви передаєте `int`, `double` або структуру, CLR здійснює операцію `boxing`, створюючи об'єкт у керованій купі. Результат повернення також упаковується у посилання на `object`.
-3. **Непрямий виклик через вказівник**: Процесор не може ефективно завантажити конвеєр інструкцій через постійні розгалуження та перевірки типів.
+### 1.1. Джерела втрати швидкодії
+1. **Неможливість JIT-інлайнінгу (No Inlining)**: JIT-компілятор не може вбудувати машинний код методу в точку виклику, оскільки адреса методу обчислюється динамічно безпосередньо перед виконанням.
+2. **Аллокації в керованій купі (Heap Allocations & GC Pressure)**:
+   - Аргументи передаються через масив `object[]`. Створення масиву виділяє пам'ять у купі при кожному виклику.
+   - Передача типів значень (`int`, `double`, `struct`) вимагає операції `boxing` — створення об'єкта-обгортки в купі.
+   - Повернене значення типу значення також запаковується в об'єкт.
+3. **Диспетчеризація через стаб (`CallDescrWorker`)**: CoreCLR повинна скопіювати аргументи з керованого масиву `object[]` у системні регістри процесора (згідно з системною конвенцією виклику x64: RCX, RDX, R8, R9) або в нативний стек процесора.
+4. **Валідація безпеки та типів**: кожне звернення знову й знову перевіряє права доступу та сумісність типів параметрів.
 
 ---
 
-## 📊 2. Порівняльний бенчмарк 5 технологій виклику (1,000,000 ітерацій)
+## 2. Порівняльний бенчмарк технологій виклику (1,000,000 ітерацій)
 
 Заміри проведено на платформі .NET 10 (Release-конфігурація, процесор x64):
 
-| Метод виклику | Архітектурний механізм | Час (1 млн) | Швидкість | Аллокації GC | Посилання на приклад |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **1. Direct Call** | Прямий компіляційний виклик | **18 ms** | **1.0x** (Еталон) | 0 B | [![Код](https://img.shields.io/badge/Код-15_DirectCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L35-L43) |
-| **2. [UnsafeAccessor]** (.NET 8+) | JIT Compiler Intrinsic (пряма адресація) | **18 ms** | **1.0x** | 0 B | [![Довідка](https://img.shields.io/badge/Docs-UnsafeAccessor-blue?style=flat-square)](#3-рівні-оптимізації-рефлексії) |
-| **3. Delegate.CreateDelegate** | Типізований делегат до відкритого методу | **2 ms** | **~0.1x** | 0 B | [![Код](https://img.shields.io/badge/Код-15_DelegateCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L45-L53) |
-| **4. Compiled Expression Tree** | Згенерований IL у рантаймі (`DynamicMethod`) | **1 ms** | **~0.1x** | 0 B | [![Код](https://img.shields.io/badge/Код-15_ExpressionTree-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
-| **5. dynamic (DLR)** | Кешований CallSite із JIT-генератором | **3 ms** | **~0.2x** | 0 B | [![Код](https://img.shields.io/badge/Код-15_DynamicCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L65-L73) |
-| **6. MethodInfo.Invoke** | Класична інтерпретована рефлексія | **27 ms** | **~1.5x** | ~32 MB (boxing) | [![Код](https://img.shields.io/badge/Код-15_MethodInvoke-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L75-L84) |
+| Метод виклику | Архітектурний механізм | Час (1 млн) | Відносне співвідношення | Аллокації GC | Посилання на приклад |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **1. Direct Call** | Прямий компіляційний виклик за адресою | **18 ms** | **1.0x** (Еталон) | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L35-L43) |
+| **2. [UnsafeAccessor]** (.NET 8+) | JIT Compiler Intrinsic (пряма асемблерна адресація) | **18 ms** | **1.0x** | 0 B | Розділ 3.3 цього документа |
+| **3. Delegate.CreateDelegate** | Типізований делегат до відкритого методу | **2 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L45-L53) |
+| **4. Compiled Expression Tree** | Згенерований IL у рантаймі (`DynamicMethod`) | **1 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
+| **5. dynamic (DLR)** | Кешований CallSite із JIT-генератором поліморфного коду | **3 ms** | **~0.2x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L65-L73) |
+| **6. MethodInfo.Invoke** | Класична інтерпретована рефлексія | **27 ms** | **~1.5x** | ~32 MB | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L75-L84) |
 
 > [!NOTE]
-> `Delegate.CreateDelegate` та `Expression Trees` у даному циклі виконуються швидше за прямий виклик завдяки агресивній оптимізації циклу та інлайнінгу скомпільованого делегата у машинному коді.
+> `Delegate.CreateDelegate` та скомпільовані дерева виразів (`Expression Trees`) у даному циклі виконуються швидше за прямий виклик завдяки тому, що JIT-компілятор агресивно оптимізує цикл виклику делегата з фіксованими інваріантами.
 
 ---
 
-## ⚡ 3. Рівні оптимізації рефлексії
+## 3. Стратегії оптимізації рефлексії
 
-### Рівень 1: Кешування об'єктів метаданих
-Ніколи не викликайте `type.GetProperties()` або `type.GetMethod()` всередині високонавантажених циклів. Метадані є незмінними (immutable) — їх потрібно кешувати в статичних колекціях:
+### 3.1. Рівень 1: Кешування об'єктів метаданих
+Ніколи не викликайте методи пошуку метаданих (`type.GetProperties()`, `type.GetMethod()`) всередині циклів або обробників запитів. Метадані типу в CLR є незмінними (immutable) — їх необхідно один раз зчитати та зберегти у потокобезпечній статичній колекції:
 
 ```csharp
-private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _cache = new();
+private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _propertiesCache = new();
 
 public static PropertyInfo[] GetCachedProperties(Type type) =>
-    _cache.GetOrAdd(type, t => t.GetProperties(BindingFlags.Public | BindingFlags.Instance));
+    _propertiesCache.GetOrAdd(type, t => t.GetProperties(BindingFlags.Public | BindingFlags.Instance));
 ```
 
-### Рівень 2: Скомпільовані дерева виразів (`System.Linq.Expressions`)
-Якщо потрібно багаторазово викликати метод, зчитати поле або створити об'єкт — згенеруйте дерево виразів і скомпілюйте його у звичайний типізований делегат (`Func` або `Action`):
+### 3.2. Рівень 2: Скомпільовані дерева виразів (`System.Linq.Expressions`)
+Якщо потрібно багаторазово викликати метод, зчитувати поле або створювати екземпляр за типом, класичну рефлексію слід замінити на генерацію коду в пам'яті через Expression Trees:
 
 ```csharp
-// 1. Опис параметрів (Target car, int delta)
+// 1. Опис вхідних параметрів (Target instance, int delta)
 var instanceParam = Expression.Parameter(typeof(Car), "car");
 var argParam = Expression.Parameter(typeof(int), "delta");
 
-// 2. Опис виклику методу: car.Accelerate(delta)
+// 2. Побудова виклику методу: car.Accelerate(delta)
 var methodCall = Expression.Call(instanceParam, accelerateMethod, argParam);
 
-// 3. Компіляція у нативний машинний код через JIT:
+// 3. Компіляція виразу в машинний код через механізм DynamicMethod:
 Action<Car, int> fastInvoker = Expression.Lambda<Action<Car, int>>(
     methodCall, instanceParam, argParam).Compile();
 
-// 4. Подальші виклики відбуваються з максимальною швидкістю прямого методу:
+// 4. Подальші виклики делегата мають продуктивність прямого звернення:
 fastInvoker(myCar, 50);
 ```
 
-### Рівень 3: Сучасний `[UnsafeAccessor]` (.NET 8/9/10)
-Для доступу до закритих полів чи методів сторонніх бібліотек без будь-якого оверхеду рефлексії:
+- Посилання на реалізацію бенчмарку дерев виразів: [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63).
+
+### 3.3. Рівень 3: Атрибут `[UnsafeAccessor]` (.NET 8+)
+Починаючи з .NET 8, середовище підтримує атрибут `[UnsafeAccessor]`. Це внутрішній механізм компілятора (Compiler Intrinsic), який дозволяє отримувати доступ до закритих (`private`) полів, методів і конструкторів зі швидкістю нативного виклику без накладних витрат рефлексії:
 
 ```csharp
+// Оголошення безтілесного extern-методу:
 [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "ResetOdometer")]
 extern static void CallPrivateReset(Car car);
+
+// Виклик зі швидкістю 1:1 відносно прямого звернення:
+CallPrivateReset(myCar);
 ```
 
 ---
 
-## ✂️ 4. Рефлексія в еру Native AOT та Trimming (.NET 8+)
+## 4. Рефлексія в еру Native AOT та Trimming (.NET 8+)
 
-Сучасні версії .NET активно рухаються у бік **Ahead-Of-Time (AOT)** компіляції (`dotnet publish -p:PublishAot=true`), де програма компілюється у чистий машинний бінарник без наявності JIT.
+Сучасна екосистема .NET стрімко рухається у бік компіляції безпосередньо у машинний бінарний код без участі JIT — **Native AOT (Ahead-Of-Time)** (`dotnet publish -p:PublishAot=true`).
 
-### 4.1. Чому звичайна рефлексія небезпечна в AOT?
-Компонувальник (Trimmer/IL Linker) видаляє весь невикористаний код (dead code elimination). Якщо ви викликаєте `Type.GetType("MyService")` або `Activator.CreateInstance(type)`, компонувальник не знає, що цей тип потрібен, і **видаляє його зі збірки**, викликаючи `TypeLoadException` під час виконання!
+### 4.1. Чому рефлексія конфліктує з AOT та Trimming?
+Під час публікації компонувальник (.NET Trimmer / ILLink) проводить аналіз недосяжного коду (Dead Code Elimination) і фізично видаляє зі збірки всі класи та методи, до яких немає явних статичних звернень.
 
-### 4.2. Анотації сумісності з Trimming:
-1. **`[RequiresUnreferencedCode("...")]`** — попереджає користувача, що метод ламається при тримінгу.
-2. **`[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]`** — наказує компонувальнику гарантовано зберегти конструктори вказаного типу в підсумковому бінарнику.
-3. **C# Source Generators** — найвищий стандарт індустрії: перенесення рефлексивних операцій (серіалізація, логування, DI) на етап компіляції коду через генерацію C#-файлів у пам'яті.
+Якщо код містить динамічний виклик на кшталт `Type.GetType(configString)` або `Activator.CreateInstance(type)`, тример не може передбачити, які класи знадобляться програмі, і **видаляє їх**. Як наслідок, під час запуску скомпільованого бінарника виникає аварійний виняток `TypeLoadException` або `MissingMethodException`!
+
+### 4.2. Анотації для забезпечення сумісності з Trimming
+Для підготовки коду до Native AOT розробники використовують спеціальні атрибути валідації:
+1. **`[RequiresUnreferencedCode("...")]`**: попереджає компонувальник і розробників про те, що метод використовує динамічну рефлексію і не гарантує коректну роботу в режимі обрізання коду (Trimming).
+2. **`[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]`**: вказує компонувальнику примусово зберегти всі публічні конструктори цільового типу в підсумковому бінарнику, захищаючи їх від видалення.
+3. **C# Source Generators**: сучасний промисловий стандарт заміни рефлексії. Генератори аналізують вихідний код проєкту під час збирання та створюють додаткові типізовані файли C# (наприклад, для серіалізації в `System.Text.Json`), забезпечуючи повну підтримку Native AOT та максимальну швидкодію без накладних витрат у рантаймі.
