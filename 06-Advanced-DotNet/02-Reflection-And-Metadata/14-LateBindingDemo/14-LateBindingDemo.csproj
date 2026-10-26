@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+      <NoWarn>$(NoWarn);CA1050;CA1822;CA1305;CA1051;CA1716;CA1852;CA1805;CA1304;CA1311</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\00-Shared\00-Shared.csproj" />
+  </ItemGroup>
+
+</Project>
+

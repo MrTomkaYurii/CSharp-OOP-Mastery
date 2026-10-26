@@ -20,90 +20,97 @@
 
 ---
 
-## 2. Архітектура та послідовність проєктів у рішенні `OOP - Reflection.sln`
+## 2. Архітектура та структура Solution-тегів у рішенні `OOP - Reflection.sln`
 
-Рішення містить **17 пронумерованих проєктів**, розташованих у строгій дидактичній послідовності вивчення:
+Рішення містить **20 пронумерованих проєктів**, які рознесені по **6 тематичних Solution-тегах (Solution Folders)** для логічного структурування парадигм використання рефлексії:
 
 ```mermaid
 graph TD
-    Shared["00-Shared (Спільна бібліотека Car, ICar, SportsCar)"]
-    
-    subgraph "1. Фундамент системи типів"
-        TypeofDemo["01-TypeofDemo (typeof compile-time)"]
-        GetTypeDemo["02-ObjectGetTypeDemo (obj.GetType runtime)"]
-        TypeGetType["03-TypeGetTypeDemo (Type.GetType string)"]
-        TypeProps["04-TypePropertiesDemo (Прапорці IsClass, IsValueType...)"]
-        AssemblyDemo["05-AssemblyDemo (Assembly.GetTypes, DLL інспекція)"]
-        InterfacesDemo["06-GetInterfacesDemo (GetInterfaceMap)"]
+    subgraph S1["01. Type System & Metadata Inspection (Система типів та метадані)"]
+        P0["00-Shared"]
+        P1["01-TypeofDemo"]
+        P2["02-ObjectGetTypeDemo"]
+        P3["03-TypeGetTypeDemo"]
+        P4["04-TypePropertiesDemo"]
+        P5["05-AssemblyDemo"]
+        P6["06-GetInterfacesDemo"]
     end
 
-    subgraph "2. Члени типу та BindingFlags"
-        FieldsProps["07-GetFieldsPropertiesDemo (FieldInfo, PropertyInfo)"]
-        MethodsDemo["08-GetMethodsDemo (MethodInfo, Invoke, Overloads)"]
-        ParamsDemo["09-GetParameterInfoDemo (ParameterInfo, ref/out, defaults)"]
-        CtorDemo["10-GetConstructorInfoDemo (ConstructorInfo)"]
+    subgraph S2["02. Members & Encapsulation (Члени типу та інкапсуляція)"]
+        P7["07-GetFieldsPropertiesDemo"]
+        P8["08-GetMethodsDemo"]
+        P9["09-GetParameterInfoDemo"]
+        P10["10-GetConstructorInfoDemo"]
+        P11["11-GetEventsDemo"]
     end
 
-    subgraph "3. Динамічне виконання та Дженерики"
-        LateBinding["11-LateBindingDemo (Activator.CreateInstance)"]
-        GenericsDemo["12-GenericsReflectionDemo (MakeGenericType, MakeGenericMethod)"]
+    subgraph S3["03. Generics Reflection (Рефлексія дженериків)"]
+        P12["12-GenericsReflectionDemo"]
+        P13["13-OpenGenericsAndVarianceDemo"]
     end
 
-    subgraph "4. Атрибути та Серіалізація"
-        CustomAttr["13-CreateCustomAttributes (Валідація за атрибутами)"]
-        XmlSer["14-SerializationDeserialization (Рефлексивний XML)"]
+    subgraph S4["04. Dynamic Execution & Performance (Динамічне виконання та оптимізація)"]
+        P14["14-LateBindingDemo"]
+        P15["15-ReflectionPerformanceDemo"]
+        P16["16-UnsafeAccessorDemo"]
     end
 
-    subgraph "5. Продуктивність та Фінал"
-        PerfDemo["15-ReflectionPerformanceDemo (Invoke vs Expressions Benchmark)"]
-        DI["16-DependencyInjection (Повний власний IoC/DI Контейнер)"]
+    subgraph S5["05. Attributes & Serialization (Атрибути та серіалізація)"]
+        P17["17-CreateCustomAttributes"]
+        P18["18-SerializationDeserialization"]
     end
 
-    Shared --> TypeofDemo
-    Shared --> GetTypeDemo
-    Shared --> TypeGetType
-    Shared --> TypeProps
-    Shared --> AssemblyDemo
-    Shared --> InterfacesDemo
-    Shared --> FieldsProps
-    Shared --> MethodsDemo
-    Shared --> ParamsDemo
-    Shared --> CtorDemo
-    Shared --> LateBinding
-    Shared --> GenericsDemo
-    Shared --> PerfDemo
-    
-    FieldsProps --> CustomAttr
-    CustomAttr --> XmlSer
-    CtorDemo --> DI
-    ParamsDemo --> DI
-    LateBinding --> DI
-    CustomAttr --> DI
+    subgraph S6["06. Frameworks & Dependency Injection (Фреймворки та IoC-контейнер)"]
+        P19["19-DependencyInjection"]
+    end
+
+    P0 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    P5 --> P6
+    P6 --> P7
+    P7 --> P8
+    P8 --> P9
+    P9 --> P10
+    P10 --> P11
+    P11 --> P12
+    P12 --> P13
+    P13 --> P14
+    P14 --> P15
+    P15 --> P16
+    P16 --> P17
+    P17 --> P18
+    P18 --> P19
 ```
 
 ---
 
 ## 3. Зведена таблиця проєктів у рішенні
 
-| № | Назва проєкту | Призначення та ключові API | Посилання на вихідний код |
-| :-: | :--- | :--- | :--- |
-| 00 | `00-Shared` | Доменні класи (`Car`, `SportsCar`, `ICar`), об'єкти для інспекції | [00-Shared/Common/Car.cs](00-Shared/Common/Car.cs) |
-| 01 | `01-TypeofDemo` | Отримання `Type` на етапі компіляції (`typeof(T)`) | [01-TypeofDemo/Program.cs](01-TypeofDemo/Program.cs) |
-| 02 | `02-ObjectGetTypeDemo` | Отримання точного рантайм-типу через невіртуальний `GetType()` | [02-ObjectGetTypeDemo/Program.cs](02-ObjectGetTypeDemo/Program.cs) |
-| 03 | `03-TypeGetTypeDemo` | Динамічне завантаження типу за текстовим ім'ям (`Type.GetType`) | [03-TypeGetTypeDemo/Program.cs](03-TypeGetTypeDemo/Program.cs) |
-| 04 | `04-TypePropertiesDemo` | Загальні характеристики: `IsClass`, `IsValueType`, `IsAbstract`, `IsSealed` | [04-TypePropertiesDemo/Program.cs](04-TypePropertiesDemo/Program.cs) |
-| 05 | `05-AssemblyDemo` | Завантаження збірки, перелік її типів та інспекція ресурсів | [05-AssemblyDemo/Program.cs](05-AssemblyDemo/Program.cs) |
-| 06 | `06-GetInterfacesDemo` | Інтерфейси типу та карта реалізації методів (`GetInterfaceMap`) | [06-GetInterfacesDemo/Program.cs](06-GetInterfacesDemo/Program.cs) |
-| 07 | `07-GetFieldsPropertiesDemo` | Фільтрація полів (`FieldInfo`) та властивостей (`PropertyInfo`) | [07-GetFieldsPropertiesDemo/Program.cs](07-GetFieldsPropertiesDemo/Program.cs) |
-| 08 | `08-GetMethodsDemo` | Інспекція відкритих та закритих методів (`MethodInfo`, `Invoke`) | [08-GetMethodsDemo/Program.cs](08-GetMethodsDemo/Program.cs) |
-| 09 | `09-GetParameterInfoDemo` | Інспекція параметрів: типи, `ref`/`out`, значення за замовчуванням | [09-GetParameterInfoDemo/Program.cs](09-GetParameterInfoDemo/Program.cs) |
-| 10 | `10-GetConstructorInfoDemo` | Аналіз конструкторів (`ConstructorInfo`), створення об'єктів | [10-GetConstructorInfoDemo/Program.cs](10-GetConstructorInfoDemo/Program.cs) |
-| 11 | `11-LateBindingDemo` | Створення об'єкта (`Activator.CreateInstance`) та динамічний виклик | [11-LateBindingDemo/Program.cs](11-LateBindingDemo/Program.cs) |
-| 12 | `12-GenericsReflectionDemo` | Рефлексія дженериків: `MakeGenericType`, `MakeGenericMethod` | [12-GenericsReflectionDemo/Program.cs](12-GenericsReflectionDemo/Program.cs) |
-| 13 | `13-CreateCustomAttributes` | Створення користувацьких атрибутів та декларативна валідація | [13-CreateCustomAttributes/Program.cs](13-CreateCustomAttributes/Program.cs) |
-| 14 | `14-SerializationDeserialization` | Рефлексивний XML-серіалізатор і десеріалізатор | [14-SerializationDeserialization/Program.cs](14-SerializationDeserialization/Program.cs) |
-| 15 | `15-ReflectionPerformanceDemo` | Бенчмарк швидкодії: Direct Call vs Delegates vs Expression Trees vs Invoke | [15-ReflectionPerformanceDemo/Program.cs](15-ReflectionPerformanceDemo/Program.cs) |
-| 16 | `16-DependencyInjection` | **Фінальний проєкт**: повноцінний рефлексивний IoC/DI контейнер | [16-DependencyInjection/Program.cs](16-DependencyInjection/Program.cs) |
+| № | Solution-тег | Назва проєкту | Призначення та ключові API | Посилання на вихідний код |
+| :-: | :--- | :--- | :--- | :--- |
+| 00 | `01. Type System & Metadata Inspection` | `00-Shared` | Доменні класи (`Car`, `SportsCar`, `ICar`), об'єкти для інспекції | [00-Shared/Common/Car.cs](00-Shared/Common/Car.cs) |
+| 01 | `01. Type System & Metadata Inspection` | `01-TypeofDemo` | Отримання `Type` на етапі компіляції (`typeof(T)`) | [01-TypeofDemo/Program.cs](01-TypeofDemo/Program.cs) |
+| 02 | `01. Type System & Metadata Inspection` | `02-ObjectGetTypeDemo` | Отримання точного рантайм-типу через невіртуальний `GetType()` | [02-ObjectGetTypeDemo/Program.cs](02-ObjectGetTypeDemo/Program.cs) |
+| 03 | `01. Type System & Metadata Inspection` | `03-TypeGetTypeDemo` | Динамічне завантаження типу за текстовим ім'ям (`Type.GetType`) | [03-TypeGetTypeDemo/Program.cs](03-TypeGetTypeDemo/Program.cs) |
+| 04 | `01. Type System & Metadata Inspection` | `04-TypePropertiesDemo` | Загальні характеристики: `IsClass`, `IsValueType`, `IsAbstract`, `IsSealed` | [04-TypePropertiesDemo/Program.cs](04-TypePropertiesDemo/Program.cs) |
+| 05 | `01. Type System & Metadata Inspection` | `05-AssemblyDemo` | Завантаження збірки, перелік її типів та інспекція ресурсів | [05-AssemblyDemo/Program.cs](05-AssemblyDemo/Program.cs) |
+| 06 | `01. Type System & Metadata Inspection` | `06-GetInterfacesDemo` | Інтерфейси типу та карта реалізації методів (`GetInterfaceMap`) | [06-GetInterfacesDemo/Program.cs](06-GetInterfacesDemo/Program.cs) |
+| 07 | `02. Members & Encapsulation` | `07-GetFieldsPropertiesDemo` | Фільтрація полів (`FieldInfo`) та властивостей (`PropertyInfo`) | [07-GetFieldsPropertiesDemo/Program.cs](07-GetFieldsPropertiesDemo/Program.cs) |
+| 08 | `02. Members & Encapsulation` | `08-GetMethodsDemo` | Інспекція відкритих та закритих методів (`MethodInfo`, `Invoke`) | [08-GetMethodsDemo/Program.cs](08-GetMethodsDemo/Program.cs) |
+| 09 | `02. Members & Encapsulation` | `09-GetParameterInfoDemo` | Інспекція параметрів: типи, `ref`/`out`, значення за замовчуванням | [09-GetParameterInfoDemo/Program.cs](09-GetParameterInfoDemo/Program.cs) |
+| 10 | `02. Members & Encapsulation` | `10-GetConstructorInfoDemo` | Аналіз конструкторів (`ConstructorInfo`), створення об'єктів | [10-GetConstructorInfoDemo/Program.cs](10-GetConstructorInfoDemo/Program.cs) |
+| 11 | `02. Members & Encapsulation` | `11-GetEventsDemo` | Інспекція `EventInfo`, динамічна підписка делегатів (`AddEventHandler`) | [11-GetEventsDemo/Program.cs](11-GetEventsDemo/Program.cs) |
+| 12 | `03. Generics Reflection` | `12-GenericsReflectionDemo` | Рефлексія дженериків: `MakeGenericType`, `MakeGenericMethod` | [12-GenericsReflectionDemo/Program.cs](12-GenericsReflectionDemo/Program.cs) |
+| 13 | `03. Generics Reflection` | `13-OpenGenericsAndVarianceDemo` | Відкриті дженерики (`IRepository<>`), коваріантність (`out`), контраваріантність (`in`) | [13-OpenGenericsAndVarianceDemo/Program.cs](13-OpenGenericsAndVarianceDemo/Program.cs) |
+| 14 | `04. Dynamic Execution & Performance` | `14-LateBindingDemo` | Створення об'єкта (`Activator.CreateInstance`, `GetUninitializedObject`) | [14-LateBindingDemo/Program.cs](14-LateBindingDemo/Program.cs) |
+| 15 | `04. Dynamic Execution & Performance` | `15-ReflectionPerformanceDemo` | Бенчмарк швидкодії: Direct Call vs Delegates vs Expression Trees vs Invoke | [15-ReflectionPerformanceDemo/Program.cs](15-ReflectionPerformanceDemo/Program.cs) |
+| 16 | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Compiler Intrinsic `[UnsafeAccessor]` (.NET 8+): доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](16-UnsafeAccessorDemo/Program.cs) |
+| 17 | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Створення користувацьких атрибутів та декларативна валідація | [17-CreateCustomAttributes/Program.cs](17-CreateCustomAttributes/Program.cs) |
+| 18 | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний XML-серіалізатор і десеріалізатор | [18-SerializationDeserialization/Program.cs](18-SerializationDeserialization/Program.cs) |
+| 19 | `06. Frameworks & Dependency Injection` | `19-DependencyInjection` | **Фінальний проєкт**: повноцінний рефлексивний IoC/DI контейнер | [19-DependencyInjection/Program.cs](19-DependencyInjection/Program.cs) |
 
 ---
 
@@ -112,5 +119,6 @@ graph TD
 1. Відкрийте файл рішення `OOP - Reflection.sln` у Visual Studio (2022 або новішій).
 2. У вікні **Solution Explorer** ви побачите:
    - Папку **`Docs`** з усіма інтерактивними теоретичними markdown-файлами.
-   - Пронумеровані проєкти від `00-Shared` до `16-DependencyInjection`.
+   - Тематичні **Solution-папки** (`01. Type System & Metadata Inspection`, `02. Members & Encapsulation`, `03. Generics Reflection`, `04. Dynamic Execution & Performance`, `05. Attributes & Serialization`, `06. Frameworks & Dependency Injection`).
+   - Пронумеровані проєкти від `00-Shared` до `19-DependencyInjection`.
 3. Щоб запустити будь-який приклад, натисніть правою кнопкою миші на відповідний проєкт і виберіть **Set as Startup Project** (або призначте активним у випадаючому списку панелі інструментів), після чого натисніть `F5` або `Ctrl+F5`.

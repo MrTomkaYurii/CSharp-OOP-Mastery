@@ -35,70 +35,76 @@
 
 ---
 
-## 2. Логічна послідовність викладу матеріалу
+## 2. Логічна послідовність викладу матеріалу (Solution-теги та послідовність)
 
-Навчальний процес структуровано у **16 послідовних кроків**, згрупованих у 6 логічних блоків за принципом «від вивчення структури до побудови повноцінного фреймворку»:
+Навчальний процес структуровано у **20 послідовних проєктів**, згрупованих за **6 Solution-тегами (Solution Folders)** у рішенні `OOP - Reflection.sln`:
 
 ```mermaid
 flowchart TD
-    subgraph M1["Модуль 1: Фундамент метаданих (System.Type)"]
-        S0["00-Shared: Доменні типи"] --> S1["01-TypeofDemo: Compile-time typeof"]
-        S1 --> S2["02-ObjectGetTypeDemo: Runtime поліморфізм"]
-        S2 --> S3["03-TypeGetTypeDemo: Рядковий пошук"]
-        S3 --> S4["04-TypePropertiesDemo: Прапорці типу"]
-        S4 --> S5["05-AssemblyDemo: Дослідження DLL"]
-        S5 --> S6["06-GetInterfacesDemo: Інтерфейси та мапінг"]
+    subgraph S1["01. Type System & Metadata Inspection"]
+        P0["00-Shared: Доменні типи"] --> P1["01-TypeofDemo: Compile-time typeof"]
+        P1 --> P2["02-ObjectGetTypeDemo: Runtime поліморфізм"]
+        P2 --> P3["03-TypeGetTypeDemo: Рядковий пошук"]
+        P3 --> P4["04-TypePropertiesDemo: Прапорці типу"]
+        P4 --> P5["05-AssemblyDemo: Дослідження збірок"]
+        P5 --> P6["06-GetInterfacesDemo: Інтерфейси та мапінг"]
     end
 
-    subgraph M2["Модуль 2: Анатомія членів (MemberInfo & BindingFlags)"]
-        S6 --> S7["07-GetFieldsPropertiesDemo: Поля та властивості"]
-        S7 --> S8["08-GetMethodsDemo: Методи та перевантаження"]
-        S8 --> S9["09-GetParameterInfoDemo: Параметри методів"]
-        S9 --> S10["10-GetConstructorInfoDemo: Конструктори для DI"]
+    subgraph S2["02. Members & Encapsulation"]
+        P6 --> P7["07-GetFieldsPropertiesDemo: Поля та властивості"]
+        P7 --> P8["08-GetMethodsDemo: Методи та виклики"]
+        P8 --> P9["09-GetParameterInfoDemo: Параметри методів"]
+        P9 --> P10["10-GetConstructorInfoDemo: Конструктори"]
+        P10 --> P11["11-GetEventsDemo: Події та динамічна підписка"]
     end
 
-    subgraph M3["Модуль 3: Динамічне створення та Дженерики"]
-        S10 --> S11["11-LateBindingDemo: Activator.CreateInstance"]
-        S11 --> S12["12-GenericsReflectionDemo: MakeGenericType"]
+    subgraph S3["03. Generics Reflection"]
+        P11 --> P12["12-GenericsReflectionDemo: Дженерики у типах і методах"]
+        P12 --> P13["13-OpenGenericsAndVarianceDemo: Відкриті типи та коваріантність"]
     end
 
-    subgraph M4["Модуль 4: Метадані та Практичні патерни"]
-        S12 --> S13["13-CreateCustomAttributes: Декларативна валідація"]
-        S13 --> S14["14-SerializationDeserialization: XML-серіалізатор"]
+    subgraph S4["04. Dynamic Execution & Performance"]
+        P13 --> P14["14-LateBindingDemo: Activator та DLR пізнє зв'язування"]
+        P14 --> P15["15-ReflectionPerformanceDemo: Бенчмарк швидкодії"]
+        P15 --> P16["16-UnsafeAccessorDemo: JIT Intrinsic доступ до private"]
     end
 
-    subgraph M5["Модуль 5: Продуктивність та оптимізація"]
-        S14 --> S15["15-ReflectionPerformanceDemo: Benchmark викликів"]
+    subgraph S5["05. Attributes & Serialization"]
+        P16 --> P17["17-CreateCustomAttributes: Декларативна валідація"]
+        P17 --> P18["18-SerializationDeserialization: Рефлексивний XML"]
     end
 
-    subgraph M6["Модуль 6: Кульмінаційний проєкт"]
-        S15 --> S16["16-DependencyInjection: Власний IoC-контейнер"]
+    subgraph S6["06. Frameworks & Dependency Injection"]
+        P18 --> P19["19-DependencyInjection: Повний власний IoC/DI контейнер"]
     end
 ```
 
 ---
 
-## 3. Узагальнююча таблиця навчальних проєктів
+## 3. Узагальнююча таблиця навчальних проєктів у розрізі Solution-тегів
 
-| № | Етап / Тема | Ключові концепції та класи | Папка / Проєкт у рішенні | Посилання на приклад коду | Рівень |
-| :-: | :--- | :--- | :--- | :-: | :-: |
-| **00** | **Спільні доменні типи** | Класи `Car`, `SportsCar`, інтерфейс `ICar` для інспекції | `00-Shared` | [00-Shared/Common/Car.cs](../00-Shared/Common/Car.cs) | Базовий |
-| **01** | **Компіляційний Type** | Оператор `typeof`, відкриті/закриті дженерики, метадані CLR | `01-TypeofDemo` | [01-TypeofDemo/Program.cs](../01-TypeofDemo/Program.cs) | Базовий |
-| **02** | **Поліморфний рантайм-тип** | `object.GetType()`, точний тип vs інтерфейс/базовий клас | `02-ObjectGetTypeDemo` | [02-ObjectGetTypeDemo/Program.cs](../02-ObjectGetTypeDemo/Program.cs) | Базовий |
-| **03** | **Динамічний пошук за іменем** | `Type.GetType(string)`, AssemblyQualifiedName | `03-TypeGetTypeDemo` | [03-TypeGetTypeDemo/Program.cs](../03-TypeGetTypeDemo/Program.cs) | Базовий |
-| **04** | **Анатомія та прапорці Type** | `IsClass`, `IsValueType`, `IsInterface`, `IsAbstract`, `BaseType` | `04-TypePropertiesDemo` | [04-TypePropertiesDemo/Program.cs](../04-TypePropertiesDemo/Program.cs) | Базовий |
-| **05** | **Інспекція збірок (.dll)** | `Assembly`, `GetExecutingAssembly()`, `GetTypes()`, ресурси | `05-AssemblyDemo` | [05-AssemblyDemo/Program.cs](../05-AssemblyDemo/Program.cs) | Базовий |
-| **06** | **Інтерфейси та диспетчеризація** | `Type.GetInterfaces()`, `IsAssignableFrom()`, `GetInterfaceMap()` | `06-GetInterfacesDemo` | [06-GetInterfacesDemo/Program.cs](../06-GetInterfacesDemo/Program.cs) | Середній |
-| **07** | **Поля, властивості та інкапсуляція** | `FieldInfo`, `PropertyInfo`, `GetValue`, `SetValue`, `BindingFlags` | `07-GetFieldsPropertiesDemo` | [07-GetFieldsPropertiesDemo/Program.cs](../07-GetFieldsPropertiesDemo/Program.cs) | Середній |
-| **08** | **Методи та їх перевантаження** | `MethodInfo`, `Invoke`, пошук перевантажень за типами аргументів | `08-GetMethodsDemo` | [08-GetMethodsDemo/Program.cs](../08-GetMethodsDemo/Program.cs) | Середній |
-| **09** | **Параметри методів** | `ParameterInfo`, `ref`/`out`/`in`, опціональні значення `DefaultValue` | `09-GetParameterInfoDemo` | [09-GetParameterInfoDemo/Program.cs](../09-GetParameterInfoDemo/Program.cs) | Середній |
-| **10** | **Аналіз та виклик конструкторів** | `ConstructorInfo`, параметри ctor, вибір конструктора для DI | `10-GetConstructorInfoDemo` | [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs) | Середній |
-| **11** | **Пізнє зв'язування та активація** | `Activator.CreateInstance`, динамічний виклик, перехоплення помилок | `11-LateBindingDemo` | [11-LateBindingDemo/Program.cs](../11-LateBindingDemo/Program.cs) | Середній |
-| **12** | **Рефлексія дженериків** | `MakeGenericType`, `MakeGenericMethod`, обмеження типів | `12-GenericsReflectionDemo` | [12-GenericsReflectionDemo/Program.cs](../12-GenericsReflectionDemo/Program.cs) | Просунутий |
-| **13** | **Користувацькі атрибути** | `AttributeUsage`, валідація сутностей, `CustomAttributeData` | `13-CreateCustomAttributes` | [13-CreateCustomAttributes/Program.cs](../13-CreateCustomAttributes/Program.cs) | Просунутий |
-| **14** | **Рефлексивна серіалізація** | Обхід графу властивостей, зіставлення XML/JSON, ігнорування | `14-SerializationDeserialization` | [14-SerializationDeserialization/Program.cs](../14-SerializationDeserialization/Program.cs) | Просунутий |
-| **15** | **Продуктивність та оптимізація** | `MethodInfo.Invoke` vs `dynamic` vs `Delegate` vs `Expression Trees` | `15-ReflectionPerformanceDemo` | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs) | Експертний |
-| **16** | **Фінальний проєкт: IoC/DI Контейнер** | Життєві цикли (Transient/Singleton), Constructor & Property Injection, Цикли | `16-DependencyInjection` | [16-DependencyInjection/Program.cs](../16-DependencyInjection/Program.cs) | Експертний |
+| № | Solution-тег (Папка) | Проєкт | Ключові концепції та API | Посилання на приклад коду | Рівень |
+| :-: | :--- | :--- | :--- | :--- | :-: |
+| **00** | `01. Type System & Metadata Inspection` | `00-Shared` | Доменні сутності (`Car`, `SportsCar`, `ICar`) для дослідження | [00-Shared/Common/Car.cs](../00-Shared/Common/Car.cs) | Базовий |
+| **01** | `01. Type System & Metadata Inspection` | `01-TypeofDemo` | Оператор `typeof`, відкриті/закриті дженерики, токени CLR | [01-TypeofDemo/Program.cs](../01-TypeofDemo/Program.cs) | Базовий |
+| **02** | `01. Type System & Metadata Inspection` | `02-ObjectGetTypeDemo` | Рантайм-тип `GetType()`, поліморфізм, поведінка boxing для struct | [02-ObjectGetTypeDemo/Program.cs](../02-ObjectGetTypeDemo/Program.cs) | Базовий |
+| **03** | `01. Type System & Metadata Inspection` | `03-TypeGetTypeDemo` | Динамічний пошук за ім'ям `Type.GetType`, `AssemblyQualifiedName` | [03-TypeGetTypeDemo/Program.cs](../03-TypeGetTypeDemo/Program.cs) | Базовий |
+| **04** | `01. Type System & Metadata Inspection` | `04-TypePropertiesDemo` | Прапорці `IsClass`, `IsValueType`, `IsInterface`, `IsAbstract`, `BaseType` | [04-TypePropertiesDemo/Program.cs](../04-TypePropertiesDemo/Program.cs) | Базовий |
+| **05** | `01. Type System & Metadata Inspection` | `05-AssemblyDemo` | Завантаження збірок (`Assembly.Load`), `GetTypes`, маніфест | [05-AssemblyDemo/Program.cs](../05-AssemblyDemo/Program.cs) | Базовий |
+| **06** | `01. Type System & Metadata Inspection` | `06-GetInterfacesDemo` | Контракти `GetInterfaces`, сумісність `IsAssignableFrom`, `GetInterfaceMap` | [06-GetInterfacesDemo/Program.cs](../06-GetInterfacesDemo/Program.cs) | Середній |
+| **07** | `02. Members & Encapsulation` | `07-GetFieldsPropertiesDemo` | Поля `FieldInfo`, властивості `PropertyInfo`, гетери/сетери, `BindingFlags` | [07-GetFieldsPropertiesDemo/Program.cs](../07-GetFieldsPropertiesDemo/Program.cs) | Середній |
+| **08** | `02. Members & Encapsulation` | `08-GetMethodsDemo` | Методи `MethodInfo`, динамічний виклик `Invoke`, розв'язання перевантажень | [08-GetMethodsDemo/Program.cs](../08-GetMethodsDemo/Program.cs) | Середній |
+| **09** | `02. Members & Encapsulation` | `09-GetParameterInfoDemo` | Параметри `ParameterInfo`, `ref`/`out`/`in`, опціональні значення | [09-GetParameterInfoDemo/Program.cs](../09-GetParameterInfoDemo/Program.cs) | Середній |
+| **10** | `02. Members & Encapsulation` | `10-GetConstructorInfoDemo` | Конструктори `ConstructorInfo`, параметри ctor, вибір конструктора | [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs) | Середній |
+| **11** | `02. Members & Encapsulation` | `11-GetEventsDemo` | Події `EventInfo`, методи `add`/`remove`, динамічна підписка делегатів | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs) | Середній |
+| **12** | `03. Generics Reflection` | `12-GenericsReflectionDemo` | Узагальнення: `MakeGenericType`, `MakeGenericMethod`, обмеження типів | [12-GenericsReflectionDemo/Program.cs](../12-GenericsReflectionDemo/Program.cs) | Просунутий |
+| **13** | `03. Generics Reflection` | `13-OpenGenericsAndVarianceDemo` | Відкриті типи в DI (`IRepository<>`), коваріантність (`out`), контраваріантність (`in`) | [13-OpenGenericsAndVarianceDemo/Program.cs](../13-OpenGenericsAndVarianceDemo/Program.cs) | Просунутий |
+| **14** | `04. Dynamic Execution & Performance` | `14-LateBindingDemo` | Пізнє зв'язування `Activator.CreateInstance`, `GetUninitializedObject` | [14-LateBindingDemo/Program.cs](../14-LateBindingDemo/Program.cs) | Середній |
+| **15** | `04. Dynamic Execution & Performance` | `15-ReflectionPerformanceDemo` | Порівняння швидкодії: Direct Call vs Delegates vs Expressions vs Invoke | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs) | Експертний |
+| **16** | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Intrinsic `[UnsafeAccessor]` (.NET 8+): прямий доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) | Експертний |
+| **17** | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Власні атрибути `AttributeUsage`, валідація, потік `#Blob` | [17-CreateCustomAttributes/Program.cs](../17-CreateCustomAttributes/Program.cs) | Просунутий |
+| **18** | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний обхід графу властивостей, зіставлення та XML-серіалізація | [18-SerializationDeserialization/Program.cs](../18-SerializationDeserialization/Program.cs) | Просунутий |
+| **19** | `06. Frameworks & Dependency Injection` | `19-DependencyInjection` | **Фінальний проєкт**: повнофункціональний IoC/DI контейнер (Lifetimes, Cycles, Greedy Ctor) | [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs) | Експертний |
 
 ---
 

@@ -52,7 +52,7 @@ graph TD
 | **Безпека виконання** | Якщо конструктор атрибута кине виняток — рефлексія впаде | Повністю безпечно: не виконує сторонній користувацький код |
 | **Сфера застосування** | Звичайний прикладний бізнес-код, рушії валідації, ORM | Статичні аналізатори коду, компілятори, інструменти AOT-компіляції |
 
-- Посилання на приклад використання `GetCustomAttributesData`: [13-CreateCustomAttributes/MinValueValidator.cs](../13-CreateCustomAttributes/MinValueValidator.cs#L45-L65).
+- Посилання на приклад використання `GetCustomAttributesData`: [17-CreateCustomAttributes/MinValueValidator.cs](../17-CreateCustomAttributes/MinValueValidator.cs#L45-L65).
 
 ---
 
@@ -101,7 +101,7 @@ flowchart TD
     Result -- Ні --> NextProp["Перехід до наступної властивості"]
 ```
 
-- Посилання на практичну реалізацію валідаційного рушія: [13-CreateCustomAttributes/MinValueValidator.cs](../13-CreateCustomAttributes/MinValueValidator.cs#L10-L43).
+- Посилання на практичну реалізацію валідаційного рушія: [17-CreateCustomAttributes/MinValueValidator.cs](../17-CreateCustomAttributes/MinValueValidator.cs#L10-L43).
 
 ---
 
@@ -115,4 +115,4 @@ flowchart TD
 3. **Фільтрація за атрибутами**: властивості з атрибутом на кшталт `[JsonIgnore]` або `[XmlIgnore]` відкидаються.
 4. **Витяг значень**: через `prop.GetValue(obj)` вилучаються значення та записуються у форматі `<PropertyName>Value</PropertyName>`.
 
-- Посилання на реалізацію XML-серіалізатора та десеріалізатора: [14-SerializationDeserialization/XmlSerializerDemo.cs](../14-SerializationDeserialization/XmlSerializerDemo.cs#L15-L60).
+- Посилання на реалізацію XML-серіалізатора та десеріалізатора: [18-SerializationDeserialization/XmlConverter.cs](../18-SerializationDeserialization/XmlConverter.cs).

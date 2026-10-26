@@ -227,4 +227,46 @@ Car car = (Car)ctor.Invoke(new object[] { "Tesla Model S", 2024 });
 ```
 
 - Посилання на приклад роботи з конструкторами: [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs#L12-L35).
-- Посилання на використання конструкторів у DI-контейнері: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L220-L260).
+- Посилання на використання конструкторів у DI-контейнері: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L220-L260).
+
+---
+
+## 8. Дослідження та динамічна підписка на події: `EventInfo`
+
+Подія в C# — це синтаксичний механізм реалізації патерну «Видавець-Підписник» (Publisher-Subscriber), побудований поверх делегатів.
+
+### 8.1. Що таке `EventInfo` в метаданих CLR?
+**`EventInfo`** — це клас рефлексії, що представляє рядок таблиці метаданих `Event` (`0x14`). Подія в метаданих CLR не є фізичним сховищем даних. Вона є декларативною сутністю, яка пов'язує:
+1. Тип делегата (`EventHandlerType`).
+2. Метод підписки (`AddMethod`, у коді C# генерується як `add_EventName(Delegate handler)`).
+3. Метод відписки (`RemoveMethod`, генерується як `remove_EventName(Delegate handler)`).
+4. Опціональний метод генерації (`RaiseMethod`, генерується в окремих мовах CTS як `raise_EventName(...)`).
+
+### 8.2. Динамічне зв'язування подій у рантаймі
+Коли типи підписника та видавця завантажуються динамічно (наприклад, у плагінній системі), розробник не може написати `publisher.OnAlert += handler`. Натомість використовується `EventInfo`:
+
+```csharp
+// 1. Отримання EventInfo за іменем:
+EventInfo eventInfo = typeof(Car).GetEvent("SpeedLimitExceeded", BindingFlags.Public | BindingFlags.Instance)!;
+
+// 2. Створення сумісного делегата під час виконання:
+MethodInfo handlerMethod = typeof(MonitoringService).GetMethod("OnSpeedAlert", BindingFlags.Public | BindingFlags.Instance)!;
+Delegate handlerDelegate = Delegate.CreateDelegate(eventInfo.EventHandlerType!, monitoringService, handlerMethod);
+
+// 3. Динамічна підписка через метод AddEventHandler:
+eventInfo.AddEventHandler(myCar, handlerDelegate);
+
+// 4. Динамічна відписка після завершення роботи:
+eventInfo.RemoveEventHandler(myCar, handlerDelegate);
+```
+
+### 8.3. Ключові члени `EventInfo`
+
+| Член | Тип | Призначення та семантика | Посилання на приклад |
+| :--- | :---: | :--- | :--- |
+| `EventHandlerType` | `Type?` | Тип делегата, що визначає сигнатуру підписника події (наприклад, `typeof(EventHandler<SpeedLimitEventArgs>)`). | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L20-L25) |
+| `IsMulticast` | `bool` | `true`, якщо делегат події є багатоадресним (`System.MulticastDelegate`). У C# практично всі події є багатоадресними. | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L22-L26) |
+| `AddMethod` | `MethodInfo?` | Пряме посилання на службовий метод додавання обробника `add_EventName`. | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L26-L30) |
+| `RemoveMethod` | `MethodInfo?` | Пряме посилання на службовий метод видалення обробника `remove_EventName`. | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L28-L32) |
+| `AddEventHandler(object?, Delegate?)` | `void` | Реєструє екземпляр делегата в списку виклику події цільового об'єкта. | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L45-L55) |
+| `RemoveEventHandler(object?, Delegate?)` | `void` | Вилучає екземпляр делегата зі списку виклику події цільового об'єкта. | [11-GetEventsDemo/Program.cs](../11-GetEventsDemo/Program.cs#L58-L68) |

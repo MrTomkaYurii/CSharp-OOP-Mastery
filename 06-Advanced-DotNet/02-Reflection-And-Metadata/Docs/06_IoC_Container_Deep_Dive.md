@@ -71,7 +71,7 @@ if (_resolutionStack.Contains(serviceType))
 }
 ```
 
-- Посилання на реалізацію алгоритму виявлення циклів: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L145-L165).
+- Посилання на реалізацію алгоритму виявлення циклів: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L145-L165).
 
 ---
 
@@ -102,7 +102,7 @@ flowchart TD
 3. **Параметри за замовчуванням**: якщо залежність не зареєстрована в контейнері, але параметр конструктора має значення за замовчуванням (`param.HasDefaultValue == true`), контейнер безпечно підставляє `param.DefaultValue`.
 4. **Впровадження у властивості (Property Injection)**: після створення екземпляра контейнер знаходить усі відкриті властивості з атрибутом `[InjectProperty]` і викликає для них `prop.SetValue(instance, resolvedDependency)`.
 
-- Посилання на реалізацію механізму інстанціювання: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs#L220-L270).
+- Посилання на реалізацію механізму інстанціювання: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L220-L270).
 
 ---
 
@@ -119,7 +119,7 @@ flowchart TD
 
 ## 6. Демонстраційний запуск та візуалізація дерева розв'язання
 
-Проєкт `16-DependencyInjection` містить повнофункціональну демонстрацію створення складної доменної моделі інтернет-магазину:
+Проєкт `19-DependencyInjection` містить повнофункціональну демонстрацію створення складної доменної моделі інтернет-магазину:
 
 ```csharp
 var container = new Container();
@@ -137,5 +137,5 @@ var orderService = container.Resolve<OrderService>();
 orderService.PlaceOrder(101, 1499.99m);
 ```
 
-- Посилання на вихідний код контейнера: [16-DependencyInjection/Container.cs](../16-DependencyInjection/Container.cs).
-- Посилання на демонстраційну програму: [16-DependencyInjection/Program.cs](../16-DependencyInjection/Program.cs).
+- Посилання на вихідний код контейнера: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs).
+- Посилання на демонстраційну програму: [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs).

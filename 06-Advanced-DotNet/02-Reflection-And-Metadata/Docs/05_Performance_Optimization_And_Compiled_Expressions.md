@@ -36,7 +36,7 @@ flowchart TD
 | Метод виклику | Архітектурний механізм | Час (1 млн) | Відносне співвідношення | Аллокації GC | Посилання на приклад |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | **1. Direct Call** | Прямий компіляційний виклик за адресою | **18 ms** | **1.0x** (Еталон) | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L35-L43) |
-| **2. [UnsafeAccessor]** (.NET 8+) | JIT Compiler Intrinsic (пряма асемблерна адресація) | **18 ms** | **1.0x** | 0 B | Розділ 3.3 цього документа |
+| **2. [UnsafeAccessor]** (.NET 8+) | JIT Compiler Intrinsic (пряма асемблерна адресація) | **18 ms** | **1.0x** | 0 B | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) |
 | **3. Delegate.CreateDelegate** | Типізований делегат до відкритого методу | **2 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L45-L53) |
 | **4. Compiled Expression Tree** | Згенерований IL у рантаймі (`DynamicMethod`) | **1 ms** | **~0.1x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
 | **5. dynamic (DLR)** | Кешований CallSite із JIT-генератором поліморфного коду | **3 ms** | **~0.2x** | 0 B | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L65-L73) |
@@ -81,16 +81,38 @@ fastInvoker(myCar, 50);
 - Посилання на реалізацію бенчмарку дерев виразів: [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63).
 
 ### 3.3. Рівень 3: Атрибут `[UnsafeAccessor]` (.NET 8+)
-Починаючи з .NET 8, середовище підтримує атрибут `[UnsafeAccessor]`. Це внутрішній механізм компілятора (Compiler Intrinsic), який дозволяє отримувати доступ до закритих (`private`) полів, методів і конструкторів зі швидкістю нативного виклику без накладних витрат рефлексії:
+Починаючи з .NET 8, середовище CoreCLR підтримує атрибут `[UnsafeAccessor]`. Це внутрішній механізм компілятора та середовища виконання (Compiler & Runtime Intrinsic), який дозволяє отримувати доступ до закритих (`private`) полів, методів і конструкторів зі швидкістю нативного виклику без жодних накладних витрат класичної рефлексії (`FieldInfo`, `MethodInfo`, `ConstructorInfo`).
+
+#### Як це працює?
+Замість динамічного парсингу метаданих у рантаймі, JIT-компілятор під час компіляції методу підставляє пряме звернення до пам'яті (пряму машинну інструкцію `mov` для полів або `call` для методів).
+
+#### Види доступу через `UnsafeAccessorKind`:
+1. `UnsafeAccessorKind.Field`: читання та запис у приватне поле екземпляра (метод повертає посилання `ref TField`).
+2. `UnsafeAccessorKind.StaticField`: доступ до приватного статичного поля.
+3. `UnsafeAccessorKind.Method`: виклик приватного методу екземпляра.
+4. `UnsafeAccessorKind.StaticMethod`: виклик приватного статичного методу.
+5. `UnsafeAccessorKind.Constructor`: виклик приватного або внутрішнього конструктора для створення екземпляра без виклику `Activator`.
 
 ```csharp
-// Оголошення безтілесного extern-методу:
+// 1. Прямий доступ до приватного поля _speed (читання та зміна за посиланням):
+[UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_speed")]
+extern static ref int GetSpeedField(Car car);
+
+// 2. Прямий виклик приватного методу:
 [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "ResetOdometer")]
 extern static void CallPrivateReset(Car car);
 
-// Виклик зі швидкістю 1:1 відносно прямого звернення:
-CallPrivateReset(myCar);
+// 3. Інстанціювання через приватний конструктор:
+[UnsafeAccessor(UnsafeAccessorKind.Constructor)]
+extern static Car CreateCarWithPrivateCtor(string model, int maxSpeed);
+
+// Використання:
+GetSpeedField(myCar) = 150;     // прямий запис у приватне поле!
+CallPrivateReset(myCar);         // виклик методу зі швидкістю 1:1 відносно відкритого виклику
+Car stealthCar = CreateCarWithPrivateCtor("Prototype X", 380);
 ```
+
+- Посилання на практичний бенчмарк та реалізацію всіх видів доступу: [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs).
 
 ---
 
