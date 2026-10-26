@@ -75,15 +75,15 @@ sequenceDiagram
 
 | Компонент / Метод | Опис і відповідальність | Посилання на код |
 | :--- | :--- | :---: |
-| `ServiceLifetime` | Перерахування життєвих циклів: `Transient` та `Singleton` | [![Код](https://img.shields.io/badge/Код-Lifetimes-blue?style=flat-square)](../DependencyInjection/Container.cs#L8-L23) |
-| `[InjectConstructor]` | Атрибут для явного вибору цільового конструктора серед кількох перевантажень | [![Код](https://img.shields.io/badge/Код-InjectCtorAttr-blue?style=flat-square)](../DependencyInjection/Container.cs#L25-L30) |
-| `[InjectProperty]` | Атрибут для автоматичного заповнення властивостей залежностями | [![Код](https://img.shields.io/badge/Код-InjectPropAttr-blue?style=flat-square)](../DependencyInjection/Container.cs#L32-L37) |
-| `CircularDependencyException` | Кастомний виняток із детальним ланцюжком циклу | [![Код](https://img.shields.io/badge/Код-CircularEx-red?style=flat-square)](../DependencyInjection/Container.cs#L39-L46) |
-| `RegisterSingleton<T, TImpl>()` | Реєстрація сервісу з єдиним екземпляром на додаток | [![Код](https://img.shields.io/badge/Код-RegisterSingleton-blue?style=flat-square)](../DependencyInjection/Container.cs#L95-L105) |
-| `RegisterTransient<T, TImpl>()` | Реєстрація сервісу, що інстанціюється щоразу заново | [![Код](https://img.shields.io/badge/Код-RegisterTransient-blue?style=flat-square)](../DependencyInjection/Container.cs#L85-L94) |
-| `Resolve(Type serviceType)` | Головна точка входу для вирішення графу залежностей | [![Код](https://img.shields.io/badge/Код-ResolveMethod-red?style=flat-square)](../DependencyInjection/Container.cs#L145-L215) |
-| `CreateInstanceViaReflection` | Вибір конструктора, аналіз параметрів, створення через `Invoke` | [![Код](https://img.shields.io/badge/Код-CreateViaReflection-red?style=flat-square)](../DependencyInjection/Container.cs#L220-L260) |
-| `InjectAnnotatedProperties` | Сканування властивостей об'єкта та заповнення залежностями | [![Код](https://img.shields.io/badge/Код-InjectProperties-blue?style=flat-square)](../DependencyInjection/Container.cs#L262-L274) |
+| `ServiceLifetime` | Перерахування життєвих циклів: `Transient` та `Singleton` | [![Код](https://img.shields.io/badge/Код-16_Lifetimes-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L8-L23) |
+| `[InjectConstructor]` | Атрибут для явного вибору цільового конструктора серед кількох перевантажень | [![Код](https://img.shields.io/badge/Код-16_InjectCtorAttr-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L25-L30) |
+| `[InjectProperty]` | Атрибут для автоматичного заповнення властивостей залежностями | [![Код](https://img.shields.io/badge/Код-16_InjectPropAttr-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L32-L37) |
+| `CircularDependencyException` | Кастомний виняток із детальним ланцюжком циклу | [![Код](https://img.shields.io/badge/Код-16_CircularEx-red?style=flat-square)](../16-DependencyInjection/Container.cs#L39-L46) |
+| `RegisterSingleton<T, TImpl>()` | Реєстрація сервісу з єдиним екземпляром на додаток | [![Код](https://img.shields.io/badge/Код-16_RegisterSingleton-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L95-L105) |
+| `RegisterTransient<T, TImpl>()` | Реєстрація сервісу, що інстанціюється щоразу заново | [![Код](https://img.shields.io/badge/Код-16_RegisterTransient-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L85-L94) |
+| `Resolve(Type serviceType)` | Головна точка входу для вирішення графу залежностей | [![Код](https://img.shields.io/badge/Код-16_ResolveMethod-red?style=flat-square)](../16-DependencyInjection/Container.cs#L145-L215) |
+| `CreateInstanceViaReflection` | Вибір конструктора, аналіз параметрів, створення через `Invoke` | [![Код](https://img.shields.io/badge/Код-16_CreateViaReflection-red?style=flat-square)](../16-DependencyInjection/Container.cs#L220-L260) |
+| `InjectAnnotatedProperties` | Сканування властивостей об'єкта та заповнення залежностями | [![Код](https://img.shields.io/badge/Код-16_InjectProperties-blue?style=flat-square)](../16-DependencyInjection/Container.cs#L262-L274) |
 
 ---
 
@@ -104,12 +104,12 @@ if (_resolutionStack.Contains(serviceType))
 }
 ```
 
-🔗 Переглянути демонстрацію перехоплення циклу можна в [DependencyInjection/Program.cs](../DependencyInjection/Program.cs#L52-L71).
+🔗 Переглянути демонстрацію перехоплення циклу можна в [16-DependencyInjection/Program.cs](../16-DependencyInjection/Program.cs#L52-L71).
 
 ---
 
 ## 🚀 Як запустити проєкт IoC-контейнера
 
 ```powershell
-dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/DependencyInjection/RealTime-DependencyInjection.csproj" -c Release
+dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/16-DependencyInjection/16-DependencyInjection.csproj" -c Release
 ```

@@ -18,43 +18,43 @@
 
 ---
 
-## 🏛️ Архітектура та структура проектів у рішенні `OOP - Reflection.sln`
+## 🏛️ Архітектура та структура проєктів у рішенні `OOP - Reflection.sln`
 
-Рішення містить **17 взаємопов'язаних проектів**, згрупованих за логічними етапами навчання:
+Рішення містить **17 пронумерованих проєктів**, які розташовані у чіткій логічній послідовності вивчення:
 
 ```mermaid
 graph TD
-    Shared["Shared (Спільна бібліотека Car, ICar, SportsCar)"]
+    Shared["00-Shared (Спільна бібліотека Car, ICar, SportsCar)"]
     
     subgraph "1. Фундамент системи типів"
-        TypeofDemo["TypeofDemo (typeof compile-time)"]
-        GetTypeDemo["ObjectGetTypeDemo (obj.GetType runtime)"]
-        TypeGetType["TypeGetTypeDemo (Type.GetType string)"]
-        TypeProps["TypePropertiesDemo (Прапорці IsClass, IsValueType...)"]
-        AssemblyDemo["AssemblyDemo (Assembly.GetTypes, DLL інспекція)"]
-        InterfacesDemo["GetInterfacesDemo (GetInterfaceMap)"]
+        TypeofDemo["01-TypeofDemo (typeof compile-time)"]
+        GetTypeDemo["02-ObjectGetTypeDemo (obj.GetType runtime)"]
+        TypeGetType["03-TypeGetTypeDemo (Type.GetType string)"]
+        TypeProps["04-TypePropertiesDemo (Прапорці IsClass, IsValueType...)"]
+        AssemblyDemo["05-AssemblyDemo (Assembly.GetTypes, DLL інспекція)"]
+        InterfacesDemo["06-GetInterfacesDemo (GetInterfaceMap)"]
     end
 
     subgraph "2. Члени типу та BindingFlags"
-        FieldsProps["GetFieldsPropertiesDemo (FieldInfo, PropertyInfo)"]
-        MethodsDemo["GetMethodsDemo (MethodInfo, Invoke, Overloads)"]
-        CtorDemo["GetConstractorInfoDemo (ConstructorInfo)"]
-        ParamsDemo["GetParameterInfoDemo (ParameterInfo, ref/out, defaults)"]
+        FieldsProps["07-GetFieldsPropertiesDemo (FieldInfo, PropertyInfo)"]
+        MethodsDemo["08-GetMethodsDemo (MethodInfo, Invoke, Overloads)"]
+        ParamsDemo["09-GetParameterInfoDemo (ParameterInfo, ref/out, defaults)"]
+        CtorDemo["10-GetConstructorInfoDemo (ConstructorInfo)"]
     end
 
     subgraph "3. Динамічне виконання та Дженерики"
-        LateBinding["LateBindingDemo (Activator.CreateInstance)"]
-        GenericsDemo["GenericsReflectionDemo (MakeGenericType, MakeGenericMethod)"]
+        LateBinding["11-LateBindingDemo (Activator.CreateInstance)"]
+        GenericsDemo["12-GenericsReflectionDemo (MakeGenericType, MakeGenericMethod)"]
     end
 
     subgraph "4. Атрибути та Серіалізація"
-        CustomAttr["CreateCustomAttributes (Валідація за атрибутами)"]
-        XmlSer["SerializationDeserialization (Рефлексивний XML)"]
+        CustomAttr["13-CreateCustomAttributes (Валідація за атрибутами)"]
+        XmlSer["14-SerializationDeserialization (Рефлексивний XML)"]
     end
 
     subgraph "5. Продуктивність та Фінал"
-        PerfDemo["ReflectionPerformanceDemo (Invoke vs Expressions Benchmark)"]
-        DI["DependencyInjection (Повний власний IoC/DI Контейнер)"]
+        PerfDemo["15-ReflectionPerformanceDemo (Invoke vs Expressions Benchmark)"]
+        DI["16-DependencyInjection (Повний власний IoC/DI Контейнер)"]
     end
 
     Shared --> TypeofDemo
@@ -65,8 +65,8 @@ graph TD
     Shared --> InterfacesDemo
     Shared --> FieldsProps
     Shared --> MethodsDemo
-    Shared --> CtorDemo
     Shared --> ParamsDemo
+    Shared --> CtorDemo
     Shared --> LateBinding
     Shared --> GenericsDemo
     Shared --> PerfDemo
@@ -81,27 +81,27 @@ graph TD
 
 ---
 
-## 📋 Зведена таблиця проектів у рішенні
+## 📋 Зведена таблиця проєктів у рішенні
 
-| № | Проект | Призначення та ключові API | Кнопка перегляду коду |
+| № | Проєкт | Призначення та ключові API | Кнопка перегляду коду |
 | :-: | :--- | :--- | :---: |
-| 1 | `Shared` | Доменні класи (`Car`, `SportsCar`, `ICar`), об'єкти для інспекції | [![Код](https://img.shields.io/badge/Код-Shared-blue?style=flat-square)](Shared/Common/Car.cs) |
-| 2 | `TypeofDemo` | Отримання `Type` на етапі компіляції (`typeof(T)`) | [![Код](https://img.shields.io/badge/Код-TypeofDemo-blue?style=flat-square)](TypeofDemo/Program.cs) |
-| 3 | `ObjectGetTypeDemo` | Отримання точного рантайм-типу через віртуальний `GetType()` | [![Код](https://img.shields.io/badge/Код-ObjectGetType-blue?style=flat-square)](ObjectGetTypeDemo/Program.cs) |
-| 4 | `TypeGetTypeDemo` | Динамічне завантаження типу за іменем (`Type.GetType`) | [![Код](https://img.shields.io/badge/Код-TypeGetType-blue?style=flat-square)](TypeGetTypeDemo/Program.cs) |
-| 5 | `TypePropertiesDemo` | Загальні характеристики: `IsClass`, `IsValueType`, `IsAbstract`, `IsSealed` | [![Код](https://img.shields.io/badge/Код-TypeProps-blue?style=flat-square)](TypePropertiesDemo/Program.cs) |
-| 6 | `AssemblyDemo` | Завантаження збірки, перелік її типів та інспекція ресурсів | [![Код](https://img.shields.io/badge/Код-AssemblyDemo-blue?style=flat-square)](AssemblyDemo/Program.cs) |
-| 7 | `GetInterfacesDemo` | Інтерфейси типу та карта методів (`GetInterfaceMap`) | [![Код](https://img.shields.io/badge/Код-GetInterfaces-blue?style=flat-square)](GetInterfacesDemo/Program.cs) |
-| 8 | `GetFieldsPropertiesDemo` | Фільтрація полів (`FieldInfo`) та властивостей (`PropertyInfo`) | [![Код](https://img.shields.io/badge/Код-FieldsProps-blue?style=flat-square)](GetFieldsPropertiesDemo/Program.cs) |
-| 9 | `GetMethodsDemo` | Інспекція відкритих та закритих методів (`MethodInfo`) | [![Код](https://img.shields.io/badge/Код-GetMethods-blue?style=flat-square)](GetMethodsDemo/Program.cs) |
-| 10 | `GetParameterInfoDemo` | Інспекція параметрів: типи, `ref`/`out`, значення за замовчуванням | [![Код](https://img.shields.io/badge/Код-ParamsDemo-blue?style=flat-square)](GetParameterInfoDemo/Program.cs) |
-| 11 | `GetConstractorInfoDemo` | Аналіз конструкторів (`ConstructorInfo`), створення об'єктів | [![Код](https://img.shields.io/badge/Код-CtorDemo-blue?style=flat-square)](GetConstractorInfoDemo/Program.cs) |
-| 12 | `LateBindingDemo` | Створення об'єкта (`Activator.CreateInstance`) та динамічний виклик | [![Код](https://img.shields.io/badge/Код-LateBinding-blue?style=flat-square)](LateBindingDemo/Program.cs) |
-| 13 | `GenericsReflectionDemo` | **[НОВИЙ]** Рефлексія дженериків: `MakeGenericType`, `MakeGenericMethod` | [![Код](https://img.shields.io/badge/Код-GenericsDemo-green?style=flat-square)](GenericsReflectionDemo/Program.cs) |
-| 14 | `CreateCustomAttributes` | Створення атрибутів (`[MinValue]`, `[Required]`) та універсальний валідатор | [![Код](https://img.shields.io/badge/Код-Attributes-green?style=flat-square)](CreateCustomAttributes/Program.cs) |
-| 15 | `SerializationDeserialization` | Рефлексивний XML-серіалізатор довільних C# об'єктів | [![Код](https://img.shields.io/badge/Код-Serialization-green?style=flat-square)](SerializationDeserialization/Program.cs) |
-| 16 | `ReflectionPerformanceDemo` | **[НОВИЙ]** Бенчмарк: `Invoke` vs `dynamic` vs `Expression Trees` | [![Код](https://img.shields.io/badge/Код-Performance-green?style=flat-square)](ReflectionPerformanceDemo/Program.cs) |
-| 17 | `DependencyInjection` | **[ФІНАЛЬНИЙ] Повнофункціональний IoC-контейнер з життєвими циклами та захистом від циклів** | [![Код](https://img.shields.io/badge/Код-IoC_Container-red?style=flat-square)](DependencyInjection/Program.cs) |
+| 00 | `00-Shared` | Доменні класи (`Car`, `SportsCar`, `ICar`), об'єкти для інспекції | [![Код](https://img.shields.io/badge/Код-00_Shared-blue?style=flat-square)](00-Shared/Common/Car.cs) |
+| 01 | `01-TypeofDemo` | Отримання `Type` на етапі компіляції (`typeof(T)`) | [![Код](https://img.shields.io/badge/Код-01_TypeofDemo-blue?style=flat-square)](01-TypeofDemo/Program.cs) |
+| 02 | `02-ObjectGetTypeDemo` | Отримання точного рантайм-типу через віртуальний `GetType()` | [![Код](https://img.shields.io/badge/Код-02_ObjectGetType-blue?style=flat-square)](02-ObjectGetTypeDemo/Program.cs) |
+| 03 | `03-TypeGetTypeDemo` | Динамічне завантаження типу за іменем (`Type.GetType`) | [![Код](https://img.shields.io/badge/Код-03_TypeGetType-blue?style=flat-square)](03-TypeGetTypeDemo/Program.cs) |
+| 04 | `04-TypePropertiesDemo` | Загальні характеристики: `IsClass`, `IsValueType`, `IsAbstract`, `IsSealed` | [![Код](https://img.shields.io/badge/Код-04_TypeProps-blue?style=flat-square)](04-TypePropertiesDemo/Program.cs) |
+| 05 | `05-AssemblyDemo` | Завантаження збірки, перелік її типів та інспекція ресурсів | [![Код](https://img.shields.io/badge/Код-05_AssemblyDemo-blue?style=flat-square)](05-AssemblyDemo/Program.cs) |
+| 06 | `06-GetInterfacesDemo` | Інтерфейси типу та карта методів (`GetInterfaceMap`) | [![Код](https://img.shields.io/badge/Код-06_GetInterfaces-blue?style=flat-square)](06-GetInterfacesDemo/Program.cs) |
+| 07 | `07-GetFieldsPropertiesDemo` | Фільтрація полів (`FieldInfo`) та властивостей (`PropertyInfo`) | [![Код](https://img.shields.io/badge/Код-07_FieldsProps-blue?style=flat-square)](07-GetFieldsPropertiesDemo/Program.cs) |
+| 08 | `08-GetMethodsDemo` | Інспекція відкритих та закритих методів (`MethodInfo`) | [![Код](https://img.shields.io/badge/Код-08_GetMethods-blue?style=flat-square)](08-GetMethodsDemo/Program.cs) |
+| 09 | `09-GetParameterInfoDemo` | Інспекція параметрів: типи, `ref`/`out`, значення за замовчуванням | [![Код](https://img.shields.io/badge/Код-09_ParamsDemo-blue?style=flat-square)](09-GetParameterInfoDemo/Program.cs) |
+| 10 | `10-GetConstructorInfoDemo` | Аналіз конструкторів (`ConstructorInfo`), створення об'єктів | [![Код](https://img.shields.io/badge/Код-10_CtorDemo-blue?style=flat-square)](10-GetConstructorInfoDemo/Program.cs) |
+| 11 | `11-LateBindingDemo` | Створення об'єкта (`Activator.CreateInstance`) та динамічний виклик | [![Код](https://img.shields.io/badge/Код-11_LateBinding-blue?style=flat-square)](11-LateBindingDemo/Program.cs) |
+| 12 | `12-GenericsReflectionDemo` | **[НОВИЙ]** Рефлексія дженериків: `MakeGenericType`, `MakeGenericMethod` | [![Код](https://img.shields.io/badge/Код-12_GenericsDemo-green?style=flat-square)](12-GenericsReflectionDemo/Program.cs) |
+| 13 | `13-CreateCustomAttributes` | Створення атрибутів (`[MinValue]`, `[Required]`) та універсальний валідатор | [![Код](https://img.shields.io/badge/Код-13_Attributes-green?style=flat-square)](13-CreateCustomAttributes/Program.cs) |
+| 14 | `14-SerializationDeserialization` | Рефлексивний XML-серіалізатор довільних C# об'єктів | [![Код](https://img.shields.io/badge/Код-14_Serialization-green?style=flat-square)](14-SerializationDeserialization/Program.cs) |
+| 15 | `15-ReflectionPerformanceDemo` | **[НОВИЙ]** Бенчмарк: `Invoke` vs `dynamic` vs `Expression Trees` | [![Код](https://img.shields.io/badge/Код-15_Performance-green?style=flat-square)](15-ReflectionPerformanceDemo/Program.cs) |
+| 16 | `16-DependencyInjection` | **[ФІНАЛЬНИЙ] Повнофункціональний IoC-контейнер з життєвими циклами та захистом від циклів** | [![Код](https://img.shields.io/badge/Код-16_IoC_Container-red?style=flat-square)](16-DependencyInjection/Program.cs) |
 
 ---
 
@@ -112,11 +112,11 @@ graph TD
 dotnet build "06-Advanced-DotNet/02-Reflection-And-Metadata/OOP - Reflection.sln" -c Release
 
 # 2. Запуск фінального IoC-контейнера
-dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/DependencyInjection/RealTime-DependencyInjection.csproj" -c Release
+dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/16-DependencyInjection/16-DependencyInjection.csproj" -c Release
 
 # 3. Запуск тесту продуктивності рефлексії
-dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/ReflectionPerformanceDemo/ReflectionPerformanceDemo.csproj" -c Release
+dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/15-ReflectionPerformanceDemo/15-ReflectionPerformanceDemo.csproj" -c Release
 
 # 4. Запуск демонстрації дженериків у рефлексії
-dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/GenericsReflectionDemo/GenericsReflectionDemo.csproj" -c Release
+dotnet run --project "06-Advanced-DotNet/02-Reflection-And-Metadata/12-GenericsReflectionDemo/12-GenericsReflectionDemo.csproj" -c Release
 ```

@@ -31,10 +31,10 @@
 
 | Метод / Властивість | Опис | Приклад у коді |
 | :--- | :--- | :---: |
-| `type.GetConstructors()` | Повертає відкриті конструктори класу | [![Код](https://img.shields.io/badge/Код-GetConstructors-blue?style=flat-square)](../GetConstractorInfoDemo/Program.cs#L10-L16) |
-| `type.GetConstructor(Type[])` | Шукає конструктор з точним набором типів аргументів | [![Код](https://img.shields.io/badge/Код-FindCtor-blue?style=flat-square)](../GetConstractorInfoDemo/Program.cs#L24-L28) |
-| `ctor.Invoke(object?[] args)` | Викликає конструктор і повертає новий екземпляр | [![Код](https://img.shields.io/badge/Код-InvokeCtor-blue?style=flat-square)](../GetConstractorInfoDemo/Program.cs#L27-L31) |
-| `ctor.IsPublic` / `IsPrivate` | Перевіряє модифікатор доступу конструктора | [![Код](https://img.shields.io/badge/Код-CtorVisibility-blue?style=flat-square)](../GetConstractorInfoDemo/Program.cs#L43-L49) |
+| `type.GetConstructors()` | Повертає відкриті конструктори класу | [![Код](https://img.shields.io/badge/Код-10_GetConstructors-blue?style=flat-square)](../10-GetConstructorInfoDemo/Program.cs#L10-L16) |
+| `type.GetConstructor(Type[])` | Шукає конструктор з точним набором типів аргументів | [![Код](https://img.shields.io/badge/Код-10_FindCtor-blue?style=flat-square)](../10-GetConstructorInfoDemo/Program.cs#L24-L28) |
+| `ctor.Invoke(object?[] args)` | Викликає конструктор і повертає новий екземпляр | [![Код](https://img.shields.io/badge/Код-10_InvokeCtor-blue?style=flat-square)](../10-GetConstructorInfoDemo/Program.cs#L27-L31) |
+| `ctor.IsPublic` / `IsPrivate` | Перевіряє модифікатор доступу конструктора | [![Код](https://img.shields.io/badge/Код-10_CtorVisibility-blue?style=flat-square)](../10-GetConstructorInfoDemo/Program.cs#L43-L49) |
 
 ---
 
@@ -44,13 +44,13 @@
 
 | Член | Метод / Властивість | Призначення | Посилання на приклад |
 | :--- | :--- | :--- | :---: |
-| **FieldInfo** | `field.GetValue(object? obj)` | Зчитує значення поля з об'єкта | [![Код](https://img.shields.io/badge/Код-GetField-blue?style=flat-square)](../GetFieldsPropertiesDemo/Program.cs#L14-L19) |
-| **FieldInfo** | `field.SetValue(obj, value)` | Записує нове значення у поле (включно з приватними полями) | [![Код](https://img.shields.io/badge/Код-SetField-blue?style=flat-square)](../GetFieldsPropertiesDemo/Program.cs#L27-L36) |
-| **FieldInfo** | `field.FieldType` | Тип даних, що зберігається в полі | [![Код](https://img.shields.io/badge/Код-FieldType-blue?style=flat-square)](../GetFieldsPropertiesDemo/Program.cs#L16-L18) |
-| **PropertyInfo**| `prop.CanRead` / `CanWrite` | Чи доступні операції читання та запису | [![Код](https://img.shields.io/badge/Код-CanReadWrite-blue?style=flat-square)](../GetFieldsPropertiesDemo/Program.cs#L38-L46) |
-| **PropertyInfo**| `prop.GetValue(obj)` | Викликає прихований метод геттера `get_PropertyName()` | [![Код](https://img.shields.io/badge/Код-GetProp-blue?style=flat-square)](../GetFieldsPropertiesDemo/Program.cs#L41-L45) |
-| **PropertyInfo**| `prop.SetValue(obj, val)` | Викликає прихований метод сеттера `set_PropertyName(val)` | [![Код](https://img.shields.io/badge/Код-SetProp-blue?style=flat-square)](../SerializationDeserialization/XmlConverter.cs#L45-L51) |
-| **PropertyInfo**| `prop.GetGetMethod(bool)` | Отримує безпосередній `MethodInfo` геттера (навіть непублічного) | [![Код](https://img.shields.io/badge/Код-GetAccessor-blue?style=flat-square)](../GenericsReflectionDemo/Program.cs#L30-L33) |
+| **FieldInfo** | `field.GetValue(object? obj)` | Зчитує значення поля з об'єкта | [![Код](https://img.shields.io/badge/Код-07_GetField-blue?style=flat-square)](../07-GetFieldsPropertiesDemo/Program.cs#L14-L19) |
+| **FieldInfo** | `field.SetValue(obj, value)` | Записує нове значення у поле (включно з приватними полями) | [![Код](https://img.shields.io/badge/Код-07_SetField-blue?style=flat-square)](../07-GetFieldsPropertiesDemo/Program.cs#L27-L36) |
+| **FieldInfo** | `field.FieldType` | Тип даних, що зберігається в полі | [![Код](https://img.shields.io/badge/Код-07_FieldType-blue?style=flat-square)](../07-GetFieldsPropertiesDemo/Program.cs#L16-L18) |
+| **PropertyInfo**| `prop.CanRead` / `CanWrite` | Чи доступні операції читання та запису | [![Код](https://img.shields.io/badge/Код-07_CanReadWrite-blue?style=flat-square)](../07-GetFieldsPropertiesDemo/Program.cs#L38-L46) |
+| **PropertyInfo**| `prop.GetValue(obj)` | Викликає прихований метод геттера `get_PropertyName()` | [![Код](https://img.shields.io/badge/Код-07_GetProp-blue?style=flat-square)](../07-GetFieldsPropertiesDemo/Program.cs#L41-L45) |
+| **PropertyInfo**| `prop.SetValue(obj, val)` | Викликає прихований метод сеттера `set_PropertyName(val)` | [![Код](https://img.shields.io/badge/Код-14_SetProp-blue?style=flat-square)](../14-SerializationDeserialization/XmlConverter.cs#L45-L51) |
+| **PropertyInfo**| `prop.GetGetMethod(bool)` | Отримує безпосередній `MethodInfo` геттера (навіть непублічного) | [![Код](https://img.shields.io/badge/Код-12_GetAccessor-blue?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L30-L33) |
 
 ---
 
@@ -60,11 +60,11 @@
 
 | Метод / Властивість | Призначення | Посилання на приклад |
 | :--- | :--- | :---: |
-| `type.GetMethods(...)` | Повертає список методів відповідно до маски `BindingFlags` | [![Код](https://img.shields.io/badge/Код-GetMethods-blue?style=flat-square)](../GetMethodsDemo/Program.cs#L11-L17) |
-| `type.GetMethod(name, Type[])` | Знаходить точне перевантаження методу за типами аргументів | [![Код](https://img.shields.io/badge/Код-FindOverload-blue?style=flat-square)](../GetMethodsDemo/Program.cs#L19-L27) |
-| `method.Invoke(target, args)` | Викликає метод на цільовому об'єкті (або `null` для static) | [![Код](https://img.shields.io/badge/Код-InvokeMethod-blue?style=flat-square)](../GetMethodsDemo/Program.cs#L22-L35) |
-| `method.ReturnType` | Тип значення, що повертає метод (або `typeof(void)`) | [![Код](https://img.shields.io/badge/Код-ReturnType-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L10-L16) |
-| `method.IsStatic` | `true`, якщо метод є статичним | [![Код](https://img.shields.io/badge/Код-IsStatic-blue?style=flat-square)](../GetMethodsDemo/Program.cs#L29-L35) |
+| `type.GetMethods(...)` | Повертає список методів відповідно до маски `BindingFlags` | [![Код](https://img.shields.io/badge/Код-08_GetMethods-blue?style=flat-square)](../08-GetMethodsDemo/Program.cs#L11-L17) |
+| `type.GetMethod(name, Type[])` | Знаходить точне перевантаження методу за типами аргументів | [![Код](https://img.shields.io/badge/Код-08_FindOverload-blue?style=flat-square)](../08-GetMethodsDemo/Program.cs#L19-L27) |
+| `method.Invoke(target, args)` | Викликає метод на цільовому об'єкті (або `null` для static) | [![Код](https://img.shields.io/badge/Код-08_InvokeMethod-blue?style=flat-square)](../08-GetMethodsDemo/Program.cs#L22-L35) |
+| `method.ReturnType` | Тип значення, що повертає метод (або `typeof(void)`) | [![Код](https://img.shields.io/badge/Код-09_ReturnType-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L10-L16) |
+| `method.IsStatic` | `true`, якщо метод є статичним | [![Код](https://img.shields.io/badge/Код-08_IsStatic-blue?style=flat-square)](../08-GetMethodsDemo/Program.cs#L29-L35) |
 
 ---
 
@@ -74,10 +74,10 @@
 
 | Властивість `ParameterInfo` | Опис | Посилання на приклад |
 | :--- | :--- | :---: |
-| `ParameterType` | Тип даних параметра (наприклад, `typeof(int)`) | [![Код](https://img.shields.io/badge/Код-ParamType-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L18-L25) |
-| `Name` | Назва аргументу в коді (наприклад, `"orderId"`) | [![Код](https://img.shields.io/badge/Код-ParamName-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L22-L28) |
-| `Position` | Порядковий індекс у списку аргументів (починаючи з 0) | [![Код](https://img.shields.io/badge/Код-ParamPos-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L24-L29) |
-| `IsOptional` | Чи є аргумент необов'язковим (має значення за замовчуванням) | [![Код](https://img.shields.io/badge/Код-IsOptional-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L22-L27) |
-| `DefaultValue` | Конкретне дефолтне значення аргументу | [![Код](https://img.shields.io/badge/Код-DefaultVal-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L23-L27) |
-| `ParameterType.IsByRef` | Чи передається параметр за посиланням (`ref`, `out`, `in`) | [![Код](https://img.shields.io/badge/Код-ByRef-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L18-L23) |
-| `IsOut` / `IsIn` | Уточнює напрямок передачі посилання (`out` чи `in`) | [![Код](https://img.shields.io/badge/Код-OutIn-blue?style=flat-square)](../GetParameterInfoDemo/Program.cs#L19-L22) |
+| `ParameterType` | Тип даних параметра (наприклад, `typeof(int)`) | [![Код](https://img.shields.io/badge/Код-09_ParamType-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L18-L25) |
+| `Name` | Назва аргументу в коді (наприклад, `"orderId"`) | [![Код](https://img.shields.io/badge/Код-09_ParamName-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L22-L28) |
+| `Position` | Порядковий індекс у списку аргументів (починаючи з 0) | [![Код](https://img.shields.io/badge/Код-09_ParamPos-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L24-L29) |
+| `IsOptional` | Чи є аргумент необов'язковим (має значення за замовчуванням) | [![Код](https://img.shields.io/badge/Код-09_IsOptional-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L22-L27) |
+| `DefaultValue` | Конкретне дефолтне значення аргументу | [![Код](https://img.shields.io/badge/Код-09_DefaultVal-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L23-L27) |
+| `ParameterType.IsByRef` | Чи передається параметр за посиланням (`ref`, `out`, `in`) | [![Код](https://img.shields.io/badge/Код-09_ByRef-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L18-L23) |
+| `IsOut` / `IsIn` | Уточнює напрямок передачі посилання (`out` чи `in`) | [![Код](https://img.shields.io/badge/Код-09_OutIn-blue?style=flat-square)](../09-GetParameterInfoDemo/Program.cs#L19-L22) |

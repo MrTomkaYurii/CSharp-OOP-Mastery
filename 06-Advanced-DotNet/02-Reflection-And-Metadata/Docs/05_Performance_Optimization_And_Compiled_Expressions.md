@@ -18,11 +18,11 @@
 
 | Метод виклику | Механізм | Час виконання | Відносне уповільнення | Примітка | Посилання на приклад |
 | :--- | :--- | :---: | :---: | :--- | :---: |
-| **Direct Call** | Прямий компіляційний виклик | **18 ms** | **1.0x** (Еталон) | Повна типізація, можливий інлайнінг JIT | [![Код](https://img.shields.io/badge/Код-DirectCall-green?style=flat-square)](../ReflectionPerformanceDemo/Program.cs#L35-L43) |
-| **Delegate.CreateDelegate** | Типізований вказівник на функцію | **2 ms** | **~0.1x** | Швидше або на рівні прямого виклику завдяки інлайнінгу | [![Код](https://img.shields.io/badge/Код-DelegateCall-green?style=flat-square)](../ReflectionPerformanceDemo/Program.cs#L45-L53) |
-| **Compiled Expression Tree** | Скомпільоване дерево виразів | **1 ms** | **~0.1x** | Генерує чистий IL-байткод у рантаймі | [![Код](https://img.shields.io/badge/Код-ExpressionTree-green?style=flat-square)](../ReflectionPerformanceDemo/Program.cs#L55-L63) |
-| **dynamic (DLR)** | Кешований CallSite DLR | **3 ms** | **~0.2x** | Кешує згенерований IL після першого «прогріву» | [![Код](https://img.shields.io/badge/Код-DynamicCall-green?style=flat-square)](../ReflectionPerformanceDemo/Program.cs#L65-L73) |
-| **MethodInfo.Invoke** | Класична рефлексія | **27 ms** | **~1.5x** | Валідація масиву об'єктів та boxing при кожному виклику | [![Код](https://img.shields.io/badge/Код-MethodInvoke-green?style=flat-square)](../ReflectionPerformanceDemo/Program.cs#L75-L84) |
+| **Direct Call** | Прямий компіляційний виклик | **18 ms** | **1.0x** (Еталон) | Повна типізація, можливий інлайнінг JIT | [![Код](https://img.shields.io/badge/Код-15_DirectCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L35-L43) |
+| **Delegate.CreateDelegate** | Типізований вказівник на функцію | **2 ms** | **~0.1x** | Швидше або на рівні прямого виклику завдяки інлайнінгу | [![Код](https://img.shields.io/badge/Код-15_DelegateCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L45-L53) |
+| **Compiled Expression Tree** | Скомпільоване дерево виразів | **1 ms** | **~0.1x** | Генерує чистий IL-байткод у рантаймі | [![Код](https://img.shields.io/badge/Код-15_ExpressionTree-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
+| **dynamic (DLR)** | Кешований CallSite DLR | **3 ms** | **~0.2x** | Кешує згенерований IL після першого «прогріву» | [![Код](https://img.shields.io/badge/Код-15_DynamicCall-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L65-L73) |
+| **MethodInfo.Invoke** | Класична рефлексія | **27 ms** | **~1.5x** | Валідація масиву об'єктів та boxing при кожному виклику | [![Код](https://img.shields.io/badge/Код-15_MethodInvoke-green?style=flat-square)](../15-ReflectionPerformanceDemo/Program.cs#L75-L84) |
 
 > [!NOTE]
 > Заміри проведено на .NET 10. У складніших сценаріях з багатьма аргументами типів значень розрив між `MethodInfo.Invoke` та компільованими виразами сягає **20x - 50x**!

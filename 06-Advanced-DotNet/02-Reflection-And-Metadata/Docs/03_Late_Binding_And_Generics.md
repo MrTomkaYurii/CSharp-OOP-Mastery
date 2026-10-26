@@ -10,9 +10,9 @@
 
 | Метод `Activator` | Призначення | Посилання на приклад |
 | :--- | :--- | :---: |
-| `Activator.CreateInstance(Type)` | Викликає безпараметричний конструктор за замовчуванням | [![Код](https://img.shields.io/badge/Код-CreateInstance-blue?style=flat-square)](../LateBindingDemo/Program.cs#L14-L17) |
-| `Activator.CreateInstance(Type, object?[])` | Знаходить і викликає відповідний конструктор з аргументами | [![Код](https://img.shields.io/badge/Код-CreateWithArgs-blue?style=flat-square)](../LateBindingDemo/Program.cs#L18-L22) |
-| `Activator.CreateInstance<T>()` | Типобезпечна дженерик-версія для відомого інтерфейсу чи базового типу | [![Код](https://img.shields.io/badge/Код-GenericCreate-blue?style=flat-square)](../LateBindingDemo/Program.cs) |
+| `Activator.CreateInstance(Type)` | Викликає безпараметричний конструктор за замовчуванням | [![Код](https://img.shields.io/badge/Код-11_CreateInstance-blue?style=flat-square)](../11-LateBindingDemo/Program.cs#L14-L17) |
+| `Activator.CreateInstance(Type, object?[])` | Знаходить і викликає відповідний конструктор з аргументами | [![Код](https://img.shields.io/badge/Код-11_CreateWithArgs-blue?style=flat-square)](../11-LateBindingDemo/Program.cs#L18-L22) |
+| `Activator.CreateInstance<T>()` | Типобезпечна дженерик-версія для відомого інтерфейсу чи базового типу | [![Код](https://img.shields.io/badge/Код-11_GenericCreate-blue?style=flat-square)](../11-LateBindingDemo/Program.cs) |
 
 > [!TIP]
 > Під капотом `Activator.CreateInstance` кешує конструктори та є швидшим за прямий пошук `type.GetConstructors()` для простих сценаріїв без кастомного інжектування параметрів.
@@ -29,13 +29,13 @@
 
 | Метод / Властивість | Опис | Посилання на приклад |
 | :--- | :--- | :---: |
-| `type.IsGenericType` | Перевіряє, чи є тип дженериком (відкритим або закритим) | [![Код](https://img.shields.io/badge/Код-IsGeneric-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L8-L17) |
-| `type.IsGenericTypeDefinition` | `true`, якщо це незакритий шаблон (наприклад, `typeof(List<>)`) | [![Код](https://img.shields.io/badge/Код-GenericDef-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L10-L15) |
-| `type.GetGenericTypeDefinition()` | Отримує відкритий шаблон із закритого типу | [![Код](https://img.shields.io/badge/Код-GetTypeDef-green?style=flat-square)](../GenericsReflectionDemo/Program.cs) |
-| `type.GetGenericArguments()` | Отримує масив аргументів типу (або параметрів типу для відкритого) | [![Код](https://img.shields.io/badge/Код-GetArgs-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L16-L19) |
-| `type.MakeGenericType(Type[])` | **Конструює закритий тип у runtime!** Наприклад: `typeof(Dictionary<,>).MakeGenericType(typeof(string), typeof(Car))` | [![Код](https://img.shields.io/badge/Код-MakeGenericType-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L20-L28) |
-| `method.MakeGenericMethod(Type[])` | **Конструює закритий метод у runtime!** Дозволяє викликати відкриті узагальнені методи | [![Код](https://img.shields.io/badge/Код-MakeGenericMethod-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L35-L42) |
-| `param.GetGenericParameterConstraints()` | Отримує обмеження узагальненого параметра (`where T : class, ICar`) | [![Код](https://img.shields.io/badge/Код-Constraints-green?style=flat-square)](../GenericsReflectionDemo/Program.cs#L45-L55) |
+| `type.IsGenericType` | Перевіряє, чи є тип дженериком (відкритим або закритим) | [![Код](https://img.shields.io/badge/Код-12_IsGeneric-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L8-L17) |
+| `type.IsGenericTypeDefinition` | `true`, якщо це незакритий шаблон (наприклад, `typeof(List<>)`) | [![Код](https://img.shields.io/badge/Код-12_GenericDef-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L10-L15) |
+| `type.GetGenericTypeDefinition()` | Отримує відкритий шаблон із закритого типу | [![Код](https://img.shields.io/badge/Код-12_GetTypeDef-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs) |
+| `type.GetGenericArguments()` | Отримує масив аргументів типу (або параметрів типу для відкритого) | [![Код](https://img.shields.io/badge/Код-12_GetArgs-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L16-L19) |
+| `type.MakeGenericType(Type[])` | **Конструює закритий тип у runtime!** Наприклад: `typeof(Dictionary<,>).MakeGenericType(typeof(string), typeof(Car))` | [![Код](https://img.shields.io/badge/Код-12_MakeGenericType-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L20-L28) |
+| `method.MakeGenericMethod(Type[])` | **Конструює закритий метод у runtime!** Дозволяє викликати відкриті узагальнені методи | [![Код](https://img.shields.io/badge/Код-12_MakeGenericMethod-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L35-L42) |
+| `param.GetGenericParameterConstraints()` | Отримує обмеження узагальненого параметра (`where T : class, ICar`) | [![Код](https://img.shields.io/badge/Код-12_Constraints-green?style=flat-square)](../12-GenericsReflectionDemo/Program.cs#L45-L55) |
 
 ---
 
@@ -58,4 +58,4 @@ catch (TargetInvocationException ex)
 }
 ```
 
-🔗 Переглянути демонстрацію обробки помилок можна в [LateBindingDemo/Program.cs](../LateBindingDemo/Program.cs#L37-L49).
+🔗 Переглянути демонстрацію обробки помилок можна в [11-LateBindingDemo/Program.cs](../11-LateBindingDemo/Program.cs#L37-L49).
