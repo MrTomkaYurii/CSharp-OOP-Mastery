@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Docs/">
+    <File Path="README.md" />
+    <File Path="Docs/00_Curriculum_And_Roadmap.md" />
+    <File Path="Docs/01_Algorithmic_Dynamic_Programming.md" />
+    <File Path="Docs/02_CSharp_Dynamic_And_DLR_Internals.md" />
+    <File Path="Docs/03_Dynamic_Metaprogramming_And_Code_Generation.md" />
+    <File Path="Docs/04_Capstone_Pipeline_Deep_Dive.md" />
+  </Folder>
+  <Project Path="01-Memoization-Basics/01-Memoization-Basics.csproj" />
+  <Project Path="02-Tabulation-Basics/02-Tabulation-Basics.csproj" />
+  <Project Path="03-Classic-DP-Problems/03-Classic-DP-Problems.csproj" />
+  <Project Path="04-Generic-Memoizer-Pattern/04-Generic-Memoizer-Pattern.csproj" />
+  <Project Path="05-Dynamic-Keyword-And-DLR/05-Dynamic-Keyword-And-DLR.csproj" />
+  <Project Path="06-ExpandoObject-And-DynamicObject/06-ExpandoObject-And-DynamicObject.csproj" />
+  <Project Path="07-DynamicMethod-Emit/07-DynamicMethod-Emit.csproj" />
+  <Project Path="08-Expression-Trees-Dynamic-Compilation/08-Expression-Trees-Dynamic-Compilation.csproj" />
+  <Project Path="09-Dynamic-Pipeline-Engine/09-Dynamic-Pipeline-Engine.csproj" />
+</Solution>
