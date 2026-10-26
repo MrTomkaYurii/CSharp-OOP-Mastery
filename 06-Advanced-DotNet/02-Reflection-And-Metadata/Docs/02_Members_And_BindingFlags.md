@@ -227,7 +227,7 @@ Car car = (Car)ctor.Invoke(new object[] { "Tesla Model S", 2024 });
 ```
 
 - Посилання на приклад роботи з конструкторами: [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs#L12-L35).
-- Посилання на використання конструкторів у DI-контейнері: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L220-L260).
+- Посилання на використання конструкторів у DI-контейнері: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs#L165-L215).
 
 ---
 

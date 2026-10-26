@@ -32,16 +32,21 @@
 
 ```mermaid
 graph TD
-    OrderService["OrderService"]
-    OrderService --> IOrderRepository["IOrderRepository"]
-    OrderService --> IPaymentGateway["IPaymentGateway"]
+    OrderService["OrderProcessingService"]
+    OrderService --> IDatabaseContext["IDatabaseContext (Singleton)"]
+    OrderService --> IProductRepository["IProductRepository (Transient)"]
+    OrderService --> IOrderRepository["IOrderRepository (Transient)"]
+    OrderService --> IPaymentService["IPaymentService (Transient)"]
     OrderService --> ILogger["ILogger (Singleton)"]
-    OrderService -.->|Property Injection| INotificationService["INotificationService"]
+    OrderService -.->|Property Injection| INotificationService["INotificationService (Transient)"]
 
-    IOrderRepository --> IDatabaseConnection["IDatabaseConnection (Singleton)"]
+    IProductRepository --> IDatabaseContext
+    IProductRepository --> ILogger
+
+    IOrderRepository --> IDatabaseContext
     IOrderRepository --> ILogger
 
-    IPaymentGateway --> ILogger
+    IPaymentService --> ILogger
     INotificationService --> ILogger
 ```
 
@@ -65,13 +70,13 @@ $$\text{ServiceA} \longrightarrow \text{ServiceB} \longrightarrow \text{ServiceC
 ```csharp
 if (_resolutionStack.Contains(serviceType))
 {
-    var cycleList = _resolutionStack.Reverse().Concat(new[] { serviceType }).Select(t => t.Name);
-    string chain = string.Join(" --> ", cycleList);
-    throw new CircularDependencyException($"Виявлено циклічну залежність! Ланцюжок: {chain}");
+    var cycleChain = _resolutionStack.Reverse().Concat(new[] { serviceType }).Select(t => t.Name);
+    string formattedChain = string.Join(" -> ", cycleChain);
+    throw new CircularDependencyException($"Виявлено циклічну залежність! Ланцюжок: {formattedChain}");
 }
 ```
 
-- Посилання на реалізацію алгоритму виявлення циклів: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L145-L165).
+- Посилання на реалізацію алгоритму виявлення циклів: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs#L85-L95).
 
 ---
 
@@ -102,7 +107,7 @@ flowchart TD
 3. **Параметри за замовчуванням**: якщо залежність не зареєстрована в контейнері, але параметр конструктора має значення за замовчуванням (`param.HasDefaultValue == true`), контейнер безпечно підставляє `param.DefaultValue`.
 4. **Впровадження у властивості (Property Injection)**: після створення екземпляра контейнер знаходить усі відкриті властивості з атрибутом `[InjectProperty]` і викликає для них `prop.SetValue(instance, resolvedDependency)`.
 
-- Посилання на реалізацію механізму інстанціювання: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs#L220-L270).
+- Посилання на реалізацію механізму інстанціювання: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs#L165-L215).
 
 ---
 
@@ -112,30 +117,36 @@ flowchart TD
 
 | Життєвий цикл | Поведінка в пам'яті | Збереження посилання | Сценарії застосування |
 | :--- | :--- | :--- | :--- |
-| **`Transient`** | Новий об'єкт створюється при кожному зверненні до `Resolve<T>()`. | Посилання не зберігається контейнером. Об'єкт знищується збирачем сміття (GC), коли його перестає використовувати клієнтський код. | Легковагові сервіси без внутрішнього стану (без стану між операціями). |
-| **`Singleton`** | Створюється рівно один екземпляр при першому зверненні. | Контейнер кешує посилання у внутрішньому потокобезпечному словнику `_singletons` на весь час життя додатка. | Пули з'єднань, клієнти кешування, системні логери, конфігураційні менеджери. |
+| **`Transient`** | Новий об'єкт створюється при кожному зверненні до `Resolve<T>()`. | Посилання не зберігається контейнером. Об'єкт знищується збирачем сміття (GC), коли його перестає використовувати клієнтський код. | Легковагові сервіси та репозиторії без внутрішнього стану. |
+| **`Singleton`** | Створюється рівно один екземпляр при першому зверненні. | Контейнер кешує посилання у внутрішньому потокобезпечному словнику `_registrations` на весь час життя додатка. | Контексти баз даних (`IDatabaseContext`), логери (`ILogger`), кеші. |
 
 ---
 
 ## 6. Демонстраційний запуск та візуалізація дерева розв'язання
 
-Проєкт `19-DependencyInjection` містить повнофункціональну демонстрацію створення складної доменної моделі інтернет-магазину:
+Проєкт `19-DependencyInjection` містить повнофункціональну консольну демонстрацію інтернет-магазину зі структурованою емуляцією бази даних:
 
 ```csharp
 var container = new Container();
 
-// Реєстрація компонентів
+// 1. Реєстрація компонентів
 container.RegisterSingleton<ILogger, ConsoleLogger>();
-container.RegisterSingleton<IDatabaseConnection, SqlDatabaseConnection>();
+container.RegisterSingleton<IDatabaseContext, InMemoryDatabaseContext>();
+container.RegisterTransient<IProductRepository, ProductRepository>();
 container.RegisterTransient<IOrderRepository, OrderRepository>();
-container.RegisterTransient<IPaymentGateway, CreditCardPaymentGateway>();
+container.RegisterTransient<IPaymentService, CreditCardPaymentService>();
 container.RegisterTransient<INotificationService, EmailNotificationService>();
-container.RegisterTransient<OrderService>();
+container.RegisterTransient<IOrderProcessingService, OrderProcessingService>();
 
-// Рекурсивне розв'язання зі створенням повного графа об'єктів
-var orderService = container.Resolve<OrderService>();
-orderService.PlaceOrder(101, 1499.99m);
+// 2. Рекурсивне розв'язання зі створенням повного графа об'єктів
+var orderService = container.Resolve<IOrderProcessingService>();
+
+// 3. Виконання бізнес-операцій: списання оплати, оновлення складу, збереження в БД, надсилання сповіщення
+orderService.PlaceOrder(customerId: 1, productId: 1, quantity: 2);
 ```
 
-- Посилання на вихідний код контейнера: [19-DependencyInjection/Container.cs](../19-DependencyInjection/Container.cs).
-- Посилання на демонстраційну програму: [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs).
+- Посилання на вихідний код контейнера: [19-DependencyInjection/Container/Container.cs](../19-DependencyInjection/Container/Container.cs).
+- Посилання на контракт контейнера: [19-DependencyInjection/Container/IContainer.cs](../19-DependencyInjection/Container/IContainer.cs).
+- Посилання на емуляцію бази даних: [19-DependencyInjection/Data/InMemoryDatabaseContext.cs](../19-DependencyInjection/Data/InMemoryDatabaseContext.cs).
+- Посилання на бізнес-сервіс замовлень: [19-DependencyInjection/Services/Orders/OrderProcessingService.cs](../19-DependencyInjection/Services/Orders/OrderProcessingService.cs).
+- Посилання на консольну демонстраційну програму: [19-DependencyInjection/Program.cs](../19-DependencyInjection/Program.cs).
