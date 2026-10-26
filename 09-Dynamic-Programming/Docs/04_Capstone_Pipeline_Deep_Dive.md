@@ -72,7 +72,7 @@ var isHighValue = _compiledHighValuePredicate(order);
 Запустити проєкт можна за допомогою команди:
 
 ```powershell
-dotnet run --project "06-Advanced-DotNet/06-Dynamic-Programming/09-Dynamic-Pipeline-Engine/09-Dynamic-Pipeline-Engine.csproj"
+dotnet run --project "09-Dynamic-Programming/09-Dynamic-Pipeline-Engine/09-Dynamic-Pipeline-Engine.csproj"
 ```
 
 Вивід програми наочно демонструє роботу кожного з динамічних механізмів, включаючи перший промах кешу (`[DP Cache Miss]`) та миттєве потрапляння в кеш при повторному замовленні.
