@@ -3,18 +3,22 @@ using System.Reflection;
 namespace DependencyInjection.Container;
 
 /// <summary>
-/// Навчальний повнофункціональний IoC/DI контейнер на базі рефлексії .NET.
-/// Демонструє аналіз метаданих конструкторів, рекурсивне розв'язання параметрів,
-/// Property Injection, керування життєвими циклами (Transient/Singleton)
-/// та детекцію циклічних залежностей (Circular Dependency Detection).
+/// Повнофункціональний навчальний IoC/DI контейнер для реальної модульної архітектури.
+/// Розширює базовий контейнер із прикладу 25.1 чотирма промисловими механізмами:
+///   1. Керування життєвим циклом (Transient vs Singleton).
+///   2. Розумний вибір конструктора ([InjectConstructor] або Greedy Constructor).
+///   3. Впровадження залежностей у властивості ([InjectProperty]).
+///   4. Виявлення циклічних залежностей (Circular Dependency Detection через стек викликів).
 /// </summary>
 public class Container : IContainer
 {
+    // Таблиця зареєстрованих сервісів: Тип контракту -> Паспорт реєстрації (ServiceDescriptor)
     private readonly Dictionary<Type, ServiceDescriptor> _registrations = new();
-    private readonly Stack<Type> _resolutionStack = new();
-    private int _resolutionDepth;
 
-    #region Реєстрація компонентів
+    // Стек активного ланцюжка розв'язання: дозволяє миттєво помітити цикл A -> B -> C -> A
+    private readonly Stack<Type> _resolutionStack = new();
+
+    #region 1. Реєстрація компонентів у контейнері
 
     public void RegisterTransient<TService, TImplementation>() where TImplementation : class, TService
     {
@@ -36,30 +40,18 @@ public class Container : IContainer
         Register(typeof(TService), typeof(TService), ServiceLifetime.Singleton);
     }
 
-    public void RegisterInstance<TService>(TService instance) where TService : class
-    {
-        ArgumentNullException.ThrowIfNull(instance);
-        _registrations[typeof(TService)] = new ServiceDescriptor(typeof(TService), instance);
-        Console.WriteLine($"  [Container] Зареєстровано екземпляр: {typeof(TService).Name} (Singleton)");
-    }
-
-    public void RegisterFactory<TService>(Func<IContainer, TService> factory, ServiceLifetime lifetime = ServiceLifetime.Transient) where TService : class
-    {
-        ArgumentNullException.ThrowIfNull(factory);
-        _registrations[typeof(TService)] = new ServiceDescriptor(typeof(TService), c => factory(c), lifetime);
-        Console.WriteLine($"  [Container] Зареєстровано фабрику: {typeof(TService).Name} [{lifetime}]");
-    }
-
     private void Register(Type serviceType, Type implementationType, ServiceLifetime lifetime)
     {
-        if ((serviceType.IsInterface || serviceType.IsAbstract) && !serviceType.IsAssignableFrom(implementationType))
+        // Перевірка через рефлексію: чи дійсно клас реалізує заявлений інтерфейс?
+        if (!serviceType.IsAssignableFrom(implementationType))
         {
             throw new InvalidOperationException($"Тип {implementationType.Name} не реалізує контракт {serviceType.Name}");
         }
 
+        // Перевірка через рефлексію: не можна створити екземпляр інтерфейсу або абстрактного класу
         if (implementationType.IsInterface || implementationType.IsAbstract)
         {
-            throw new InvalidOperationException($"Тип реалізації {implementationType.Name} не може бути абстрактним класом або інтерфейсом.");
+            throw new InvalidOperationException($"Тип реалізації {implementationType.Name} не може бути абстрактним.");
         }
 
         _registrations[serviceType] = new ServiceDescriptor(serviceType, implementationType, lifetime);
@@ -68,7 +60,7 @@ public class Container : IContainer
 
     #endregion
 
-    #region Розв'язання залежностей
+    #region 2. Головний алгоритм розв'язання залежностей (Resolve)
 
     public TService Resolve<TService>()
     {
@@ -77,8 +69,8 @@ public class Container : IContainer
 
     public object Resolve(Type serviceType)
     {
-        // 1. Захист від циклічних залежностей (Circular Dependency Detection)
-        // Якщо тип уже присутній у поточному ланцюжку викликів, виникло замкнене коло
+        // КРОК 1: Захист від циклічних залежностей (Circular Dependency Detection)
+        // Якщо тип вже лежить у стеку поточного розв'язання — ми пішли по колу!
         if (_resolutionStack.Contains(serviceType))
         {
             var cycleChain = _resolutionStack.Reverse().Concat(new[] { serviceType }).Select(t => t.Name);
@@ -86,53 +78,34 @@ public class Container : IContainer
             throw new CircularDependencyException($"Виявлено циклічну залежність! Ланцюжок: {formattedChain}");
         }
 
-        // 2. Отримання дескриптора сервісу
+        // КРОК 2: Пошук опису реєстрації в словнику
         if (!_registrations.TryGetValue(serviceType, out ServiceDescriptor? descriptor))
         {
-            // Якщо тип є конкретним неабстрактним класом, дозволяємо його створення on-the-fly
-            if (serviceType.IsClass && !serviceType.IsAbstract)
-            {
-                descriptor = new ServiceDescriptor(serviceType, serviceType, ServiceLifetime.Transient);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Сервіс типу '{serviceType.FullName}' не зареєстровано в контейнері.");
-            }
+            throw new InvalidOperationException($"Сервіс типу '{serviceType.Name}' не зареєстровано в контейнері.");
         }
 
-        // 3. Перевірка кешу для Singleton
+        // КРОК 3: Якщо це Singleton і об'єкт вже був створений раніше — одразу повертаємо його з кешу
         if (descriptor.Lifetime == ServiceLifetime.Singleton && descriptor.SingletonInstance != null)
         {
-            LogResolutionStep(serviceType, descriptor.SingletonInstance.GetType(), isCached: true);
+            Console.WriteLine($"  [КЕШ SINGLETON] Повернуто існуючий екземпляр {serviceType.Name}");
             return descriptor.SingletonInstance;
         }
 
+        // Поміщаємо поточний тип у стек перед початком конструювання його залежностей
         _resolutionStack.Push(serviceType);
-        _resolutionDepth++;
 
         try
         {
-            object instance;
+            Type implType = descriptor.ImplementationType;
+            Console.WriteLine($"  [СТВОРЕННЯ] {serviceType.Name} -> {implType.Name}");
 
-            // 4. Створення екземпляра (через фабрику або рефлексію)
-            if (descriptor.Factory != null)
-            {
-                LogResolutionStep(serviceType, null, isFactory: true);
-                instance = descriptor.Factory(this);
-            }
-            else
-            {
-                Type implType = descriptor.ImplementationType!;
-                LogResolutionStep(serviceType, implType, isCached: false);
+            // КРОК 4: Створення екземпляра через рефлексію конструктора
+            object instance = CreateInstanceViaReflection(implType);
 
-                // Інстанціювання через рефлексію з рекурсивним пошуком параметрів
-                instance = CreateInstanceViaReflection(implType);
+            // КРОК 5: Додаткове впровадження залежностей у властивості з атрибутом [InjectProperty]
+            InjectProperties(instance, implType);
 
-                // 5. Впровадження залежностей у властивості (Property Injection)
-                InjectProperties(instance, implType);
-            }
-
-            // 6. Кешування екземпляра для Singleton
+            // КРОК 6: Якщо сервіс має життєвий цикл Singleton — запам'ятовуємо створений екземпляр
             if (descriptor.Lifetime == ServiceLifetime.Singleton)
             {
                 descriptor.SingletonInstance = instance;
@@ -142,94 +115,54 @@ public class Container : IContainer
         }
         finally
         {
-            _resolutionDepth--;
+            // Обов'язково прибираємо тип зі стеку, коли його успішно створено
             _resolutionStack.Pop();
         }
     }
 
     #endregion
 
-    #region Механізми рефлексії
+    #region 3. Механізми рефлексії (Конструктори та Властивості)
 
     private object CreateInstanceViaReflection(Type implType)
     {
-        // Отримуємо всі публічні конструктори екземпляра
+        // Отримуємо всі відкриті конструктори класу
         ConstructorInfo[] constructors = implType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
         if (constructors.Length == 0)
         {
-            throw new InvalidOperationException($"Клас '{implType.FullName}' не має жодного публічного конструктора для створення.");
+            throw new InvalidOperationException($"Клас '{implType.Name}' не має жодного публічного конструктора.");
         }
 
-        // Стратегія вибору конструктора:
-        // А. Якщо присутній конструктор з атрибутом [InjectConstructor] - надаємо йому найвищий пріоритет.
-        // Б. Якщо атрибута немає - застосовуємо жадібний вибір: сортуємо за кількістю параметрів у порядку спадання.
+        // Правило вибору конструктора:
+        // 1. Якщо є конструктор з атрибутом [InjectConstructor] — обираємо його.
+        // 2. Інакше обираємо конструктор із найбільшою кількістю параметрів (Greedy Constructor).
         ConstructorInfo selectedCtor = constructors.FirstOrDefault(c => c.GetCustomAttribute<InjectConstructorAttribute>() != null)
                                       ?? constructors.OrderByDescending(c => c.GetParameters().Length).First();
 
+        // Рекурсивно розв'язуємо всі параметри обраного конструктора
         ParameterInfo[] parameters = selectedCtor.GetParameters();
         object[] constructorArgs = new object[parameters.Length];
 
         for (int i = 0; i < parameters.Length; i++)
         {
-            ParameterInfo param = parameters[i];
-            Type paramType = param.ParameterType;
-
-            // Якщо параметр не зареєстрований, але має значення за замовчуванням (DefaultValue)
-            if (!_registrations.ContainsKey(paramType) && param.HasDefaultValue)
-            {
-                constructorArgs[i] = param.DefaultValue!;
-            }
-            else
-            {
-                try
-                {
-                    // Рекурсивно розв'язуємо залежність для аргументу конструктора
-                    constructorArgs[i] = Resolve(paramType);
-                }
-                catch when (param.HasDefaultValue)
-                {
-                    // Якщо розв'язати не вдалося, але є значення за замовчуванням - підставляємо його
-                    constructorArgs[i] = param.DefaultValue!;
-                }
-            }
+            constructorArgs[i] = Resolve(parameters[i].ParameterType);
         }
 
-        // Викликаємо конструктор з розв'язаними аргументами через рефлексію
+        // Створюємо екземпляр класу викликом конструктора
         return selectedCtor.Invoke(constructorArgs);
     }
 
     private void InjectProperties(object instance, Type implType)
     {
-        // Шукаємо відкриті властивості екземпляра, помічені атрибутом [InjectProperty]
-        PropertyInfo[] properties = implType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        foreach (PropertyInfo prop in properties)
+        // Скануємо всі відкриті властивості класу: якщо на властивості стоїть атрибут [InjectProperty],
+        // автоматично знаходимо потрібний сервіс і записуємо його через prop.SetValue(...)
+        foreach (PropertyInfo prop in implType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
             if (prop.GetCustomAttribute<InjectPropertyAttribute>() != null && prop.CanWrite)
             {
                 object dependency = Resolve(prop.PropertyType);
                 prop.SetValue(instance, dependency);
             }
-        }
-    }
-
-    private void LogResolutionStep(Type serviceType, Type? implType, bool isCached = false, bool isFactory = false)
-    {
-        int depth = Math.Max(0, _resolutionDepth - 1);
-        string indent = new string(' ', depth * 3);
-        string branch = _resolutionDepth <= 1 ? "[ROOT] " : "|-- ";
-
-        if (isCached)
-        {
-            Console.WriteLine($"{indent}{branch}[КЕШ SINGLETON] {serviceType.Name} (перевикористано існуючий об'єкт)");
-        }
-        else if (isFactory)
-        {
-            Console.WriteLine($"{indent}{branch}[ФАБРИКА] {serviceType.Name} (створено через користувацький делегат)");
-        }
-        else
-        {
-            string implDetails = implType != null && implType != serviceType ? $" -> {implType.Name}" : "";
-            Console.WriteLine($"{indent}{branch}[СТВОРЕННЯ] {serviceType.Name}{implDetails}");
         }
     }
 

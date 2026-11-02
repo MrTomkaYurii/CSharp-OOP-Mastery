@@ -3,63 +3,74 @@ using Shared.Common;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("=== Демонстрація дженериків у рефлексії (Generics & Reflection) ===\n");
+Console.WriteLine("==========================================================================");
+Console.WriteLine(" 12. РЕФЛЕКСІЯ УЗАГАЛЬНЕНИХ ТИПІВ ТА МЕТОДІВ (Generics Reflection)");
+Console.WriteLine(" Як у runtime сконструювати List<T> або Dictionary<TKey, TValue>, коли T невідомий наперед");
+Console.WriteLine("==========================================================================\n");
 
-// 1. Відкриті (Open) та закриті (Closed) дженерик-типи
+// -----------------------------------------------------------------------
+// Крок 1: Відкритий шаблон (Open Generic) проти закритого типу (Closed Generic)
+// -----------------------------------------------------------------------
+// - List<> — це лише креслення (IsGenericTypeDefinition == true). Його НЕ МОЖНА створити через new.
+// - List<Car> — це вже конкретний тип (IsGenericTypeDefinition == false), готовий до створення.
+Console.WriteLine("--- Крок 1: Порівняння відкритого шаблону List<> та закритого типу List<Car> ---");
 Type openListType = typeof(List<>);
 Type closedListType = typeof(List<Car>);
 
-Console.WriteLine($"Відкритий дженерик List<>:");
-Console.WriteLine($"  IsGenericType: {openListType.IsGenericType}");
-Console.WriteLine($"  IsGenericTypeDefinition: {openListType.IsGenericTypeDefinition}");
+Console.WriteLine($"  Відкритий шаблон List<>:  IsGenericType = {openListType.IsGenericType}, IsGenericTypeDefinition = {openListType.IsGenericTypeDefinition}");
+Console.WriteLine($"  Закритий тип List<Car>:   IsGenericType = {closedListType.IsGenericType}, IsGenericTypeDefinition = {closedListType.IsGenericTypeDefinition}");
+Console.WriteLine($"  Тип-аргумент всередині List<Car>: {closedListType.GetGenericArguments()[0].Name}\n");
 
-Console.WriteLine($"\nЗакритий дженерик List<Car>:");
-Console.WriteLine($"  IsGenericType: {closedListType.IsGenericType}");
-Console.WriteLine($"  IsGenericTypeDefinition: {closedListType.IsGenericTypeDefinition}");
-Console.WriteLine($"  Аргумент типу: {closedListType.GetGenericArguments()[0].Name}");
-
-// 2. Динамічне конструювання закритого типу в runtime (MakeGenericType)
-Console.WriteLine("\n--- Динамічне створення Dictionary<string, Car> через MakeGenericType ---");
+// -----------------------------------------------------------------------
+// Крок 2: Динамічне конструювання типу Dictionary<string, Car> через MakeGenericType
+// -----------------------------------------------------------------------
+// Уявіть, що тип ключа і значення ми дізналися лише під час роботи програми (наприклад, при читанні JSON).
+// Метод MakeGenericType бере шаблон Dictionary<,> і підставляє в нього типи string та Car.
+Console.WriteLine("--- Крок 2: Склеювання Dictionary<string, Car> у runtime через MakeGenericType ---");
 Type openDictType = typeof(Dictionary<,>);
 Type constructedDictType = openDictType.MakeGenericType(typeof(string), typeof(Car));
 
-// Створення екземпляра
 object dictInstance = Activator.CreateInstance(constructedDictType)!;
-Console.WriteLine($"Створено об'єкт: {dictInstance.GetType().FullName}");
+Console.WriteLine($"  Сконструйовано та створено об'єкт: {dictInstance.GetType().Name}<string, Car>");
 
-// Додавання елемента через виклик методу Add
 MethodInfo addMethod = constructedDictType.GetMethod("Add")!;
 addMethod.Invoke(dictInstance, new object[] { "CAR-01", new Car("Red", 90) });
 
-MethodInfo countProp = constructedDictType.GetProperty("Count")!.GetGetMethod()!;
-Console.WriteLine($"Кількість елементів у створеному Dictionary: {countProp.Invoke(dictInstance, null)}");
+PropertyInfo countProp = constructedDictType.GetProperty("Count")!;
+Console.WriteLine($"  Кількість елементів після виклику Add: {countProp.GetValue(dictInstance)}\n");
 
-// 3. Динамічний виклик відкритого дженерик-методу (MakeGenericMethod)
-Console.WriteLine("\n--- Виклик відкритого дженерик-методу через MakeGenericMethod ---");
+// -----------------------------------------------------------------------
+// Крок 3: Динамічний виклик узагальненого методу ProcessItem<T> через MakeGenericMethod
+// -----------------------------------------------------------------------
+Console.WriteLine("--- Крок 3: Підстановка типу в узагальнений метод через MakeGenericMethod ---");
 var processor = new DataProcessor();
-MethodInfo genericMethod = typeof(DataProcessor).GetMethod("ProcessItem")!;
+MethodInfo openGenericMethod = typeof(DataProcessor).GetMethod(nameof(DataProcessor.ProcessItem))!;
 
-// Перетворюємо відкритий метод ProcessItem<T> у закритий ProcessItem<Car>
-MethodInfo closedMethod = genericMethod.MakeGenericMethod(typeof(Car));
-closedMethod.Invoke(processor, new object[] { new Car("Gold", 130) });
+// Перетворюємо шаблонний метод ProcessItem<T> на конкретний ProcessItem<Car>
+MethodInfo closedGenericMethod = openGenericMethod.MakeGenericMethod(typeof(Car));
+closedGenericMethod.Invoke(processor, new object[] { new Car("Gold", 130) });
 
-// 4. Інспекція обмежень дженериків (Generic Constraints)
-Console.WriteLine("\n--- Інспекція обмежень (Constraints) параметрів типів ---");
+// -----------------------------------------------------------------------
+// Крок 4: Перевірка обмежень дженерика (where T : class, ICar, new())
+// -----------------------------------------------------------------------
+Console.WriteLine("\n--- Крок 4: Інспекція обмежень (Generic Constraints) у IRepository<T> ---");
 Type repositoryType = typeof(IRepository<>);
 Type typeParam = repositoryType.GetGenericArguments()[0];
 
-Console.WriteLine($"Параметр типу: {typeParam.Name}");
-Console.WriteLine($"Атрибути параметра: {typeParam.GenericParameterAttributes}");
+Console.WriteLine($"  Параметр типу:           {typeParam.Name}");
+Console.WriteLine($"  Спеціальні обмеження:    {typeParam.GenericParameterAttributes}");
 foreach (Type constraint in typeParam.GetGenericParameterConstraints())
 {
-    Console.WriteLine($"  Обмеження (Constraint): {constraint.Name}");
+    Console.WriteLine($"  Обов'язковий інтерфейс:  {constraint.Name}");
 }
+
+Console.WriteLine("\nВисновок: MakeGenericType та MakeGenericMethod дозволяють будувати універсальні бібліотеки.");
 
 public class DataProcessor
 {
     public void ProcessItem<T>(T item)
     {
-        Console.WriteLine($"[ProcessItem<{typeof(T).Name}>] Оброблено елемент типу {typeof(T).Name}: {item}");
+        Console.WriteLine($"  [ProcessItem<{typeof(T).Name}>]: Успішно оброблено об'єкт типу {typeof(T).Name}");
     }
 }
 

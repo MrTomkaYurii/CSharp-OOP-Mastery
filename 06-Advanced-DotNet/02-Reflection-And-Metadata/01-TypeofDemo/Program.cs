@@ -2,24 +2,47 @@ using Shared.Common;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("=== Демонстрація оператора typeof (Compile-Time Reflection) ===\n");
+Console.WriteLine("==========================================================================");
+Console.WriteLine(" 01. ОТРИМАННЯ МЕТАДАНИХ НА ЕТАПІ КОМПІЛЯЦІЇ: ОПЕРАТОР typeof(T)");
+Console.WriteLine(" Як отримати паспорт типу (System.Type), коли клас відомий заздалегідь");
+Console.WriteLine("==========================================================================\n");
 
-// 1. Отримання Type для конкретного класу під час компіляції (найшвидший і типобезпечний спосіб)
+// -----------------------------------------------------------------------
+// Крок 1: Отримання об'єкта Type для доменного класу
+// -----------------------------------------------------------------------
+// Оператор typeof(T) обчислюється компілятором Roslyn ще під час збірки (compile-time).
+// Це найшвидший і найбезпечніший спосіб отримати метадані, бо не потребує створення екземпляра (new Car()).
+Console.WriteLine("--- Крок 1: Базова інформація про клас Car через typeof(Car) ---");
 Type carType = typeof(Car);
-Console.WriteLine($"Клас: {carType.FullName}");
-Console.WriteLine($"Базовий тип: {carType.BaseType?.Name}");
-Console.WriteLine($"Це тип значення: {carType.IsValueType}");
 
-// 2. typeof для примітивних типів та системних структур
+Console.WriteLine($"  Коротке ім'я (Name):         {carType.Name}");
+Console.WriteLine($"  Повне ім'я (FullName):       {carType.FullName}");
+Console.WriteLine($"  Простір імен (Namespace):    {carType.Namespace}");
+Console.WriteLine($"  Базовий клас (BaseType):     {carType.BaseType?.Name}");
+Console.WriteLine($"  Чи це структура (ValueType): {carType.IsValueType}\n");
+
+// -----------------------------------------------------------------------
+// Крок 2: Використання typeof для примітивних типів та системних структур
+// -----------------------------------------------------------------------
+// У системі типів .NET (CTS) навіть примітиви (int, bool, void) мають свій паспорт System.Type.
+Console.WriteLine("--- Крок 2: Метадані примітивних типів (int, void) ---");
 Type intType = typeof(int);
 Type voidType = typeof(void);
-Console.WriteLine($"\nСистемний тип int: {intType.FullName} (IsPrimitive: {intType.IsPrimitive})");
-Console.WriteLine($"Системний тип void: {voidType.FullName}");
 
-// 3. typeof для відкритих і закритих дженериків
+Console.WriteLine($"  Псевдонім C# 'int' у CLR:    {intType.FullName} (IsPrimitive: {intType.IsPrimitive})");
+Console.WriteLine($"  Ключове слово 'void' у CLR:  {voidType.FullName}\n");
+
+// -----------------------------------------------------------------------
+// Крок 3: Різниця між відкритим (Open) та закритим (Closed) дженериком
+// -----------------------------------------------------------------------
+// - Відкритий дженерик typeof(List<>) — це шаблон (креслення), у який ще не підставили конкретний тип T.
+// - Закритий дженерик typeof(List<Car>) — це вже готовий повноцінний тип списку автомобілів.
+Console.WriteLine("--- Крок 3: Відкриті та закриті узагальнені типи (Generics) ---");
 Type openGeneric = typeof(List<>);
 Type closedGeneric = typeof(List<Car>);
 
-Console.WriteLine($"\nВідкритий дженерик List<>: {openGeneric.Name} (IsGenericTypeDefinition: {openGeneric.IsGenericTypeDefinition})");
-Console.WriteLine($"Закритий дженерик List<Car>: {closedGeneric.Name} (IsGenericType: {closedGeneric.IsGenericType})");
-Console.WriteLine($"Аргумент типу закритого дженерика: {closedGeneric.GetGenericArguments()[0].Name}");
+Console.WriteLine($"  Шаблон List<>:       Name = {openGeneric.Name,-10} | IsGenericTypeDefinition = {openGeneric.IsGenericTypeDefinition}");
+Console.WriteLine($"  Готовий List<Car>:   Name = {closedGeneric.Name,-10} | IsGenericTypeDefinition = {closedGeneric.IsGenericTypeDefinition}");
+Console.WriteLine($"  Підставлений тип T:  {closedGeneric.GetGenericArguments()[0].FullName}\n");
+
+Console.WriteLine("Висновок: використовуйте typeof(T) завжди, коли ім'я типу відоме під час написання коду.");

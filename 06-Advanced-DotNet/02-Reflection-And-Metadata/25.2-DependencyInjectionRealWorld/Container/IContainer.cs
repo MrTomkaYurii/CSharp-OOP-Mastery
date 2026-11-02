@@ -7,7 +7,8 @@ namespace DependencyInjection.Container;
 public interface IContainer
 {
     /// <summary>
-    /// Реєструє зіставлення між інтерфейсом TService та реалізацією TImplementation із життєвим циклом Transient.
+    /// Реєструє зіставлення між інтерфейсом TService та реалізацією TImplementation із життєвим циклом Transient
+    /// (новий екземпляр створюється при кожному зверненні).
     /// </summary>
     void RegisterTransient<TService, TImplementation>() where TImplementation : class, TService;
 
@@ -17,7 +18,8 @@ public interface IContainer
     void RegisterTransient<TService>() where TService : class;
 
     /// <summary>
-    /// Реєструє зіставлення між інтерфейсом TService та реалізацією TImplementation із життєвим циклом Singleton.
+    /// Реєструє зіставлення між інтерфейсом TService та реалізацією TImplementation із життєвим циклом Singleton
+    /// (екземпляр створюється один раз і перевикористовується протягом усього часу роботи програми).
     /// </summary>
     void RegisterSingleton<TService, TImplementation>() where TImplementation : class, TService;
 
@@ -27,22 +29,12 @@ public interface IContainer
     void RegisterSingleton<TService>() where TService : class;
 
     /// <summary>
-    /// Реєструє вже створений екземпляр як Singleton.
-    /// </summary>
-    void RegisterInstance<TService>(TService instance) where TService : class;
-
-    /// <summary>
-    /// Реєструє фабричний делегат для ручного конструювання об'єкта.
-    /// </summary>
-    void RegisterFactory<TService>(Func<IContainer, TService> factory, ServiceLifetime lifetime = ServiceLifetime.Transient) where TService : class;
-
-    /// <summary>
-    /// Рекурсивно розв'язує граф залежностей та повертає екземпляр типу TService.
+    /// Рекурсивно розв'язує граф залежностей та повертає готовий екземпляр типу TService.
     /// </summary>
     TService Resolve<TService>();
 
     /// <summary>
-    /// Рекурсивно розв'язує граф залежностей та повертає екземпляр за типом Type.
+    /// Рекурсивно розв'язує граф залежностей та повертає екземпляр за об'єктом метаданих Type.
     /// </summary>
     object Resolve(Type serviceType);
 }

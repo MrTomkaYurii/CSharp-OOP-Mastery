@@ -3,7 +3,7 @@
 > **Ключові концепції**: `ServiceLifetime` (`Transient`, `Singleton`), `Circular Dependency Detection`  
 > **Офіційна документація**: [Service lifetimes in .NET (Microsoft Learn)](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes)
 
-Управління часом життя (Service Lifetime) та гарантія ациклічності графу залежностей — два критичні завдання будь-якого контейнера інверсії керування.
+Управління часом життя (Service Lifetime) та гарантія ациклічності графу залежностей — два критичні завдання будь-якого промислового контейнера інверсії керування (проєкт [25.2-DependencyInjectionRealWorld](../../25.2-DependencyInjectionRealWorld/Program.cs)).
 
 ---
 
@@ -24,8 +24,8 @@ flowchart TD
     end
 ```
 
-1. **`Transient`**: Кожен виклик `Resolve` або кожне інжектування в залежність породжує новий об'єкт у керованій купі. Рекомендовано для легковагових stateless сервісів.
-2. **`Singleton`**: Екземпляр створюється один раз при першому зверненні (або передається готовим при реєстрації) і живе протягом усього часу роботи програми. Потребує забезпечення потокобезпечності.
+1. **`Transient`**: Кожен виклик `Resolve` або кожне інжектування в залежність породжує новий об'єкт у керованій купі. Рекомендовано для легковагових stateless сервісів та репозиторіїв.
+2. **`Singleton`**: Екземпляр створюється один раз при першому зверненні і живе протягом усього часу роботи програми (наприклад, `InMemoryDatabaseContext` або `ConsoleLogger`).
 
 ---
 
@@ -36,32 +36,36 @@ flowchart TD
 ```mermaid
 flowchart LR
     A["Service A"] --> B["Service B"]
-    B --> A
+    B --> C["Service C"]
+    C --> A
     style A fill:#ffcccc,stroke:#ff0000
     style B fill:#ffcccc,stroke:#ff0000
+    style C fill:#ffcccc,stroke:#ff0000
 ```
 
-### Алгоритм захисту через стек активних викликів:
+### Алгоритм захисту через стек активних викликів (`_resolutionStack`):
 ```csharp
-private readonly HashSet<Type> _resolvingTypes = new();
+private readonly Stack<Type> _resolutionStack = new();
 
 public object Resolve(Type serviceType)
 {
-    // 1. Перевірка: якщо тип вже присутній у списку активного розв'язання — знайдено цикл!
-    if (!_resolvingTypes.Add(serviceType))
+    // 1. Перевірка: якщо тип вже присутній у стеку поточного розв'язання — знайдено цикл!
+    if (_resolutionStack.Contains(serviceType))
     {
-        throw new InvalidOperationException($"Виявлено циклічну залежність для типу: {serviceType.Name}");
+        var cycleChain = _resolutionStack.Reverse().Concat(new[] { serviceType }).Select(t => t.Name);
+        throw new CircularDependencyException($"Виявлено циклічну залежність! Ланцюжок: {string.Join(" -> ", cycleChain)}");
     }
 
+    _resolutionStack.Push(serviceType);
     try
     {
         // 2. Рекурсивне створення об'єкта та його залежностей
-        return CreateInstance(serviceType);
+        return CreateInstanceViaReflection(serviceType);
     }
     finally
     {
         // 3. Обов'язкове звільнення типу зі стеку після завершення гілки
-        _resolvingTypes.Remove(serviceType);
+        _resolutionStack.Pop();
     }
 }
 ```
@@ -74,7 +78,7 @@ public object Resolve(Type serviceType)
 | :--- | :--- | :--- | :---: | :--- | :--- |
 | **`ServiceLifetime`** | `enum ServiceLifetime { Transient, Singleton }` | Перерахування, що визначає стратегію збереження та повторного використання екземпляра | Використано | [25.2-DependencyInjectionRealWorld/Container/ServiceLifetime.cs](../../25.2-DependencyInjectionRealWorld/Container/ServiceLifetime.cs) | [ServiceLifetime Enum](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicelifetime) |
 | **`ImplementationType`**| `Type ImplementationType { get; }` | Конкретний клас реалізації, зареєстрований для даного інтерфейсу | Використано | [25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs](../../25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs) | [ServiceDescriptor.ImplementationType](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicedescriptor.implementationtype) |
-| **`ImplementationInstance`**| `object? ImplementationInstance { get; }` | Кешований готовий екземпляр сервісу для `Singleton` часу життя | Використано | [25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs](../../25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs) | [ServiceDescriptor.ImplementationInstance](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicedescriptor.implementationinstance) |
+| **`SingletonInstance`**| `object? SingletonInstance { get; set; }` | Кешований готовий екземпляр сервісу для `Singleton` часу життя | Використано | [25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs](../../25.2-DependencyInjectionRealWorld/Container/ServiceDescriptor.cs) | [ServiceDescriptor.ImplementationInstance](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicedescriptor.implementationinstance) |
 
 ---
 
@@ -82,7 +86,7 @@ public object Resolve(Type serviceType)
 
 | Метод | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| **`RegisterTransient`** | `void RegisterTransient<TInterface, TImplementation>()` | Реєструє зіставлення типів з постійним створенням нових екземплярів при кожному зверненні | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [ServiceCollectionServiceExtensions.AddTransient](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicecollectionserviceextensions.addtransient) |
-| **`RegisterSingleton`** | `void RegisterSingleton<TInterface, TImplementation>()` | Реєструє сервіс як одинак, кешуючи перший створений екземпляр для всіх наступних викликів | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [ServiceCollectionServiceExtensions.AddSingleton](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicecollectionserviceextensions.addsingleton) |
-| **`HashSet<T>.Add`** | `bool Add(T item)` | Додає тип до активного набору відстеження; повертає `false`, якщо тип уже розв'язується | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [HashSet.Add](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.add) |
-| **`HashSet<T>.Remove`** | `bool Remove(T item)` | Видаляє тип з набору після успішної побудови гілки графу | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [HashSet.Remove](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.remove) |
+| **`RegisterTransient`** | `void RegisterTransient<TService, TImplementation>()` | Реєструє зіставлення типів із постійним створенням нових екземплярів при кожному зверненні | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [ServiceCollectionServiceExtensions.AddTransient](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicecollectionserviceextensions.addtransient) |
+| **`RegisterSingleton`** | `void RegisterSingleton<TService, TImplementation>()` | Реєструє сервіс як одинак, кешуючи перший створений екземпляр для всіх наступних викликів | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [ServiceCollectionServiceExtensions.AddSingleton](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.servicecollectionserviceextensions.addsingleton) |
+| **`Stack<T>.Contains`** | `bool Contains(T item)` | Перевіряє, чи тип уже перебуває в активному ланцюжку створення об'єкта (виявлення циклу) | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [Stack.Contains](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.contains) |
+| **`Stack<T>.Push` / `Pop`** | `void Push(T item)` / `T Pop()` | Додає поточний тип у стек перед конструюванням та знімає його в блоці `finally` | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [Stack.Push](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.push) |

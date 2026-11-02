@@ -66,6 +66,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Послідовність"
 		ПОСЛІДОВНІСТЬ-ВИКЛАДАННЯ.md = ПОСЛІДОВНІСТЬ-ВИКЛАДАННЯ.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Static_Members_And_Immutability.md = Docs\01_Static_Members_And_Immutability.md
+		Docs\02_Properties_And_Validation.md = Docs\02_Properties_And_Validation.md
+		Docs\03_Constructors_And_This.md = Docs\03_Constructors_And_This.md
+		Docs\04_Indexers_And_Operators.md = Docs\04_Indexers_And_Operators.md
+		Docs\05_Extension_Methods_And_Nested_Classes.md = Docs\05_Extension_Methods_And_Nested_Classes.md
+		Docs\06_IDisposable_And_Records.md = Docs\06_IDisposable_And_Records.md
+		docs\01_Static_Members_And_Immutability.md = docs\01_Static_Members_And_Immutability.md
+		docs\02_Properties_And_Validation.md = docs\02_Properties_And_Validation.md
+		docs\03_Constructors_And_This.md = docs\03_Constructors_And_This.md
+		docs\04_Indexers_And_Operators.md = docs\04_Indexers_And_Operators.md
+		docs\05_Extension_Methods_And_Nested_Classes.md = docs\05_Extension_Methods_And_Nested_Classes.md
+		docs\06_IDisposable_And_Records.md = docs\06_IDisposable_And_Records.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

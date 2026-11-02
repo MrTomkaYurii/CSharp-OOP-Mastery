@@ -129,6 +129,57 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Generics Reflection", "
 		Docs\03_Generics_Reflection\OVERVIEW.md = Docs\03_Generics_Reflection\OVERVIEW.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Type_System_And_Metadata_Inspection", "01_Type_System_And_Metadata_Inspection", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567801}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Type_System_And_Metadata_Inspection\Assembly.md = Docs\01_Type_System_And_Metadata_Inspection\Assembly.md
+		Docs\01_Type_System_And_Metadata_Inspection\MemberInfo.md = Docs\01_Type_System_And_Metadata_Inspection\MemberInfo.md
+		Docs\01_Type_System_And_Metadata_Inspection\OVERVIEW.md = Docs\01_Type_System_And_Metadata_Inspection\OVERVIEW.md
+		Docs\01_Type_System_And_Metadata_Inspection\Type.md = Docs\01_Type_System_And_Metadata_Inspection\Type.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Members_And_Encapsulation", "02_Members_And_Encapsulation", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567802}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Members_And_Encapsulation\BindingFlags.md = Docs\02_Members_And_Encapsulation\BindingFlags.md
+		Docs\02_Members_And_Encapsulation\ConstructorInfo.md = Docs\02_Members_And_Encapsulation\ConstructorInfo.md
+		Docs\02_Members_And_Encapsulation\EventInfo.md = Docs\02_Members_And_Encapsulation\EventInfo.md
+		Docs\02_Members_And_Encapsulation\FieldInfo.md = Docs\02_Members_And_Encapsulation\FieldInfo.md
+		Docs\02_Members_And_Encapsulation\MethodInfo.md = Docs\02_Members_And_Encapsulation\MethodInfo.md
+		Docs\02_Members_And_Encapsulation\OVERVIEW.md = Docs\02_Members_And_Encapsulation\OVERVIEW.md
+		Docs\02_Members_And_Encapsulation\ParameterInfo.md = Docs\02_Members_And_Encapsulation\ParameterInfo.md
+		Docs\02_Members_And_Encapsulation\PropertyInfo.md = Docs\02_Members_And_Encapsulation\PropertyInfo.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Generics_Reflection", "03_Generics_Reflection", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567803}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Generics_Reflection\GenericMethodReflection.md = Docs\03_Generics_Reflection\GenericMethodReflection.md
+		Docs\03_Generics_Reflection\GenericTypeReflection.md = Docs\03_Generics_Reflection\GenericTypeReflection.md
+		Docs\03_Generics_Reflection\OVERVIEW.md = Docs\03_Generics_Reflection\OVERVIEW.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Dynamic_Execution_And_Performance", "04_Dynamic_Execution_And_Performance", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567804}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\04_Dynamic_Execution_And_Performance\Activator.md = Docs\04_Dynamic_Execution_And_Performance\Activator.md
+		Docs\04_Dynamic_Execution_And_Performance\Expression.md = Docs\04_Dynamic_Execution_And_Performance\Expression.md
+		Docs\04_Dynamic_Execution_And_Performance\OVERVIEW.md = Docs\04_Dynamic_Execution_And_Performance\OVERVIEW.md
+		Docs\04_Dynamic_Execution_And_Performance\UnsafeAccessor.md = Docs\04_Dynamic_Execution_And_Performance\UnsafeAccessor.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Attributes_And_Serialization", "05_Attributes_And_Serialization", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567805}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\05_Attributes_And_Serialization\ClassAndPropertyValidation.md = Docs\05_Attributes_And_Serialization\ClassAndPropertyValidation.md
+		Docs\05_Attributes_And_Serialization\CustomAttributes.md = Docs\05_Attributes_And_Serialization\CustomAttributes.md
+		Docs\05_Attributes_And_Serialization\JsonAndXmlFundamentals.md = Docs\05_Attributes_And_Serialization\JsonAndXmlFundamentals.md
+		Docs\05_Attributes_And_Serialization\OVERVIEW.md = Docs\05_Attributes_And_Serialization\OVERVIEW.md
+		Docs\05_Attributes_And_Serialization\ReflectionSerialization.md = Docs\05_Attributes_And_Serialization\ReflectionSerialization.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Frameworks_And_Dependency_Injection", "06_Frameworks_And_Dependency_Injection", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567806}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\06_Frameworks_And_Dependency_Injection\ConstructorResolution.md = Docs\06_Frameworks_And_Dependency_Injection\ConstructorResolution.md
+		Docs\06_Frameworks_And_Dependency_Injection\DependencyInjectionLifecycle.md = Docs\06_Frameworks_And_Dependency_Injection\DependencyInjectionLifecycle.md
+		Docs\06_Frameworks_And_Dependency_Injection\OVERVIEW.md = Docs\06_Frameworks_And_Dependency_Injection\OVERVIEW.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -516,6 +567,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567801} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567802} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567803} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567804} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567805} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567806} = {A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
 		{662FCFFE-349C-41AB-A3C6-CAE6D78108ED} = {B1B2C3D4-E5F6-7890-ABCD-EF1234567891}
 		{2ED7A76C-AC32-461C-BFA6-631944034AC6} = {B1B2C3D4-E5F6-7890-ABCD-EF1234567891}
 		{CA27BA96-C2D0-4733-8DB8-D1EC07D411D9} = {B1B2C3D4-E5F6-7890-ABCD-EF1234567891}

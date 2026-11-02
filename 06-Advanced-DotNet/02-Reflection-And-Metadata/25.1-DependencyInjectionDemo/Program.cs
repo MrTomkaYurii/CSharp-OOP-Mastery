@@ -4,181 +4,127 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Console.WriteLine("==========================================================================");
 Console.WriteLine(" 25.1. НАВЧАЛЬНИЙ ВСТУП ДО DEPENDENCY INJECTION (DI) ЧЕРЕЗ РЕФЛЕКСІЮ");
-Console.WriteLine(" Як рефлексія автоматизує створення об'єктів та ін'єкцію залежностей");
+Console.WriteLine(" Як 4 рядки рефлексії автоматично будують ланцюжок об'єктів замість 'new'");
 Console.WriteLine("==========================================================================\n");
 
 // -----------------------------------------------------------------------
-// Крок 1: Проблема ручного зв'язування залежностей (Manual Wiring)
+// Крок 1: Проблема ручного створення об'єктів (Manual Wiring)
 // -----------------------------------------------------------------------
-Console.WriteLine("--- Крок 1: Життя без IoC-контейнера (ручне створення графу залежностей) ---\n");
-
-Console.WriteLine("Щоб створити OrderService вручну, розробник змушений писати такий ланцюг:");
+// Уявіть типовий ланцюжок залежностей:
+//   OrderService потребує -> IUserRepository та ILogger
+//   UserRepository потребує -> ILogger
+//   ConsoleLogger не потребує нічого (конструктор без параметрів)
+Console.WriteLine("--- Крок 1: Як виглядає ручне створення об'єктів без контейнера ---");
 Console.WriteLine("  ILogger logger = new ConsoleLogger();");
-Console.WriteLine("  IDatabase db = new InMemoryDatabase(logger);");
-Console.WriteLine("  IUserService userService = new UserService(db, logger);");
-Console.WriteLine("  OrderService orderService = new OrderService(userService, logger);\n");
+Console.WriteLine("  IUserRepository repo = new UserRepository(logger);");
+Console.WriteLine("  OrderService service = new OrderService(repo, logger);\n");
 
-// Ручне створення
 ILogger manualLogger = new ConsoleLogger();
-IDatabase manualDb = new InMemoryDatabase(manualLogger);
-IUserService manualUserService = new UserService(manualDb, manualLogger);
-OrderService manualOrder = new OrderService(manualUserService, manualLogger);
-manualOrder.CreateOrder("Ноутбук", "Олена Коваль");
+IUserRepository manualRepo = new UserRepository(manualLogger);
+OrderService manualService = new OrderService(manualRepo, manualLogger);
+manualService.PlaceOrder("Ноутбук Lenovo", "Олена Коваль");
 
-Console.WriteLine("\nНедоліки ручного підходу:");
-Console.WriteLine("1. Складність супроводу: зміна конструктора будь-якого класу ламає код у багатьох місцях.");
-Console.WriteLine("2. Жорстке зв'язування: складно контролювати життєвий цикл (Singleton / Transient).\n");
+Console.WriteLine("\nПроблема: якщо завтра у UserRepository з'явиться ще одна залежність,");
+Console.WriteLine("нам доведеться вручну переписувати всі місця в програмі, де ми писали 'new UserRepository(...)'.\n");
 
 // -----------------------------------------------------------------------
-// Крок 2: Налаштування та реєстрація в SimpleContainer
+// Крок 2: Реєстрація типів у нашому ультра-простому SimpleContainer
 // -----------------------------------------------------------------------
 Console.WriteLine("--------------------------------------------------------------------------");
-Console.WriteLine("--- Крок 2: Реєстрація сервісів у SimpleContainer ---");
-Console.WriteLine("--------------------------------------------------------------------------\n");
+Console.WriteLine("--- Крок 2: Реєстрація відповідностей у SimpleContainer ---");
+Console.WriteLine("--------------------------------------------------------------------------");
 
 var container = new SimpleContainer();
 
-// Реєструємо залежності:
-// ILogger як Singleton (один журнал для всієї програми)
-container.RegisterSingleton<ILogger, ConsoleLogger>();
+// Ми просто заповнюємо словник: "Інтерфейс -> Клас"
+container.Register<ILogger, ConsoleLogger>();
+container.Register<IUserRepository, UserRepository>();
+container.Register<OrderService>();
 
-// IDatabase як Singleton (єдине підключення до бази даних)
-container.RegisterSingleton<IDatabase, InMemoryDatabase>();
-
-// IUserService як Transient (новий сервіс для кожної операції)
-container.RegisterTransient<IUserService, UserService>();
-
-// OrderService як Transient
-container.RegisterTransient<OrderService>();
-
-Console.WriteLine("Сервіси успішно зареєстровані в контейнері:");
-Console.WriteLine("  [Singleton] ILogger     -> ConsoleLogger");
-Console.WriteLine("  [Singleton] IDatabase   -> InMemoryDatabase");
-Console.WriteLine("  [Transient] IUserService-> UserService");
-Console.WriteLine("  [Transient] OrderService-> OrderService\n");
+Console.WriteLine("  Зареєстровано: ILogger         -> ConsoleLogger");
+Console.WriteLine("  Зареєстровано: IUserRepository -> UserRepository");
+Console.WriteLine("  Зареєстровано: OrderService    -> OrderService\n");
 
 // -----------------------------------------------------------------------
-// Крок 3: Автоматичне розв'язання графу залежностей через рефлексію
+// Крок 3: Магія рефлексії — автоматичне збирання графа об'єктів
 // -----------------------------------------------------------------------
 Console.WriteLine("--------------------------------------------------------------------------");
 Console.WriteLine("--- Крок 3: Виклик container.Resolve<OrderService>() ---");
-Console.WriteLine("--------------------------------------------------------------------------\n");
+Console.WriteLine("--------------------------------------------------------------------------");
+Console.WriteLine("Дивіться, як контейнер сам проходить по дереву конструкторів:\n");
 
-Console.WriteLine("Контейнер починає рекурсивний аналіз конструкторів через рефлексію:\n");
-OrderService resolvedOrderService1 = container.Resolve<OrderService>();
+OrderService autoOrderService = container.Resolve<OrderService>();
 
-Console.WriteLine("\nГраф об'єктів успішно побудовано! Викликаємо бізнес-метод:");
-resolvedOrderService1.CreateOrder("Смартфон", "Тарас Шевченко");
-
-// -----------------------------------------------------------------------
-// Крок 4: Перевірка життєвих циклів (Transient vs Singleton)
-// -----------------------------------------------------------------------
-Console.WriteLine("\n--------------------------------------------------------------------------");
-Console.WriteLine("--- Крок 4: Перевірка Singleton vs Transient (ReferenceEquals) ---");
-Console.WriteLine("--------------------------------------------------------------------------\n");
-
-Console.WriteLine("Запитуємо OrderService вдруге...");
-OrderService resolvedOrderService2 = container.Resolve<OrderService>();
-
-bool isSameOrderService = ReferenceEquals(resolvedOrderService1, resolvedOrderService2);
-Console.WriteLine($"\n1. Перевірка OrderService (Transient):");
-Console.WriteLine($"   Чи однакове посилання (ReferenceEquals)? {isSameOrderService}");
-Console.WriteLine($"   Пояснення: OrderService зареєстровано як Transient, тому створено два РІЗНІ екземпляри.\n");
-
-bool isSameDb = ReferenceEquals(resolvedOrderService1.DatabaseInstance, resolvedOrderService2.DatabaseInstance);
-Console.WriteLine($"2. Перевірка IDatabase всередині обох OrderService (Singleton):");
-Console.WriteLine($"   Чи однакове посилання (ReferenceEquals)? {isSameDb}");
-Console.WriteLine($"   Пояснення: IDatabase зареєстровано як Singleton, тому обидва сервіси отримали ОДИН І ТОЙ САМИЙ об'єкт!");
+Console.WriteLine("\nОб'єкт OrderService повністю зібрано! Викликаємо метод PlaceOrder:");
+autoOrderService.PlaceOrder("Смартфон Samsung", "Тарас Шевченко");
 
 // -----------------------------------------------------------------------
-// Крок 5: Підсумок для студентів
+// Підсумок для студентів
 // -----------------------------------------------------------------------
 Console.WriteLine("\n==========================================================================");
-Console.WriteLine(" ПІДСУМОК: ЯК ПРАЦЮЄ IoC/DI КОНТЕЙНЕР НА ОСНОВІ РЕФЛЕКСІЇ");
+Console.WriteLine(" ГОЛОВНА ІДЕЯ (УВЕСЬ АЛГОРИТМ КОНТЕЙНЕРА У 4 КРОКИ):");
 Console.WriteLine("==========================================================================");
-Console.WriteLine("1. type.GetConstructors()      -> Знаходить доступні конструктори класу.");
-Console.WriteLine("2. constructor.GetParameters() -> Читає типи аргументів, які потрібні класу.");
-Console.WriteLine("3. container.Resolve(paramType)-> Рекурсивно знаходить або створює кожен аргумент.");
-Console.WriteLine("4. constructor.Invoke(args)    -> Створює готовий екземпляр з усіма залежностями.");
-Console.WriteLine("Це звільняє розробника від ручного написання 'new' та забезпечує принцип DIP (SOLID)!");
+Console.WriteLine(" 1. targetType.GetConstructors()[0] -> Знаходимо конструктор класу");
+Console.WriteLine(" 2. constructor.GetParameters()     -> Дізнаємося, які типи йому потрібні");
+Console.WriteLine(" 3. Resolve(param.ParameterType)    -> Рекурсивно створюємо кожен параметр");
+Console.WriteLine(" 4. constructor.Invoke(arguments)   -> Запускаємо конструктор і повертаємо об'єкт!");
+Console.WriteLine(" А в наступному прикладі (25.2) ми додамо сюди Singleton-кеш та захист від циклів.");
 Console.WriteLine("==========================================================================");
 
-// -----------------------------------------------------------------------
-// Доменні типи для демонстрації
-// -----------------------------------------------------------------------
+// =======================================================================
+// Прості доменні класи для наочності (3 рівні вкладеності)
+// =======================================================================
 
 public interface ILogger
 {
     void Log(string message);
 }
 
+// Рівень 1: Не має жодних залежностей у конструкторі (кінцевий лист дерева рекурсії)
 public class ConsoleLogger : ILogger
 {
-    public void Log(string message) => Console.WriteLine($"   [LOG] {message}");
+    public void Log(string message) => Console.WriteLine($"    [LOG]: {message}");
 }
 
-public interface IDatabase
+public interface IUserRepository
 {
-    void Save(string entity);
+    bool Exists(string userName);
 }
 
-public class InMemoryDatabase : IDatabase
+// Рівень 2: Потребує ILogger у своєму конструкторі
+public class UserRepository : IUserRepository
 {
     private readonly ILogger _logger;
 
-    public InMemoryDatabase(ILogger logger)
+    public UserRepository(ILogger logger)
     {
         _logger = logger;
-        _logger.Log("InMemoryDatabase: підключення до бази даних ініціалізовано.");
     }
 
-    public void Save(string entity) => _logger.Log($"InMemoryDatabase: запис '{entity}' збережено в таблицю.");
-}
-
-public interface IUserService
-{
-    IDatabase Database { get; }
-    void RegisterUser(string userName);
-}
-
-public class UserService : IUserService
-{
-    public IDatabase Database { get; }
-    private readonly ILogger _logger;
-
-    public UserService(IDatabase database, ILogger logger)
+    public bool Exists(string userName)
     {
-        Database = database;
-        _logger = logger;
-        _logger.Log("UserService: створено новий екземпляр сервісу користувачів.");
-    }
-
-    public void RegisterUser(string userName)
-    {
-        _logger.Log($"UserService: реєстрація користувача '{userName}'...");
-        Database.Save($"User:{userName}");
+        _logger.Log($"UserRepository: перевірка наявності клієнта '{userName}' у БД...");
+        return true;
     }
 }
 
+// Рівень 3: Потребує І репозиторій (IUserRepository), І логер (ILogger)
 public class OrderService
 {
-    private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
     private readonly ILogger _logger;
 
-    public IDatabase DatabaseInstance => _userService.Database;
-
-    public OrderService(IUserService userService, ILogger logger)
+    public OrderService(IUserRepository userRepository, ILogger logger)
     {
-        _userService = userService;
+        _userRepository = userRepository;
         _logger = logger;
-        _logger.Log("OrderService: створено новий екземпляр сервісу замовлень.");
     }
 
-    public void CreateOrder(string item, string customer)
+    public void PlaceOrder(string product, string customer)
     {
-        _logger.Log($"OrderService: оформлення замовлення '{item}' для клієнта '{customer}'...");
-        _userService.RegisterUser(customer);
-        DatabaseInstance.Save($"Order:{item} (Customer:{customer})");
-        _logger.Log($"OrderService: замовлення '{item}' успішно створено!");
+        if (_userRepository.Exists(customer))
+        {
+            _logger.Log($"OrderService: замовлення на '{product}' для '{customer}' успішно оформлено!");
+        }
     }
 }

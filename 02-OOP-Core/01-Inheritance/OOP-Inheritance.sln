@@ -41,6 +41,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex-ExtensionMethods", "Ex-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex-AsOperator", "Ex-AsOperator\Ex-AsOperator.csproj", "{2834D309-3607-4E7F-9AA8-DA2CCFE498DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Inheritance_Basics_And_Base_Keyword.md = Docs\01_Inheritance_Basics_And_Base_Keyword.md
+		Docs\02_Virtual_Override_And_New_Hiding.md = Docs\02_Virtual_Override_And_New_Hiding.md
+		Docs\03_Abstract_And_Sealed_Classes.md = Docs\03_Abstract_And_Sealed_Classes.md
+		Docs\04_Type_Casting_Upcasting_Downcasting.md = Docs\04_Type_Casting_Upcasting_Downcasting.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

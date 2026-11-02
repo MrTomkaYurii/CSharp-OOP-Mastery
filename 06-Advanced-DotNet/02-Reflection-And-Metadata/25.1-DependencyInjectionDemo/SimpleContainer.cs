@@ -3,80 +3,42 @@ using System.Reflection;
 namespace DependencyInjectionDemo;
 
 /// <summary>
-/// Життєвий цикл об'єктів у контейнері:
-/// - Transient: новий екземпляр створюється щоразу під час виклику Resolve.
-/// - Singleton: створюється один єдиний екземпляр при першому зверненні та кешується.
-/// </summary>
-public enum ServiceLifetime
-{
-    Transient,
-    Singleton
-}
-
-/// <summary>
-/// Опис реєстрації сервісу в контейнері.
-/// </summary>
-public class ServiceDescriptor
-{
-    public Type ServiceType { get; }
-    public Type ImplementationType { get; }
-    public ServiceLifetime Lifetime { get; }
-    public object? SingletonInstance { get; set; }
-
-    public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime)
-    {
-        ServiceType = serviceType;
-        ImplementationType = implementationType;
-        Lifetime = lifetime;
-    }
-}
-
-/// <summary>
-/// Простий, прозорий навчальний IoC-контейнер для студентів.
-/// Працює на базі трьох фундаментальних методів рефлексії:
-/// 1. Type.GetConstructors()
-/// 2. ConstructorInfo.GetParameters()
-/// 3. ConstructorInfo.Invoke(parameters)
+/// Ультра-простий навчальний IoC/DI контейнер (~60 рядків коду).
+/// Створений спеціально для першого знайомства студентів із тим,
+/// як рефлексія замінює ручний виклик оператора 'new'.
+///
+/// Увесь секрет роботи контейнера складається з 4 кроків у методі Resolve:
+///   Крок 1: Знайти конструктор класу       -> targetType.GetConstructors()[0]
+///   Крок 2: Дізнатися список параметрів    -> constructor.GetParameters()
+///   Крок 3: Рекурсивно створити аргументи  -> Resolve(param.ParameterType)
+///   Крок 4: Викликати конструктор          -> constructor.Invoke(arguments)
 /// </summary>
 public class SimpleContainer
 {
-    // Таблиця реєстрацій: Interface/ServiceType -> ServiceDescriptor
-    private readonly Dictionary<Type, ServiceDescriptor> _registrations = new();
+    // Єдина структура даних контейнера — словник відповідностей:
+    // Ключ:   Абстракція / Інтерфейс (наприклад, typeof(ILogger))
+    // Значення: Конкретний клас реалізації (наприклад, typeof(ConsoleLogger))
+    private readonly Dictionary<Type, Type> _registrations = new();
 
     /// <summary>
-    /// Реєстрація сервісу як Transient (новий екземпляр щоразу).
+    /// Реєструє зв'язок: "Коли хтось попросить інтерфейс TService — створи клас TImplementation".
     /// </summary>
-    public void RegisterTransient<TService, TImplementation>() 
+    public void Register<TService, TImplementation>()
         where TImplementation : TService
     {
-        _registrations[typeof(TService)] = new ServiceDescriptor(
-            typeof(TService), 
-            typeof(TImplementation), 
-            ServiceLifetime.Transient);
+        _registrations[typeof(TService)] = typeof(TImplementation);
     }
 
     /// <summary>
-    /// Реєстрація конкретного класу без інтерфейсу як Transient.
+    /// Реєструє сам конкретний клас (наприклад, OrderService -> OrderService).
     /// </summary>
-    public void RegisterTransient<TService>()
+    public void Register<TConcrete>()
     {
-        RegisterTransient<TService, TService>();
+        _registrations[typeof(TConcrete)] = typeof(TConcrete);
     }
 
     /// <summary>
-    /// Реєстрація сервісу як Singleton (один екземпляр на весь додаток).
-    /// </summary>
-    public void RegisterSingleton<TService, TImplementation>() 
-        where TImplementation : TService
-    {
-        _registrations[typeof(TService)] = new ServiceDescriptor(
-            typeof(TService), 
-            typeof(TImplementation), 
-            ServiceLifetime.Singleton);
-    }
-
-    /// <summary>
-    /// Типізований метод отримання сервісу.
+    /// Зручна generic-обгортка для отримання готового об'єкта.
     /// </summary>
     public TService Resolve<TService>()
     {
@@ -84,58 +46,36 @@ public class SimpleContainer
     }
 
     /// <summary>
-    /// Головний метод створення об'єкта через рефлексію.
+    /// Головний рекурсивний двигун контейнера: збирає об'єкт та всі його залежності через рефлексію.
     /// </summary>
     public object Resolve(Type serviceType)
     {
-        // 1. Шукаємо реєстрацію типу в словнику
-        if (!_registrations.TryGetValue(serviceType, out ServiceDescriptor? descriptor))
+        // 0. Перевіряємо, чи знає контейнер, який клас потрібно створити для цього типу
+        if (!_registrations.TryGetValue(serviceType, out Type? implementationType))
         {
             throw new InvalidOperationException($"Тип '{serviceType.Name}' не зареєстровано в контейнері!");
         }
 
-        // 2. Якщо сервіс є Singleton і його вже створювали раніше — повертаємо готовий екземпляр
-        if (descriptor.Lifetime == ServiceLifetime.Singleton && descriptor.SingletonInstance != null)
-        {
-            Console.WriteLine($"[DI Container] Singleton для '{serviceType.Name}' вже існує в пам'яті. Повертаємо кешований екземпляр.");
-            return descriptor.SingletonInstance;
-        }
+        Console.WriteLine($"  [SimpleContainer] Збираємо '{implementationType.Name}' (для запиту '{serviceType.Name}')...");
 
-        Type targetType = descriptor.ImplementationType;
-        Console.WriteLine($"[DI Container] Створення екземпляра '{targetType.Name}' для запиту '{serviceType.Name}'...");
+        // КРОК 1 (Рефлексія): Беремо перший публічний конструктор класу
+        ConstructorInfo constructor = implementationType.GetConstructors()[0];
 
-        // 3. РЕФЛЕКСІЯ КРОК 1: Отримуємо список публічних конструкторів
-        ConstructorInfo[] constructors = targetType.GetConstructors();
-        if (constructors.Length == 0)
-        {
-            throw new InvalidOperationException($"Клас '{targetType.Name}' не має публічних конструкторів!");
-        }
-
-        // Для простоти обираємо перший конструктор
-        ConstructorInfo constructor = constructors[0];
-
-        // 4. РЕФЛЕКСІЯ КРОК 2: Досліджуємо параметри конструктора
+        // КРОК 2 (Рефлексія): Читаємо список параметрів, яких потребує цей конструктор
         ParameterInfo[] parameters = constructor.GetParameters();
-        object[] parameterInstances = new object[parameters.Length];
+        object[] arguments = new object[parameters.Length];
 
-        // 5. РЕФЛЕКСІЯ КРОК 3: Рекурсивно розв'язуємо кожну залежність через контейнер
+        // КРОК 3 (Рекурсія): Для кожного параметра конструктора знову викликаємо Resolve(...)
+        // Якщо конструктор не має параметрів (як у ConsoleLogger), цикл просто не виконається і рекурсія завершиться!
         for (int i = 0; i < parameters.Length; i++)
         {
-            ParameterInfo param = parameters[i];
-            Console.WriteLine($"  -> Пошук параметра [{i}]: '{param.Name}' типу '{param.ParameterType.Name}'...");
-            parameterInstances[i] = Resolve(param.ParameterType);
+            Type dependencyType = parameters[i].ParameterType;
+            Console.WriteLine($"    -> Конструктору '{implementationType.Name}' потрібен параметр '{parameters[i].Name}' типу '{dependencyType.Name}'");
+            arguments[i] = Resolve(dependencyType);
         }
 
-        // 6. РЕФЛЕКСІЯ КРОК 4: Викликаємо конструктор з передачею розв'язаних залежностей
-        object createdInstance = constructor.Invoke(parameterInstances);
-
-        // 7. Якщо тип зареєстровано як Singleton — зберігаємо його в дескрипторі
-        if (descriptor.Lifetime == ServiceLifetime.Singleton)
-        {
-            descriptor.SingletonInstance = createdInstance;
-            Console.WriteLine($"[DI Container] Екземпляр '{targetType.Name}' збережено як Singleton.");
-        }
-
-        return createdInstance;
+        // КРОК 4 (Рефлексія): Викликаємо конструктор і передаємо в нього зібрані аргументи
+        object instance = constructor.Invoke(arguments);
+        return instance;
     }
 }

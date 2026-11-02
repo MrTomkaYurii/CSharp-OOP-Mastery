@@ -1,35 +1,18 @@
 namespace DependencyInjection.Container;
 
 /// <summary>
-/// Опис реєстрації сервісу в IoC-контейнері.
-/// Зберігає тип контракту, тип конкретної реалізації, стратегію життєвого циклу
-/// або готову користувацьку фабрику створення.
+/// Паспорт (дескриптор) зареєстрованого сервісу в IoC-контейнері.
+/// Зберігає:
+/// 1. Який інтерфейс запитують (ServiceType).
+/// 2. Який конкретний клас потрібно створити через рефлексію (ImplementationType).
+/// 3. Який час життя обрано (Transient чи Singleton).
+/// 4. Збережений екземпляр (SingletonInstance), якщо сервіс є Singleton.
 /// </summary>
 public sealed class ServiceDescriptor
 {
-    /// <summary>
-    /// Базовий тип контракту (інтерфейс або базовий клас).
-    /// </summary>
     public Type ServiceType { get; }
-
-    /// <summary>
-    /// Конкретний тип реалізації, екземпляр якого буде створено через рефлексію.
-    /// </summary>
-    public Type? ImplementationType { get; }
-
-    /// <summary>
-    /// Життєвий цикл сервісу (Transient або Singleton).
-    /// </summary>
+    public Type ImplementationType { get; }
     public ServiceLifetime Lifetime { get; }
-
-    /// <summary>
-    /// Користувацька фабрика для створення екземпляра (якщо передана).
-    /// </summary>
-    public Func<IContainer, object>? Factory { get; }
-
-    /// <summary>
-    /// Кешований екземпляр для сервісів із життєвим циклом Singleton.
-    /// </summary>
     public object? SingletonInstance { get; set; }
 
     public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime)
@@ -37,19 +20,5 @@ public sealed class ServiceDescriptor
         ServiceType = serviceType;
         ImplementationType = implementationType;
         Lifetime = lifetime;
-    }
-
-    public ServiceDescriptor(Type serviceType, Func<IContainer, object> factory, ServiceLifetime lifetime)
-    {
-        ServiceType = serviceType;
-        Factory = factory;
-        Lifetime = lifetime;
-    }
-
-    public ServiceDescriptor(Type serviceType, object instance)
-    {
-        ServiceType = serviceType;
-        SingletonInstance = instance;
-        Lifetime = ServiceLifetime.Singleton;
     }
 }

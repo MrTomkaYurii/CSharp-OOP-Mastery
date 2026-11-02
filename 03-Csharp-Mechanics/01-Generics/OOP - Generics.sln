@@ -32,9 +32,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "for lecture", "for lecture"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericsPitfalls", "GenericsPitfalls\GenericsPitfalls.csproj", "{CAE14801-8FE3-4566-AF84-4672E75AC9F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionsBasics", "ExceptionsBasics\ExceptionsBasics.csproj", "{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionsCustom", "ExceptionsCustom\ExceptionsCustom.csproj", "{E21ACC58-238F-414D-9D99-0A7AED80C949}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Generics_Fundamentals_And_Type_Safety.md = Docs\01_Generics_Fundamentals_And_Type_Safety.md
+		Docs\02_Generic_Constraints_Where.md = Docs\02_Generic_Constraints_Where.md
+		Docs\03_Static_Members_In_Generics_And_Pitfalls.md = Docs\03_Static_Members_In_Generics_And_Pitfalls.md
+		Docs\04_Covariance_And_Contravariance.md = Docs\04_Covariance_And_Contravariance.md
+		docs\01_Generics_Fundamentals_And_Type_Safety.md = docs\01_Generics_Fundamentals_And_Type_Safety.md
+		docs\02_Generic_Constraints_Where.md = docs\02_Generic_Constraints_Where.md
+		docs\03_Static_Members_In_Generics_And_Pitfalls.md = docs\03_Static_Members_In_Generics_And_Pitfalls.md
+		docs\04_Covariance_And_Contravariance.md = docs\04_Covariance_And_Contravariance.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -190,30 +199,6 @@ Global
 		{CAE14801-8FE3-4566-AF84-4672E75AC9F8}.Release|x64.Build.0 = Release|Any CPU
 		{CAE14801-8FE3-4566-AF84-4672E75AC9F8}.Release|x86.ActiveCfg = Release|Any CPU
 		{CAE14801-8FE3-4566-AF84-4672E75AC9F8}.Release|x86.Build.0 = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|x64.Build.0 = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Debug|x86.Build.0 = Debug|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|x64.ActiveCfg = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|x64.Build.0 = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|x86.ActiveCfg = Release|Any CPU
-		{C396ADD5-D7B2-44D5-B38F-7FCD0E3EEB76}.Release|x86.Build.0 = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|x64.Build.0 = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Debug|x86.Build.0 = Debug|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|x64.ActiveCfg = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|x64.Build.0 = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|x86.ActiveCfg = Release|Any CPU
-		{E21ACC58-238F-414D-9D99-0A7AED80C949}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,26 +7,22 @@
 
 ---
 
-## 1. Стратегії вибору конструктора
+## 1. Стратегії вибору конструктора (від простого у 25.1 до промислового у 25.2)
 
 ```mermaid
 flowchart TD
     Start["Запит на резолвінг типу T"] --> GetCtors["Type.GetConstructors()"]
     GetCtors --> CheckCount{"Скільки відкритих конструкторів?"}
     
-    CheckCount -- "Рівно один" --> SingleCtor["Використати цей єдиний конструктор"]
-    CheckCount -- "Декілька" --> CheckAttr{"Чи є конструктор з [InjectConstructor]?"}
+    CheckCount -- "Рівно один (як у 25.1)" --> SingleCtor["Використати цей єдиний конструктор: constructors[0]"]
+    CheckCount -- "Декілька (як у 25.2)" --> CheckAttr{"Чи є конструктор з [InjectConstructor]?"}
     
     CheckAttr -- "Так" --> UseAttr["Використати маркований конструктор"]
-    CheckAttr -- "Ні" --> Greedy["Жадібний вибір (Greedy Constructor):<br/>Сортування за кількістю параметрів (спадний порядок)"]
+    CheckAttr -- "Ні" --> Greedy["Жадібний вибір (Greedy Constructor):<br/>OrderByDescending(c => c.GetParameters().Length).First()"]
     
-    Greedy --> CheckResolvable{"Чи всі параметри конструктора зареєстровані в контейнері?"}
-    CheckResolvable -- "Так" --> PickBest["Обрати конструктор з найбільшою кількістю залежностей"]
-    CheckResolvable -- "Ні" --> NextCtor["Перевірити наступний за розміром конструктор"]
-    
-    SingleCtor --> ResolveParams["Рекурсивно резолвити параметри"]
+    SingleCtor --> ResolveParams["Рекурсивно резолвити кожен param.ParameterType"]
     UseAttr --> ResolveParams
-    PickBest --> ResolveParams
+    Greedy --> ResolveParams
     ResolveParams --> InvokeCtor["ctor.Invoke(resolvedArgs)"]
 ```
 
@@ -37,8 +33,8 @@ flowchart TD
 | Властивість | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
 | :--- | :--- | :--- | :---: | :--- | :--- |
 | **`ParameterType`** | `Type ParameterType { get; }` | Тип даних залежності, яку необхідно знайти в контейнері | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [ParameterInfo.ParameterType](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.parameterinfo.parametertype) |
-| **`HasDefaultValue`** | `bool HasDefaultValue { get; }` | Визначає, чи є параметр опціональним з дефолтним значенням | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [ParameterInfo.HasDefaultValue](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.parameterinfo.hasdefaultvalue) |
-| **`DefaultValue`** | `object? DefaultValue { get; }` | Літеральне дефолтне значення параметра, якщо залежність не зареєстрована | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [ParameterInfo.DefaultValue](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.parameterinfo.defaultvalue) |
+| **`Name`** | `string? Name { get; }` | Ім'я формального параметра конструктора для діагностичного логування | Використано | [25.1-DependencyInjectionDemo/SimpleContainer.cs](../../25.1-DependencyInjectionDemo/SimpleContainer.cs) | [ParameterInfo.Name](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.parameterinfo.name) |
+| **`CanWrite`** | `bool CanWrite { get; }` | Перевірка наявності сеттера властивості перед виконанням Property Injection | Використано | [25.2-DependencyInjectionRealWorld/Container/Container.cs](../../25.2-DependencyInjectionRealWorld/Container/Container.cs) | [PropertyInfo.CanWrite](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.propertyinfo.canwrite) |
 | **`IsPublic`** | `bool IsPublic { get; }` | Перевірка відкритості конструктора для створення екземпляра ззовні | Загальний BCL | Довідник | [MethodBase.IsPublic](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodbase.ispublic) |
 
 ---

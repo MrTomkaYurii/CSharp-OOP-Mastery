@@ -3,43 +3,62 @@ using Shared.Common;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("=== Демонстрація MethodInfo (Методи, перевантаження та виклик) ===\n");
+Console.WriteLine("==========================================================================");
+Console.WriteLine(" 08. ДОСЛІДЖЕННЯ ТА ДИНАМІЧНИЙ ВИКЛИК МЕТОДІВ (MethodInfo та Invoke)");
+Console.WriteLine(" Як знайти метод за назвою і викликати його без прямого звернення в коді");
+Console.WriteLine("==========================================================================\n");
 
 var car = new Car("Black", 40);
 Type carType = typeof(Car);
 
-// 1. Отримання тільки оголошених у цьому класі методів (без методів System.Object)
-Console.WriteLine("--- Власні відкриті методи класу Car (DeclaredOnly) ---");
+// -----------------------------------------------------------------------
+// Крок 1: Перелік власних публічних методів класу (BindingFlags.DeclaredOnly)
+// -----------------------------------------------------------------------
+// Прапорець DeclaredOnly прибирає зі списку стандартні методи, успадковані від System.Object
+// (ToString, Equals, GetHashCode, GetType), залишаючи лише методи самого класу Car.
+Console.WriteLine("--- Крок 1: Власні публічні методи класу Car (DeclaredOnly) ---");
 MethodInfo[] declaredMethods = carType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 foreach (MethodInfo method in declaredMethods)
 {
-    Console.WriteLine($"  {method.ReturnType.Name} {method.Name}({string.Join(", ", method.GetParameters().Select(p => p.ParameterType.Name))})");
+    string parameters = string.Join(", ", method.GetParameters().Select(p => $"{p.ParameterType.Name} {p.Name}"));
+    Console.WriteLine($"  - {method.ReturnType.Name,-8} {method.Name}({parameters})");
 }
 
-// 2. Динамічний виклик публічного екземплярного методу з параметрами
-Console.WriteLine("\n--- Виклик методу Accelerate(35) через MethodInfo.Invoke ---");
+// -----------------------------------------------------------------------
+// Крок 2: Динамічний виклик екземплярного методу з аргументами (MethodInfo.Invoke)
+// -----------------------------------------------------------------------
+// Перший параметр Invoke — це цільовий об'єкт (car), на якому викликається метод.
+// Другий параметр — масив аргументів object?[] (у нашому випадку { 35 }).
+Console.WriteLine("\n--- Крок 2: Динамічний виклик car.Accelerate(35) через Invoke ---");
 MethodInfo? accelerateMethod = carType.GetMethod("Accelerate", new[] { typeof(int) });
 if (accelerateMethod != null)
 {
-    Console.WriteLine($"Швидкість до виклику:  {car.Speed}");
+    Console.WriteLine($"  Швидкість до виклику:       {car.Speed} км/год");
     accelerateMethod.Invoke(car, new object[] { 35 });
-    Console.WriteLine($"Швидкість після Accelerate: {car.Speed}");
+    Console.WriteLine($"  Швидкість після Accelerate: {car.Speed} км/год");
 }
 
-// 3. Виклик статичного методу (перший параметр Invoke передається як null)
-Console.WriteLine("\n--- Виклик статичного методу GetTotalProduced ---");
+// -----------------------------------------------------------------------
+// Крок 3: Виклик статичного методу (BindingFlags.Static)
+// -----------------------------------------------------------------------
+// Оскільки статичний метод не прив'язаний до жодного об'єкта, першим аргументом у Invoke передається null!
+Console.WriteLine("\n--- Крок 3: Виклик статичного методу Car.GetTotalProduced() ---");
 MethodInfo? staticMethod = carType.GetMethod("GetTotalProduced", BindingFlags.Public | BindingFlags.Static);
 if (staticMethod != null)
 {
-    object? total = staticMethod.Invoke(null, null);
-    Console.WriteLine($"Результат статичного методу: {total}");
+    object? totalProduced = staticMethod.Invoke(obj: null, parameters: null);
+    Console.WriteLine($"  Результат статичного виклику: випущено {totalProduced} авто");
 }
 
-// 4. Пошук та виклик приватного методу ResetOdometer
-Console.WriteLine("\n--- Виклик приватного методу ResetOdometer ---");
+// -----------------------------------------------------------------------
+// Крок 4: Виклик закритого приватного методу (BindingFlags.NonPublic)
+// -----------------------------------------------------------------------
+Console.WriteLine("\n--- Крок 4: Виклик приватного методу ResetOdometer() ---");
 MethodInfo? resetMethod = carType.GetMethod("ResetOdometer", BindingFlags.NonPublic | BindingFlags.Instance);
 if (resetMethod != null)
 {
-    resetMethod.Invoke(car, null);
-    Console.WriteLine("Приватний метод ResetOdometer успішно викликано через рефлексію!");
+    resetMethod.Invoke(car, parameters: null);
+    Console.WriteLine("  Приватний метод ResetOdometer() успішно виконано через рефлексію!");
 }
+
+Console.WriteLine("\nВисновок: MethodInfo.Invoke дозволяє викликати будь-який метод динамічно (наприклад, у тестових фреймворках).");

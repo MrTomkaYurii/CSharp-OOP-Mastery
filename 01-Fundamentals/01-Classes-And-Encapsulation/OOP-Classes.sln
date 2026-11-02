@@ -63,6 +63,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04_CoolStuff_FromCppToCshar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SOLIS", "SOLIS", "{E85461F0-1B0A-4257-9674-33368489AF63}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Classes_Objects_Memory_Model.md = Docs\01_Classes_Objects_Memory_Model.md
+		Docs\02_Methods_And_Parameter_Passing.md = Docs\02_Methods_And_Parameter_Passing.md
+		Docs\03_Encapsulation_Properties_And_Invariants.md = Docs\03_Encapsulation_Properties_And_Invariants.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

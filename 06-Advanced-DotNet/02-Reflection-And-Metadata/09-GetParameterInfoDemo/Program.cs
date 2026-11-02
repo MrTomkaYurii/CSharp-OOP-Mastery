@@ -2,44 +2,53 @@ using System.Reflection;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("=== Демонстрація ParameterInfo (Інспекція параметрів методів) ===\n");
+Console.WriteLine("==========================================================================");
+Console.WriteLine(" 09. АНАЛІЗ ПАРАМЕТРІВ МЕТОДІВ: System.Reflection.ParameterInfo");
+Console.WriteLine(" Як дізнатися типи аргументів, модифікатори ref/out/in та значення за замовчуванням");
+Console.WriteLine("==========================================================================\n");
 
-Type sampleType = typeof(SampleService);
+Type sampleType = typeof(NetworkConfigService);
 MethodInfo[] methods = sampleType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
 foreach (MethodInfo method in methods)
 {
-    Console.WriteLine($"Метод: {method.ReturnType.Name} {method.Name}");
+    Console.WriteLine($"--- Інспекція методу: {method.ReturnType.Name} {method.Name}(...) ---");
     ParameterInfo[] parameters = method.GetParameters();
-
-    if (parameters.Length == 0)
-    {
-        Console.WriteLine("  (параметри відсутні)");
-        continue;
-    }
 
     foreach (ParameterInfo param in parameters)
     {
+        // 1. Визначаємо, чи передається параметр за посиланням (ref, out або in)
         string refKind = param.ParameterType.IsByRef
             ? (param.IsOut ? "out " : (param.IsIn ? "in " : "ref "))
             : "";
 
+        // 2. Перевіряємо, чи має параметр значення за замовчуванням (наприклад, int port = 8080)
         string optionalInfo = param.IsOptional
-            ? $" [За замовчуванням: {param.DefaultValue ?? "null"}]"
-            : "";
+            ? $" [Опціональний, DefaultValue = {param.DefaultValue ?? "null"}]"
+            : " [Обов'язковий]";
 
-        Console.WriteLine($"  [{param.Position}] {refKind}{param.ParameterType.Name} {param.Name}{optionalInfo}");
+        Console.WriteLine($"  Позиція [{param.Position}]: {refKind}{param.ParameterType.Name,-10} Ім'я: {param.Name,-12}{optionalInfo}");
     }
     Console.WriteLine();
 }
 
-public class SampleService
-{
-    public void Configure(string host, int port = 8080, bool useSsl = true) { }
+Console.WriteLine("Висновок: ParameterInfo використовується в ASP.NET Core для прив'язки параметрів запиту (Model Binding)");
+Console.WriteLine("та в DI-контейнерах для визначення залежностей, які треба передати в конструктор.");
 
-    public bool TryParseData(string input, out int parsedValue, ref double multiplier)
+/// <summary>
+/// Навчальний сервіс із різними видами параметрів для демонстрації ParameterInfo.
+/// </summary>
+public class NetworkConfigService
+{
+    // Метод із параметрами за замовчуванням (IsOptional = true)
+    public void Connect(string host, int port = 8080, bool useTls = true)
     {
-        parsedValue = 0;
+    }
+
+    // Метод із модифікаторами передачі за посиланням (out, ref, in)
+    public bool TryParsePacket(in ReadOnlySpan<byte> buffer, out int packetId, ref int retryCount)
+    {
+        packetId = 1;
         return true;
     }
 }
