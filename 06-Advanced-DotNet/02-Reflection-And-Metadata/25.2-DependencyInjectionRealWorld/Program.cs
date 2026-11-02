@@ -11,7 +11,7 @@ using DependencyInjection.Services.Payments;
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Console.WriteLine("==========================================================================");
-Console.WriteLine(" 19.2. РЕАЛЬНИЙ ПРОМИСЛОВИЙ IoC/DI КОНТЕЙНЕР (REAL-WORLD MODULAR ARCHITECTURE)");
+Console.WriteLine(" 25.2. РЕАЛЬНИЙ ПРОМИСЛОВИЙ IoC/DI КОНТЕЙНЕР (REAL-WORLD MODULAR ARCHITECTURE)");
 Console.WriteLine(" Демонстрація системи сервісів, репозиторіїв та емуляції бази даних");
 Console.WriteLine("==========================================================================\n");
 
@@ -131,5 +131,5 @@ catch (CircularDependencyException ex)
 }
 
 Console.WriteLine("\n==========================================================================");
-Console.WriteLine(" Демонстрацію проєкту 19-DependencyInjection успішно завершено.");
+Console.WriteLine(" Демонстрацію проєкту 25.2-DependencyInjectionRealWorld успішно завершено.");
 Console.WriteLine("==========================================================================");

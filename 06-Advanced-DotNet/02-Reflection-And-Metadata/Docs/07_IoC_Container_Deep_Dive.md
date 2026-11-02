@@ -2,14 +2,14 @@
 
 > **Solution-тег (Solution Folder)**: `06. Frameworks & Dependency Injection`  
 > **Проєкти у тегу**:
-> - [19.1-DependencyInjectionDemo](../19.1-DependencyInjectionDemo/Program.cs) — Навчальний мінімальний IoC-контейнер для студентів (прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke`).
-> - [19.2-DependencyInjectionRealWorld](../19.2-DependencyInjectionRealWorld/Program.cs) — Промислова модульна архітектура: In-Memory база даних, репозиторії, сервіси, валідація циклів, Greedy Ctor, Property Injection.
+> - [25.1-DependencyInjectionDemo](../25.1-DependencyInjectionDemo/Program.cs) — Навчальний мінімальний IoC-контейнер для студентів (прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke`).
+> - [25.2-DependencyInjectionRealWorld](../25.2-DependencyInjectionRealWorld/Program.cs) — Промислова модульна архітектура: In-Memory база даних, репозиторії, сервіси, валідація циклів, Greedy Ctor, Property Injection.
 
 Цей розділ є вершиною навчального модуля. Він демонструє практичне поєднання всіх вивчених концепцій рефлексії: інспекції типів, дослідження конструкторів і параметрів, аналізу атрибутів, роботи з інтерфейсами та динамічної активації об'єктів для побудови власного Dependency Injection контейнера.
 
 Матеріал розбито на два дидактичні рівні:
-1. **Рівень 1 (Проєкт 19.1)**: Прозорий мінімальний контейнер (~70 рядків), призначений для першого знайомства студентів із механізмом конструювання об'єктів через рефлексію.
-2. **Рівень 2 (Проєкт 19.2)**: Повнофункціональна модульна система з реальними бізнес-сервісами, контекстом бази даних, виявленням циклічних залежностей та жадібним вибором конструкторів.
+1. **Рівень 1 (Проєкт 25.1)**: Прозорий мінімальний контейнер (~70 рядків), призначений для першого знайомства студентів із механізмом конструювання об'єктів через рефлексію.
+2. **Рівень 2 (Проєкт 25.2)**: Повнофункціональна модульна система з реальними бізнес-сервісами, контекстом бази даних, виявленням циклічних залежностей та жадібним вибором конструкторів.
 
 ---
 
@@ -33,9 +33,9 @@
 
 ---
 
-## 2. Рівень 1: Прозорий навчальний IoC-контейнер (Проєкт 19.1)
+## 2. Рівень 1: Прозорий навчальний IoC-контейнер (Проєкт 25.1)
 
-Для первинного ознайомлення студентів створено проєкт [19.1-DependencyInjectionDemo](../19.1-DependencyInjectionDemo/Program.cs). Він демонструє, що під капотом будь-якого IoC-контейнера лежать лише **три базові методи рефлексії**:
+Для первинного ознайомлення студентів створено проєкт [25.1-DependencyInjectionDemo](../25.1-DependencyInjectionDemo/Program.cs). Він демонструє, що під капотом будь-якого IoC-контейнера лежать лише **три базові методи рефлексії**:
 
 ```mermaid
 flowchart TD
@@ -72,14 +72,14 @@ for (int i = 0; i < parameters.Length; i++)
 object createdInstance = constructor.Invoke(parameterInstances);
 ```
 
-- Посилання на реалізацію простого контейнера: [19.1-DependencyInjectionDemo/SimpleContainer.cs](../19.1-DependencyInjectionDemo/SimpleContainer.cs).
-- Посилання на консольну демонстрацію зі студентоорієнтованим виводом: [19.1-DependencyInjectionDemo/Program.cs](../19.1-DependencyInjectionDemo/Program.cs).
+- Посилання на реалізацію простого контейнера: [25.1-DependencyInjectionDemo/SimpleContainer.cs](../25.1-DependencyInjectionDemo/SimpleContainer.cs).
+- Посилання на консольну демонстрацію зі студентоорієнтованим виводом: [25.1-DependencyInjectionDemo/Program.cs](../25.1-DependencyInjectionDemo/Program.cs).
 
 ---
 
-## 3. Рівень 2: Реальний промисловий DI-контейнер (Проєкт 19.2)
+## 3. Рівень 2: Реальний промисловий DI-контейнер (Проєкт 25.2)
 
-Після засвоєння базового механізму у проєкті 19.1, проєкт [19.2-DependencyInjectionRealWorld](../19.2-DependencyInjectionRealWorld/Program.cs) демонструє повномасштабну промислову модульну архітектуру.
+Після засвоєння базового механізму у проєкті 25.1, проєкт [25.2-DependencyInjectionRealWorld](../25.2-DependencyInjectionRealWorld/Program.cs) демонструє повномасштабну промислову модульну архітектуру.
 
 ### 3.1. Математична модель: Орієнтований ациклічний граф (DAG)
 
@@ -111,14 +111,14 @@ graph TD
 
 ---
 
-## 3. Захист від циклічних залежностей (Circular Dependency Detection)
+## 4. Захист від циклічних залежностей (Circular Dependency Detection)
 
 Якщо розробники припустилися архітектурної помилки і створили взаємну залежність класів:
 $$\text{ServiceA} \longrightarrow \text{ServiceB} \longrightarrow \text{ServiceC} \longrightarrow \text{ServiceA}$$
 
 Наївний рекурсивний алгоритм увійде в нескінченну рекурсію. У середовищі CLR це гарантовано призведе до вичерпання пам'яті стека потоку та фатального аварійного завершення процесу з помилкою **`StackOverflowException`**, яку в .NET неможливо перехопити через блок `try-catch`!
 
-### 3.1. Алгоритм виявлення циклів за допомогою стеку
+### 4.1. Алгоритм виявлення циклів за допомогою стеку
 Контейнер підтримує внутрішній контекстний стек поточного ланцюжка резолюції `Stack<Type> _resolutionStack`:
 1. Перед початком створення будь-якого типу перевіряється умова: `_resolutionStack.Contains(serviceType)`.
 2. Якщо тип уже є у стеку — зафіксовано наявність зворотного ребра в графі (цикл!).
@@ -133,11 +133,11 @@ if (_resolutionStack.Contains(serviceType))
 }
 ```
 
-- Посилання на реалізацію алгоритму виявлення циклів: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs#L85-L95).
+- Посилання на реалізацію алгоритму виявлення циклів: [25.2-DependencyInjectionRealWorld/Container/Container.cs](../25.2-DependencyInjectionRealWorld/Container/Container.cs#L85-L95).
 
 ---
 
-## 4. Алгоритм розв'язання конструкторів (Constructor Resolution Engine)
+## 5. Алгоритм розв'язання конструкторів (Constructor Resolution Engine)
 
 Клас може мати декілька відкритих конструкторів. Контейнер використовує такий детермінований алгоритм вибору:
 
@@ -158,17 +158,17 @@ flowchart TD
     CheckProp --> Finish["Повернення повністю зібраного об'єкта"]
 ```
 
-### 4.1. Етапи конструювання:
+### 5.1. Етапи конструювання:
 1. **Явна вказівка**: якщо присутній конструктор із міткою `[InjectConstructor]`, контейнер обирає його беззастережно.
 2. **Жадібний вибір (Greedy Constructor Selection)**: якщо мітки немає, конструктори сортуються за спаданням кількості параметрів (`c.GetParameters().Length`). Контейнер намагається задовольнити конструктор із найбільшою кількістю залежностей.
 3. **Параметри за замовчуванням**: якщо залежність не зареєстрована в контейнері, але параметр конструктора має значення за замовчуванням (`param.HasDefaultValue == true`), контейнер безпечно підставляє `param.DefaultValue`.
 4. **Впровадження у властивості (Property Injection)**: після створення екземпляра контейнер знаходить усі відкриті властивості з атрибутом `[InjectProperty]` і викликає для них `prop.SetValue(instance, resolvedDependency)`.
 
-- Посилання на реалізацію механізму інстанціювання: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs#L165-L215).
+- Посилання на реалізацію механізму інстанціювання: [25.2-DependencyInjectionRealWorld/Container/Container.cs](../25.2-DependencyInjectionRealWorld/Container/Container.cs#L165-L215).
 
 ---
 
-## 5. Керування життєвими циклами (Service Lifetimes)
+## 6. Керування життєвими циклами (Service Lifetimes)
 
 Контейнер підтримує дві фундаментальні моделі життєвого циклу:
 
@@ -179,9 +179,9 @@ flowchart TD
 
 ---
 
-## 6. Демонстраційний запуск та візуалізація дерева розв'язання
+## 7. Демонстраційний запуск та візуалізація дерева розв'язання
 
-Проєкт `19.2-DependencyInjectionRealWorld` містить повнофункціональну консольну демонстрацію інтернет-магазину зі структурованою емуляцією бази даних:
+Проєкт `25.2-DependencyInjectionRealWorld` містить повнофункціональну консольну демонстрацію інтернет-магазину зі структурованою емуляцією бази даних:
 
 ```csharp
 var container = new Container();
@@ -202,8 +202,8 @@ var orderService = container.Resolve<IOrderProcessingService>();
 orderService.PlaceOrder(customerId: 1, productId: 1, quantity: 2);
 ```
 
-- Посилання на вихідний код контейнера: [19.2-DependencyInjectionRealWorld/Container/Container.cs](../19.2-DependencyInjectionRealWorld/Container/Container.cs).
-- Посилання на контракт контейнера: [19.2-DependencyInjectionRealWorld/Container/IContainer.cs](../19.2-DependencyInjectionRealWorld/Container/IContainer.cs).
-- Посилання на емуляцію бази даних: [19.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs](../19.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs).
-- Посилання на бізнес-сервіс замовлень: [19.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs](../19.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs).
-- Посилання на консольну демонстраційну програму: [19.2-DependencyInjectionRealWorld/Program.cs](../19.2-DependencyInjectionRealWorld/Program.cs).
+- Посилання на вихідний код контейнера: [25.2-DependencyInjectionRealWorld/Container/Container.cs](../25.2-DependencyInjectionRealWorld/Container/Container.cs).
+- Посилання на контракт контейнера: [25.2-DependencyInjectionRealWorld/Container/IContainer.cs](../25.2-DependencyInjectionRealWorld/Container/IContainer.cs).
+- Посилання на емуляцію бази даних: [25.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs](../25.2-DependencyInjectionRealWorld/Data/InMemoryDatabaseContext.cs).
+- Посилання на бізнес-сервіс замовлень: [25.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs](../25.2-DependencyInjectionRealWorld/Services/Orders/OrderProcessingService.cs).
+- Посилання на консольну демонстраційну програму: [25.2-DependencyInjectionRealWorld/Program.cs](../25.2-DependencyInjectionRealWorld/Program.cs).

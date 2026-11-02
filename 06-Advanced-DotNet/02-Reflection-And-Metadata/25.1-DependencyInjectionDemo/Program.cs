@@ -3,7 +3,7 @@ using DependencyInjectionDemo;
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Console.WriteLine("==========================================================================");
-Console.WriteLine(" 19.1. НАВЧАЛЬНИЙ ВСТУП ДО DEPENDENCY INJECTION (DI) ЧЕРЕЗ РЕФЛЕКСІЮ");
+Console.WriteLine(" 25.1. НАВЧАЛЬНИЙ ВСТУП ДО DEPENDENCY INJECTION (DI) ЧЕРЕЗ РЕФЛЕКСІЮ");
 Console.WriteLine(" Як рефлексія автоматизує створення об'єктів та ін'єкцію залежностей");
 Console.WriteLine("==========================================================================\n");
 

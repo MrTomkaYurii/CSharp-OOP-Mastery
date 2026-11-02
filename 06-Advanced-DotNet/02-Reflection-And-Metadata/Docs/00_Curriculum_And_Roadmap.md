@@ -37,7 +37,7 @@
 
 ## 2. Логічна послідовність викладу матеріалу (Solution-теги та послідовність)
 
-Навчальний процес структуровано у **20 послідовних проєктів**, згрупованих за **6 Solution-тегами (Solution Folders)** у рішенні `OOP - Reflection.sln`:
+Навчальний процес структуровано у **31 послідовний проєкт**, згрупований за **6 Solution-тегами (Solution Folders)** у рішенні `OOP - Reflection.sln`:
 
 ```mermaid
 flowchart TD
@@ -74,13 +74,19 @@ flowchart TD
     end
 
     subgraph S5["05. Attributes & Serialization"]
-        P16 --> P17["17-CreateCustomAttributes: Декларативна валідація"]
-        P17 --> P18["18-SerializationDeserialization: Рефлексивний XML"]
+        P16 --> P17["17-AttributesBasicsDemo: Навіщо потрібні атрибути та #Blob"]
+        P17 --> P18["18-AttributesValidationDemo: Валідація властивостей та всього класу"]
+        P18 --> P19["19-SerializationBasicsJsonDemo: Серіалізація-Десеріалізація — Базове розуміння JSON"]
+        P19 --> P20["20-SerializationBasicsXmlDemo: Серіалізація-Десеріалізація — Базове розуміння XML"]
+        P20 --> P21["21-JsonSerializationDemo: Рефлексивна Серіалізація JSON"]
+        P21 --> P22["22-XmlSerializationDemo: Рефлексивна Серіалізація XML"]
+        P22 --> P23["23-JsonDeserializationDemo: Рефлексивна Десеріалізація JSON"]
+        P23 --> P24["24-XmlDeserializationDemo: Рефлексивна Десеріалізація XML"]
     end
 
     subgraph S6["06. Frameworks & Dependency Injection"]
-        P18 --> P19_1["19.1-DependencyInjectionDemo: Базовий навчальний IoC-контейнер"]
-        P19_1 --> P19_2["19.2-DependencyInjectionRealWorld: Промислова модульна DI архітектура"]
+        P24 --> P25_1["25.1-DependencyInjectionDemo: Базовий навчальний IoC-контейнер"]
+        P25_1 --> P25_2["25.2-DependencyInjectionRealWorld: Промислова модульна DI архітектура"]
     end
 ```
 
@@ -111,10 +117,16 @@ flowchart TD
 | **15.2** | `04. Dynamic Execution & Performance` | `15.2-ExpressionTreesMemberAccessDemo` | Бустінг рефлексії: `Expression.Property` (геттери), `Call` (методи), `New` (фабрики) | [15.2-ExpressionTreesMemberAccessDemo/Program.cs](../15.2-ExpressionTreesMemberAccessDemo/Program.cs) | Просунутий |
 | **15.3** | `04. Dynamic Execution & Performance` | `15.3-ReflectionPerformanceDemo` | Порівняння швидкодії: Direct Call vs Delegates vs Expressions vs Invoke | [15.3-ReflectionPerformanceDemo/Program.cs](../15.3-ReflectionPerformanceDemo/Program.cs) | Експертний |
 | **16** | `04. Dynamic Execution & Performance` | `16-UnsafeAccessorDemo` | JIT Intrinsic `[UnsafeAccessor]` (.NET 8+): прямий доступ до private без оверхеду | [16-UnsafeAccessorDemo/Program.cs](../16-UnsafeAccessorDemo/Program.cs) | Експертний |
-| **17** | `05. Attributes & Serialization` | `17-CreateCustomAttributes` | Власні атрибути `AttributeUsage`, валідація, потік `#Blob` | [17-CreateCustomAttributes/Program.cs](../17-CreateCustomAttributes/Program.cs) | Просунутий |
-| **18** | `05. Attributes & Serialization` | `18-SerializationDeserialization` | Рефлексивний обхід графу властивостей, зіставлення та XML-серіалізація | [18-SerializationDeserialization/Program.cs](../18-SerializationDeserialization/Program.cs) | Просунутий |
-| **19.1** | `06. Frameworks & Dependency Injection` | `19.1-DependencyInjectionDemo` | **Навчальний DI-контейнер**: прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke` | [19.1-DependencyInjectionDemo/Program.cs](../19.1-DependencyInjectionDemo/Program.cs) | Середній |
-| **19.2** | `06. Frameworks & Dependency Injection` | `19.2-DependencyInjectionRealWorld` | **Промисловий DI-контейнер**: повна модульна архітектура, In-Memory DB, валідація циклів | [19.2-DependencyInjectionRealWorld/Program.cs](../19.2-DependencyInjectionRealWorld/Program.cs) | Експертний |
+| **17** | `05. Attributes & Serialization` | `17-AttributesBasicsDemo` | Навіщо потрібні атрибути: документація, маршрутизація команд, контроль ролей, потік `#Blob` | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs) | Базовий |
+| **18** | `05. Attributes & Serialization` | `18-AttributesValidationDemo` | Декларативна валідація на рівні властивостей (`Property`) та на рівні всього класу (`Class`) | [18-AttributesValidationDemo/Program.cs](../18-AttributesValidationDemo/Program.cs) | Середній |
+| **19** | `05. Attributes & Serialization` | `19-SerializationBasicsJsonDemo` | Серіалізація-Десеріалізація — Базове розуміння JSON (`System.Text.Json`, `JsonDocument`) | [19-SerializationBasicsJsonDemo/Program.cs](../19-SerializationBasicsJsonDemo/Program.cs) | Базовий |
+| **20** | `05. Attributes & Serialization` | `20-SerializationBasicsXmlDemo` | Серіалізація-Десеріалізація — Базове розуміння XML (`XmlSerializer`, `XDocument`, елементи vs атрибути) | [20-SerializationBasicsXmlDemo/Program.cs](../20-SerializationBasicsXmlDemo/Program.cs) | Базовий |
+| **21** | `05. Attributes & Serialization` | `21-JsonSerializationDemo` | Рефлексивна Серіалізація JSON: `GetProperties`, `GetValue`, `[JsonField]`, `[JsonExclude]` | [21-JsonSerializationDemo/Program.cs](../21-JsonSerializationDemo/Program.cs) | Просунутий |
+| **22** | `05. Attributes & Serialization` | `22-XmlSerializationDemo` | Рефлексивна Серіалізація XML: `[XmlRootTag]`, `[XmlAttr]`, `[XmlTag]`, `[XmlExclude]` | [22-XmlSerializationDemo/Program.cs](../22-XmlSerializationDemo/Program.cs) | Просунутий |
+| **23** | `05. Attributes & Serialization` | `23-JsonDeserializationDemo` | Рефлексивна Десеріалізація JSON: `Activator.CreateInstance`, `SetValue`, приведення типів | [23-JsonDeserializationDemo/Program.cs](../23-JsonDeserializationDemo/Program.cs) | Просунутий |
+| **24** | `05. Attributes & Serialization` | `24-XmlDeserializationDemo` | Рефлексивна Десеріалізація XML: розбір атрибутів і тегів, `Convert.ChangeType`, `SetValue` | [24-XmlDeserializationDemo/Program.cs](../24-XmlDeserializationDemo/Program.cs) | Просунутий |
+| **25.1** | `06. Frameworks & Dependency Injection` | `25.1-DependencyInjectionDemo` | **Навчальний DI-контейнер**: прозоре створення екземплярів через `GetConstructors`, `GetParameters`, `Invoke` | [25.1-DependencyInjectionDemo/Program.cs](../25.1-DependencyInjectionDemo/Program.cs) | Середній |
+| **25.2** | `06. Frameworks & Dependency Injection` | `25.2-DependencyInjectionRealWorld` | **Промисловий DI-контейнер**: повна модульна архітектура, In-Memory DB, валідація циклів | [25.2-DependencyInjectionRealWorld/Program.cs](../25.2-DependencyInjectionRealWorld/Program.cs) | Експертний |
 
 ---
 
@@ -123,7 +135,7 @@ flowchart TD
 1. [01. Дослідження системи типів та інспекція метаданих](01_Type_System_And_Metadata_Inspection.md) — Детальний розбір класів `Type`, `Assembly`, `MemberInfo` з таблицями методів.
 2. [02. Члени типу, параметри та бітові прапорці BindingFlags](02_Members_And_BindingFlags.md) — Дослідження `FieldInfo`, `PropertyInfo`, `MethodInfo`, `ConstructorInfo`, `ParameterInfo`.
 3. [03. Пізнє зв'язування, активація та дженерики](03_Late_Binding_And_Generics.md) — `Activator`, dynamic invoke, динамічне конструювання узагальнених типів та методів.
-4. [04. Метадані, атрибути та валідаційні рушії](04_Attributes_And_Metadata_Validation.md) — Декларативне програмування, користувацькі атрибути, серіалізація.
+4. [04. Метадані, атрибути, валідація на рівні класу та серіалізація](04_Attributes_And_Metadata_Validation.md) — Декларативне програмування, користувацькі атрибути, серіалізація та десеріалізація JSON/XML.
 5. [05. Дерева виразів (Expression Trees) та динамічна компіляція в .NET](05_Expression_Trees_Deep_Dive.md) — Детальний розбір концепції «код як дані», конструювання AST та прискорення рефлексії.
 6. [06. Продуктивність рефлексії, UnsafeAccessor та Native AOT](06_Performance_Optimization_And_Native_AOT.md) — Аналіз вузьких місць `Invoke`, бенчмарки, `[UnsafeAccessor]` та Native AOT Trimming.
 7. [07. Власний IoC/DI Контейнер: Повний розбір архітектури](07_IoC_Container_Deep_Dive.md) — Повне керівництво з побудови промислового міні-IoC контейнера.
