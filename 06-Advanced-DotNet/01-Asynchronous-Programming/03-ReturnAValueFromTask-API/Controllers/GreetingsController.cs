@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _03_ReturnAValueFromTask_API.Controllers
 {
+    /// <summary>
+    /// =========================================================================================
+    /// СЕРВЕРНА ЧАСТИНА: Асинхронний Web API контролер
+    /// =========================================================================================
+    /// Надає HTTP REST ендпоінт для демонстрації взаємодії з клієнтськими асинхронними викликами.
+    /// В ASP.NET Core запити обробляються пулом потоків веб-сервера Kestrel.
+    /// </summary>
     public class GreetingsController : Controller
     {
-        //api/greetings/name
+        // =====================================================================================
+        // БЛОК 1: HTTP GET Ендпоінт генерації привітання
+        // Маршрут: GET api/greetings/{name}
+        // =====================================================================================
         [Route("api/greetings/{name}")]
         [HttpGet]
         public string GetGreetings(string name)
         {
+            // Формування відповіді для клієнтського застосунку
             return $"Hello {name}, Welcome to Web API";
         }
     }

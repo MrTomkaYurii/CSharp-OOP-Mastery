@@ -1,26 +1,52 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace TaskBasedAsynchronousProgramming
 {
-    class Program
+    /// <summary>
+    /// =========================================================================================
+    /// ПОВЕРНЕННЯ СКЛАДНИХ ТИПІВ (Complex Types in Task<T>): Робота з об'єктами сутностей
+    /// =========================================================================================
+    /// Демонструє, як асинхронні методи інкапсулюють передачу користувацьких типів (DTO, Entity)
+    /// через Task<TEntity>. Після 'await' результат є повністю типізованим посиланням на об'єкт.
+    /// </summary>
+    internal class Program
     {
+        // =====================================================================================
+        // БЛОК 1: Точка входу в програму
+        // =====================================================================================
         static void Main(string[] args)
         {
-            Console.WriteLine($"Main Thread Started");
+            Console.WriteLine("Main Thread Started");
+
             SomeMethod();
-            Console.WriteLine($"Main Thread Completed");
+
+            Console.WriteLine("Main Thread Completed");
             Console.ReadKey();
         }
 
+        // =====================================================================================
+        // БЛОК 2: Асинхронний метод споживання об'єкта
+        // Очікує завершення Task<Employee> та працює з його властивостями.
+        // =====================================================================================
         private async static void SomeMethod()
         {
+            // Отримання складного об'єкта через await
             Employee emp = await GetEmployeeDetails();
-            Console.WriteLine($"ID: {emp.ID}, Name : {emp.Name}, Salary : {emp.Salary}");
+
+            // Робота зі значеннями полів сутності
+            Console.WriteLine($"ID: {emp.ID}, Name: {emp.Name}, Salary: {emp.Salary}");
         }
 
+        // =====================================================================================
+        // БЛОК 3: Фабричний асинхронний метод постачальника даних
+        // Повертає Task<Employee>. В реальному застосунку дані зчитуються з БД (EF Core) або JSON.
+        // =====================================================================================
         static async Task<Employee> GetEmployeeDetails()
         {
+            // Імітація асинхронної паузи (наприклад, запит до бази даних)
+            await Task.Delay(100);
+
             Employee employee = new Employee()
             {
                 ID = 101,
@@ -32,10 +58,13 @@ namespace TaskBasedAsynchronousProgramming
         }
     }
 
+    // =========================================================================================
+    // БЛОК 4: Модель даних сутності (Entity / DTO)
+    // =========================================================================================
     public class Employee
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public double Salary { get; set; }
     }
 }

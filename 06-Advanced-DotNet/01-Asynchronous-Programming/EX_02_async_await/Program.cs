@@ -1,235 +1,240 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EX_02_async_await
 {
+    /// <summary>
+    /// =========================================================================================
+    /// ЕКСПЕРИМЕНТ 2: Метафора «Асинхронний сніданок» (Синхронно vs Task.WhenAny)
+    /// =========================================================================================
+    /// Хрестоматійний приклад Microsoft Docs. Пояснює різницю між кухарем, який чекає кожну
+    /// страву послідовно (сніданок охолоне і готуватиметься 30 хвилин), та асинхронним шефом,
+    /// який одночасно ставить каву, смажить яйця, бекон і тости, обробляючи кожну страву
+    /// в міру її готовності через комбінатор Task.WhenAny.
+    /// </summary>
     internal class Program
     {
+        // Доменні сутності страв сніданку
         internal class Bacon { }
         internal class Coffee { }
         internal class Egg { }
         internal class Juice { }
         internal class Toast { }
 
-
-        static Task Main(string[] args)
+        // =====================================================================================
+        // БЛОК 1: Консольне меню перемикання режимів
+        // =====================================================================================
+        static async Task Main(string[] args)
         {
             bool showMenu = true;
             while (showMenu)
             {
-                showMenu = MainMenuAsync().Result;
+                showMenu = await MainMenuAsync();
             }
-
-            return Task.CompletedTask;
         }
 
         private static async Task<bool> MainMenuAsync()
         {
             Console.Clear();
-            Console.WriteLine("Choose an option:");
-            Console.WriteLine("1) Синхронне приготування обіду");
-            Console.WriteLine("2) Асинхронне приготування обіду");
-            Console.WriteLine("0) Exit");
-            Console.Write("\r\nSelect an option: ");
+            Console.WriteLine("=============================================================");
+            Console.WriteLine(" ЕКСПЕРИМЕНТ 2: Асинхронний сніданок (Task.WhenAny)");
+            Console.WriteLine("=============================================================");
+            Console.WriteLine("1) Синхронне приготування сніданку (послідовне блокування)");
+            Console.WriteLine("2) Асинхронне приготування сніданку (обробка по мірі готовності)");
+            Console.WriteLine("0) Вихід");
+            Console.Write("\r\nОберіть опцію: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    Console.WriteLine("================================");
-                    Console.WriteLine("Синхронний сніданок");
-                    Console.WriteLine("================================");
-
+                    Console.WriteLine("\n--- Синхронний сніданок (Кожна дія чекає попередню) ---");
                     Coffee cup = PourCoffee();
-                    Console.WriteLine("coffee is ready");
+                    Console.WriteLine("1. Кава налита");
 
                     Egg eggs = FryEggs(2);
-                    Console.WriteLine("eggs are ready");
+                    Console.WriteLine("2. Яєчня готова");
 
                     Bacon bacon = FryBacon(3);
-                    Console.WriteLine("bacon is ready");
+                    Console.WriteLine("3. Бекон посмажений");
 
                     Toast toast = ToastBread(2);
                     ApplyButter(toast);
                     ApplyJam(toast);
-                    Console.WriteLine("toast is ready");
+                    Console.WriteLine("4. Тости з маслом і джемом готові");
 
                     Juice oj = PourOJ();
-                    Console.WriteLine("oj is ready");
-                    Console.WriteLine("Breakfast is ready!");
+                    Console.WriteLine("5. Сік налитий");
+                    Console.WriteLine("\n Сніданок повністю готовий!");
 
                     Console.ReadKey();
                     return true;
 
-
                 case "2":
-                    Coffee cofee_cup = PourCoffeeSync();
-                    Console.WriteLine("coffee is ready");
+                    Console.WriteLine("\n--- Асинхронний сніданок (Паралельне приготування) ---");
+                    Coffee coffeeCup = PourCoffeeSync();
+                    Console.WriteLine("1. Каву налито (синхронна миттєва дія)");
 
+                    // Одночасний запуск усіх теплових процесів (без негайного await!)
                     var eggsTask = FryEggsAsync(2);
                     var baconTask = FryBaconAsync(3);
                     var toastTask = MakeToastWithButterAndJamAsync(2);
 
+                    // Реєстрація активних процесів у списку
                     var breakfastTasks = new List<Task> { eggsTask, baconTask, toastTask };
+
+                    // Обробка страв у міру їх готовності за допомогою Task.WhenAny
                     while (breakfastTasks.Count > 0)
                     {
                         Task finishedTask = await Task.WhenAny(breakfastTasks);
                         if (finishedTask == eggsTask)
                         {
-                            Console.WriteLine("eggs are ready");
+                            Console.WriteLine("-> Яєчня посмажилась!");
                         }
                         else if (finishedTask == baconTask)
                         {
-                            Console.WriteLine("bacon is ready");
+                            Console.WriteLine("-> Бекон хрусткий і готовий!");
                         }
                         else if (finishedTask == toastTask)
                         {
-                            Console.WriteLine("toast is ready");
+                            Console.WriteLine("-> Тости підсмажені та намащені!");
                         }
                         breakfastTasks.Remove(finishedTask);
                     }
-                    Juice juice_oj = PourOJSync();
-                    Console.WriteLine("oj is ready");
-                    Console.WriteLine("Breakfast is ready!");
+
+                    Juice juiceOj = PourOJSync();
+                    Console.WriteLine("-> Апельсиновий сік налито");
+                    Console.WriteLine("\n Всі страви гарячі та готові одночасно!");
 
                     Console.ReadKey();
                     return true;
+
                 case "0":
                     return false;
+
                 default:
                     return true;
             }
         }
 
-        // --- 01 --- СИНХРОННА РЕАЛІЗАЦІЯ
+        // =====================================================================================
+        // БЛОК 2: Синхронні методи з блокуванням потоку через Thread.Sleep
+        // =====================================================================================
         private static Juice PourOJ()
         {
-            Console.WriteLine("Pouring orange juice");
+            Console.WriteLine("Наливаємо апельсиновий сік...");
             return new Juice();
         }
 
         private static void ApplyJam(Toast toast) =>
-            Console.WriteLine("Putting jam on the toast");
+            Console.WriteLine("Намащуємо джем на тост...");
 
         private static void ApplyButter(Toast toast) =>
-            Console.WriteLine("Putting butter on the toast");
+            Console.WriteLine("Намащуємо масло на тост...");
 
         private static Toast ToastBread(int slices)
         {
             for (int slice = 0; slice < slices; slice++)
             {
-                Console.WriteLine("Putting a slice of bread in the toaster");
+                Console.WriteLine("Кладемо скибку хліба в тостер...");
             }
-            Console.WriteLine("Start toasting...");
-            Task.Delay(3000).Wait();
-            Console.WriteLine("Remove toast from toaster");
-
+            Console.WriteLine("Починаємо підсмажування тостів...");
+            Thread.Sleep(3000);
+            Console.WriteLine("Дістаємо підсмажені тости з тостера...");
             return new Toast();
         }
 
         private static Bacon FryBacon(int slices)
         {
-            Console.WriteLine($"putting {slices} slices of bacon in the pan");
-            Console.WriteLine("cooking first side of bacon...");
-            Task.Delay(3000).Wait();
+            Console.WriteLine($"Кладемо {slices} скибок бекону на сковорідку...");
+            Console.WriteLine("Смажимо перший бік бекону...");
+            Thread.Sleep(3000);
             for (int slice = 0; slice < slices; slice++)
             {
-                Console.WriteLine("flipping a slice of bacon");
+                Console.WriteLine("Перевертаємо скибку бекону...");
             }
-            Console.WriteLine("cooking the second side of bacon...");
-            Task.Delay(3000).Wait();
-            Console.WriteLine("Put bacon on plate");
-
+            Console.WriteLine("Смажимо другий бік бекону...");
+            Thread.Sleep(3000);
+            Console.WriteLine("Викладаємо бекон на тарілку...");
             return new Bacon();
         }
 
         private static Egg FryEggs(int howMany)
         {
-            Console.WriteLine("Warming the egg pan...");
-            Task.Delay(3000).Wait();
-            Console.WriteLine($"cracking {howMany} eggs");
-            Console.WriteLine("cooking the eggs ...");
-            Task.Delay(3000).Wait();
-            Console.WriteLine("Put eggs on plate");
-
+            Console.WriteLine("Розігріваємо сковорідку...");
+            Thread.Sleep(3000);
+            Console.WriteLine($"Розбиваємо {howMany} яєць на сковорідку...");
+            Console.WriteLine("Смажимо яйця...");
+            Thread.Sleep(3000);
+            Console.WriteLine("Викладаємо яєчню на тарілку...");
             return new Egg();
         }
 
         private static Coffee PourCoffee()
         {
-            Console.WriteLine("Pouring coffee");
+            Console.WriteLine("Наливаємо свіжу каву у чашку...");
             return new Coffee();
         }
 
-
-
-        // --- 02 --- АСИНХРОННА РЕАЛІЗАЦІЯ
-        static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
+        // =====================================================================================
+        // БЛОК 3: Асинхронні операції приготування (Неблокуючі, Task.Delay)
+        // =====================================================================================
+        private static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
         {
-            var toast = await ToastBreadAsync(number);
-            ApplyButterSync(toast);
-            ApplyJamSync(toast);
-
-            return toast;
+            var plainToast = await ToastBreadAsync(number);
+            ApplyButter(plainToast);
+            ApplyJam(plainToast);
+            return plainToast;
         }
-
-        private static Juice PourOJSync()
-        {
-            Console.WriteLine("Pouring orange juice");
-            return new Juice();
-        }
-
-        private static void ApplyJamSync(Toast toast) =>
-            Console.WriteLine("Putting jam on the toast");
-
-        private static void ApplyButterSync(Toast toast) =>
-            Console.WriteLine("Putting butter on the toast");
 
         private static async Task<Toast> ToastBreadAsync(int slices)
         {
             for (int slice = 0; slice < slices; slice++)
             {
-                Console.WriteLine("Putting a slice of bread in the toaster");
+                Console.WriteLine("Кладемо скибку хліба в тостер...");
             }
-            Console.WriteLine("Start toasting...");
+            Console.WriteLine("Початок підсмажування тостів...");
             await Task.Delay(3000);
-            Console.WriteLine("Remove toast from toaster");
-
+            Console.WriteLine("Тости вискочили з тостера!");
             return new Toast();
         }
 
         private static async Task<Bacon> FryBaconAsync(int slices)
         {
-            Console.WriteLine($"putting {slices} slices of bacon in the pan");
-            Console.WriteLine("cooking first side of bacon...");
+            Console.WriteLine($"Кладемо {slices} скибок бекону на сковорідку...");
+            Console.WriteLine("Смажимо перший бік бекону...");
             await Task.Delay(3000);
             for (int slice = 0; slice < slices; slice++)
             {
-                Console.WriteLine("flipping a slice of bacon");
+                Console.WriteLine("Перевертаємо скибку бекону...");
             }
-            Console.WriteLine("cooking the second side of bacon...");
+            Console.WriteLine("Смажимо другий бік бекону...");
             await Task.Delay(3000);
-            Console.WriteLine("Put bacon on plate");
-
+            Console.WriteLine("Бекон готовий!");
             return new Bacon();
         }
 
         private static async Task<Egg> FryEggsAsync(int howMany)
         {
-            Console.WriteLine("Warming the egg pan...");
+            Console.WriteLine("Розігріваємо сковорідку для яєчні...");
             await Task.Delay(3000);
-            Console.WriteLine($"cracking {howMany} eggs");
-            Console.WriteLine("cooking the eggs ...");
+            Console.WriteLine($"Розбиваємо {howMany} яєць...");
+            Console.WriteLine("Яйця смажаться...");
             await Task.Delay(3000);
-            Console.WriteLine("Put eggs on plate");
-
+            Console.WriteLine("Яєчня готова!");
             return new Egg();
         }
 
         private static Coffee PourCoffeeSync()
         {
-            Console.WriteLine("Pouring coffee");
+            Console.WriteLine("Наливаємо гарячу каву...");
             return new Coffee();
+        }
+
+        private static Juice PourOJSync()
+        {
+            Console.WriteLine("Наливаємо склянку апельсинового соку...");
+            return new Juice();
         }
     }
 }

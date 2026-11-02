@@ -1,44 +1,57 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace AsynchronousProgramming
 {
-    class Program
+    /// <summary>
+    /// =========================================================================================
+    /// АГРЕГАЦІЯ ВІДПОВІДЕЙ МНОЖИННИХ ЗАДАЧ: Збір, десеріалізація та фільтрація результатів
+    /// =========================================================================================
+    /// Демонструє повний виробничий цикл:
+    /// 1. Троттлінг паралельних запитів (SemaphoreSlim)
+    /// 2. Одночасне очікування всіх відповідей (Task.WhenAll)
+    /// 3. Десеріалізація відповідей із JSON у типізовані об'єкти
+    /// 4. Пост-обробка, групування та бізнес-фільтрація (Approved vs Rejected)
+    /// </summary>
+    internal class Program
     {
-        //Allowing Maximum 3 tasks to be executed at a time
-        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(3);
+        // =====================================================================================
+        // БЛОК 1: Обмежувач конкурентності (максимум 3 задачі одночасно)
+        // =====================================================================================
+        private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(3);
+
         static void Main(string[] args)
         {
-            var stopwatch = new Stopwatch();
-            Console.WriteLine($"Main Thread Started");
+            var stopwatch = Stopwatch.StartNew();
+            Console.WriteLine("Main Thread Started");
 
-            //Generating 15 Credit Cards
+            // Генерація 15 карток для обробки
             List<CreditCard> creditCards = CreditCard.GenerateCreditCards(15);
             Console.WriteLine($"Credit Card Generated : {creditCards.Count}");
 
+            // Запуск обробки та агрегації відповідей
             ProcessCreditCards(creditCards);
 
-            Console.WriteLine($"Main Thread Completed");
+            Console.WriteLine("Main Thread Completed");
             Console.ReadKey();
         }
 
+        // =====================================================================================
+        // БЛОК 2: Асинхронний конвеєр збору та обробки відповідей
+        // =====================================================================================
         public static async void ProcessCreditCards(List<CreditCard> creditCards)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            var stopwatch = Stopwatch.StartNew();
 
-            var tasks = new List<Task<string>>();
-
-            //Need to use async lambda expression
-            tasks = creditCards.Select(async card =>
+            // 1. Формування пулу задач із контролем доступу через семафор
+            var tasks = creditCards.Select(async card =>
             {
                 await semaphoreSlim.WaitAsync();
-
                 try
                 {
                     return await ProcessCard(card);
@@ -47,42 +60,46 @@ namespace AsynchronousProgramming
                 {
                     semaphoreSlim.Release();
                 }
-
             }).ToList();
 
-            //Return the response a string array
-            var Responses = await Task.WhenAll(tasks);
+            // 2. Очікування всіх відповідей (повертає масив JSON-рядків string[])
+            string[] rawResponses = await Task.WhenAll(tasks);
 
-            //Creating a collection to hold the responses
-            List<CreditCardResponse> creditCardResponses = new List<CreditCardResponse>();
-
-            //Looping through the string array
-            foreach (var response in Responses)
+            // 3. Десеріалізація отриманих JSON-відповідей у типізовані об'єкти DTO
+            var creditCardResponses = new List<CreditCardResponse>();
+            foreach (var responseJson in rawResponses)
             {
-                //Here, the string is a JSON string
-                //Converting the JSON String to .NET Object (CreditCardResponse) using
-                //JsonConvert class DeserializeObject
-                CreditCardResponse creditCardResponse = JsonConvert.DeserializeObject<CreditCardResponse>(response);
-
-                //Adding the .NET Object into the resposne collection
-                creditCardResponses.Add(creditCardResponse);
+                if (responseJson != null)
+                {
+                    CreditCardResponse? parsedResponse = JsonConvert.DeserializeObject<CreditCardResponse>(responseJson);
+                    if (parsedResponse != null)
+                    {
+                        creditCardResponses.Add(parsedResponse);
+                    }
+                }
             }
 
-            //Printing all the approved credit cards using a foreach loop
-            Console.WriteLine("\nApproved Credit Cards");
-            foreach (var item in creditCardResponses.Where(card => card.IsProcessed == true))
+            // 4. Бізнес-аналітика та фільтрація результатів (LINQ)
+            Console.WriteLine("\n=== Схвалені картки (Approved) ===");
+            foreach (var item in creditCardResponses.Where(c => c.IsProcessed))
             {
-                Console.WriteLine($"Card Number: {item.CardNumber}, Name: {item.Name}");
+                Console.WriteLine($"Card: {item.CardNumber}, Name: {item.Name}");
             }
 
-            //Printing all the rejected credit cards using a foreach loop
-            Console.WriteLine("\nRejected Credit Cards");
-            foreach (var item in creditCardResponses.Where(card => card.IsProcessed == false))
+            Console.WriteLine("\n=== Відхилені картки (Rejected) ===");
+            foreach (var item in creditCardResponses.Where(c => !c.IsProcessed))
             {
-                Console.WriteLine($"Card Number: {item.CardNumber}, Name: {item.Name}");
+                Console.WriteLine($"Card: {item.CardNumber}, Name: {item.Name}");
             }
+
+            stopwatch.Stop();
+            Console.WriteLine($"\nОбробку завершено за {stopwatch.ElapsedMilliseconds / 1000.0} сек");
         }
 
+        // =====================================================================================
+        // БЛОК 3: Імітація обробки картки банківським шлюзом
+        // Повертає результат у форматі JSON
+        // =====================================================================================
         public static async Task<string> ProcessCard(CreditCard creditCard)
         {
             await Task.Delay(1000);
@@ -91,48 +108,41 @@ namespace AsynchronousProgramming
             {
                 CardNumber = creditCard.CardNumber,
                 Name = creditCard.Name,
-
-                //Logic to Decide whether the card is processed or rejected
-                //If modulus 2 is 0, the processed else rejected
-                IsProcessed = creditCard.CardNumber % 2 == 0 ? true : false
+                // Парні номери схвалюються, непарні - відхиляються
+                IsProcessed = creditCard.CardNumber % 2 == 0
             };
 
-            //Converting the .NET Object to JSON string
-            string jsonString = JsonConvert.SerializeObject(creditCardResponse);
-
-            //Return the JSON String
-            return jsonString;
+            return JsonConvert.SerializeObject(creditCardResponse);
         }
     }
 
+    // =========================================================================================
+    // БЛОК 4: Моделі даних запиту та відповіді
+    // =========================================================================================
     public class CreditCard
     {
         public long CardNumber { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public static List<CreditCard> GenerateCreditCards(int number)
         {
-            List<CreditCard> creditCards = new List<CreditCard>();
+            var creditCards = new List<CreditCard>(number);
             for (int i = 0; i < number; i++)
             {
-                CreditCard card = new CreditCard()
+                creditCards.Add(new CreditCard
                 {
                     CardNumber = 10000000 + i,
                     Name = "CreditCard-" + i
-                };
-
-                creditCards.Add(card);
+                });
             }
-
             return creditCards;
         }
     }
 
-    //This class will hold the response after processing the Credit card
     public class CreditCardResponse
     {
         public long CardNumber { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public bool IsProcessed { get; set; }
     }
 }
