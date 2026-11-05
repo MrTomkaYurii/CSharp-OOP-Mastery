@@ -38,8 +38,7 @@ classDiagram
 ```mermaid
 sequenceDiagram
     participant Code as Код програми
-    participant List as List<T>
-    participant OldArr as Старий масив (Cap: 4)
+    participant List as List<T> participant OldArr as Старий масив (Cap: 4)
     participant NewArr as Новий масив (Cap: 8)
     participant GC as Garbage Collector
 

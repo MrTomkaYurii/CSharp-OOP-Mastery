@@ -69,3 +69,22 @@ public class OrderService(ILogger logger, IOrderRepository repository)
 5. **Методи-ланцюжки (Method Chaining / Fluent API):** `return this;`.
 6. **Передача поточного об'єкта як аргументу:** `notifier.Register(this);`.
 7. **Порівняння посилань в `Equals`:** `if (ReferenceEquals(this, other)) return true;`.
+
+
+
+---
+
+
+
+## Матриця проєктів цієї секції (`03. Конструктори, Ініціалізатори та this`)
+
+
+
+| Проєкт у Solution Explorer | Файл коду | Що реалізовано в прикладі |
+|:---|:---|:---|
+| **Ex-Default-Constructor** | [Program.cs](../Ex-Default-Constructor/Program.cs) | Неявний конструктор за замовчуванням проти користувацького параметризованого конструктора |
+| **SOLIS-p153** | [Program.cs](../SOLIS-p153/Program.cs) | Перевантаження конструкторів класу з різними наборами параметрів |
+| **SOLIS-p158** | [Program.cs](../SOLIS-p158/Program.cs) | Синтаксис ініціалізаторів об'єктів `new Point { X = 5, Y = 6 }` |
+| **SOLIS-p160** | [Program.cs](../SOLIS-p160/Program.cs) | Використання посилання `this` для доступу до перекритих полів класу |
+| **Ex-This-In-Constructor-01** | [Program.cs](../Ex-This-In-Constructor/Program.cs) | 7 практичних сценаріїв застосування ключового слова `this` у класі |
+| **Ex-This-In-Constructor-02** | [Program.cs](../Ex-This-In-Constructor-02/Program.cs) | Ланцюжок виклику конструкторів (`Constructor Chaining`) через `: this(...)` | 

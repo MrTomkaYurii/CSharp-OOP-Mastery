@@ -1,0 +1,77 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		01-SystemObjectAndEquality.md = 01-SystemObjectAndEquality.md
+		02-HierarchyEncapsulationAndProtected.md = 02-HierarchyEncapsulationAndProtected.md
+		03-AbstractClassVsInterface.md = 03-AbstractClassVsInterface.md
+		04-PolymorphismAndCompositionDesign.md = 04-PolymorphismAndCompositionDesign.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Корінь ієрархії System.Object та семантика рівності", "01. Корінь ієрархії System.Object та семантика рівності", "{33333333-4444-5555-6666-777777777701}"
+	ProjectSection(SolutionItems) = preProject
+		01-SystemObjectAndEquality.md = 01-SystemObjectAndEquality.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Інкапсуляція в ієрархіях (protected, internal, private protected)", "02. Інкапсуляція в ієрархіях (protected, internal, private protected)", "{33333333-4444-5555-6666-777777777702}"
+	ProjectSection(SolutionItems) = preProject
+		02-HierarchyEncapsulationAndProtected.md = 02-HierarchyEncapsulationAndProtected.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Абстрактний клас проти Інтерфейсу та патерн Template Method", "03. Абстрактний клас проти Інтерфейсу та патерн Template Method", "{33333333-4444-5555-6666-777777777703}"
+	ProjectSection(SolutionItems) = preProject
+		03-AbstractClassVsInterface.md = 03-AbstractClassVsInterface.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Поліморфізм замість умовних операторів та Композиція проти Спадкування", "04. Поліморфізм замість умовних операторів та Композиція проти Спадкування", "{33333333-4444-5555-6666-777777777704}"
+	ProjectSection(SolutionItems) = preProject
+		04-PolymorphismAndCompositionDesign.md = 04-PolymorphismAndCompositionDesign.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-SystemObjectAndEquality", "01-SystemObjectAndEquality\01-SystemObjectAndEquality.csproj", "{33333333-AAAA-BBBB-CCCC-000000000001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-HierarchyEncapsulationAndProtected", "02-HierarchyEncapsulationAndProtected\02-HierarchyEncapsulationAndProtected.csproj", "{33333333-AAAA-BBBB-CCCC-000000000002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-AbstractClassVsInterface", "03-AbstractClassVsInterface\03-AbstractClassVsInterface.csproj", "{33333333-AAAA-BBBB-CCCC-000000000003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-PolymorphismAndCompositionDesign", "04-PolymorphismAndCompositionDesign\04-PolymorphismAndCompositionDesign.csproj", "{33333333-AAAA-BBBB-CCCC-000000000004}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33333333-AAAA-BBBB-CCCC-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33333333-AAAA-BBBB-CCCC-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33333333-AAAA-BBBB-CCCC-000000000001} = {33333333-4444-5555-6666-777777777701}
+		{33333333-AAAA-BBBB-CCCC-000000000002} = {33333333-4444-5555-6666-777777777702}
+		{33333333-AAAA-BBBB-CCCC-000000000003} = {33333333-4444-5555-6666-777777777703}
+		{33333333-AAAA-BBBB-CCCC-000000000004} = {33333333-4444-5555-6666-777777777704}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33333333-4444-5555-6666-777777777799}
+	EndGlobalSection
+EndGlobal

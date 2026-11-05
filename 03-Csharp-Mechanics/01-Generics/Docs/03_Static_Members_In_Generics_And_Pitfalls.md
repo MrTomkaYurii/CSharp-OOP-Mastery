@@ -9,8 +9,7 @@
 > **Золоте правило CLR:** Для кожного окремого **закритого типу** (`Closed Generic Type`) CLR генерує окрему таблицю методів і виділяє **окремий набір статичних полів**!
 
 ```csharp
-public class Counter<T>
-{
+public class Counter<T> {
     public static int Count;
 }
 
@@ -18,8 +17,8 @@ public class Counter<T>
 Counter<int>.Count = 10;
 Counter<string>.Count = 25;
 
-Console.WriteLine(Counter<int>.Count);    // ➔ 10
-Console.WriteLine(Counter<string>.Count); // ➔ 25 (це РІЗНІ змінні в пам'яті!)
+Console.WriteLine(Counter<int>.Count);    //  10
+Console.WriteLine(Counter<string>.Count); //  25 (це РІЗНІ змінні в пам'яті!)
 ```
 
 ```mermaid

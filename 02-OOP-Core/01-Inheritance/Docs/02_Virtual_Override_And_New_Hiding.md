@@ -1,6 +1,6 @@
-# Лекція 2: Поліморфізм, Віртуальні Методи (`override`) проти Приховування (`new`)
+# 02. Віртуальні члени (`virtual`), Перевизначення (`override`) vs Приховування (`new`)
 
-Одне з найпоширеніших джерел багів у початківців C# — це плутанина між **перевизначенням (`override`)** та **приховуванням членів (`new`)**.
+Одне з найважливіших понять ООП у C# — це різниця між **поліморфним перевизначенням (`override`)** та **статичним приховуванням членів (`new`)**.
 
 ---
 
@@ -10,14 +10,14 @@
 flowchart TD
     subgraph EarlyBinding ["Раннє зв'язування (Compile-Time / Метод new або non-virtual)"]
         direction TB
-        Call1["Виклик animal.Speak()"] --> TypeCheck1["Тип змінної: Animal"]
-        TypeCheck1 --> Method1["Викликається Animal.Speak() (завжди!)"]
+        Call1["Виклик mybc.Print()"] --> TypeCheck1["Тип змінної: MyBaseClass"]
+        TypeCheck1 --> Method1["Викликається MyBaseClass.Print() (завжди за типом посилання!)"]
     end
 
     subgraph LateBinding ["Пізнє зв'язування (Run-Time / Метод virtual + override)"]
         direction TB
-        Call2["Виклик animal.Speak()"] --> TypeCheck2["Таблиця vtable об'єкта в купі"]
-        TypeCheck2 --> Method2["Викликається Dog.Speak() (фактичний тип!)"]
+        Call2["Виклик mybc.Print()"] --> TypeCheck2["Таблиця vtable реального об'єкта в купі"]
+        TypeCheck2 --> Method2["Викликається MyDerivedClass.Print() (за фактичним типом об'єкта!)"]
     end
 ```
 
@@ -25,31 +25,21 @@ flowchart TD
 
 ## 2. Порівняння поведінки: `override` vs `new`
 
-```csharp
-public class Animal
-{
-    public virtual void SpeakOverride() => Console.WriteLine("Animal voice");
-    public void SpeakNew() => Console.WriteLine("Animal non-virtual");
-}
-
-public class Dog : Animal
-{
-    public override void SpeakOverride() => Console.WriteLine("Гав-гав! (Dog override)");
-    public new void SpeakNew() => Console.WriteLine("Гав-гав! (Dog new hiding)");
-}
-```
-
-### Результат при виклику через базовий тип (`Animal`):
-```csharp
-Animal myDog = new Dog(); // Upcasting
-
-myDog.SpeakOverride(); // ➔ "Гав-гав! (Dog override)" -> Справжній поліморфізм!
-myDog.SpeakNew();      // ➔ "Animal non-virtual"    -> Приховування НЕ працює поліморфно!
-```
-
 | Критерій | Перевизначення (`override`) | Приховування (`new`) |
 |:---|:---:|:---:|
-| **Вимога до базового методу** | Має бути `virtual`, `abstract` або `override` | Може бути будь-яким методом |
+| **Вимога до базового члена** | Має бути `virtual`, `abstract` або `override` | Може бути будь-яким нестатичним членом |
 | **Зв'язування** | **Динамічне** (за фактичним типом об'єкта в купі) | **Статичне** (за типом змінної під час компіляції) |
-| **Таблиця vtable** | Перезаписує слот у таблиці методів | Створює окремий новий метод |
-| **Чи є поліморфізмом?** | **ТАК** | **НІ** (лише маскує ім'я) |
+| **Таблиця віртуальних методів (`vtable`)** | Замінює адресу методу в слоті таблиці `vtable` | Створює новий незалежний слот, розриваючи ланцюжок перевизначень |
+| **Чи працює для властивостей?** | Так (аксесори `get`/`set` також можуть бути `virtual`/`override`) | Так (ховає властивість базового класу) |
+
+---
+
+## Матриця проєктів цієї секції
+
+| Проєкт | Сторінка / Тема | Що демонструє |
+|:---|:---|:---|
+| [`SOLIS-p183`](../SOLIS-p183/Program.cs) | Solis, с. 183 | Чому метод із `new` не є поліморфним: при зверненні через посилання `MyBaseClass` викликається стара базова версія методу. |
+| [`SOLIS-p185`](../SOLIS-p185/Program.cs) | Solis, с. 185 | Справжній поліморфізм через `virtual` та `override`: виклик через базове посилання `MyBaseClass` виконує код `MyDerivedClass`. |
+| [`SOLIS-p187`](../SOLIS-p187/Program.cs) | Solis, с. 187 | Багаторівневе перевизначення (`MyBaseClass -> MyDerivedClass -> SecondDerived`) — виклик завжди доходить до найпохіднішого `override`. |
+| [`SOLIS-p188`](../SOLIS-p188/Program.cs) | Solis, с. 188 | Як модифікатор `new` на третьому рівні (`SecondDerived`) розриває ланцюжок `vtable`, змушуючи базове посилання зупинятися на `MyDerivedClass`. |
+| [`SOLIS-p189`](../SOLIS-p189/Program.cs) | Solis, с. 189 | Віртуальні властивості (`virtual int MyProperty` та `override int MyProperty`) і поліморфна робота їхніх `get`-аксесорів. | 

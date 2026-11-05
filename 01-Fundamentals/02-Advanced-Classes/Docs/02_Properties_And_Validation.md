@@ -49,7 +49,26 @@ public class User
 }
 
 // Виклик:
-var user = new User { Email = "admin@example.com" }; // ✅ Коректно
-// user.Email = "hacker@example.com";                 // ❌ Помилка компіляції!
+var user = new User { Email = "admin@example.com" }; //  Коректно
+// user.Email = "hacker@example.com";                 //  Помилка компіляції!
 ```
 Це забезпечує надійну незмінність (`immutability`) без потреби створювати довгі ланцюжки конструкторів.
+
+
+
+---
+
+
+
+## Матриця проєктів цієї секції (`02. Властивості та Валідація`)
+
+
+
+| Проєкт у Solution Explorer | Файл коду | Що реалізовано в прикладі |
+|:---|:---|:---|
+| **SOLIS-p145** | [Program.cs](../SOLIS-p145/Program.cs) | Властивість із явним приватним backing-полем і перевіркою діапазону в `set` |
+| **SOLIS-p149** | [Program.cs](../SOLIS-p149/Program.cs) | Обчислювана властивість лише для читання (гіпотенуза трикутника з катетів) |
+| **SOLIS-p150** | [Program.cs](../SOLIS-p150/Program.cs) | Автоматично реалізовані властивості (`Auto-Implemented Properties { get; set; }`) |
+| **SOLIS-p151** | [Program.cs](../SOLIS-p151/Program.cs) | Статичні властивості (`static property`) та підключення через `using static` |
+| **SOLIS-p170** | [Program.cs](../SOLIS-p170/Program.cs) | Асиметричні модифікатори доступу для аксесорів (`public get; private set;`) |
+| **Ex-Property-Validation** | [Program.cs](../Ex-Property-Validation/Program.cs) | Комплексна валідація вхідних даних та захист інваріантів моделі через властивості | 

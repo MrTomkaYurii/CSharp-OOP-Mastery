@@ -45,11 +45,11 @@ catch (HttpRequestException ex)
 
 ```mermaid
 graph TD
-    subgraph BadPractice["❌ Антипатерн (Керування потоком через виключення)"]
+    subgraph BadPractice[" Антипатерн (Керування потоком через виключення)"]
         A["try { int.Parse(input); } catch { return 0; }"]
         A --> Cost["Сотні тисяч тактів CPU на кожне невдале введення!"]
     end
-    subgraph GoodPractice["✅ Патерн Try-Parse / Tester-Doer"]
+    subgraph GoodPractice[" Патерн Try-Parse / Tester-Doer"]
         B["if (int.TryParse(input, out int val)) { ... }"]
         B --> Fast["0 виділень пам'яті, миттєве виконання"]
     end

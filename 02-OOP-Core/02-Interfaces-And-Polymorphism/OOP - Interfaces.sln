@@ -1,8 +1,42 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.0.11018.127
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Interface_Contracts_And_References.md = Docs\01_Interface_Contracts_And_References.md
+		Docs\02_Multiple_And_Explicit_Implementation.md = Docs\02_Multiple_And_Explicit_Implementation.md
+		Docs\03_Modern_Interfaces_CSharp8_Plus.md = Docs\03_Modern_Interfaces_CSharp8_Plus.md
+		Docs\04_Standard_BCL_Interfaces.md = Docs\04_Standard_BCL_Interfaces.md
+		Docs\05_Interfaces_In_UML_Relationships.md = Docs\05_Interfaces_In_UML_Relationships.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Контракти інтерфейсів (Оголошення, реалізація, інтерфейсні посилання)", "01. Контракти інтерфейсів (Оголошення, реалізація, інтерфейсні посилання)", "{22222222-3333-4444-5555-666666666601}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Interface_Contracts_And_References.md = Docs\01_Interface_Contracts_And_References.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Множинна реалізація, колізії імен та Явна реалізація (Explicit Implementation)", "02. Множинна реалізація, колізії імен та Явна реалізація (Explicit Implementation)", "{22222222-3333-4444-5555-666666666602}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Multiple_And_Explicit_Implementation.md = Docs\02_Multiple_And_Explicit_Implementation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Еволюція інтерфейсів (Default Interface Methods у C# 8+)", "03. Еволюція інтерфейсів (Default Interface Methods у C# 8+)", "{22222222-3333-4444-5555-666666666603}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Modern_Interfaces_CSharp8_Plus.md = Docs\03_Modern_Interfaces_CSharp8_Plus.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Стандартні інтерфейси .NET BCL (IComparable, IComparer, IEnumerable, ICloneable, IDisposable)", "04. Стандартні інтерфейси .NET BCL (IComparable, IComparer, IEnumerable, ICloneable, IDisposable)", "{22222222-3333-4444-5555-666666666604}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\04_Standard_BCL_Interfaces.md = Docs\04_Standard_BCL_Interfaces.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Інтерфейси у зв'язках об'єктів (Асоціація, Агрегація, Композиція)", "05. Інтерфейси у зв'язках об'єктів (Асоціація, Агрегація, Композиція)", "{22222222-3333-4444-5555-666666666605}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\05_Interfaces_In_UML_Relationships.md = Docs\05_Interfaces_In_UML_Relationships.md
+	EndProjectSection
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "p389[SOLIS]", "p389[SOLIS]\p389[SOLIS].csproj", "{676B84C8-67A3-4B16-AD2C-F68B575BF913}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "p390[SOLIS]", "p390[SOLIS]\p390[SOLIS].csproj", "{222A3015-A699-41BB-A126-C32F5C3222E8}"
@@ -50,29 +84,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ex-IDisposable01", "ex-IDisposable01\ex-IDisposable01.csproj", "{76C26049-73B9-4844-9938-133B2AD6A5AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ex-IDisposable02", "ex-IDisposable02\ex-IDisposable02.csproj", "{0B11B8DC-38CB-49D5-A865-1C26A9A357DF}"
-EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "WizTree64", "..\..\..\..\..\..\Program Files\WizTree\WizTree64.exe", "{C46DB7A9-5B1A-0C5B-2A2A-39870FE9FFE4}"
-	ProjectSection(DebuggerProjectSystem) = preProject
-		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Program Files\WizTree\WizTree64.exe
-		RemoteMachine = DESKTOP-TOMKA
-		StartingDirectory = C:\Program Files\WizTree
-		Environment = По умолчанию
-		LaunchingEngine = 00000000-0000-0000-0000-000000000000
-		UseLegacyDebugEngines = No
-		LaunchSQLEngine = No
-		AttachLaunchAction = No
-		IORedirection = Auto
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-		Docs\01_Interface_Contracts_And_Multiple_Implementation.md = Docs\01_Interface_Contracts_And_Multiple_Implementation.md
-		Docs\02_Explicit_Interface_Implementation.md = Docs\02_Explicit_Interface_Implementation.md
-		Docs\03_Standard_BCL_Interfaces.md = Docs\03_Standard_BCL_Interfaces.md
-		Docs\04_Modern_Interfaces_And_UML_Relations.md = Docs\04_Modern_Interfaces_And_UML_Relations.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -176,11 +187,35 @@ Global
 		{0B11B8DC-38CB-49D5-A865-1C26A9A357DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B11B8DC-38CB-49D5-A865-1C26A9A357DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B11B8DC-38CB-49D5-A865-1C26A9A357DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C46DB7A9-5B1A-0C5B-2A2A-39870FE9FFE4}.Debug|Any CPU.ActiveCfg = Release|x64
-		{C46DB7A9-5B1A-0C5B-2A2A-39870FE9FFE4}.Release|Any CPU.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{676B84C8-67A3-4B16-AD2C-F68B575BF913} = {22222222-3333-4444-5555-666666666601}
+		{36519AFF-EC7D-4683-B39F-0246481CBBF2} = {22222222-3333-4444-5555-666666666601}
+		{9091DD34-8A39-4780-BE38-A9909C9710E6} = {22222222-3333-4444-5555-666666666601}
+		{A863D375-75F3-47EE-A561-CC5B7FE999E1} = {22222222-3333-4444-5555-666666666601}
+		{4A07D060-E443-49D2-B22F-ABA0BE88048C} = {22222222-3333-4444-5555-666666666602}
+		{114F79EF-38CD-462D-8AD4-C5D7B5361425} = {22222222-3333-4444-5555-666666666602}
+		{D8E3D21A-B31A-4D16-8161-4B04813C3E84} = {22222222-3333-4444-5555-666666666602}
+		{9CC82462-7FD5-4798-AFC3-FA475977C45B} = {22222222-3333-4444-5555-666666666602}
+		{8226893A-D719-41C9-AB42-88B2F87480E5} = {22222222-3333-4444-5555-666666666603}
+		{222A3015-A699-41BB-A126-C32F5C3222E8} = {22222222-3333-4444-5555-666666666604}
+		{CDE053FF-2276-45A3-98BB-A1191F917B15} = {22222222-3333-4444-5555-666666666604}
+		{F53EDF78-2415-43AB-B09E-62BEF71BA652} = {22222222-3333-4444-5555-666666666604}
+		{E7C7264B-2B57-4189-A476-1C7F729F8DE5} = {22222222-3333-4444-5555-666666666604}
+		{22936678-6536-4523-9BFA-CDEAF6C4D52B} = {22222222-3333-4444-5555-666666666604}
+		{6D9BA032-A682-4C1F-9DB5-EAFB1E93C1C5} = {22222222-3333-4444-5555-666666666604}
+		{0B41F38F-A0E9-4683-B84B-25D196C67A06} = {22222222-3333-4444-5555-666666666604}
+		{C59A8576-5F1A-4400-9B38-A3D2A6809EE3} = {22222222-3333-4444-5555-666666666604}
+		{2A1AFE68-FA01-4909-81C3-40609D065AFC} = {22222222-3333-4444-5555-666666666604}
+		{A4F46BFD-F2F2-4CDD-8CFC-1C33016689B3} = {22222222-3333-4444-5555-666666666604}
+		{76C26049-73B9-4844-9938-133B2AD6A5AB} = {22222222-3333-4444-5555-666666666604}
+		{0B11B8DC-38CB-49D5-A865-1C26A9A357DF} = {22222222-3333-4444-5555-666666666604}
+		{B4A25F06-6AFC-4551-9B0F-17753DBFFCE9} = {22222222-3333-4444-5555-666666666605}
+		{AD340087-6D8B-4E8A-A041-662C43D98421} = {22222222-3333-4444-5555-666666666605}
+		{E639C282-B739-4252-BE16-2E2900C3BCB9} = {22222222-3333-4444-5555-666666666605}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC6B24B7-2947-4DAD-964F-A0AE46F70DDE}

@@ -39,7 +39,7 @@ flowchart TD
 ### Етап 1: Відкрите поле (`01_Problem_PublicField`)
 ```csharp
 public class BankAccount {
-    public decimal Balance; // ❌ Будь-хто може записати Balance = -500
+    public decimal Balance; //  Будь-хто може записати Balance = -500
 }
 ```
 
@@ -121,3 +121,21 @@ account.Withdraw(200);
 ```
 
 Об'єкт стає самодостатнім модулем, некоректний стан якого **неможливий за побудовою**.
+
+
+
+---
+
+
+
+## Матриця проєктів цієї секції (`04. Еволюція Інкапсуляції та Властивості`)
+
+
+
+| Проєкт у Solution Explorer | Файл коду | Що реалізовано в прикладі |
+|:---|:---|:---|
+| **SOLIS-p126** | [Program.cs](../SOLIS-p126/Program.cs) | Базовий синтаксис властивості C# (`get` / `set`) та приховане поле (`_theRealValue`) |
+| **01_Problem_PublicField** | [Program.cs](../01_Problem_PublicField/Program.cs) | **Крок 1 (Bad)**: Відкрите поле `public decimal Balance`, що дозволяє записати від'ємний баланс |
+| **02_Solution_AccessorMethods** | [Program.cs](../02_Solution_AccessorMethods/Program.cs) | **Крок 2**: Захист приватного поля через методи `GetBalance()` та `SetBalance(decimal)` |
+| **03_Solution_Property** | [Program.cs](../03_Solution_Property/Program.cs) | **Крок 3**: Ідіоматична властивість `Balance { get; set; }` із валідацією у блоці `set` |
+| **04_Solution_BehaviorInvariants** | [Program.cs](../04_Solution_BehaviorInvariants/Program.cs) | **Крок 4 (Good)**: Закритий сеттер (`private set`) і зміна стану лише через бізнес-методи `Deposit`/`Withdraw` | 

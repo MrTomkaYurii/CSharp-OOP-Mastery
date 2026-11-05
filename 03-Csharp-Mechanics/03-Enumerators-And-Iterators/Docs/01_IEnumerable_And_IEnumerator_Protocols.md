@@ -12,22 +12,18 @@
 ```mermaid
 classDiagram
     class IEnumerable {
-        <<interface>>
-        +GetEnumerator() IEnumerator
+        <<interface>> +GetEnumerator() IEnumerator
     }
     class IEnumerator {
-        <<interface>>
-        +object Current
+        <<interface>> +object Current
         +MoveNext() bool
         +Reset() void
     }
     class IEnumerable_T["IEnumerable&lt;T&gt;"] {
-        <<interface>>
-        +GetEnumerator() IEnumerator&lt;T&gt;
+        <<interface>> +GetEnumerator() IEnumerator&lt;T&gt;
     }
     class IEnumerator_T["IEnumerator&lt;T&gt;"] {
-        <<interface>>
-        +T Current
+        <<interface>> +T Current
     }
     IEnumerable <|-- IEnumerable_T
     IEnumerator <|-- IEnumerator_T

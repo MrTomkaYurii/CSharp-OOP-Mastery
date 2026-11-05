@@ -27,9 +27,7 @@
 | 15 | [Оператори для `T`](#15-оператори-для-t) | компіляція |
 | 16 | [Неправильне оголошення `in`/`out`](#16-неправильне-оголошення-inout) | компіляція |
 | 17 | [Контраваріантність в один бік](#17-контраваріантність-працює-лише-в-один-бік) | компіляція |
-| 18 | [`IRepository<Dog>` ≠ `IRepository<Animal>`](#18-irepositorydog--irepositoryanimal) | компіляція |
-
-Підсумкові таблиці — в кінці: [шпаргалка variance](#шпаргалка-variance),
+| 18 | [`IRepository<Dog>` ≠ `IRepository<Animal>`](#18-irepositorydog--irepositoryanimal) | компіляція | Підсумкові таблиці — в кінці: [шпаргалка variance](#шпаргалка-variance),
 [обмеження where](#шпаргалка-обмеження-where), [словник термінів](#словник-термінів).
 
 ---
@@ -41,16 +39,12 @@ IEntity { Id }
   ├── Animal { Name, OwnerId : int? }
   │     ├── Dog { Breed }
   │     └── Cat { IsIndoor }
-  └── Owner { Name, Pets : List<Animal> }   + IEquatable<Owner>
-
-IReadOnlyRepository<out T>   — тільки віддає T
-  └── IRepository<T>         — ще й приймає T (Add, Remove)
+  └── Owner { Name, Pets : List<Animal> }   + IEquatable<Owner> IReadOnlyRepository<out T> — тільки віддає T
+  └── IRepository<T> — ще й приймає T (Add, Remove)
         └── InMemoryRepository<T> where T : class, IEntity
 
-IValidator<in T>             — тільки приймає T
-  ├── AnimalValidator : IValidator<Animal>
-  └── DogValidator    : IValidator<Dog>
-```
+IValidator<in T> — тільки приймає T
+  ├── AnimalValidator : IValidator<Animal> └── DogValidator    : IValidator<Dog> ```
 
 Кожен `Dog` — це `Animal`, але **`List<Dog>` — не `List<Animal>`**, а
 `IRepository<Dog>` — не `IRepository<Animal>`. Майже всі помилки з variance
@@ -74,7 +68,7 @@ IValidator<in T>             — тільки приймає T
 ```csharp
 Animal[] animals = new Dog[2];                 // компілятор дозволяє
 animals[0] = new Dog { Name = "Рекс" };        // ок
-animals[1] = new Cat { Name = "Мурка" };       // 💥 ArrayTypeMismatchException
+animals[1] = new Cat { Name = "Мурка" };       //  ArrayTypeMismatchException
 ```
 
 ### Чому так
@@ -122,7 +116,7 @@ pets.Add("Мурка");                             // рядок замість
 
 foreach (object item in pets)
 {
-    Dog dog = (Dog)item;                       // 💥 на другому елементі: рядок не Dog
+    Dog dog = (Dog)item;                       //  на другому елементі: рядок не Dog
 }
 ```
 
@@ -158,7 +152,7 @@ foreach (Dog dog in dogs)                      // приведення типі�
 
 ```csharp
 object boxedId = 5;                            // boxing: int → object
-long id = (long)boxedId;                       // 💥 InvalidCastException
+long id = (long)boxedId;                       //  InvalidCastException
 ```
 
 ### Чому так
@@ -199,7 +193,7 @@ public T? FindById(int id)
 }
 
 Dog? missing = repo.FindById(42);
-Console.WriteLine(missing!.Name);              // 💥 NullReferenceException
+Console.WriteLine(missing!.Name);              //  NullReferenceException
 ```
 
 ### Чому так
@@ -211,9 +205,7 @@ Console.WriteLine(missing!.Name);              // 💥 NullReferenceException
 | посилальний (`class`)   | `null`              |
 | числовий (`int`)        | `0`                 |
 | `bool`                  | `false`             |
-| `struct`                | усі поля «нульові»  |
-
-Метод «знайти» має чесно повідомити «нічого не знайдено». Для `class` це `null`, і
+| `struct`                | усі поля «нульові»  | Метод «знайти» має чесно повідомити «нічого не знайдено». Для `class` це `null`, і
 **викликач зобов'язаний його перевірити**. Оператор `!` (`missing!.Name`) не перевіряє
 нічого: він лише вимикає попередження компілятора, тобто програміст каже «повір, тут не null».
 Тут він неправий.
@@ -249,7 +241,7 @@ Console.WriteLine(dog?.Name ?? "(такої тварини немає)");    // 
 
 ```csharp
 Dog stray = new Dog { Name = "Бобік" };        // OwnerId не задано → null
-int ownerId = stray.OwnerId.Value;             // 💥 InvalidOperationException
+int ownerId = stray.OwnerId.Value;             //  InvalidOperationException
 ```
 
 ### Чому так
@@ -334,21 +326,19 @@ public class EntityCounterBase { public static int Total; }   // одне пол
 var owners = new Dictionary<int, Owner>();
 owners.Add(1, new Owner { Id = 1, Name = "Олена" });
 
-owners.Add(1, new Owner { Id = 1, Name = "Ігор" });   // 💥 ArgumentException
-Owner o = owners[99];                                  // 💥 KeyNotFoundException
+owners.Add(1, new Owner { Id = 1, Name = "Ігор" });   //  ArgumentException
+Owner o = owners[99];                                  //  KeyNotFoundException
 ```
 
 ### Чому так
 
 | Операція                         | Ключ є                     | Ключа немає                   |
 |----------------------------------|----------------------------|-------------------------------|
-| `dict.Add(k, v)`                 | 💥 `ArgumentException`     | додає                         |
-| `dict[k]` (читання)              | повертає значення          | 💥 `KeyNotFoundException`     |
+| `dict.Add(k, v)`                 | `ArgumentException`     | додає                         |
+| `dict[k]` (читання)              | повертає значення          | `KeyNotFoundException`     |
 | `dict[k] = v` (запис)            | **мовчки перезаписує**     | додає                         |
 | `dict.TryAdd(k, v)`              | `false`, не змінює         | `true`, додає                 |
-| `dict.TryGetValue(k, out v)`     | `true`, дає значення       | `false`                       |
-
-Зверніть увагу: **`dict[k] = v` не кидає виняток** — він тихо затирає старе значення. Це
+| `dict.TryGetValue(k, out v)`     | `true`, дає значення       | `false`                       | Зверніть увагу: **`dict[k] = v` не кидає виняток** — він тихо затирає старе значення. Це
 може бути так само небажано, як і виняток, але помітити його важче.
 Саме так працює `InMemoryRepository.Add`: `_items[entity.Id] = entity`.
 
@@ -378,7 +368,7 @@ else
 foreach (Animal pet in owner.Pets)
 {
     if (pet is Cat)
-        owner.Pets.Remove(pet);                // 💥
+        owner.Pets.Remove(pet);                // 
 }
 ```
 
@@ -453,8 +443,7 @@ set.Count;                                     // 2      ← очікували 
 ### Як виправити (як зроблено в `Owner`)
 
 ```csharp
-public class Owner : IEntity, IEquatable<Owner>
-{
+public class Owner : IEntity, IEquatable<Owner> {
     public int Id { get; set; }
 
     public bool Equals(Owner? other) => other is not null && Id == other.Id;
@@ -526,9 +515,7 @@ Dog first = dogs[0];                           // а це насправді к�
 Якщо вам потрібно лише **читати**, використовуйте інтерфейс, який тільки віддає елементи:
 
 ```csharp
-IEnumerable<Animal> readOnly = dogs;           // ок: IEnumerable<out T>
-IReadOnlyList<Animal> list = dogs;             // ок: IReadOnlyList<out T>
-```
+IEnumerable<Animal> readOnly = dogs;           // ок: IEnumerable<out T> IReadOnlyList<Animal> list = dogs;             // ок: IReadOnlyList<out T> ```
 
 Або зробіть копію: `new List<Animal>(dogs)`.
 
@@ -734,8 +721,7 @@ static T BrokenMax<T>(T a, T b)
 **Спосіб 1 — через інтерфейс `IComparable<T>` (класичний):**
 
 ```csharp
-static T Max<T>(T a, T b) where T : IComparable<T>
-{
+static T Max<T>(T a, T b) where T : IComparable<T> {
     return a.CompareTo(b) >= 0 ? a : b;
 }
 
@@ -757,8 +743,7 @@ int r = Comparer<T>.Default.Compare(a, b);            // працює для б�
 ```csharp
 using System.Numerics;
 
-static T Max<T>(T a, T b) where T : IComparisonOperators<T, T, bool>
-{
+static T Max<T>(T a, T b) where T : IComparisonOperators<T, T, bool> {
     return a > b ? a : b;                             // оператор дозволено обмеженням
 }
 ```
@@ -776,8 +761,7 @@ static T Max<T>(T a, T b) where T : IComparisonOperators<T, T, bool>
 **Символ:** `ERR_VARIANCE_DECL` · **Код:** `CS1961`
 
 ```csharp
-interface IBadProducer<out T>
-{
+interface IBadProducer<out T> {
     T Get();                                   // ок: T на виході
     void Set(T value);                         // CS1961: Invalid variance ... 'T' is covariant
 }
@@ -830,10 +814,10 @@ public interface IRepository<T> : IReadOnlyRepository<T> where T : class, IEntit
 
 ```csharp
 IValidator<Animal> animalValidator = new AnimalValidator();
-IValidator<Dog> asDogValidator = animalValidator;        // ✅ ок
+IValidator<Dog> asDogValidator = animalValidator;        //  ок
 
 IValidator<Dog> dogValidator = new DogValidator();
-IValidator<Animal> broken = dogValidator;                // ❌ CS0266
+IValidator<Animal> broken = dogValidator;                //  CS0266
 ```
 
 ### Чому так
@@ -841,9 +825,9 @@ IValidator<Animal> broken = dogValidator;                // ❌ CS0266
 Інтерфейс `IValidator<in T>` **споживає** `T`. Логіка проста:
 
 - Валідатор для **будь-якої** тварини вміє перевірити й собаку → його можна
-  використати там, де потрібен валідатор собак. ✅
+  використати там, де потрібен валідатор собак. 
 - Валідатор для **собак** читає `item.Breed`, якого немає в `Cat`. Дати йому кота
-  — значить попросити його зробити неможливе. ❌
+  — значить попросити його зробити неможливе. 
 
 Запам'ятовується так:
 
@@ -884,7 +868,7 @@ FillWithCats(dogRepo);                                   // CS1503: cannot conve
 **Для читання** — приймайте коваріантний інтерфейс:
 
 ```csharp
-static void PrintAll(IReadOnlyRepository<Animal> repo)      // ✅ dogRepo підходить
+static void PrintAll(IReadOnlyRepository<Animal> repo)      //  dogRepo підходить
 {
     foreach (Animal animal in repo.GetAll())
         Console.WriteLine(animal);
@@ -915,9 +899,7 @@ static void AddOne<T>(IRepository<T> repo, T item) where T : class, IEntity
 |---------------------------|-------|------------------|-----------------------|------------------------------------------------|
 | лише результат (виробник) | `out` | коваріантність   | `IEnumerable<out T>`  | `Producer<Dog>` → `Producer<Animal>`           |
 | лише параметр (споживач)  | `in`  | контраваріантність | `IComparer<in T>`   | `Consumer<Animal>` → `Consumer<Dog>`           |
-| і те, й те                | —     | інваріантність   | `List<T>`, `IList<T>` | точний збіг типів                              |
-
-Перевірочні питання:
+| і те, й те                | —     | інваріантність   | `List<T>`, `IList<T>` | точний збіг типів                              | Перевірочні питання:
 
 1. «Чи є в цьому інтерфейсі метод, що **приймає** `T`?» → `out` заборонено.
 2. «Чи є метод, що **повертає** `T`?» → `in` заборонено.

@@ -62,17 +62,30 @@ public class ResourceHolder : IDisposable
 | **Хешування (`GetHashCode`)** | За адресою об'єкта | **Хеш від значень усіх властивостей** |
 | **Рядкове представлення (`ToString`)** | Назва типу (`"MyApp.Person"`) | **Зручний JSON-подібний дамп усіх полів** |
 | **Клонування з мутацією (`with`)** | Лише вручну | **Підтримується оператор `with`** |
-| **Деконструкція (`Deconstruct`)** | Потрібно писати вручну | **Генерується автоматично з Primary Ctor** |
-
-```csharp
+| **Деконструкція (`Deconstruct`)** | Потрібно писати вручну | **Генерується автоматично з Primary Ctor** | ```csharp
 // Всього 1 рядок коду замінює 60 рядків шаблонного класу:
 public record Person(string FirstName, string LastName, int Age);
 
 var p1 = new Person("Юрій", "Коваленко", 25);
 var p2 = new Person("Юрій", "Коваленко", 25);
 
-Console.WriteLine(p1 == p2); // ✅ True (порівняння за значенням!)
+Console.WriteLine(p1 == p2); //  True (порівняння за значенням!)
 
 // Недеструктивна мутація:
 var p3 = p1 with { Age = 26 };
 ```
+
+
+
+---
+
+
+
+## Матриця проєктів цієї секції (`06. Управління Ресурсами та Записи`)
+
+
+
+| Проєкт у Solution Explorer | Файл коду | Що реалізовано в прикладі |
+|:---|:---|:---|
+| **Ex-IDisposable-Finalizer** | [Program.cs](../Ex-IDisposable-Finalizer/Program.cs) | Реалізація канонічного патерну `IDisposable`, блок `using` та фіналізатор `~ClassName()` |
+| **Ex-Record-vs-Class** | [Program.cs](../Ex-Record-vs-Class/Program.cs) | Порівняння `record` та `class`: структурна рівність (`Value Equality`) та вираз `with` | 

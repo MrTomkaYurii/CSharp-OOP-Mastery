@@ -17,15 +17,14 @@ animals.Add(new Cat());      // Катастрофа! Кіт опинився у
 
 ```csharp
 // Інтерфейс коваріантний за типом T (out):
-public interface IProducer<out T>
-{
-    T Produce(); // ✅ Дозволено: T повертається
-    // void Consume(T item); // ❌ Помилка: T не може бути вхідним параметром!
+public interface IProducer<out T> {
+    T Produce(); //  Дозволено: T повертається
+    // void Consume(T item); //  Помилка: T не може бути вхідним параметром!
 }
 
 // Використання:
 IProducer<Dog> dogProducer = new DogKennel();
-IProducer<Animal> animalProducer = dogProducer; // ✅ Працює завдяки 'out'!
+IProducer<Animal> animalProducer = dogProducer; //  Працює завдяки 'out'!
 ```
 Стандартний приклад BCL: **`IEnumerable<out T>`**.
 
@@ -37,14 +36,13 @@ IProducer<Animal> animalProducer = dogProducer; // ✅ Працює завдяк
 
 ```csharp
 // Інтерфейс контраваріантний за типом T (in):
-public interface IConsumer<in T>
-{
-    void Consume(T item); // ✅ Дозволено: T передається як аргумент
+public interface IConsumer<in T> {
+    void Consume(T item); //  Дозволено: T передається як аргумент
 }
 
 // Використання:
 IConsumer<Animal> animalConsumer = new AnimalShelter();
-IConsumer<Dog> dogConsumer = animalConsumer; // ✅ Працює завдяки 'in'!
+IConsumer<Dog> dogConsumer = animalConsumer; //  Працює завдяки 'in'!
 ```
 Стандартний приклад BCL: **`IComparer<in T>`** та `Action<in T>`.
 
@@ -55,5 +53,5 @@ IConsumer<Dog> dogConsumer = animalConsumer; // ✅ Працює завдяки 
 | Термін | Ключове слово | Позиція типу | Правило збереження відношення | Приклад у .NET |
 |:---|:---:|:---:|:---|:---|
 | **Інваріантність** | *(немає)* | Вхідні та вихідні | Збіг лише 1-в-1 | `IList<T>`, `Dictionary<TKey, TValue>` |
-| **Коваріантність** | **`out`** | Тільки вихідні (return) | `Dog` ➔ `Animal` | `IEnumerable<out T>`, `Func<out TResult>` |
-| **Контраваріантність** | **`in`** | Тільки вхідні (parameters) | `Animal` ➔ `Dog` | `IComparer<in T>`, `Action<in T>` |
+| **Коваріантність** | **`out`** | Тільки вихідні (return) | `Dog`  `Animal` | `IEnumerable<out T>`, `Func<out TResult>` |
+| **Контраваріантність** | **`in`** | Тільки вхідні (parameters) | `Animal`  `Dog` | `IComparer<in T>`, `Action<in T>` | 

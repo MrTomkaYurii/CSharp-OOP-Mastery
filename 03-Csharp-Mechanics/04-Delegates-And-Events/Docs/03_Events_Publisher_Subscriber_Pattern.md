@@ -23,9 +23,7 @@ public event Action OnSomethingHappened;
 
 ---
 
-## 2. Стандартний патерн .NET: EventHandler<TEventArgs>
-
-У корпоративному C# прийнято слідувати чітким конвенціям платформи .NET:
+## 2. Стандартний патерн .NET: EventHandler<TEventArgs> У корпоративному C# прийнято слідувати чітким конвенціям платформи .NET:
 
 ```mermaid
 sequenceDiagram
@@ -59,8 +57,7 @@ public class OrderEventArgs : EventArgs
 // 2. Клас-видавець
 public class OrderService
 {
-    // Оголошення події за стандартом EventHandler<T>
-    public event EventHandler<OrderEventArgs>? OrderCompleted;
+    // Оголошення події за стандартом EventHandler<T> public event EventHandler<OrderEventArgs>? OrderCompleted;
 
     public void ProcessOrder(int id, decimal amount)
     {

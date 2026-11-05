@@ -40,8 +40,7 @@ C# дозволяє надавати стандартним операторам
 3. Якщо ви перевантажуєте `==` та `!=`, ви **зобов'язані** перевизначити `Equals()` та `GetHashCode()`.
 
 ```csharp
-public readonly struct Money(decimal amount, string currency) : IEquatable<Money>
-{
+public readonly struct Money(decimal amount, string currency) : IEquatable<Money> {
     public decimal Amount { get; } = amount;
     public string Currency { get; } = currency;
 
@@ -68,3 +67,20 @@ public readonly struct Money(decimal amount, string currency) : IEquatable<Money
 
 * **`implicit` (неявне перетворення):** використовується тоді, коли перетворення є безпечним, детермінованим і ніколи не призводить до втрати точності чи виникнення винятку.
 * **`explicit` (явне перетворення):** вимагає явного приведення `(Type)val`, якщо можлива втрата даних або помилка.
+
+
+
+---
+
+
+
+## Матриця проєктів цієї секції (`04. Індексатори та Перевантаження Операторів`)
+
+
+
+| Проєкт у Solution Explorer | Файл коду | Що реалізовано в прикладі |
+|:---|:---|:---|
+| **SOLIS-p168** | [Program.cs](../SOLIS-p168/Program.cs) | Базовий строковий індексатор `this[int index]` для доступу до полів об'єкта за індексом |
+| **Ex-Indexers-01** | [Program.cs](../Ex-Indexers-01/Program.cs) | Індексатор колекції доменних моделей із перевіркою виходу за межі діапазону |
+| **Ex-Idexers-02** | [Program.cs](../Ex-Idexers-02/Program.cs) | Перевантаження індексаторів за різними типами ключів (`this[int]` та `this[string]`) |
+| **Ex-Operator-Overloading** | [Program.cs](../Ex-Operator-Overloading/Program.cs) | Перевантаження арифметичних операторів (`+`, `-`) та операторів рівності (`==`, `!=`) | 
