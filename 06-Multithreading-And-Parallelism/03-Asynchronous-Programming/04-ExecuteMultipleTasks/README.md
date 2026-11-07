@@ -1,6 +1,6 @@
 # 04. Множинні задачі та розвантаження потоку (ExecuteMultipleTasks)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 Коли програма має обробити великий обсяг незалежних I/O операцій (наприклад, 100,000 карток або веб-запитів):
 1. **Ініціалізація задач:** Сама по собі ініціалізація та додавання 100 000 об'єктів `Task` до колекції — це суто процесорна (CPU-bound) робота.
@@ -9,8 +9,7 @@
 ### Патерн Offloading (Task.Run)
 Для розвантаження викликаючого потоку процесорно-містке створення завдань виноситься у пул потоків:
 ```csharp
-await Task.Run(() =>
-{
+await Task.Run(() => {
     foreach (var item in largeCollection)
     {
         tasks.Add(ProcessItemAsync(item));
@@ -20,15 +19,14 @@ await Task.Run(() =>
 
 ---
 
-## 📊 Візуалізація: Створення задач та розвантаження пулу
+## Візуалізація: Створення задач та розвантаження пулу
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Main as Main Thread
     participant Pool as ThreadPool (Task.Run)
-    participant Tasks as 100,000 x Task<string>
-    participant Waiter as Task.WhenAll
+    participant Tasks as 100,000 x Task<string> participant Waiter as Task.WhenAll
 
     Main->>Pool: Делегування циклу через Task.Run(...)
     Note over Main: Головний потік залишається чуйним!
@@ -43,7 +41,7 @@ sequenceDiagram
 
 ---
 
-## 💡 Modern .NET Best Practices
+## Modern .NET Best Practices
 
 - **Увага до споживання оперативної пам'яті:**
   Одночасне створення 100 000 екземплярів `Task` виділяє значний обсяг пам'яті в купі (Heap). Якщо кількість операцій необмежена, обов'язково слід застосовувати **пакетну обробку (batching)** або **обмеження паралелізму (`SemaphoreSlim`)**, які детально розглядаються у наступному проекті `05-LimitTheNumberOfConcurrentTasks`.

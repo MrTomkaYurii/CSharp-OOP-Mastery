@@ -4,7 +4,7 @@
 
 ---
 
-## 🧭 Навігація по навчальних матеріалах
+## Навігація по навчальних матеріалах
 
 1. [Архітектура EF Core: Підхід Code-First та Моделі Даних](Docs/01_EFCore_CodeFirst_Architecture_And_Models.md)
 2. [Конфігурація схем за допомогою Fluent API](Docs/02_FluentAPI_And_Configurations.md)
@@ -12,7 +12,7 @@
 
 ---
 
-## 🏛️ Архітектура рішення `CodeFirst.sln`
+## Архітектура рішення `CodeFirst.sln`
 
 ```mermaid
 graph TD
@@ -41,7 +41,7 @@ graph TD
 
 ---
 
-## 🛠️ Як зібрати та запустити
+## Як зібрати та запустити
 
 ```powershell
 # Збірка всього рішення

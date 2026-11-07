@@ -1,20 +1,36 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-400000000000}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{90C96AC5-001F-5049-AC53-6BF7111AE2A4}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		Docs\\01_Parallel_ForEachAsync_And_PLINQ.md = Docs\\01_Parallel_ForEachAsync_And_PLINQ.md
-		Docs\\02_Channels_Producer_Consumer.md = Docs\\02_Channels_Producer_Consumer.md
-		Docs\\03_Synchronization_And_Cancellation.md = Docs\\03_Synchronization_And_Cancellation.md
+		Docs\01_Parallel_ForEachAsync_And_PLINQ.md = Docs\01_Parallel_ForEachAsync_And_PLINQ.md
+		Docs\02_Channels_Producer_Consumer.md = Docs\02_Channels_Producer_Consumer.md
+		Docs\03_Synchronization_And_Cancellation.md = Docs\03_Synchronization_And_Cancellation.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.ParallelAndPLINQ", "Concurrency.ParallelAndPLINQ\\Concurrency.ParallelAndPLINQ.csproj", "{B4000001-0001-4000-8000-000000000001}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Паралелізм даних: Parallel.ForEachAsync та PLINQ", "01. Паралелізм даних: Parallel.ForEachAsync та PLINQ", "{CBA10F34-618E-5189-BDAD-D0F86B7B1498}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Parallel_ForEachAsync_And_PLINQ.md = Docs\01_Parallel_ForEachAsync_And_PLINQ.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.Channels.ProducerConsumer", "Concurrency.Channels.ProducerConsumer\\Concurrency.Channels.ProducerConsumer.csproj", "{B4000001-0002-4000-8000-000000000002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.ParallelAndPLINQ", "Concurrency.ParallelAndPLINQ\Concurrency.ParallelAndPLINQ.csproj", "{04EAA165-86F3-5666-86FF-BEF003F977DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.SynchronizationAndCancellation", "Concurrency.SynchronizationAndCancellation\\Concurrency.SynchronizationAndCancellation.csproj", "{B4000001-0003-4000-8000-000000000003}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Асинхронні черги повідомлень: System.Threading.Channels (Producer-Consumer)", "02. Асинхронні черги повідомлень: System.Threading.Channels (Producer-Consumer)", "{85683C60-F3F7-5853-8EBD-0BF089F73F96}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Channels_Producer_Consumer.md = Docs\02_Channels_Producer_Consumer.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.Channels.ProducerConsumer", "Concurrency.Channels.ProducerConsumer\Concurrency.Channels.ProducerConsumer.csproj", "{4D131771-0BF9-564D-A4D5-AED7C48AAC73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Координація потоків, тротлінг та скасування конвеєрів", "03. Координація потоків, тротлінг та скасування конвеєрів", "{65D74125-6F4F-58B4-BA15-F6E06CDB98CA}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Synchronization_And_Cancellation.md = Docs\03_Synchronization_And_Cancellation.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrency.SynchronizationAndCancellation", "Concurrency.SynchronizationAndCancellation\Concurrency.SynchronizationAndCancellation.csproj", "{A77A6F10-8154-5680-B251-AB05C7E03DAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,20 +38,25 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4000001-0001-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4000001-0001-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4000001-0001-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4000001-0001-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4000001-0002-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4000001-0002-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4000001-0002-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4000001-0002-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4000001-0003-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4000001-0003-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4000001-0003-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4000001-0003-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04EAA165-86F3-5666-86FF-BEF003F977DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04EAA165-86F3-5666-86FF-BEF003F977DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04EAA165-86F3-5666-86FF-BEF003F977DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04EAA165-86F3-5666-86FF-BEF003F977DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D131771-0BF9-564D-A4D5-AED7C48AAC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D131771-0BF9-564D-A4D5-AED7C48AAC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D131771-0BF9-564D-A4D5-AED7C48AAC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D131771-0BF9-564D-A4D5-AED7C48AAC73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A77A6F10-8154-5680-B251-AB05C7E03DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A77A6F10-8154-5680-B251-AB05C7E03DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A77A6F10-8154-5680-B251-AB05C7E03DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A77A6F10-8154-5680-B251-AB05C7E03DAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-EndGlobal
+	GlobalSection(NestedProjects) = preSolution
+		{04EAA165-86F3-5666-86FF-BEF003F977DA} = {CBA10F34-618E-5189-BDAD-D0F86B7B1498}
+		{4D131771-0BF9-564D-A4D5-AED7C48AAC73} = {85683C60-F3F7-5853-8EBD-0BF089F73F96}
+		{A77A6F10-8154-5680-B251-AB05C7E03DAA} = {65D74125-6F4F-58B4-BA15-F6E06CDB98CA}
+	EndGlobalSection
+EndGlobal

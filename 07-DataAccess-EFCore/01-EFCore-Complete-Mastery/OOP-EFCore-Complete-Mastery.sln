@@ -1,0 +1,85 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Основи DbContext, CRUD, Логування SQL та ChangeTracker", "01. Основи DbContext, CRUD, Логування SQL та ChangeTracker", "{F0000001-0000-4000-8000-000000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Моделювання сутностей: Data Annotations проти Fluent API", "02. Моделювання сутностей: Data Annotations проти Fluent API", "{F0000002-0000-4000-8000-000000000002}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Зв'язки сутностей (1:1, 1:N, N:M), Каскадне видалення та Завантаження (Eager, Explicit, Lazy)", "03. Зв'язки сутностей (1:1, 1:N, N:M), Каскадне видалення та Завантаження (Eager, Explicit, Lazy)", "{F0000003-0000-4000-8000-000000000003}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Глибокий LINQ to Entities: Відстеження, Проєкції, Групування та Join", "04. Глибокий LINQ to Entities: Відстеження, Проєкції, Групування та Join", "{F0000004-0000-4000-8000-000000000004}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Стратегії успадкування ООП у БД (TPH, TPT, TPC) та Owned Types", "05. Стратегії успадкування ООП у БД (TPH, TPT, TPC) та Owned Types", "{F0000005-0000-4000-8000-000000000005}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Сирі SQL-запити, Транзакції, Токени паралелізму та Пакетні операції", "06. Сирі SQL-запити, Транзакції, Токени паралелізму та Пакетні операції", "{F0000006-0000-4000-8000-000000000006}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F0000007-0000-4000-8000-000000000007}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_DbContext_CRUD_And_ChangeTracker.md = Docs\01_DbContext_CRUD_And_ChangeTracker.md
+		Docs\02_Entity_Modeling_Annotations_And_FluentAPI.md = Docs\02_Entity_Modeling_Annotations_And_FluentAPI.md
+		Docs\03_Relationships_Cascade_And_Loading.md = Docs\03_Relationships_Cascade_And_Loading.md
+		Docs\04_Linq_To_Entities_Queries_And_Tracking.md = Docs\04_Linq_To_Entities_Queries_And_Tracking.md
+		Docs\05_Inheritance_Strategies_TPH_TPT_TPC.md = Docs\05_Inheritance_Strategies_TPH_TPT_TPC.md
+		Docs\06_RawSql_Transactions_And_Concurrency.md = Docs\06_RawSql_Transactions_And_Concurrency.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-DbContextCrudAndChangeTracker", "01-DbContextCrudAndChangeTracker\01-DbContextCrudAndChangeTracker.csproj", "{E0000001-0000-4000-8000-000000000001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-EntityModelingAnnotationsAndFluentApi", "02-EntityModelingAnnotationsAndFluentApi\02-EntityModelingAnnotationsAndFluentApi.csproj", "{E0000002-0000-4000-8000-000000000002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-RelationshipsAndLoadingStrategies", "03-RelationshipsAndLoadingStrategies\03-RelationshipsAndLoadingStrategies.csproj", "{E0000003-0000-4000-8000-000000000003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-LinqToEntitiesQueriesAndTracking", "04-LinqToEntitiesQueriesAndTracking\04-LinqToEntitiesQueriesAndTracking.csproj", "{E0000004-0000-4000-8000-000000000004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-InheritanceStrategiesTphTptTpc", "05-InheritanceStrategiesTphTptTpc\05-InheritanceStrategiesTphTptTpc.csproj", "{E0000005-0000-4000-8000-000000000005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-RawSqlTransactionsAndConcurrency", "06-RawSqlTransactionsAndConcurrency\06-RawSqlTransactionsAndConcurrency.csproj", "{E0000006-0000-4000-8000-000000000006}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0000001-0000-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000001-0000-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000001-0000-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000001-0000-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0000002-0000-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000002-0000-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000002-0000-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000002-0000-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0000003-0000-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000003-0000-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000003-0000-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000003-0000-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0000004-0000-4000-8000-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000004-0000-4000-8000-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000004-0000-4000-8000-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000004-0000-4000-8000-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0000005-0000-4000-8000-000000000005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000005-0000-4000-8000-000000000005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000005-0000-4000-8000-000000000005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000005-0000-4000-8000-000000000005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0000006-0000-4000-8000-000000000006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0000006-0000-4000-8000-000000000006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0000006-0000-4000-8000-000000000006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0000006-0000-4000-8000-000000000006}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0000001-0000-4000-8000-000000000001} = {F0000001-0000-4000-8000-000000000001}
+		{E0000002-0000-4000-8000-000000000002} = {F0000002-0000-4000-8000-000000000002}
+		{E0000003-0000-4000-8000-000000000003} = {F0000003-0000-4000-8000-000000000003}
+		{E0000004-0000-4000-8000-000000000004} = {F0000004-0000-4000-8000-000000000004}
+		{E0000005-0000-4000-8000-000000000005} = {F0000005-0000-4000-8000-000000000005}
+		{E0000006-0000-4000-8000-000000000006} = {F0000006-0000-4000-8000-000000000006}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EFC07E10-0001-4000-8000-000000000001}
+	EndGlobalSection
+EndGlobal

@@ -6,7 +6,7 @@
 
 ---
 
-## 🗺️ Карта підручника (Центральні гайди у Docs/)
+## Карта підручника (Центральні гайди у Docs/)
 
 1. **[01. Архітектура Async / Await та кінцевий автомат Task](Docs/01_Async_Await_Architecture_And_State_Machine.md)**
    - I/O-Bound проти CPU-Bound, звільнення потоків, внутрішня структура `IAsyncStateMachine`, небезпека `async void`.
@@ -19,30 +19,30 @@
 
 ---
 
-## 📂 Структура проектів модуля (16 проектів з інтегрованими README)
+## Структура проектів модуля (16 проектів з інтегрованими README)
 
 | Проект | Документація проекту | Ключові концепції та візуалізації |
 | :--- | :--- | :--- |
-| **01-AsyncAndAwait** | [📘 README проекту](01-AsyncAndAwait/README.md) | Синхронне блокування потоку (`Thread.Sleep`), Thread Pool Starvation. |
-| **02-Tasks** | [📘 README проекту](02-Tasks/README.md) | Неблокуюче очікування (`Task.Delay`), життєвий цикл таймера, пастка `async void`. |
-| **03-ReturnAValueFromTask-API** | [📘 README проекту](03-ReturnAValueFromTask-API/README.md) | Асинхронний Web API контролер ASP.NET Core, обробка Kestrel. |
-| **03-ReturnAValueFromTask-Console** | [📘 README проекту](03-ReturnAValueFromTask-Console/README.md) | Отримання результату `Task<T>`, `HttpClient` запити, розгортання `await`. |
-| **03-ReturnAValueFromTask-ConsolewithERROR** | [📘 README проекту](03-ReturnAValueFromTask-ConsolewithERROR/README.md) | Асинхронні помилки I/O, `EnsureSuccessStatusCode`, `HttpRequestException`. |
-| **03-ReturnComplexTypeValueFromАTask** | [📘 README проекту](03-ReturnComplexTypeValueFromАTask/README.md) | Повернення складних сутностей `Task<Employee>`, типізація та DTO. |
-| **04-ExecuteMultipleTasks** | [📘 README проекту](04-ExecuteMultipleTasks/README.md) | Розвантаження потоку (Offloading через `Task.Run`), 100k операцій. |
-| **04-ExecuteMultipleTasks-Task.WhenAll** | [📘 README проекту](04-ExecuteMultipleTasks-Task.WhenAll/README.md) | Комбінатор `Task.WhenAll`: послідовний await (10с) vs паралельний (1с). |
-| **05-LimitTheNumberOfConcurrentTasks** | [📘 README проекту](05-LimitTheNumberOfConcurrentTasks/README.md) | Троттлінг через `SemaphoreSlim(3)`, захист сокетів і бази даних. |
-| **06-HandleResponseWhenExecutingMultipleTasks** | [📘 README проекту](06-HandleResponseWhenExecutingMultipleTasks/README.md) | Агрегація відповідей, десеріалізація JSON у DTO, LINQ-фільтрація. |
-| **CancellationTokenToCancelATask** | [📘 README проекту](CancellationTokenToCancelATask/README.md) | Кооперативне скасування, `CancellationTokenSource`, таймаут 5с. |
-| **EX_01_async_await** | [📘 README проекту](EX_01_async_await/README.md) | Інтерактивна лабораторія: CPU vs I/O bound, конкурентний старт. |
-| **EX_02_async_await** | [📘 README проекту](EX_02_async_await/README.md) | Хрестоматійний «Асинхронний сніданок», черга подій `Task.WhenAny`. |
-| **EX_03_async_await** | [📘 README проекту](EX_03_async_await/README.md) | Типи повернення: `void` (події), `Task`, `Task<T>`, `ValueTask<T>`. |
-| **EX_04_async_await** | [📘 README проекту](EX_04_async_await/README.md) | Порівняння `WhenAll` vs `WhenAny`, гонка задач, доступ до `.Result`. |
-| **EX_05-exceptions** | [📘 README проекту](EX_05-exceptions/README.md) | Повна анатомія винятків, `AggregateException`, `IsFaulted`, `InnerExceptions`. |
+| **01-AsyncAndAwait** | [ README проекту](01-AsyncAndAwait/README.md) | Синхронне блокування потоку (`Thread.Sleep`), Thread Pool Starvation. |
+| **02-Tasks** | [ README проекту](02-Tasks/README.md) | Неблокуюче очікування (`Task.Delay`), життєвий цикл таймера, пастка `async void`. |
+| **03-ReturnAValueFromTask-API** | [ README проекту](03-ReturnAValueFromTask-API/README.md) | Асинхронний Web API контролер ASP.NET Core, обробка Kestrel. |
+| **03-ReturnAValueFromTask-Console** | [ README проекту](03-ReturnAValueFromTask-Console/README.md) | Отримання результату `Task<T>`, `HttpClient` запити, розгортання `await`. |
+| **03-ReturnAValueFromTask-ConsolewithERROR** | [ README проекту](03-ReturnAValueFromTask-ConsolewithERROR/README.md) | Асинхронні помилки I/O, `EnsureSuccessStatusCode`, `HttpRequestException`. |
+| **03-ReturnComplexTypeValueFromАTask** | [ README проекту](03-ReturnComplexTypeValueFromАTask/README.md) | Повернення складних сутностей `Task<Employee>`, типізація та DTO. |
+| **04-ExecuteMultipleTasks** | [ README проекту](04-ExecuteMultipleTasks/README.md) | Розвантаження потоку (Offloading через `Task.Run`), 100k операцій. |
+| **04-ExecuteMultipleTasks-Task.WhenAll** | [ README проекту](04-ExecuteMultipleTasks-Task.WhenAll/README.md) | Комбінатор `Task.WhenAll`: послідовний await (10с) vs паралельний (1с). |
+| **05-LimitTheNumberOfConcurrentTasks** | [ README проекту](05-LimitTheNumberOfConcurrentTasks/README.md) | Троттлінг через `SemaphoreSlim(3)`, захист сокетів і бази даних. |
+| **06-HandleResponseWhenExecutingMultipleTasks** | [ README проекту](06-HandleResponseWhenExecutingMultipleTasks/README.md) | Агрегація відповідей, десеріалізація JSON у DTO, LINQ-фільтрація. |
+| **CancellationTokenToCancelATask** | [ README проекту](CancellationTokenToCancelATask/README.md) | Кооперативне скасування, `CancellationTokenSource`, таймаут 5с. |
+| **EX_01_async_await** | [ README проекту](EX_01_async_await/README.md) | Інтерактивна лабораторія: CPU vs I/O bound, конкурентний старт. |
+| **EX_02_async_await** | [ README проекту](EX_02_async_await/README.md) | Хрестоматійний «Асинхронний сніданок», черга подій `Task.WhenAny`. |
+| **EX_03_async_await** | [ README проекту](EX_03_async_await/README.md) | Типи повернення: `void` (події), `Task`, `Task<T>`, `ValueTask<T>`. |
+| **EX_04_async_await** | [ README проекту](EX_04_async_await/README.md) | Порівняння `WhenAll` vs `WhenAny`, гонка задач, доступ до `.Result`. |
+| **EX_05-exceptions** | [ README проекту](EX_05-exceptions/README.md) | Повна анатомія винятків, `AggregateException`, `IsFaulted`, `InnerExceptions`. |
 
 ---
 
-## 🛠️ Перевірка збірки (Zero-Error Verification)
+## Перевірка збірки (Zero-Error Verification)
 
 Усі 16 проектів модуля націлені на **.NET 10** та компілюються через центральне рішення:
 ```powershell

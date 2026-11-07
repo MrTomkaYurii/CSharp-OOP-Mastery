@@ -1,6 +1,6 @@
 # 03. Отримання результату з Task<T> (ReturnAValueFromTask-Console)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 Коли асинхронна операція повинна повернути обчислене значення або дані I/O, вона повертає не чистий тип `T`, а обгортку **`Task<T>`** (майбутнє значення або "Promise"):
 - Поки операція триває, `Task<T>` перебуває у стані `WaitingForActivation` або `Running`.
@@ -14,7 +14,7 @@
 
 ---
 
-## 📊 Візуалізація: Розгортання Task<T> без блокування
+## Візуалізація: Розгортання Task<T> без блокування
 
 ```mermaid
 sequenceDiagram
@@ -25,9 +25,7 @@ sequenceDiagram
     
     Caller->>TaskObj: Виклик Greetings(name)
     TaskObj->>Net: client.GetAsync(...)
-    Note over TaskObj: Створюється нездійснена задача Task<string>
-    Caller->>TaskObj: await Task<string>
-    Note over Caller: SomeMethod призупиняється, потік звільняється
+    Note over TaskObj: Створюється нездійснена задача Task<string> Caller->>TaskObj: await Task<string> Note over Caller: SomeMethod призупиняється, потік звільняється
     
     Net-->>TaskObj: Дані прийшли (HTTP 200)
     Note over TaskObj: Task переходить у стан RanToCompletion
@@ -37,11 +35,10 @@ sequenceDiagram
 
 ---
 
-## 🔍 Розбір коду
+## Розбір коду
 
 ```csharp
-// 1. Повернення задачі з типом результату Task<string>
-public static async Task<string> Greetings(string name)
+// 1. Повернення задачі з типом результату Task<string> public static async Task<string> Greetings(string name)
 {
     using var client = new HttpClient { BaseAddress = new Uri("https://localhost:7118/") };
     
@@ -56,6 +53,6 @@ var greetingsMessage = await Greetings(name); // Тип змінної - string,
 
 ---
 
-## 💡 Важливі застереження: Socket Exhaustion
+## Важливі застереження: Socket Exhaustion
 У цьому навчальному прикладі `HttpClient` загорнуто в `using`. У високонавантажених системах багаторазове створення/знищення `HttpClient` призводить до вичерпання дескрипторів сокетів (**Socket Exhaustion** в стані `TIME_WAIT`).
 - **Рішення в реальних проектах:** Використання єдиного статичного екземпляра `static readonly HttpClient` або впровадження `IHttpClientFactory` через Dependency Injection.

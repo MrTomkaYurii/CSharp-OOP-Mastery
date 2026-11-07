@@ -1,6 +1,6 @@
 # 03. Асинхронні помилки та винятки (ReturnAValueFromTask-ConsolewithERROR)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 В асинхронному програмуванні винятки не можуть просто «спливти» по стеку викликів, оскільки викликаючий потік міг давно повернутися в пул потоків.
 - Коли всередині `Task` виникає помилка, вона упаковується в об'єкт **`AggregateException`**, а сама задача переходить у стан **`Faulted`**.
@@ -10,14 +10,13 @@
 
 ---
 
-## 📊 Візуалізація: Життєвий цикл помилки в асинхронному виклику
+## Візуалізація: Життєвий цикл помилки в асинхронному виклику
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Caller as SomeMethod()
-    participant TaskObj as Task<string>
-    participant Net as HttpClient / Web API
+    participant TaskObj as Task<string> participant Net as HttpClient / Web API
 
     Caller->>TaskObj: await Greetings(name)
     TaskObj->>Net: GET /api/greetings2/{name}
@@ -33,7 +32,7 @@ sequenceDiagram
 
 ---
 
-## 🔍 Ключові моменти коду
+## Ключові моменти коду
 
 ```csharp
 // 1. Метод перевіряє статус та генерує виняток при неуспішній відповіді
@@ -53,7 +52,7 @@ catch (HttpRequestException ex)
 
 ---
 
-## 💡 Modern .NET Best Practices
+## Modern .NET Best Practices
 
 1. **`async void` і неперехоплені винятки:**
    Якщо в методі з `async void` виникає виняток поза блоком `try/catch`, програма аварійно завершується без можливості глобального перехоплення через `TaskScheduler.UnobservedTaskException`. Завжди повертайте `Task`!

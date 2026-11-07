@@ -1,4 +1,10 @@
 <Solution>
+  <Folder Name="/Docs/">
+    <File Path="README.md" />
+    <File Path="Docs/01_Inheritance_Mapping_TPH_TPT_TPC.md" />
+    <File Path="Docs/02_Bogus_Seeding_And_Data_Generation.md" />
+    <File Path="Docs/03_Performance_BulkOps_And_Interceptors.md" />
+  </Folder>
   <Project Path="EFCore.AdvancedMapping/EFCore.AdvancedMapping.csproj" />
   <Project Path="EFCore.Performance.Bulk/EFCore.Performance.Bulk.csproj" />
   <Project Path="EFCore.Seeding.Bogus/EFCore.Seeding.Bogus.csproj" />

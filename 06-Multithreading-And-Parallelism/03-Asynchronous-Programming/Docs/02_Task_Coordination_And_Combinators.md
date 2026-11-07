@@ -48,8 +48,7 @@ decimal rate = await ratesTask;
 Для обмеження кількості одночасних операцій використовується `SemaphoreSlim`:
 ```csharp
 var semaphore = new SemaphoreSlim(initialCount: 5); // Максимум 5 одночасних завдань
-var tasks = urls.Select(async url =>
-{
+var tasks = urls.Select(async url => {
     await semaphore.WaitAsync(); // Чекаємо дозволу
     try
     {

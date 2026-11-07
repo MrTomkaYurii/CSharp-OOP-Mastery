@@ -1,6 +1,6 @@
 # 04. Синхронізація завдань через Task.WhenAll (ExecuteMultipleTasks-Task.WhenAll)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 В асинхронному програмуванні поширеною помилкою є розміщення виклику `await` всередині звичайного циклу `foreach`:
 ```csharp
@@ -18,7 +18,7 @@ foreach (var item in items)
 
 ---
 
-## 📊 Візуалізація: Послідовне vs Паралельне виконання (WhenAll)
+## Візуалізація: Послідовне vs Паралельне виконання (WhenAll)
 
 ```mermaid
 gantt
@@ -63,7 +63,7 @@ sequenceDiagram
 
 ---
 
-## 💡 Поведінка винятків у Task.WhenAll
+## Поведінка винятків у Task.WhenAll
 Якщо одна або кілька задач завершуються з помилкою:
 - Об'єкт `Task.WhenAll` агрегує всі помилки в `allTasks.Exception` (`AggregateException`).
 - Проте простий виклик `await Task.WhenAll(tasks)` розгортає і викидає **лише перше** виникле виключення. Для отримання всіх помилок звертаються до `Task.WhenAll(tasks).Exception.InnerExceptions` (детально показано в `EX_05-exceptions`).

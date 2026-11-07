@@ -13,8 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using CodeFirst.Models.Models;
 
-public class MoviesConfiguration : IEntityTypeConfiguration<Movies>
-{
+public class MoviesConfiguration : IEntityTypeConfiguration<Movies> {
     public void Configure(EntityTypeBuilder<Movies> builder)
     {
         // Назва таблиці
@@ -47,8 +46,7 @@ public class MoviesConfiguration : IEntityTypeConfiguration<Movies>
 Приклад конфігурації проміжної сутності `Starring`:
 
 ```csharp
-public class StarringConfiguration : IEntityTypeConfiguration<Starring>
-{
+public class StarringConfiguration : IEntityTypeConfiguration<Starring> {
     public void Configure(EntityTypeBuilder<Starring> builder)
     {
         builder.ToTable("Starring");

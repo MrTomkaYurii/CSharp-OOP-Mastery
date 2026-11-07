@@ -1,6 +1,6 @@
 # 03. Повернення складних користувацьких типів із Task<T> (ReturnComplexTypeValueFromTask)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 В асинхронній моделі C# дженерик-тип `Task<T>` не обмежується простими примітивами на кшталт `string`, `int` чи `bool`.
 Параметром типу `T` може виступати будь-який тип .NET:
@@ -13,9 +13,7 @@
 
 ---
 
-## 📊 Візуалізація: Повернення об'єкта через Task<Employee>
-
-```mermaid
+## Візуалізація: Повернення об'єкта через Task<Employee> ```mermaid
 classDiagram
     class Employee {
         +int ID
@@ -24,8 +22,7 @@ classDiagram
     }
 
     class TaskOfEmployee {
-        <<Task<Employee>>>
-        +TaskStatus Status
+        <<Task<Employee>>> +TaskStatus Status
         +Employee Result
         +bool IsCompleted
     }
@@ -44,14 +41,13 @@ sequenceDiagram
     Worker->>Storage: await Task.Delay() / I/O Query
     Storage-->>Worker: Дані отримано
     Worker->>Worker: Створення екземпляра new Employee { ... }
-    Worker-->>Caller: Повернення Task<Employee>
-    Note over Caller: await розпаковує посилання на екземпляр Employee
+    Worker-->>Caller: Повернення Task<Employee> Note over Caller: await розпаковує посилання на екземпляр Employee
     Caller->>Caller: Console.WriteLine(emp.Name, emp.Salary)
 ```
 
 ---
 
-## 🔍 Розбір коду
+## Розбір коду
 
 ```csharp
 // 1. Асинхронний метод створює або завантажує екземпляр класу
@@ -68,7 +64,7 @@ Console.WriteLine($"ID: {emp.ID}, Name: {emp.Name}");
 
 ---
 
-## 💡 Modern .NET Best Practices
+## Modern .NET Best Practices
 
 1. **`record` для незмінних DTO:**
    У сучасному C# (C# 9+) для DTO-моделей замість звичайного класу часто використовують позиційні рекорди:

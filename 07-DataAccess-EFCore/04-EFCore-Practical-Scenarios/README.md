@@ -4,7 +4,7 @@
 
 ---
 
-## 🧭 Навігація по навчальних матеріалах
+## Навігація по навчальних матеріалах
 
 1. [Архітектура Generic Host та Hosted Services у консольних додатках](Docs/01_Generic_Host_And_Hosted_Services.md)
 2. [Комплексна доменна модель та практичні EF Core запити](Docs/02_Complex_EFCore_Domain_And_Queries.md)
@@ -12,7 +12,7 @@
 
 ---
 
-## 🏛️ Архітектура рішення `OOP-EF-Core-Entertainment.sln`
+## Архітектура рішення `OOP-EF-Core-Entertainment.sln`
 
 ```mermaid
 graph TD
@@ -37,7 +37,7 @@ graph TD
 
 ---
 
-## 🛠️ Як зібрати та запустити
+## Як зібрати та запустити
 
 ```powershell
 # Збірка додатку

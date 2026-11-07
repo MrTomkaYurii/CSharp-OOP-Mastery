@@ -1,6 +1,6 @@
 # 05. Обмеження кількості одночасних завдань через SemaphoreSlim (LimitTheNumberOfConcurrentTasks)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 Хоча `Task.WhenAll` чудово підходить для паралельного запуску задач, запуск сотень або тисяч одночасних мережевих запитів призводить до проблем:
 - **Database Connection Pool Exhaustion:** База даних має ліміт пулу з'єднань (наприклад, 100), і надмірні паралельні запити завершуються `TimeoutException`.
@@ -15,7 +15,7 @@
 
 ---
 
-## 📊 Візуалізація: Турнікет SemaphoreSlim(3)
+## Візуалізація: Турнікет SemaphoreSlim(3)
 
 ```mermaid
 flowchart LR
@@ -33,7 +33,7 @@ flowchart LR
 
 ---
 
-## 🔍 Розрахунок часу виконання
+## Розрахунок часу виконання
 
 - Всього карток: **15**
 - Час обробки однієї картки: **1 секунда**
@@ -42,7 +42,7 @@ flowchart LR
 
 ---
 
-## ⚠️ Критичне правило: Блок `try-finally`
+## Критичне правило: Блок `try-finally`
 
 При роботі з семафором **завжди** розміщуйте `Release()` у блоці `finally`:
 ```csharp
@@ -61,11 +61,10 @@ finally
 
 ---
 
-## 💡 Modern .NET Alternative: `Parallel.ForEachAsync` (.NET 6+)
+## Modern .NET Alternative: `Parallel.ForEachAsync` (.NET 6+)
 Починаючи з .NET 6, для обробки колекції з обмеженням паралелізму існує готова конструкція:
 ```csharp
-await Parallel.ForEachAsync(creditCards, new ParallelOptions { MaxDegreeOfParallelism = 3 }, async (card, ct) =>
-{
+await Parallel.ForEachAsync(creditCards, new ParallelOptions { MaxDegreeOfParallelism = 3 }, async (card, ct) => {
     await ProcessCard(card);
 });
 ```

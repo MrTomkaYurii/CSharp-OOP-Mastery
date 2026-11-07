@@ -1,23 +1,44 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-200000000000}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{1574BF3C-B018-515B-986D-339A7998DAAD}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		Docs\\01_Lock_Monitor_And_DotNet9_Lock.md = Docs\\01_Lock_Monitor_And_DotNet9_Lock.md
-		Docs\\02_Deadlocks_And_Prevention.md = Docs\\02_Deadlocks_And_Prevention.md
-		Docs\\03_SemaphoreSlim_And_ReaderWriterLock.md = Docs\\03_SemaphoreSlim_And_ReaderWriterLock.md
-		Docs\\04_Concurrent_Collections.md = Docs\\04_Concurrent_Collections.md
+		Docs\01_Lock_Monitor_And_DotNet9_Lock.md = Docs\01_Lock_Monitor_And_DotNet9_Lock.md
+		Docs\02_Deadlocks_And_Prevention.md = Docs\02_Deadlocks_And_Prevention.md
+		Docs\03_SemaphoreSlim_And_ReaderWriterLock.md = Docs\03_SemaphoreSlim_And_ReaderWriterLock.md
+		Docs\04_Concurrent_Collections.md = Docs\04_Concurrent_Collections.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-LockAndMonitorDemo", "01-LockAndMonitorDemo\\01-LockAndMonitorDemo.csproj", "{B2000001-0001-4000-8000-000000000001}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Критичні секції: lock, Monitor та новий System.Threading.Lock", "01. Критичні секції: lock, Monitor та новий System.Threading.Lock", "{176D43B1-E6A2-514E-99D8-BCD6F79BF26C}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Lock_Monitor_And_DotNet9_Lock.md = Docs\01_Lock_Monitor_And_DotNet9_Lock.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-DeadlockAnatomyAndPrevention", "02-DeadlockAnatomyAndPrevention\\02-DeadlockAnatomyAndPrevention.csproj", "{B2000001-0002-4000-8000-000000000002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-LockAndMonitorDemo", "01-LockAndMonitorDemo\01-LockAndMonitorDemo.csproj", "{CDF765F3-44D2-5E44-B561-E876361E91F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-SemaphoreSlimAndReaderWriterLock", "03-SemaphoreSlimAndReaderWriterLock\\03-SemaphoreSlimAndReaderWriterLock.csproj", "{B2000001-0003-4000-8000-000000000003}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Анатомія взаємного блокування (Deadlock) та стратегії запобігання", "02. Анатомія взаємного блокування (Deadlock) та стратегії запобігання", "{2F4BAD84-2FD8-55BC-BFD9-77E6C8F57D3D}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Deadlocks_And_Prevention.md = Docs\02_Deadlocks_And_Prevention.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-ConcurrentCollectionsDemo", "04-ConcurrentCollectionsDemo\\04-ConcurrentCollectionsDemo.csproj", "{B2000001-0004-4000-8000-000000000004}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-DeadlockAnatomyAndPrevention", "02-DeadlockAnatomyAndPrevention\02-DeadlockAnatomyAndPrevention.csproj", "{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Гнучка синхронізація: SemaphoreSlim та ReaderWriterLockSlim", "03. Гнучка синхронізація: SemaphoreSlim та ReaderWriterLockSlim", "{63CB5248-22B9-59A3-9DF0-B89A235F0BB5}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_SemaphoreSlim_And_ReaderWriterLock.md = Docs\03_SemaphoreSlim_And_ReaderWriterLock.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-SemaphoreSlimAndReaderWriterLock", "03-SemaphoreSlimAndReaderWriterLock\03-SemaphoreSlimAndReaderWriterLock.csproj", "{B22FFF8A-1D90-5B0F-8675-19AA6DD12274}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Потокобезпечні колекції (ConcurrentDictionary, ConcurrentQueue)", "04. Потокобезпечні колекції (ConcurrentDictionary, ConcurrentQueue)", "{B827DBC1-B948-5177-94F2-1AB1CC3B9992}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\04_Concurrent_Collections.md = Docs\04_Concurrent_Collections.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-ConcurrentCollectionsDemo", "04-ConcurrentCollectionsDemo\04-ConcurrentCollectionsDemo.csproj", "{10654027-50ED-5731-9BD0-C2533884F9D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,24 +46,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B2000001-0001-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2000001-0001-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2000001-0001-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2000001-0001-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2000001-0002-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2000001-0002-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2000001-0002-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2000001-0002-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2000001-0003-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2000001-0003-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2000001-0003-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2000001-0003-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2000001-0004-4000-8000-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2000001-0004-4000-8000-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2000001-0004-4000-8000-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2000001-0004-4000-8000-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF765F3-44D2-5E44-B561-E876361E91F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF765F3-44D2-5E44-B561-E876361E91F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF765F3-44D2-5E44-B561-E876361E91F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF765F3-44D2-5E44-B561-E876361E91F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B22FFF8A-1D90-5B0F-8675-19AA6DD12274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B22FFF8A-1D90-5B0F-8675-19AA6DD12274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B22FFF8A-1D90-5B0F-8675-19AA6DD12274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B22FFF8A-1D90-5B0F-8675-19AA6DD12274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10654027-50ED-5731-9BD0-C2533884F9D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10654027-50ED-5731-9BD0-C2533884F9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10654027-50ED-5731-9BD0-C2533884F9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10654027-50ED-5731-9BD0-C2533884F9D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-EndGlobal
+	GlobalSection(NestedProjects) = preSolution
+		{CDF765F3-44D2-5E44-B561-E876361E91F9} = {176D43B1-E6A2-514E-99D8-BCD6F79BF26C}
+		{21A8ACC5-5D96-5CFE-A824-B7AC52FEFDAC} = {2F4BAD84-2FD8-55BC-BFD9-77E6C8F57D3D}
+		{B22FFF8A-1D90-5B0F-8675-19AA6DD12274} = {63CB5248-22B9-59A3-9DF0-B89A235F0BB5}
+		{10654027-50ED-5731-9BD0-C2533884F9D0} = {B827DBC1-B948-5177-94F2-1AB1CC3B9992}
+	EndGlobalSection
+EndGlobal

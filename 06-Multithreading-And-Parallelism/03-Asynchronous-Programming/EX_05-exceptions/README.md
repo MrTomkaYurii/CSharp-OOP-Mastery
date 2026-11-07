@@ -1,6 +1,6 @@
 # EX_05. Обробка винятків в асинхронному коді (EX_05-exceptions)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 Обробка винятків в асинхронному коді суттєво відрізняється від синхронного через наявність об'єкта `Task` та кінцевого автомата `IAsyncStateMachine`:
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 📊 Візуалізація: Розгортання винятків у Task.WhenAll
+## Візуалізація: Розгортання винятків у Task.WhenAll
 
 ```mermaid
 sequenceDiagram
@@ -38,12 +38,12 @@ sequenceDiagram
 
 ---
 
-## 🔍 Порівняльна таблиця поведінки винятків
+## Порівняльна таблиця поведінки винятків
 
 | Сигнатура методу | Спосіб виклику | Де опиняється виняток | Чи ловиться зовнішнім `try/catch`? |
 | :--- | :--- | :--- | :---: |
-| `async Task` | `await DoWorkAsync()` | У `Task.Exception`, розгортається оператором `await` | ✅ **Так**, стандартний `catch` |
-| `async Task` | `DoWorkAsync();` (без await) | Залишається «похованим» у невичитаному `Task` (Unobserved Task Exception) | ❌ **Ні** |
-| `async void` | `DoWorkAsync();` | Викидається в потік ThreadPool / SynchronizationContext | ❌ **Ні** (Process Crash) |
-| `async void` | `DoWorkAsync();` | Перехоплюється **всередині** самого `async void` методу | ✅ **Так**, якщо `try/catch` всередині |
-| `Task.WhenAll` | `await allTasks;` | Розгортається перший виняток, решта в `allTasks.Exception.InnerExceptions` | ✅ **Так** (для всіх через цикл) |
+| `async Task` | `await DoWorkAsync()` | У `Task.Exception`, розгортається оператором `await` | **Так**, стандартний `catch` |
+| `async Task` | `DoWorkAsync();` (без await) | Залишається «похованим» у невичитаному `Task` (Unobserved Task Exception) | **Ні** |
+| `async void` | `DoWorkAsync();` | Викидається в потік ThreadPool / SynchronizationContext | **Ні** (Process Crash) |
+| `async void` | `DoWorkAsync();` | Перехоплюється **всередині** самого `async void` методу | **Так**, якщо `try/catch` всередині |
+| `Task.WhenAll` | `await allTasks;` | Розгортається перший виняток, решта в `allTasks.Exception.InnerExceptions` | **Так** (для всіх через цикл) | 

@@ -1,22 +1,38 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-100000000000}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{19F441E7-35A3-5430-B3BA-DEE998F9C163}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		Docs\\01_Threads_And_ThreadPool.md = Docs\\01_Threads_And_ThreadPool.md
-		Docs\\02_Race_Conditions_And_Interlocked.md = Docs\\02_Race_Conditions_And_Interlocked.md
-		Docs\\03_ThreadLocal_And_AsyncLocal.md = Docs\\03_ThreadLocal_And_AsyncLocal.md
+		Docs\01_Threads_And_ThreadPool.md = Docs\01_Threads_And_ThreadPool.md
+		Docs\02_Race_Conditions_And_Interlocked.md = Docs\02_Race_Conditions_And_Interlocked.md
+		Docs\03_ThreadLocal_And_AsyncLocal.md = Docs\03_ThreadLocal_And_AsyncLocal.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-ThreadCreationAndLifecycle", "01-ThreadCreationAndLifecycle\\01-ThreadCreationAndLifecycle.csproj", "{B1000001-0001-4000-8000-000000000001}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Потоки ОС (Thread) та Пул потоків CLR (ThreadPool)", "01. Потоки ОС (Thread) та Пул потоків CLR (ThreadPool)", "{C454F682-9D33-562B-8CD8-7099F78326F0}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Threads_And_ThreadPool.md = Docs\01_Threads_And_ThreadPool.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-ThreadPoolAndWorkItems", "02-ThreadPoolAndWorkItems\\02-ThreadPoolAndWorkItems.csproj", "{B1000001-0002-4000-8000-000000000002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-ThreadCreationAndLifecycle", "01-ThreadCreationAndLifecycle\01-ThreadCreationAndLifecycle.csproj", "{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-RaceConditionAndInterlocked", "03-RaceConditionAndInterlocked\\03-RaceConditionAndInterlocked.csproj", "{B1000001-0003-4000-8000-000000000003}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-ThreadPoolAndWorkItems", "02-ThreadPoolAndWorkItems\02-ThreadPoolAndWorkItems.csproj", "{87035BA3-2947-5EBF-BFBE-EF6F3275CC03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-ThreadLocalAndAsyncLocal", "04-ThreadLocalAndAsyncLocal\\04-ThreadLocalAndAsyncLocal.csproj", "{B1000001-0004-4000-8000-000000000004}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Стан гонитви (Race Condition) та атомарні операції Interlocked", "02. Стан гонитви (Race Condition) та атомарні операції Interlocked", "{C8EBD4D7-6EEE-513A-8FA6-1659B84CAD91}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Race_Conditions_And_Interlocked.md = Docs\02_Race_Conditions_And_Interlocked.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-RaceConditionAndInterlocked", "03-RaceConditionAndInterlocked\03-RaceConditionAndInterlocked.csproj", "{334D8053-D69A-5A9D-AFAD-226B33AD9A8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Ізоляція контексту даних: ThreadLocal проти AsyncLocal", "03. Ізоляція контексту даних: ThreadLocal проти AsyncLocal", "{327C141A-FC48-5D1D-BADE-049C9FCAE1CC}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_ThreadLocal_And_AsyncLocal.md = Docs\03_ThreadLocal_And_AsyncLocal.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-ThreadLocalAndAsyncLocal", "04-ThreadLocalAndAsyncLocal\04-ThreadLocalAndAsyncLocal.csproj", "{009C9AF3-2E12-5645-B8DE-A773B864312D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,24 +40,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B1000001-0001-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1000001-0001-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1000001-0001-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1000001-0001-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1000001-0002-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1000001-0002-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1000001-0002-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1000001-0002-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1000001-0003-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1000001-0003-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1000001-0003-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1000001-0003-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1000001-0004-4000-8000-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1000001-0004-4000-8000-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1000001-0004-4000-8000-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1000001-0004-4000-8000-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87035BA3-2947-5EBF-BFBE-EF6F3275CC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87035BA3-2947-5EBF-BFBE-EF6F3275CC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87035BA3-2947-5EBF-BFBE-EF6F3275CC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87035BA3-2947-5EBF-BFBE-EF6F3275CC03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{334D8053-D69A-5A9D-AFAD-226B33AD9A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{334D8053-D69A-5A9D-AFAD-226B33AD9A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{334D8053-D69A-5A9D-AFAD-226B33AD9A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{334D8053-D69A-5A9D-AFAD-226B33AD9A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{009C9AF3-2E12-5645-B8DE-A773B864312D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009C9AF3-2E12-5645-B8DE-A773B864312D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009C9AF3-2E12-5645-B8DE-A773B864312D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009C9AF3-2E12-5645-B8DE-A773B864312D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-EndGlobal
+	GlobalSection(NestedProjects) = preSolution
+		{7D5B8BC6-6596-5AC8-ACB5-7E5EEC1CEF84} = {C454F682-9D33-562B-8CD8-7099F78326F0}
+		{87035BA3-2947-5EBF-BFBE-EF6F3275CC03} = {C454F682-9D33-562B-8CD8-7099F78326F0}
+		{334D8053-D69A-5A9D-AFAD-226B33AD9A8E} = {C8EBD4D7-6EEE-513A-8FA6-1659B84CAD91}
+		{009C9AF3-2E12-5645-B8DE-A773B864312D} = {327C141A-FC48-5D1D-BADE-049C9FCAE1CC}
+	EndGlobalSection
+EndGlobal

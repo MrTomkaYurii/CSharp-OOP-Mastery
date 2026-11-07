@@ -17,4 +17,4 @@
 | Клас / Властивість | Опис | Приклад у коді | Документація MSDN |
 |:---|:---|:---|:---|
 | `ThreadLocal<T>.Value` | Читає або записує ізольоване значення для поточного фізичного потоку | [Program.cs](../04-ThreadLocalAndAsyncLocal/Program.cs#L37) | [ThreadLocal.Value](https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadlocal-1.value) |
-| `AsyncLocal<T>.Value` | Читає або записує значення, що передається вниз по дереву асинхронних викликів | [Program.cs](../04-ThreadLocalAndAsyncLocal/Program.cs#L68) | [AsyncLocal.Value](https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1.value) |
+| `AsyncLocal<T>.Value` | Читає або записує значення, що передається вниз по дереву асинхронних викликів | [Program.cs](../04-ThreadLocalAndAsyncLocal/Program.cs#L68) | [AsyncLocal.Value](https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1.value) | 

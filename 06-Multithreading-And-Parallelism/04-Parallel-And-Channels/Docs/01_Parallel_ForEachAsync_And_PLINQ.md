@@ -27,8 +27,7 @@ var options = new ParallelOptions
     CancellationToken = ct
 };
 
-await Parallel.ForEachAsync(urls, options, async (url, token) =>
-{
+await Parallel.ForEachAsync(urls, options, async (url, token) => {
     var response = await httpClient.GetStringAsync(url, token);
     await ProcessDataAsync(response, token);
 });

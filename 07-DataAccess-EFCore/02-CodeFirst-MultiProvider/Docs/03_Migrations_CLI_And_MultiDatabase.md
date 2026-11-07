@@ -22,8 +22,7 @@ Entity Framework Core дозволяє одній і тій самій доме�
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-public class PostgresDbContextFactory : IDesignTimeDbContextFactory<PostgresDbContext>
-{
+public class PostgresDbContextFactory : IDesignTimeDbContextFactory<PostgresDbContext> {
     public PostgresDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();

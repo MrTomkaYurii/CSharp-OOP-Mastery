@@ -63,8 +63,7 @@ var allOrdersIncludingDeleted = await db.Orders
 Для високонавантажених запитів, що виконуються тисячі разів на секунду, парсинг виразу LINQ та генерація SQL-дерева стає помітним вузьким місцем:
 ```csharp
 private static readonly Func<PerformanceDbContext, string, Task<Order?>> GetByNumberCompiled =
-    EF.CompileAsyncQuery((PerformanceDbContext ctx, string num) =>
-        ctx.Orders.AsNoTracking().FirstOrDefault(o => o.OrderNumber == num));
+    EF.CompileAsyncQuery((PerformanceDbContext ctx, string num) => ctx.Orders.AsNoTracking().FirstOrDefault(o => o.OrderNumber == num));
 ```
 
 ---

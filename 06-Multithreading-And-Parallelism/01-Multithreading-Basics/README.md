@@ -19,4 +19,5 @@
 
 1. [01. Потоки ОС (Thread) та Пул потоків (ThreadPool)](Docs/01_Threads_And_ThreadPool.md)
 2. [02. Стан гонитви (Race Condition) та атомарні операції Interlocked](Docs/02_Race_Conditions_And_Interlocked.md)
-3. [03. Ізоляція стану потоку: ThreadLocal проти AsyncLocal](Docs/03_ThreadLocal_And_AsyncLocal.md)
+3. [03. Ізоляція стану потоку: ThreadLocal проти AsyncLocal](Docs/03_ThreadLocal_And_AsyncLocal.md)
+

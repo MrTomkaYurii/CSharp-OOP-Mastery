@@ -1,6 +1,6 @@
 # 06. Обробка та агрегація відповідей множинних задач (HandleResponseWhenExecutingMultipleTasks)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 У практичних системах мало просто паралельно виконати задачі — потрібно:
 1. Зібрати всі результати в єдиний контекст.
@@ -14,7 +14,7 @@
 
 ---
 
-## 📊 Візуалізація: Конвеєр відправки, очікування та десеріалізації
+## Візуалізація: Конвеєр відправки, очікування та десеріалізації
 
 ```mermaid
 flowchart TD
@@ -29,13 +29,13 @@ flowchart TD
     DTOList --> Filter1["LINQ: Where(c => c.IsProcessed)"]
     DTOList --> Filter2["LINQ: Where(c => !c.IsProcessed)"]
     
-    Filter1 --> Approved["✅ Схвалені картки"]
-    Filter2 --> Rejected["❌ Відхилені картки"]
+    Filter1 --> Approved[" Схвалені картки"]
+    Filter2 --> Rejected[" Відхилені картки"]
 ```
 
 ---
 
-## 💡 Modern .NET Best Practices
+## Modern .NET Best Practices
 
 1. **`System.Text.Json` замість `Newtonsoft.Json`:**
    У сучасному .NET для максимальної швидкодії та низького виділення пам'яті (zero-allocation) використовують вбудований `System.Text.Json.JsonSerializer`.

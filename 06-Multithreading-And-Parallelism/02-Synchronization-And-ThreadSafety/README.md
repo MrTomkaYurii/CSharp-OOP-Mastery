@@ -20,4 +20,5 @@
 1. [01. Критичні секції: lock, Monitor та новий System.Threading.Lock](Docs/01_Lock_Monitor_And_DotNet9_Lock.md)
 2. [02. Анатомія Deadlock та способи його уникнення](Docs/02_Deadlocks_And_Prevention.md)
 3. [03. SemaphoreSlim та ReaderWriterLockSlim](Docs/03_SemaphoreSlim_And_ReaderWriterLock.md)
-4. [04. Потокобезпечні колекції System.Collections.Concurrent](Docs/04_Concurrent_Collections.md)
+4. [04. Потокобезпечні колекції System.Collections.Concurrent](Docs/04_Concurrent_Collections.md)
+

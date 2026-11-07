@@ -1,6 +1,6 @@
 # 01. Синхронне блокування потоку (The Problem: Synchronous Blocking)
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 В основі багатопотокового середовища .NET лежить пул потоків (**ThreadPool**). Кожен потік операційної системи — це дорогий ресурс:
 - Виділення пам'яті під стек (за замовчуванням ~1 МБ на потік).
@@ -10,7 +10,7 @@
 
 ---
 
-## 📊 Візуалізація: Синхронний потік виконання
+## Візуалізація: Синхронний потік виконання
 
 ```mermaid
 sequenceDiagram
@@ -29,7 +29,7 @@ sequenceDiagram
 
 ---
 
-## 🔍 Розбір коду
+## Розбір коду
 
 ```csharp
 // Синхронний виклик блокує викликаючий потік:
@@ -52,8 +52,8 @@ public static void SomeMethod()
 
 ---
 
-## 💡 Рішення в сучасному .NET
+## Рішення в сучасному .NET
 Заміна блокуючих викликів на асинхронні еквіваленти:
-- `Thread.Sleep(...)` ➡️ `await Task.Delay(...)`
-- `FileStream.Read(...)` ➡️ `await FileStream.ReadAsync(...)`
-- `HttpClient.GetString(...)` ➡️ `await HttpClient.GetStringAsync(...)`
+- `Thread.Sleep(...)`  `await Task.Delay(...)`
+- `FileStream.Read(...)`  `await FileStream.ReadAsync(...)`
+- `HttpClient.GetString(...)`  `await HttpClient.GetStringAsync(...)`

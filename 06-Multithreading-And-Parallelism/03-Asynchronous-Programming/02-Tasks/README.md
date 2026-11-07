@@ -1,6 +1,6 @@
 # 02. Створення завдань, Task.Delay та поведінка "Fire-and-Forget"
 
-## 📌 Теоретичний огляд
+## Теоретичний огляд
 
 Ключова відмінність між `Thread.Sleep` та `Task.Delay`:
 - `Thread.Sleep` — блокує потік ОС і змушує його чекати.
@@ -13,7 +13,7 @@
 
 ---
 
-## 📊 Візуалізація: Неблокуюче очікування та Fire-and-Forget
+## Візуалізація: Неблокуюче очікування та Fire-and-Forget
 
 ```mermaid
 sequenceDiagram
@@ -40,7 +40,7 @@ sequenceDiagram
 
 ---
 
-## 🔍 Розбір коду
+## Розбір коду
 
 ```csharp
 // 1. Fire-and-Forget виклик
@@ -63,10 +63,10 @@ private static async void Wait()
 
 ---
 
-## 💡 Modern .NET Best Practices
+## Modern .NET Best Practices
 
 | Антипаттерн у прикладі | Сучасна практика (.NET 10) | Чому це важливо |
 | :--- | :--- | :--- |
 | `public static async void SomeMethod()` | `public static async Task SomeMethodAsync()` | Дозволяє вызываючому коду написати `await`, дізнатися про завершення або перехопити помилку. |
 | `static void Main(string[] args)` | `static async Task Main(string[] args)` | Асинхронна точка входу (з C# 7.1) усуває потребу блокування через `Console.ReadKey()` або `.Wait()`. |
-| `Wait();` без await | `await WaitAsync();` | Гарантує строгий порядок виконання операцій без гонок (race conditions). |
+| `Wait();` без await | `await WaitAsync();` | Гарантує строгий порядок виконання операцій без гонок (race conditions). | 

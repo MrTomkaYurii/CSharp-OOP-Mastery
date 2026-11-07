@@ -37,10 +37,8 @@ modelBuilder.Entity<Payment>()
 
 В EF Core для цього використовуються **Owned Entity Types**:
 ```csharp
-modelBuilder.Entity<Customer>(entity =>
-{
-    entity.OwnsOne(c => c.ShippingAddress, addr =>
-    {
+modelBuilder.Entity<Customer>(entity => {
+    entity.OwnsOne(c => c.ShippingAddress, addr => {
         addr.Property(a => a.Street).HasColumnName("Shipping_Street");
         addr.Property(a => a.City).HasColumnName("Shipping_City");
         addr.Property(a => a.PostalCode).HasColumnName("Shipping_PostalCode");
@@ -56,10 +54,8 @@ modelBuilder.Entity<Customer>(entity =>
 EF Core 8+ дозволяє мапувати складні вкладені структури, масиви та словники в нативні JSON-стовпці БД за допомогою виклику `.ToJson()`:
 
 ```csharp
-modelBuilder.Entity<CatalogProduct>(entity =>
-{
-    entity.OwnsOne(p => p.Specifications, spec =>
-    {
+modelBuilder.Entity<CatalogProduct>(entity => {
+    entity.OwnsOne(p => p.Specifications, spec => {
         spec.ToJson();
     });
 });
