@@ -68,5 +68,5 @@ catch
 
 ## 3. Проекти для практики
 
-- [03-ReturnAValueFromTask-ConsolewithERROR](file:///06-Advanced-DotNet/01-Asynchronous-Programming/03-ReturnAValueFromTask-ConsolewithERROR/Program.cs) — Демонстрація помилки при асинхронному обчисленні.
-- [EX_05-exceptions](file:///06-Advanced-DotNet/01-Asynchronous-Programming/EX_05-exceptions/Program.cs) — Комплексна обробка виключень у групах асинхронних завдань.
+- [03-ReturnAValueFromTask-ConsolewithERROR](../03-ReturnAValueFromTask-ConsolewithERROR/Program.cs) — Демонстрація помилки при асинхронному обчисленні.
+- [EX_05-exceptions](../EX_05-exceptions/Program.cs) — Комплексна обробка виключень у групах асинхронних завдань.

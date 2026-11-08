@@ -72,6 +72,6 @@ if (ex.InnerException != null)
 
 ## 3. Проекти для практики
 
-- [p676[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p676[SOLIS]/Program.cs) — Пряме викидання виключення через `throw new ArgumentNullException()`.
-- [p677[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p677[SOLIS]/Program.cs) — Вкладений блок `try/catch` та збереження стеку викликів.
-- [Example-Inner-Exception](file:///03-Csharp-Mechanics/05-Exceptions-Handling/Example-Inner-Exception/Program.cs) — Практичне використання `InnerException` для передачі низькорівневого виключення у зовнішній блок.
+- [p676[SOLIS]](../p676[SOLIS]/Program.cs) — Пряме викидання виключення через `throw new ArgumentNullException()`.
+- [p677[SOLIS]](../p677[SOLIS]/Program.cs) — Вкладений блок `try/catch` та збереження стеку викликів.
+- [Example-Inner-Exception](../Example-Inner-Exception/Program.cs) — Практичне використання `InnerException` для передачі низькорівневого виключення у зовнішній блок.

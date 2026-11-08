@@ -10,10 +10,10 @@
 `ArrayList` — це колекція зі змінним розміром, внутрішнім сховищем якої є масив `object[]`.
 
 ### Проекти для практики:
-- [02-ArrayList](file:///03-Csharp-Mechanics/02-Collections/02-ArrayList/Program.cs) — Створення та наповнення різнорідними типами
-- [02-01-ArrayList-Access](file:///03-Csharp-Mechanics/02-Collections/02-01-ArrayList-Access/Program.cs) — Індексація та приведення типів
-- [02-03-ArrayList-Iterate](file:///03-Csharp-Mechanics/02-Collections/02-03-ArrayList-Iterate/Program.cs) — Ітерація через `foreach` та `IEnumerator`
-- [02-04-ArrayList-CloneTheNon-GenericArrayList](file:///03-Csharp-Mechanics/02-Collections/02-04-ArrayList-CloneTheNon-GenericArrayList/Program.cs) — Поверхневе клонування (`Clone`)
+- [02-ArrayList](../02-ArrayList/Program.cs) — Створення та наповнення різнорідними типами
+- [02-01-ArrayList-Access](../02-01-ArrayList-Access/Program.cs) — Індексація та приведення типів
+- [02-03-ArrayList-Iterate](../02-03-ArrayList-Iterate/Program.cs) — Ітерація через `foreach` та `IEnumerator`
+- [02-04-ArrayList-CloneTheNon-GenericArrayList](../02-04-ArrayList-CloneTheNon-GenericArrayList/Program.cs) — Поверхневе клонування (`Clone`)
 
 ### Архітектурна проблема: Відсутність безпеки типів (Type Safety)
 Оскільки `ArrayList` приймає `object`, компілятор дозволяє додавати будь-які типи в одну колекцію:
@@ -64,10 +64,10 @@ graph TD
 `Hashtable` представляє колекцію пар "ключ-значення", організованих на основі хеш-коду ключа (`GetHashCode()`).
 
 ### Проекти для практики:
-- [03-01-HashTable](file:///03-Csharp-Mechanics/02-Collections/03-01-HashTable/Program.cs) — Ініціалізація та вилучення значень
-- [03-02-HashTable-Add](file:///03-Csharp-Mechanics/02-Collections/03-02-HashTable-Add/Program.cs) — Додавання пар через `.Add()` та індексатор
-- [03-03-HashTable-CloneHashtable](file:///03-Csharp-Mechanics/02-Collections/03-03-HashTable-CloneHashtable/Program.cs) — Клонування хеш-таблиці
-- [03-04-HashTable-CopyHashtableToArray](file:///03-Csharp-Mechanics/02-Collections/03-04-HashTable-CopyHashtableToArray/Program.cs) — Експорт у масив через `CopyTo`
+- [03-01-HashTable](../03-01-HashTable/Program.cs) — Ініціалізація та вилучення значень
+- [03-02-HashTable-Add](../03-02-HashTable-Add/Program.cs) — Додавання пар через `.Add()` та індексатор
+- [03-03-HashTable-CloneHashtable](../03-03-HashTable-CloneHashtable/Program.cs) — Клонування хеш-таблиці
+- [03-04-HashTable-CopyHashtableToArray](../03-04-HashTable-CopyHashtableToArray/Program.cs) — Експорт у масив через `CopyTo`
 
 ### Організація пам'яті:
 ```csharp

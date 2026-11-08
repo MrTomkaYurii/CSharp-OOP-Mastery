@@ -78,6 +78,6 @@ public class ColorEnumerator : IEnumerator
 ```
 
 ### Проекти для практики:
-- [p492[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p492[SOLIS]/Program.cs) — Базова ручна реалізація `IEnumerator` та `IEnumerable` з масивом кольорів.
-- [ex-01](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-01/Program.cs) — Класична реалізація колекції `People` та `PeopleEnum` з бізнес-об'єктами `Person`.
-- [ex-02](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-02/Program.cs) — Реалізація узагальненого `IEnumerable<T>` та робота з двома класами-обгортками.
+- [p492[SOLIS]](../p492[SOLIS]/Program.cs) — Базова ручна реалізація `IEnumerator` та `IEnumerable` з масивом кольорів.
+- [ex-01](../ex-01/Program.cs) — Класична реалізація колекції `People` та `PeopleEnum` з бізнес-об'єктами `Person`.
+- [ex-02](../ex-02/Program.cs) — Реалізація узагальненого `IEnumerable<T>` та робота з двома класами-обгортками.

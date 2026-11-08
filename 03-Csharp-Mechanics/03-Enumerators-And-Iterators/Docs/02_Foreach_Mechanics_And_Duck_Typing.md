@@ -57,8 +57,8 @@ sequenceDiagram
 ```
 
 ### Проекти для практики:
-- [p486[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p486[SOLIS]/Program.cs) — Базовий цикл `foreach` над масивом.
-- [p490[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p490[SOLIS]/Program.cs) — Пряме використання `IEnumerator` через `while (ie.MoveNext())`.
+- [p486[SOLIS]](../p486[SOLIS]/Program.cs) — Базовий цикл `foreach` над масивом.
+- [p490[SOLIS]](../p490[SOLIS]/Program.cs) — Пряме використання `IEnumerator` через `while (ie.MoveNext())`.
 
 ---
 

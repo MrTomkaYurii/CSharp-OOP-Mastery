@@ -6,13 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{2CA329BD-F45D-5B73-B988-68921EDB6B26}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		Docs\00_Curriculum_And_Roadmap.md = Docs\00_Curriculum_And_Roadmap.md
 		Docs\01_Type_System_And_Metadata_Inspection.md = Docs\01_Type_System_And_Metadata_Inspection.md
 		Docs\02_Members_And_BindingFlags.md = Docs\02_Members_And_BindingFlags.md
 		Docs\03_Late_Binding_And_Generics.md = Docs\03_Late_Binding_And_Generics.md
 		Docs\04_IL_Generation_And_Reflection_Emit.md = Docs\04_IL_Generation_And_Reflection_Emit.md
-		Docs\06_Performance_Optimization_And_Native_AOT.md = Docs\06_Performance_Optimization_And_Native_AOT.md
-		Docs\07_IoC_Container_Deep_Dive.md = Docs\07_IoC_Container_Deep_Dive.md
+		Docs\05_Performance_Optimization_And_Native_AOT.md = Docs\05_Performance_Optimization_And_Native_AOT.md
+		Docs\06_IoC_Container_Deep_Dive.md = Docs\06_IoC_Container_Deep_Dive.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Система типів та інспекція метаданих (Type, Assembly, typeof, GetType)", "01. Система типів та інспекція метаданих (Type, Assembly, typeof, GetType)", "{57860C2E-23F9-51D2-B960-8C3485F0B80E}"
@@ -83,7 +82,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Пізнє зв'язування, Reflection.Emit та доступ без втрати швидкодії (Activator, Emit, UnsafeAccessor)", "04. Пізнє зв'язування, Reflection.Emit та доступ без втрати швидкодії (Activator, Emit, UnsafeAccessor)", "{FBA5FDB9-BBD5-5ECE-A25F-A89493EAB9C4}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\04_IL_Generation_And_Reflection_Emit.md = Docs\04_IL_Generation_And_Reflection_Emit.md
-		Docs\06_Performance_Optimization_And_Native_AOT.md = Docs\06_Performance_Optimization_And_Native_AOT.md
+		Docs\05_Performance_Optimization_And_Native_AOT.md = Docs\05_Performance_Optimization_And_Native_AOT.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14-LateBindingDemo", "14-LateBindingDemo\14-LateBindingDemo.csproj", "{F37DDA9F-CA61-50E5-9EC7-5D1923A3083C}"
@@ -100,7 +99,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "16-UnsafeAccessorDemo", "16
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Побудова власного IoC та Dependency Injection контейнера", "05. Побудова власного IoC та Dependency Injection контейнера", "{D2BB5B42-C3B9-5F1A-871C-72C301302F65}"
 	ProjectSection(SolutionItems) = preProject
-		Docs\07_IoC_Container_Deep_Dive.md = Docs\07_IoC_Container_Deep_Dive.md
+		Docs\06_IoC_Container_Deep_Dive.md = Docs\06_IoC_Container_Deep_Dive.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "25.1-DependencyInjectionDemo", "25.1-DependencyInjectionDemo\25.1-DependencyInjectionDemo.csproj", "{3E3A47DC-05D2-5196-8932-4D45B50546C9}"

@@ -5,30 +5,30 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		01-SystemObjectAndEquality.md = 01-SystemObjectAndEquality.md
-		02-HierarchyEncapsulationAndProtected.md = 02-HierarchyEncapsulationAndProtected.md
-		03-AbstractClassVsInterface.md = 03-AbstractClassVsInterface.md
-		04-PolymorphismAndCompositionDesign.md = 04-PolymorphismAndCompositionDesign.md
+		Docs\01_System_Object_And_Equality.md = Docs\01_System_Object_And_Equality.md
+		Docs\02_Hierarchy_Encapsulation_And_Protected.md = Docs\02_Hierarchy_Encapsulation_And_Protected.md
+		Docs\03_Abstract_Class_Vs_Interface.md = Docs\03_Abstract_Class_Vs_Interface.md
+		Docs\04_Polymorphism_And_Composition_Design.md = Docs\04_Polymorphism_And_Composition_Design.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Корінь ієрархії System.Object та семантика рівності", "01. Корінь ієрархії System.Object та семантика рівності", "{33333333-4444-5555-6666-777777777701}"
 	ProjectSection(SolutionItems) = preProject
-		01-SystemObjectAndEquality.md = 01-SystemObjectAndEquality.md
+		Docs\01_System_Object_And_Equality.md = Docs\01_System_Object_And_Equality.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Інкапсуляція в ієрархіях (protected, internal, private protected)", "02. Інкапсуляція в ієрархіях (protected, internal, private protected)", "{33333333-4444-5555-6666-777777777702}"
 	ProjectSection(SolutionItems) = preProject
-		02-HierarchyEncapsulationAndProtected.md = 02-HierarchyEncapsulationAndProtected.md
+		Docs\02_Hierarchy_Encapsulation_And_Protected.md = Docs\02_Hierarchy_Encapsulation_And_Protected.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Абстрактний клас проти Інтерфейсу та патерн Template Method", "03. Абстрактний клас проти Інтерфейсу та патерн Template Method", "{33333333-4444-5555-6666-777777777703}"
 	ProjectSection(SolutionItems) = preProject
-		03-AbstractClassVsInterface.md = 03-AbstractClassVsInterface.md
+		Docs\03_Abstract_Class_Vs_Interface.md = Docs\03_Abstract_Class_Vs_Interface.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Поліморфізм замість умовних операторів та Композиція проти Спадкування", "04. Поліморфізм замість умовних операторів та Композиція проти Спадкування", "{33333333-4444-5555-6666-777777777704}"
 	ProjectSection(SolutionItems) = preProject
-		04-PolymorphismAndCompositionDesign.md = 04-PolymorphismAndCompositionDesign.md
+		Docs\04_Polymorphism_And_Composition_Design.md = Docs\04_Polymorphism_And_Composition_Design.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-SystemObjectAndEquality", "01-SystemObjectAndEquality\01-SystemObjectAndEquality.csproj", "{33333333-AAAA-BBBB-CCCC-000000000001}"

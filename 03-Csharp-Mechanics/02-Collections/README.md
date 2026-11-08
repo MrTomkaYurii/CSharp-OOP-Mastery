@@ -21,25 +21,25 @@
 
 | Проект | Опис теми | Ключові концепції |
 | :--- | :--- | :--- |
-| **[01-01-Array](file:///03-Csharp-Mechanics/02-Collections/01-01-Array/Program.cs)** | Одновимірні масиви | `Array`, індексація, властивість `Length` |
-| **[01-02-2DArray](file:///03-Csharp-Mechanics/02-Collections/01-02-2DArray/Program.cs)** | Двовимірні прямокутні масиви | `int[,]`, `GetLength(0)`, `GetLength(1)` |
-| **[01-03-JaggedArray](file:///03-Csharp-Mechanics/02-Collections/01-03-JaggedArray/Program.cs)** | Зубчасті масиви (масиви масивів) | `int[][]`, неоднорідна довжина рядків |
-| **[02-ArrayList](file:///03-Csharp-Mechanics/02-Collections/02-ArrayList/Program.cs)** | Базовий `ArrayList` | Додавання різнорідних типів, boxing |
-| **[02-01-ArrayList-Access](file:///03-Csharp-Mechanics/02-Collections/02-01-ArrayList-Access/Program.cs)** | Доступ до елементів `ArrayList` | Необхідність явного приведення типів `(int)` |
-| **[02-03-ArrayList-Iterate](file:///03-Csharp-Mechanics/02-Collections/02-03-ArrayList-Iterate/Program.cs)** | Ітерація по `ArrayList` | Обхід через `foreach` та `IEnumerator` |
-| **[02-04-ArrayList-CloneTheNon-GenericArrayList](file:///03-Csharp-Mechanics/02-Collections/02-04-ArrayList-CloneTheNon-GenericArrayList/Program.cs)** | Клонування колекції | Метод `Clone()` (shallow copy) |
-| **[03-01-HashTable](file:///03-Csharp-Mechanics/02-Collections/03-01-HashTable/Program.cs)** | Базова `Hashtable` | Па́ри ключ-значення на базі `object` |
-| **[03-02-HashTable-Add](file:///03-Csharp-Mechanics/02-Collections/03-02-HashTable-Add/Program.cs)** | Додавання пар у `Hashtable` | Методи `.Add()` та індексатор `table[key]` |
-| **[03-03-HashTable-CloneHashtable](file:///03-Csharp-Mechanics/02-Collections/03-03-HashTable-CloneHashtable/Program.cs)** | Поверхнева копія `Hashtable` | Метод `Clone()` |
-| **[03-04-HashTable-CopyHashtableToArray](file:///03-Csharp-Mechanics/02-Collections/03-04-HashTable-CopyHashtableToArray/Program.cs)** | Експорт пар у масив | Метод `CopyTo()` та тип `DictionaryEntry` |
-| **[04-01-GenericList-Create](file:///03-Csharp-Mechanics/02-Collections/04-01-GenericList-Create/Program.cs)** | Створення `List<T>` | Взаємозв'язок `Count` та `Capacity` |
-| **[04-02-GenericList-Insert](file:///03-Csharp-Mechanics/02-Collections/04-02-GenericList-Insert/Program.cs)** | Модифікація `List<T>` | `Insert`, `InsertRange`, `Remove`, `RemoveAt` |
-| **[04-03-GenericList-FindElement](file:///03-Csharp-Mechanics/02-Collections/04-03-GenericList-FindElement/Program.cs)** | Пошук у `List<T>` | `Find`, `FindAll`, `Exists`, `TrueForAll` |
-| **[05-01-SortedList-Сreate](file:///03-Csharp-Mechanics/02-Collections/05-01-SortedList-Сreate/Program.cs)** | Створення `SortedList<TKey, TValue>` | Автоматичне впорядкування за ключем |
-| **[05-02-SortedList-Add](file:///03-Csharp-Mechanics/02-Collections/05-02-SortedList-Add/Program.cs)** | Додавання ключів | Заборона дублікатів ключів |
-| **[05-03-SortedList-Remove](file:///03-Csharp-Mechanics/02-Collections/05-03-SortedList-Remove/Program.cs)** | Видалення елементів | Видалення за ключем та за індексом |
-| **[05-04-SortedList-CheckTheAvailability](file:///03-Csharp-Mechanics/02-Collections/05-04-SortedList-CheckTheAvailability/Program.cs)** | Перевірка наявності | `ContainsKey`, `ContainsValue` |
-| **[GenericDictionary-06-01](file:///03-Csharp-Mechanics/02-Collections/GenericDictionary-06-01/Program.cs)** | Сучасний `Dictionary<TKey, TValue>` | `TryGetValue`, швидкий $O(1)$ доступ |
+| **[01-01-Array](01-01-Array/Program.cs)** | Одновимірні масиви | `Array`, індексація, властивість `Length` |
+| **[01-02-2DArray](01-02-2DArray/Program.cs)** | Двовимірні прямокутні масиви | `int[,]`, `GetLength(0)`, `GetLength(1)` |
+| **[01-03-JaggedArray](01-03-JaggedArray/Program.cs)** | Зубчасті масиви (масиви масивів) | `int[][]`, неоднорідна довжина рядків |
+| **[02-ArrayList](02-ArrayList/Program.cs)** | Базовий `ArrayList` | Додавання різнорідних типів, boxing |
+| **[02-01-ArrayList-Access](02-01-ArrayList-Access/Program.cs)** | Доступ до елементів `ArrayList` | Необхідність явного приведення типів `(int)` |
+| **[02-03-ArrayList-Iterate](02-03-ArrayList-Iterate/Program.cs)** | Ітерація по `ArrayList` | Обхід через `foreach` та `IEnumerator` |
+| **[02-04-ArrayList-CloneTheNon-GenericArrayList](02-04-ArrayList-CloneTheNon-GenericArrayList/Program.cs)** | Клонування колекції | Метод `Clone()` (shallow copy) |
+| **[03-01-HashTable](03-01-HashTable/Program.cs)** | Базова `Hashtable` | Па́ри ключ-значення на базі `object` |
+| **[03-02-HashTable-Add](03-02-HashTable-Add/Program.cs)** | Додавання пар у `Hashtable` | Методи `.Add()` та індексатор `table[key]` |
+| **[03-03-HashTable-CloneHashtable](03-03-HashTable-CloneHashtable/Program.cs)** | Поверхнева копія `Hashtable` | Метод `Clone()` |
+| **[03-04-HashTable-CopyHashtableToArray](03-04-HashTable-CopyHashtableToArray/Program.cs)** | Експорт пар у масив | Метод `CopyTo()` та тип `DictionaryEntry` |
+| **[04-01-GenericList-Create](04-01-GenericList-Create/Program.cs)** | Створення `List<T>` | Взаємозв'язок `Count` та `Capacity` |
+| **[04-02-GenericList-Insert](04-02-GenericList-Insert/Program.cs)** | Модифікація `List<T>` | `Insert`, `InsertRange`, `Remove`, `RemoveAt` |
+| **[04-03-GenericList-FindElement](04-03-GenericList-FindElement/Program.cs)** | Пошук у `List<T>` | `Find`, `FindAll`, `Exists`, `TrueForAll` |
+| **[05-01-SortedList-Сreate](05-01-SortedList-Сreate/Program.cs)** | Створення `SortedList<TKey, TValue>` | Автоматичне впорядкування за ключем |
+| **[05-02-SortedList-Add](05-02-SortedList-Add/Program.cs)** | Додавання ключів | Заборона дублікатів ключів |
+| **[05-03-SortedList-Remove](05-03-SortedList-Remove/Program.cs)** | Видалення елементів | Видалення за ключем та за індексом |
+| **[05-04-SortedList-CheckTheAvailability](05-04-SortedList-CheckTheAvailability/Program.cs)** | Перевірка наявності | `ContainsKey`, `ContainsValue` |
+| **[GenericDictionary-06-01](GenericDictionary-06-01/Program.cs)** | Сучасний `Dictionary<TKey, TValue>` | `TryGetValue`, швидкий $O(1)$ доступ |
 
 ---
 

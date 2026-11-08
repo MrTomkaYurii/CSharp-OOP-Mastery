@@ -10,7 +10,6 @@
 
 | Розділ | Тематика та ключові питання | Посилання на документ |
 | :---: | :--- | :--- |
-| **00** | **Навчальний план, послідовність викладу, глосарій та дорожня карта** | [Docs/00_Curriculum_And_Roadmap.md](Docs/00_Curriculum_And_Roadmap.md) |
 | **01** | **Динамічне програмування простими словами** (Top-Down vs Bottom-Up, сходинки, робот-збирач монет, кавомашина, рюкзак, одруківки) | [Docs/01_Algorithmic_Dynamic_Programming.md](Docs/01_Algorithmic_Dynamic_Programming.md) |
 | **02** | Динамічні можливості C# та DLR (`dynamic`, DLR CallSite кеш, `ExpandoObject`, `DynamicObject`) | [Docs/02_CSharp_Dynamic_And_DLR_Internals.md](Docs/02_CSharp_Dynamic_And_DLR_Internals.md) |
 | **03** | Динамічне метапрограмування та кодогенерація (`DynamicMethod`, емісія IL, Expression Trees) | [Docs/03_Dynamic_Metaprogramming_And_Code_Generation.md](Docs/03_Dynamic_Metaprogramming_And_Code_Generation.md) |

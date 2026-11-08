@@ -12,17 +12,16 @@
 
 | Матеріал | Формат | Опис та Зміст |
 | :--- | :--- | :--- |
-| **[docs/README.md](docs/README.md)** | Навчальний Хаб і Каталог | Загальна карта курсу, матриця вивчення всіх 101 прикладів, класифікація операторів за категоріями та типами виконання. |
-| **[docs/LINQ-Lecture-Presentation.md](docs/LINQ-Lecture-Presentation.md)** | Інтерактивна Презентація (25 слайдів) | Повноцінна лекція з повною навігацією `⬅/⬆/`, Mermaid-діаграмами архітектури, пайплайнів даних та клікабельними посиланнями на код кожного прикладу. |
+| **[docs/07_LINQ_Lecture_Presentation.md](Docs/07_LINQ_Lecture_Presentation.md)** | Інтерактивна Презентація (25 слайдів) | Повноцінна лекція з повною навігацією `⬅/⬆/`, Mermaid-діаграмами архітектури, пайплайнів даних та клікабельними посиланнями на код кожного прикладу. |
 | **[pptx/101-LINQ-Architecture-and-Operators.pptx](pptx/101-LINQ-Architecture-and-Operators.pptx)** | Презентація PowerPoint (30 слайдів) | Професійна widescreen 16:9 лекційна презентація з 7 модулів для показу на заняттях у форматі Microsoft PowerPoint. |
-| **[docs/01-LINQ-Architecture-and-Execution.md](docs/01-LINQ-Architecture-and-Execution.md)** | Підручник: Частина 1 | Архітектура LINQ: `IEnumerable<T>`, `IEnumerator<T>`, `yield return`, Відкладене (Deferred) vs Негайне (Immediate) виконання. |
-| **[docs/02-Filtering-and-Projections.md](docs/02-Filtering-and-Projections.md)** | Підручник: Частина 2 | Фільтрація (`Where`) та Проєкції (`Select`, `SelectMany`, анонімні типи, трансформація кортежів). |
-| **[docs/03-Partitioning-and-Ordering.md](docs/03-Partitioning-and-Ordering.md)** | Підручник: Частина 3 | Секціонування (`Take`, `Skip`, `TakeWhile`, `SkipWhile`, `Chunk`) та Сортування (`OrderBy`, `OrderByDescending`, `ThenBy`, `Reverse`). |
-| **[docs/04-Grouping-and-Set-Operators.md](docs/04-Grouping-and-Set-Operators.md)** | Підручник: Частина 4 | Групування (`GroupBy`, `ILookup`) та Теоретико-множинні операції (`Distinct`, `Union`, `Intersect`, `Except`). |
-| **[docs/05-Joins-and-Aggregate-Operators.md](docs/05-Joins-and-Aggregate-Operators.md)** | Підручник: Частина 5 | З'єднання послідовностей (`Join`, `GroupJoin`, Left Outer Join) та Агрегація (`Count`, `Sum`, `Min`, `Max`, `Average`, `Aggregate`). |
-| **[docs/06-Quantifiers-Elements-Conversion-and-Custom.md](docs/06-Quantifiers-Elements-Conversion-and-Custom.md)** | Підручник: Частина 6 | Квантори (`Any`, `All`), Елементні оператори (`First`, `Single`), Конвертація (`ToList`, `ToDictionary`, `OfType`) та власні оператори послідовностей. |
+| **[docs/01_LINQ_Architecture_And_Execution.md](Docs/01_LINQ_Architecture_And_Execution.md)** | Підручник: Частина 1 | Архітектура LINQ: `IEnumerable<T>`, `IEnumerator<T>`, `yield return`, Відкладене (Deferred) vs Негайне (Immediate) виконання. |
+| **[docs/02_Filtering_And_Projections.md](Docs/02_Filtering_And_Projections.md)** | Підручник: Частина 2 | Фільтрація (`Where`) та Проєкції (`Select`, `SelectMany`, анонімні типи, трансформація кортежів). |
+| **[docs/03_Partitioning_And_Ordering.md](Docs/03_Partitioning_And_Ordering.md)** | Підручник: Частина 3 | Секціонування (`Take`, `Skip`, `TakeWhile`, `SkipWhile`, `Chunk`) та Сортування (`OrderBy`, `OrderByDescending`, `ThenBy`, `Reverse`). |
+| **[docs/04_Grouping_And_Set_Operators.md](Docs/04_Grouping_And_Set_Operators.md)** | Підручник: Частина 4 | Групування (`GroupBy`, `ILookup`) та Теоретико-множинні операції (`Distinct`, `Union`, `Intersect`, `Except`). |
+| **[docs/05_Joins_And_Aggregate_Operators.md](Docs/05_Joins_And_Aggregate_Operators.md)** | Підручник: Частина 5 | З'єднання послідовностей (`Join`, `GroupJoin`, Left Outer Join) та Агрегація (`Count`, `Sum`, `Min`, `Max`, `Average`, `Aggregate`). |
+| **[docs/06_Quantifiers_Elements_Conversion_And_Custom.md](Docs/06_Quantifiers_Elements_Conversion_And_Custom.md)** | Підручник: Частина 6 | Квантори (`Any`, `All`), Елементні оператори (`First`, `Single`), Конвертація (`ToList`, `ToDictionary`, `OfType`) та власні оператори послідовностей. |
 
-> **Локальна копія в проєкті:** Усі матеріали також продубльовані безпосередньо в директорії консольного проєкту для зручного доступу з браузера та файлового провідника: [101 LINQ Samples/docs](101%20LINQ%20Samples/docs) та [101 LINQ Samples/pptx](101%20LINQ%20Samples/pptx).
+> **Локальна копія в проєкті:** Усі матеріали також продубльовані безпосередньо в директорії консольного проєкту для зручного доступу з браузера та файлового провідника: [101 LINQ Samples/docs](Docs) та [101 LINQ Samples/pptx](101%20LINQ%20Samples/pptx).
 
 ---
 
@@ -91,13 +90,13 @@ OOP - LINQ-Samples/
 ├── README.md                                       # Цей документ — оглядова магістраль репозиторію
 ├── docs/                                           # Комплекс підручників та інтерактивна презентація
 │   ├── README.md                                   # Навчальний хаб і детальна матриця 101 прикладу
-│   ├── 01-LINQ-Architecture-and-Execution.md       # Розділ 1: Архітектура та моделі виконання
-│   ├── 02-Filtering-and-Projections.md             # Розділ 2: Фільтрація та проєкції
-│   ├── 03-Partitioning-and-Ordering.md             # Розділ 3: Секціонування та сортування
-│   ├── 04-Grouping-and-Set-Operators.md            # Розділ 4: Групування та множини
-│   ├── 05-Joins-and-Aggregate-Operators.md         # Розділ 5: З'єднання та агрегація
-│   ├── 06-Quantifiers-Elements-Conversion-and-Custom.md # Розділ 6: Квантори, елементи, конвертація
-│   └── LINQ-Lecture-Presentation.md                # 25 інтерактивних слайдів з Mermaid-діаграмами
+│   ├── 01_LINQ_Architecture_And_Execution.md       # Розділ 1: Архітектура та моделі виконання
+│   ├── 02_Filtering_And_Projections.md             # Розділ 2: Фільтрація та проєкції
+│   ├── 03_Partitioning_And_Ordering.md             # Розділ 3: Секціонування та сортування
+│   ├── 04_Grouping_And_Set_Operators.md            # Розділ 4: Групування та множини
+│   ├── 05_Joins_And_Aggregate_Operators.md         # Розділ 5: З'єднання та агрегація
+│   ├── 06_Quantifiers_Elements_Conversion_And_Custom.md # Розділ 6: Квантори, елементи, конвертація
+│   └── 07_LINQ_Lecture_Presentation.md                # 25 інтерактивних слайдів з Mermaid-діаграмами
 ├── pptx/                                           # Презентація PowerPoint
 │   └── 101-LINQ-Architecture-and-Operators.pptx    # Widescreen 16:9 лекційна презентація (30 слайдів)
 ├── 101 LINQ Samples/                               # Головний запускний консольний проєкт
@@ -119,21 +118,21 @@ OOP - LINQ-Samples/
 
 | № | Категорія | Проєкт у рішенні | Файл коду | К-сть | Ключові оператори та механіки |
 | :-: | :--- | :--- | :--- | :-: | :--- |
-| **01** | **Restriction** | `a_RestrictionOperators` | [`RestrictionOperators.cs`](LINQ%20-%20Restriction%20Operators/C%23/RestrictionOperators/RestrictionOperators.cs) | 5 | `Where` (фільтрація за предикатом, індексований Where) |
-| **02** | **Projection** | `b_ProjectionOperators` | [`ProjectionOperators.cs`](LINQ%20-%20Projection%20Operators/C%23/ProjectionOperators/ProjectionOperators.cs) | 14 | `Select`, `SelectMany` (сплощення 1:N), анонімні типи, проєкції кортежів |
-| **03** | **Partitioning** | `c_PartitioningOperators` | [`PartitioningOperators.cs`](LINQ%20-%20Partitioning%20Operators/C%23/PartitioningOperators/PartitioningOperators.cs) | 6 | `Take`, `Skip`, `TakeWhile`, `SkipWhile`, пагінація |
-| **04** | **Ordering** | `d_OrderingOperators` | [`OrderingOperators.cs`](LINQ%20-%20Ordering%20Operators/C%23/OrderingOperators/OrderingOperators.cs) | 14 | `OrderBy`, `OrderByDescending`, `ThenBy`, `ThenByDescending`, `Reverse`, компаратори `IComparer<T>` |
-| **05** | **Grouping** | `e_GroupingOperators` | [`GroupingOperators.cs`](LINQ%20%20-%20Grouping%20Operators/C%23/GroupingOperators/GroupingOperators.cs) | 8 | `GroupBy`, селектори ключів, селектори елементів, кастомні компаратори |
-| **06** | **Set** | `f_SetOperators` | [`SetOperators.cs`](LINQ%20-%20Set%20Operators/C%23/SetOperators/SetOperators.cs) | 8 | `Distinct`, `Union`, `Intersect`, `Except`, операції над множинами |
-| **07** | **Conversion** | `g_ConversionOperators` | [`ConversionOperators.cs`](LINQ%20-%20Conversion%20Operators/C%23/ConversionOperators/ConversionOperators.cs) | 6 | `ToArray`, `ToList`, `ToDictionary`, `OfType` (фільтрація за типом) |
-| **08** | **Element** | `h_ElementOperators` | [`ElementOperators.cs`](LINQ%20-%20Element%20Operators/C%23/ElementOperators/ElementOperators.cs) | 7 | `First`, `FirstOrDefault`, `ElementAt`, `Single`, дефолтні значення |
-| **09** | **Generation** | `i_GenerationOperators` | [`GenerationOperators.cs`](LINQ%20-%20Generation%20Operators/C%23/GenerationOperators/GenerationOperators.cs) | 3 | `Range`, `Repeat`, `Empty`, генерація числових послідовностей |
-| **10** | **Quantifiers** | `j_Quantifiers` | [`Quantifiers.cs`](LINQ%20-%20Quantifiers/C%23/Quantifiers/Quantifiers.cs) | 5 | `Any`, `All`, `SequenceEqual`, квантори існування та загальності |
-| **11** | **Aggregate** | `k_AggregateOperators` | [`AggregateOperators.cs`](LINQ%20-%20Aggregate%20Operators/C%23/AggregateOperators/AggregateOperators.cs) | 16 | `Count`, `Sum`, `Min`, `Max`, `Average`, `Aggregate` (fold/reduce з акумулятором) |
-| **12** | **Miscellaneous**| `l_MiscellaneousOperators` | [`MiscellaneousOperators.cs`](LINQ%20-%20Miscellaneous%20Operators/C%23/MiscellaneousOperators/MiscellaneousOperators.cs) | 3 | `Concat`, поелементне порівняння `EqualAll` |
-| **13** | **Custom Sequence**| `m_CustomSequenceOperators`| [`CustomSequenceOperators.cs`](LINQ%20-%20Custom%20Sequence%20Operators/C%23/CustomSequenceOperators/CustomSequenceOperators.cs)| 2 | Власний розширюючий метод `Combine` (`Zip`), попарна обробка через `yield return` |
-| **14** | **Query Execution**| `n_QueryExecution` | [`QueryExecution.cs`](LINQ%20-%20Query%20Execution/C%23/QueryExecution/QueryExecution.cs) | 3 | Механіки Deferred Execution, Immediate Execution, повторне виконання запиту |
-| **15** | **Join** | `o_JoinOperators` | [`JoinOperators.cs`](LINQ%20-%20Join%20Operators/C%23/JoinOperators/JoinOperators.cs) | 5 | Inner `Join`, `GroupJoin` (ієрархічне з'єднання), Left Outer Join (`DefaultIfEmpty`) |
+| **01** | **Restriction** | `a_RestrictionOperators` | [`RestrictionOperators.cs`](LINQ%20-%20Restriction%20Operators/C%23/RestrictionOperators/LinqSamples) | 5 | `Where` (фільтрація за предикатом, індексований Where) |
+| **02** | **Projection** | `b_ProjectionOperators` | [`ProjectionOperators.cs`](LINQ%20-%20Projection%20Operators/C%23/ProjectionOperators/LinqSamples) | 14 | `Select`, `SelectMany` (сплощення 1:N), анонімні типи, проєкції кортежів |
+| **03** | **Partitioning** | `c_PartitioningOperators` | [`PartitioningOperators.cs`](LINQ%20-%20Partitioning%20Operators/C%23/PartitioningOperators/LinqSamples) | 6 | `Take`, `Skip`, `TakeWhile`, `SkipWhile`, пагінація |
+| **04** | **Ordering** | `d_OrderingOperators` | [`OrderingOperators.cs`](LINQ%20-%20Ordering%20Operators/C%23/OrderingOperators/LinqSamples) | 14 | `OrderBy`, `OrderByDescending`, `ThenBy`, `ThenByDescending`, `Reverse`, компаратори `IComparer<T>` |
+| **05** | **Grouping** | `e_GroupingOperators` | [`GroupingOperators.cs`](LINQ%20%20-%20Grouping%20Operators/C%23/GroupingOperators/LinqSamples) | 8 | `GroupBy`, селектори ключів, селектори елементів, кастомні компаратори |
+| **06** | **Set** | `f_SetOperators` | [`SetOperators.cs`](LINQ%20-%20Set%20Operators/C%23/SetOperators/LinqSamples) | 8 | `Distinct`, `Union`, `Intersect`, `Except`, операції над множинами |
+| **07** | **Conversion** | `g_ConversionOperators` | [`ConversionOperators.cs`](LINQ%20-%20Conversion%20Operators/C%23/ConversionOperators/LinqSamples) | 6 | `ToArray`, `ToList`, `ToDictionary`, `OfType` (фільтрація за типом) |
+| **08** | **Element** | `h_ElementOperators` | [`ElementOperators.cs`](LINQ%20-%20Element%20Operators/C%23/ElementOperators/LinqSamples) | 7 | `First`, `FirstOrDefault`, `ElementAt`, `Single`, дефолтні значення |
+| **09** | **Generation** | `i_GenerationOperators` | [`GenerationOperators.cs`](LINQ%20-%20Generation%20Operators/C%23/GenerationOperators/LinqSamples) | 3 | `Range`, `Repeat`, `Empty`, генерація числових послідовностей |
+| **10** | **Quantifiers** | `j_Quantifiers` | [`Quantifiers.cs`](LINQ%20-%20Quantifiers/C%23/Quantifiers/LinqSamples) | 5 | `Any`, `All`, `SequenceEqual`, квантори існування та загальності |
+| **11** | **Aggregate** | `k_AggregateOperators` | [`AggregateOperators.cs`](LINQ%20-%20Aggregate%20Operators/C%23/AggregateOperators/LinqSamples) | 16 | `Count`, `Sum`, `Min`, `Max`, `Average`, `Aggregate` (fold/reduce з акумулятором) |
+| **12** | **Miscellaneous**| `l_MiscellaneousOperators` | [`MiscellaneousOperators.cs`](LINQ%20-%20Miscellaneous%20Operators/C%23/MiscellaneousOperators/LinqSamples) | 3 | `Concat`, поелементне порівняння `EqualAll` |
+| **13** | **Custom Sequence**| `m_CustomSequenceOperators`| [`CustomSequenceOperators.cs`](LINQ%20-%20Custom%20Sequence%20Operators/C%23/CustomSequenceOperators/LinqSamples)| 2 | Власний розширюючий метод `Combine` (`Zip`), попарна обробка через `yield return` |
+| **14** | **Query Execution**| `n_QueryExecution` | [`QueryExecution.cs`](LINQ%20-%20Query%20Execution/C%23/QueryExecution/LinqSamples) | 3 | Механіки Deferred Execution, Immediate Execution, повторне виконання запиту |
+| **15** | **Join** | `o_JoinOperators` | [`JoinOperators.cs`](LINQ%20-%20Join%20Operators/C%23/JoinOperators/LinqSamples) | 5 | Inner `Join`, `GroupJoin` (ієрархічне з'єднання), Left Outer Join (`DefaultIfEmpty`) |
 
 ---
 
@@ -175,13 +174,13 @@ dotnet run --project "101 LINQ Samples/p_101 LINQ Samples.csproj"
 
 ## Доменна Модель Даних (Northwind Sample Data)
 
-Усі приклади оперують тестовими даними, зосередженими у модулі [`LinqSamplesCommon`](LinqSamplesCommon/LinqSamplesCommon/TestData.cs):
+Усі приклади оперують тестовими даними, зосередженими у модулі [`LinqSamplesCommon`](LinqSamplesCommon/LinqSamplesHelpers.cs):
 * **`Customer`**: `CustomerID`, `CompanyName`, `Address`, `City`, `Region`, `PostalCode`, `Country`, `Phone`, `Orders`.
 * **`Order`**: `OrderID`, `OrderDate`, `Total`.
 * **`Product`**: `ProductID`, `ProductName`, `Category`, `UnitPrice`, `UnitsInStock`.
 * **Примітивні колекції**: масиви чисел (`int[] numbers`), слів (`string[] words`), голосних та регістрів символів.
 
-Рекурсивний вивід колекцій у консоль забезпечується оптимізованим класом [`ObjectDumper.cs`](LinqSamplesCommon/LinqSamplesCommon/ObjectDumper.cs).
+Рекурсивний вивід колекцій у консоль забезпечується оптимізованим класом [`ObjectDumper.cs`](LinqSamplesCommon/ObjectDumper.cs).
 
 ---
 

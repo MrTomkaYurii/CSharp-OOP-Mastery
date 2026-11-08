@@ -71,9 +71,9 @@ public class UserService
 
 ## 3. Проекти для практики
 
-- [AutoMapperDemo - MappingProfile](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Mapping/MappingProfile.cs) — Центральний профіль з повним набором конфігурацій.
-- [AutoMapperDemo - BasicMappingFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/BasicMappingFeature.cs) — Базовий мапінг сутностей.
-- [AutoMapperDemo - CollectionsFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/CollectionsFeature.cs) — Трансформація колекцій, масивів та списків об'єктів.
-- [AutoMapperDemo - ComplexMappingFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/ComplexMappingFeature.cs) — Сплющення складних графів зв'язаних об'єктів.
-- [AutoMapperDemo - ConditionalMappingFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/ConditionalMappingFeature.cs) — Умовний мапінг значень на основі предикатів.
-- [AutoMapperDemo - AdvancedFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/Advanced/AdvancedFeature.cs) — Використання користувацьких резолверів (`IValueResolver`).
+- [AutoMapperDemo - MappingProfile](../AutoMapperDemo/Mapping/MappingProfile.cs) — Центральний профіль з повним набором конфігурацій.
+- [AutoMapperDemo - BasicMappingFeature](../AutoMapperDemo/Features/BasicMappingFeature.cs) — Базовий мапінг сутностей.
+- [AutoMapperDemo - CollectionsFeature](../AutoMapperDemo/Features/CollectionsFeature.cs) — Трансформація колекцій, масивів та списків об'єктів.
+- [AutoMapperDemo - ComplexMappingFeature](../AutoMapperDemo/Features/ComplexMappingFeature.cs) — Сплющення складних графів зв'язаних об'єктів.
+- [AutoMapperDemo - ConditionalMappingFeature](../AutoMapperDemo/Features/ConditionalMappingFeature.cs) — Умовний мапінг значень на основі предикатів.
+- [AutoMapperDemo - AdvancedFeature](../AutoMapperDemo/Features/Advanced/AdvancedFeature.cs) — Використання користувацьких резолверів (`IValueResolver`).

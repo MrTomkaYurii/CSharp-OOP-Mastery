@@ -48,5 +48,5 @@ Console.WriteLine(counter()); // 2
 
 ## 3. Проекти для практики
 
-- [p367[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p367[SOLIS]/Program.cs) — Анонімні методи через ключове слово `delegate` та демонстрація захоплення локальних змінних.
-- [p369[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p369[SOLIS]/Program.cs) — Перехід від анонімних методів до лямбда-виразів `=>`.
+- [p367[SOLIS]](../p367[SOLIS]/Program.cs) — Анонімні методи через ключове слово `delegate` та демонстрація захоплення локальних змінних.
+- [p369[SOLIS]](../p369[SOLIS]/Program.cs) — Перехід від анонімних методів до лямбда-виразів `=>`.

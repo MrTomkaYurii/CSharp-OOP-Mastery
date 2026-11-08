@@ -4,12 +4,12 @@
 > **Проєкти у тегу (від простого до складного)**:
 > - [17-AttributesBasicsDemo](../17-AttributesBasicsDemo/Program.cs) — Призначення атрибутів, вбудовані та власні атрибути (`[CodeAuthor]`, `[ConsoleCommand]`, `[RequireRole]`), низькорівневий потік `#Blob`.
 > - [18-AttributesValidationDemo](../18-AttributesValidationDemo/Program.cs) — Дворівнева декларативна валідація: перевірка окремих властивостей та валідація узгодженості даних на рівні всього класу.
-> - [19-SerializationBasicsJsonDemo](../19-SerializationBasicsJsonDemo/Program.cs) — Серіалізація-Десеріалізація — Базове розуміння формату JSON (`System.Text.Json`, `JsonDocument`).
-> - [20-SerializationBasicsXmlDemo](../20-SerializationBasicsXmlDemo/Program.cs) — Серіалізація-Десеріалізація — Базове розуміння формату XML (`XmlSerializer`, `XDocument`).
-> - [21-JsonSerializationDemo](../21-JsonSerializationDemo/Program.cs) — Рефлексивна Серіалізація JSON (`ReflectionJsonSerializer`).
-> - [22-XmlSerializationDemo](../22-XmlSerializationDemo/Program.cs) — Рефлексивна Серіалізація XML (`ReflectionXmlSerializer`).
-> - [23-JsonDeserializationDemo](../23-JsonDeserializationDemo/Program.cs) — Рефлексивна Десеріалізація JSON (`ReflectionJsonDeserializer`).
-> - [24-XmlDeserializationDemo](../24-XmlDeserializationDemo/Program.cs) — Рефлексивна Десеріалізація XML (`ReflectionXmlDeserializer`).
+> - [19-SerializationBasicsJsonDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/19-SerializationBasicsJsonDemo/Program.cs) — Серіалізація-Десеріалізація — Базове розуміння формату JSON (`System.Text.Json`, `JsonDocument`).
+> - [20-SerializationBasicsXmlDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/20-SerializationBasicsXmlDemo/Program.cs) — Серіалізація-Десеріалізація — Базове розуміння формату XML (`XmlSerializer`, `XDocument`).
+> - [21-JsonSerializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/21-JsonSerializationDemo/Program.cs) — Рефлексивна Серіалізація JSON (`ReflectionJsonSerializer`).
+> - [22-XmlSerializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/22-XmlSerializationDemo/Program.cs) — Рефлексивна Серіалізація XML (`ReflectionXmlSerializer`).
+> - [23-JsonDeserializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/23-JsonDeserializationDemo/Program.cs) — Рефлексивна Десеріалізація JSON (`ReflectionJsonDeserializer`).
+> - [24-XmlDeserializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/24-XmlDeserializationDemo/Program.cs) — Рефлексивна Десеріалізація XML (`ReflectionXmlDeserializer`).
 
 **Атрибути (Attributes)** у .NET — це механізм декларативного метапрограмування, який дозволяє додавати описову інформацію безпосередньо до елементів програмного коду (збірок, модулів, типів, методів, властивостей, параметрів).
 
@@ -88,9 +88,9 @@ flowchart TD
 
 Навчальний блок серіалізації побудований у шість послідовних кроків:
 
-1. **Базове розуміння JSON** ([19-SerializationBasicsJsonDemo](../19-SerializationBasicsJsonDemo/Program.cs)): синтаксис пар `"ключ": значення`, типи даних JSON, атрибути `[JsonPropertyName]` та `[JsonIgnore]`, інспекція через `JsonDocument`.
-2. **Базове розуміння XML** ([20-SerializationBasicsXmlDemo](../20-SerializationBasicsXmlDemo/Program.cs)): ієрархія тегів, різниця між XML-елементами (`[XmlElement]`) та XML-атрибутами (`[XmlAttribute]`), інспекція через `XDocument`.
-3. **Власна Серіалізація JSON через рефлексію** ([21-JsonSerializationDemo](../21-JsonSerializationDemo/ReflectionJsonSerializer.cs)): читання графа властивостей через `Type.GetProperties()` та `PropertyInfo.GetValue()`, форматування рядків, чисел і логічних значень згідно з власними атрибутами `[JsonField]` та `[JsonExclude]`.
-4. **Власна Серіалізація XML через рефлексію** ([22-XmlSerializationDemo](../22-XmlSerializationDemo/ReflectionXmlSerializer.cs)): генерація кореневого тегу з `[XmlRootTag]`, розподіл властивостей на атрибути відкриваючого тегу (`[XmlAttr]`) та вкладені дочірні елементи (`[XmlTag]`).
-5. **Власна Десеріалізація JSON через рефлексію** ([23-JsonDeserializationDemo](../23-JsonDeserializationDemo/ReflectionJsonDeserializer.cs)): динамічне конструювання об'єкта через `Activator.CreateInstance<T>()`, зіставлення JSON-ключів із властивостями класу та запис значень через `PropertyInfo.SetValue()`.
-6. **Власна Десеріалізація XML через рефлексію** ([24-XmlDeserializationDemo](../24-XmlDeserializationDemo/ReflectionXmlDeserializer.cs)): розбір XML-атрибутів і дочірніх тегів, конвертація рядків у цільовий тип властивості через `Convert.ChangeType()` та заповнення об'єкта через `PropertyInfo.SetValue()`.
+1. **Базове розуміння JSON** ([19-SerializationBasicsJsonDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/19-SerializationBasicsJsonDemo/Program.cs)): синтаксис пар `"ключ": значення`, типи даних JSON, атрибути `[JsonPropertyName]` та `[JsonIgnore]`, інспекція через `JsonDocument`.
+2. **Базове розуміння XML** ([20-SerializationBasicsXmlDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/20-SerializationBasicsXmlDemo/Program.cs)): ієрархія тегів, різниця між XML-елементами (`[XmlElement]`) та XML-атрибутами (`[XmlAttribute]`), інспекція через `XDocument`.
+3. **Власна Серіалізація JSON через рефлексію** ([21-JsonSerializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/21-JsonSerializationDemo/ReflectionJsonSerializer.cs)): читання графа властивостей через `Type.GetProperties()` та `PropertyInfo.GetValue()`, форматування рядків, чисел і логічних значень згідно з власними атрибутами `[JsonField]` та `[JsonExclude]`.
+4. **Власна Серіалізація XML через рефлексію** ([22-XmlSerializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/22-XmlSerializationDemo/ReflectionXmlSerializer.cs)): генерація кореневого тегу з `[XmlRootTag]`, розподіл властивостей на атрибути відкриваючого тегу (`[XmlAttr]`) та вкладені дочірні елементи (`[XmlTag]`).
+5. **Власна Десеріалізація JSON через рефлексію** ([23-JsonDeserializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/23-JsonDeserializationDemo/ReflectionJsonDeserializer.cs)): динамічне конструювання об'єкта через `Activator.CreateInstance<T>()`, зіставлення JSON-ключів із властивостями класу та запис значень через `PropertyInfo.SetValue()`.
+6. **Власна Десеріалізація XML через рефлексію** ([24-XmlDeserializationDemo](../../../05-Files-Streams-And-Serialization/02-Serialization-And-Data-Formats/24-XmlDeserializationDemo/ReflectionXmlDeserializer.cs)): розбір XML-атрибутів і дочірніх тегів, конвертація рядків у цільовий тип властивості через `Convert.ChangeType()` та заповнення об'єкта через `PropertyInfo.SetValue()`.

@@ -60,10 +60,10 @@ if (file.Exists)
 
 ## 3. Проекти для практики
 
-- [03-01-FileClass](file:///04-Data-And-IO/02-Files-And-Streams/03-01-FileClass/Program.cs) — Створення та видалення файлів за допомогою `File.Create` / `File.Delete`.
-- [03-02-FileClass](file:///04-Data-And-IO/02-Files-And-Streams/03-02-FileClass/Program.cs) — Перевірка існування `File.Exists`.
-- [03-03-FileClass](file:///04-Data-And-IO/02-Files-And-Streams/03-03-FileClass/Program.cs) — Читання та запис рядків через `File.WriteAllText` / `File.ReadAllText`.
-- [07-01-FileInfoClass](file:///04-Data-And-IO/02-Files-And-Streams/07-01-FileInfoClass/Program.cs) — Створення екземпляра `FileInfo` та перевірка стану.
-- [07-08-FileInfoClass](file:///04-Data-And-IO/02-Files-And-Streams/07-08-FileInfoClass/Program.cs) — Комплексне переміщення, копіювання та робота з атрибутами файлу.
-- [08-01-08-DirectoryInfoClass](file:///04-Data-And-IO/02-Files-And-Streams/08-01-08-DirectoryInfoClass/Program.cs) — Створення та навігація по папках через `DirectoryInfo`.
-- [08-05-DirectoryInfoClass](file:///04-Data-And-IO/02-Files-And-Streams/08-05-DirectoryInfoClass/Program.cs) — Рекурсивний обхід піддиректорій та фільтрація файлів за маскою.
+- [03-01-FileClass](../03-01-FileClass/Program.cs) — Створення та видалення файлів за допомогою `File.Create` / `File.Delete`.
+- [03-02-FileClass](../03-02-FileClass/Program.cs) — Перевірка існування `File.Exists`.
+- [03-03-FileClass](../03-03-FileClass/Program.cs) — Читання та запис рядків через `File.WriteAllText` / `File.ReadAllText`.
+- [07-01-FileInfoClass](../07-01-FileInfoClass/Program.cs) — Створення екземпляра `FileInfo` та перевірка стану.
+- [07-08-FileInfoClass](../07-08-FileInfoClass/Program.cs) — Комплексне переміщення, копіювання та робота з атрибутами файлу.
+- [08-01-08-DirectoryInfoClass](../08-01-08-DirectoryInfoClass/Program.cs) — Створення та навігація по папках через `DirectoryInfo`.
+- [08-05-DirectoryInfoClass](../08-05-DirectoryInfoClass/Program.cs) — Рекурсивний обхід піддиректорій та фільтрація файлів за маскою.

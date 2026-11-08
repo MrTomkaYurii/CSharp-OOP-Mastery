@@ -73,6 +73,6 @@ using (var fs = new FileStream("data.bin", FileMode.Create, FileAccess.Write, Fi
 
 ## 3. Проекти для практики
 
-- [01-01-FileStream](file:///04-Data-And-IO/02-Files-And-Streams/01-01-FileStream/Program.cs) — Створення файлу, запис байтів та закриття потоку.
-- [01-02-FileStream](file:///04-Data-And-IO/02-Files-And-Streams/01-02-FileStream/Program.cs) — Побайтове читання даних за допомогою `fs.ReadByte()`.
-- [01-03-FileStream](file:///04-Data-And-IO/02-Files-And-Streams/01-03-FileStream/Program.cs) — Блокове читання та запис масиву байтів `byte[] buffer`.
+- [01-01-FileStream](../01-01-FileStream/Program.cs) — Створення файлу, запис байтів та закриття потоку.
+- [01-02-FileStream](../01-02-FileStream/Program.cs) — Побайтове читання даних за допомогою `fs.ReadByte()`.
+- [01-03-FileStream](../01-03-FileStream/Program.cs) — Блокове читання та запис масиву байтів `byte[] buffer`.

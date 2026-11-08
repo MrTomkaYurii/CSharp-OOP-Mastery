@@ -63,4 +63,4 @@ graph TD
 
 ## 3. Проекти для практики
 
-- [Exception-Handling-Abuse](file:///03-Csharp-Mechanics/05-Exceptions-Handling/Exception-Handling-Abuse/Program.cs) — Порівняння підходів `int.Parse` всередині `try/catch` проти ефективного `int.TryParse`.
+- [Exception-Handling-Abuse](../Exception-Handling-Abuse/Program.cs) — Порівняння підходів `int.Parse` всередині `try/catch` проти ефективного `int.TryParse`.

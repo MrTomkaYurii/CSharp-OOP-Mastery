@@ -63,6 +63,6 @@ public class Customer
 
 ## 4. Проекти для практики
 
-- [SerializationDemo - SerializationService](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/SerializationDemo/SerializationService.cs) — Уніфікований сервіс серіалізації в JSON та XML.
-- [SerializationDemo - DemoRunner](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/SerializationDemo/DemoRunner.cs) — Практичне порівняння результатів серіалізації бізнес-моделей `Order`, `Customer`, `Address`.
-- [SerializationDemo - AppHost](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/SerializationDemo/AppHost.cs) — Архітектура консольного хоста з контейнером інверсії керування (DI).
+- [SerializationDemo - SerializationService](../SerializationDemo/SerializationService.cs) — Уніфікований сервіс серіалізації в JSON та XML.
+- [SerializationDemo - DemoRunner](../SerializationDemo/DemoRunner.cs) — Практичне порівняння результатів серіалізації бізнес-моделей `Order`, `Customer`, `Address`.
+- [SerializationDemo - AppHost](../SerializationDemo/AppHost.cs) — Архітектура консольного хоста з контейнером інверсії керування (DI).

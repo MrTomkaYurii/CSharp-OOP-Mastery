@@ -47,8 +47,8 @@ flowchart LR
 * **[`GenericsPitfalls/`](GenericsPitfalls/Program.cs)** — Комплексний практикум: розбір помилок компіляції та часу виконання (Boxing, небезпечні кастинги, статичні лічильники, порівняння).
 
 ### 2. Винятки в архітектурі
-* **[`ExceptionsBasics/`](ExceptionsBasics/Program.cs)** — Базові винятки та фільтрація в узагальнених контекстах.
-* **[`ExceptionsCustom/`](ExceptionsCustom/Program.cs)** — Створення власних ієрархій винятків для бізнес-доменів.
+* **[`ExceptionsBasics/`](../05-Exceptions-Handling/ExceptionsBasics/Program.cs)** — Базові винятки та фільтрація в узагальнених контекстах.
+* **[`ExceptionsCustom/`](../05-Exceptions-Handling/ExceptionsCustom/Program.cs)** — Створення власних ієрархій винятків для бізнес-доменів.
 
 ### 3. Академічний атлас Solis
 * **[`p367[SOLIS]/`](p367[SOLIS]/Program.cs)** — Узагальнені структури.

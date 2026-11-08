@@ -21,17 +21,17 @@
 
 | Проект | Опис теми | Ключові концепції |
 | :--- | :--- | :--- |
-| **[p660[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p660[SOLIS]/Program.cs)** | Необроблене виключення | Аварійне завершення процесу при діленні на нуль |
-| **[p662[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p662[SOLIS]/Program.cs)** | Базовий перехоплювач | Блок `catch` без вказання типу виключення |
-| **[p666[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p666[SOLIS]/Program.cs)** | Типізоване перехоплення | Доступ до властивостей `Message` та `StackTrace` |
-| **[example-Multiple-Catch-Blocks](file:///03-Csharp-Mechanics/05-Exceptions-Handling/example-Multiple-Catch-Blocks/Program.cs)** | Множинні блоки `catch` | Ієрархія фільтрації від часткового до загального |
-| **[p669[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p669[SOLIS]/Program.cs)** | Гарантії `finally` | Спрацьовування `finally` навіть при явному `return` |
-| **[p676[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p676[SOLIS]/Program.cs)** | Генерація виключення | Оператор `throw new ArgumentNullException()` |
-| **[p677[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p677[SOLIS]/Program.cs)** | Вкладена обробка | Локальне логування та прокидання далі через `throw` |
-| **[Example-Inner-Exception](file:///03-Csharp-Mechanics/05-Exceptions-Handling/Example-Inner-Exception/Program.cs)** | Властивість `InnerException` | Ланцюжок причин виникнення збою (Root Cause) |
-| **[example-user-defined-exception](file:///03-Csharp-Mechanics/05-Exceptions-Handling/example-user-defined-exception/Program.cs)** | Власний клас помилки | Реалізація `TempIsZeroException` |
-| **[p679[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p679[SOLIS]/Program.cs)** | `throw` як вираз | Використання `throw` всередині тернарного оператора |
-| **[Exception-Handling-Abuse](file:///03-Csharp-Mechanics/05-Exceptions-Handling/Exception-Handling-Abuse/Program.cs)** | Антипатерн потоку керування | Порівняння `int.Parse` + `catch` проти `int.TryParse` |
+| **[p660[SOLIS]](p660[SOLIS]/Program.cs)** | Необроблене виключення | Аварійне завершення процесу при діленні на нуль |
+| **[p662[SOLIS]](p662[SOLIS]/Program.cs)** | Базовий перехоплювач | Блок `catch` без вказання типу виключення |
+| **[p666[SOLIS]](p666[SOLIS]/Program.cs)** | Типізоване перехоплення | Доступ до властивостей `Message` та `StackTrace` |
+| **[example-Multiple-Catch-Blocks](example-Multiple-Catch-Blocks/Program.cs)** | Множинні блоки `catch` | Ієрархія фільтрації від часткового до загального |
+| **[p669[SOLIS]](p669[SOLIS]/Program.cs)** | Гарантії `finally` | Спрацьовування `finally` навіть при явному `return` |
+| **[p676[SOLIS]](p676[SOLIS]/Program.cs)** | Генерація виключення | Оператор `throw new ArgumentNullException()` |
+| **[p677[SOLIS]](p677[SOLIS]/Program.cs)** | Вкладена обробка | Локальне логування та прокидання далі через `throw` |
+| **[Example-Inner-Exception](Example-Inner-Exception/Program.cs)** | Властивість `InnerException` | Ланцюжок причин виникнення збою (Root Cause) |
+| **[example-user-defined-exception](example-user-defined-exception/Program.cs)** | Власний клас помилки | Реалізація `TempIsZeroException` |
+| **[p679[SOLIS]](p679[SOLIS]/Program.cs)** | `throw` як вираз | Використання `throw` всередині тернарного оператора |
+| **[Exception-Handling-Abuse](Exception-Handling-Abuse/Program.cs)** | Антипатерн потоку керування | Порівняння `int.Parse` + `catch` проти `int.TryParse` |
 
 ---
 

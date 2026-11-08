@@ -24,9 +24,9 @@
 ---
 
 ## Навчальні матеріали
-1. [Розділ 1: Parallel.ForEachAsync та PLINQ](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/06-Advanced-DotNet/05-Parallel-And-Channels/Docs/01_Parallel_ForEachAsync_And_PLINQ.md)
-2. [Розділ 2: Черги Channels та Producer-Consumer патерн](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/06-Advanced-DotNet/05-Parallel-And-Channels/Docs/02_Channels_Producer_Consumer.md)
-3. [Розділ 3: Асинхронна синхронізація, SemaphoreSlim та Linked Tokens](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/06-Advanced-DotNet/05-Parallel-And-Channels/Docs/03_Synchronization_And_Cancellation.md)
+1. [Розділ 1: Parallel.ForEachAsync та PLINQ](Docs/01_Parallel_ForEachAsync_And_PLINQ.md)
+2. [Розділ 2: Черги Channels та Producer-Consumer патерн](Docs/02_Channels_Producer_Consumer.md)
+3. [Розділ 3: Асинхронна синхронізація, SemaphoreSlim та Linked Tokens](Docs/03_Synchronization_And_Cancellation.md)
 
 ---
 

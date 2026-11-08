@@ -114,10 +114,10 @@ flowchart TD
 #### 2.3. [`03-Polymorphism-And-Hierarchy-Design`](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/README.md) (`OOP-Polymorphism-And-Design.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
 |:---|:---|:---|
-| **01. Корінь ієрархії System.Object та семантика рівності** | [01-SystemObjectAndEquality.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/01-SystemObjectAndEquality.md) | `01-SystemObjectAndEquality` (`ToString`, `Equals`, `GetHashCode`, `MemberwiseClone`) |
-| **02. Інкапсуляція в ієрархіях (protected, internal, private protected)** | [02-HierarchyEncapsulationAndProtected.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/02-HierarchyEncapsulationAndProtected.md) | `02-HierarchyEncapsulationAndProtected` (`BankAccount`, `SavingsAccount`, `CreditLineAccount`) |
-| **03. Абстрактний клас проти Інтерфейсу та патерн Template Method** | [03-AbstractClassVsInterface.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/03-AbstractClassVsInterface.md) | `03-AbstractClassVsInterface` (`ReportExporter`, `ICompressible`, `IEncryptable`) |
-| **04. Поліморфізм замість умовних операторів та Композиція проти Спадкування** | [04-PolymorphismAndCompositionDesign.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/04-PolymorphismAndCompositionDesign.md) | `04-PolymorphismAndCompositionDesign` (`IShippingRule`, `GameUnit`) |
+| **01. Корінь ієрархії System.Object та семантика рівності** | [01_System_Object_And_Equality.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/Docs/01_System_Object_And_Equality.md) | `01-SystemObjectAndEquality` (`ToString`, `Equals`, `GetHashCode`, `MemberwiseClone`) |
+| **02. Інкапсуляція в ієрархіях (protected, internal, private protected)** | [02_Hierarchy_Encapsulation_And_Protected.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/Docs/02_Hierarchy_Encapsulation_And_Protected.md) | `02-HierarchyEncapsulationAndProtected` (`BankAccount`, `SavingsAccount`, `CreditLineAccount`) |
+| **03. Абстрактний клас проти Інтерфейсу та патерн Template Method** | [03_Abstract_Class_Vs_Interface.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/Docs/03_Abstract_Class_Vs_Interface.md) | `03-AbstractClassVsInterface` (`ReportExporter`, `ICompressible`, `IEncryptable`) |
+| **04. Поліморфізм замість умовних операторів та Композиція проти Спадкування** | [04_Polymorphism_And_Composition_Design.md](02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/Docs/04_Polymorphism_And_Composition_Design.md) | `04-PolymorphismAndCompositionDesign` (`IShippingRule`, `GameUnit`) |
 
 ---
 
@@ -138,8 +138,8 @@ flowchart TD
 | **01. Система типів та інспекція метаданих** | [01_Type_System_And_Metadata_Inspection.md](04-Advanced-CSharp/01-Reflection/Docs/01_Type_System_And_Metadata_Inspection.md) | `00-Shared`, `p696[SOLIS]`, `p698[SOLIS]`, `reflection-example-intro-01`, `01-TypeofDemo`..`06-GetInterfacesDemo` |
 | **02. Члени типу, інкапсуляція та прапорці пошуку** | [02_Members_And_BindingFlags.md](04-Advanced-CSharp/01-Reflection/Docs/02_Members_And_BindingFlags.md) | `reflection-ex-04`..`10`, `07-GetFieldsPropertiesDemo`..`11-GetEventsDemo` |
 | **03. Рефлексія узагальнень та варіантності** | [03_Late_Binding_And_Generics.md](04-Advanced-CSharp/01-Reflection/Docs/03_Late_Binding_And_Generics.md) | `12-GenericsReflectionDemo`, `13.1-CovarianceAndContravarianceDemo`, `13.2-VarianceReflectionInspectionDemo` |
-| **04. Пізнє зв'язування, Reflection.Emit та UnsafeAccessor** | [04_IL_Generation_And_Reflection_Emit.md](04-Advanced-CSharp/01-Reflection/Docs/04_IL_Generation_And_Reflection_Emit.md), [06_Performance_Optimization_And_Native_AOT.md](04-Advanced-CSharp/01-Reflection/Docs/06_Performance_Optimization_And_Native_AOT.md) | `14-LateBindingDemo`, `reflection-example-late-binding-01`..`02`, `reflection-example-intro-02`..`03`, `16-UnsafeAccessorDemo` |
-| **05. Побудова власного IoC та DI контейнера** | [07_IoC_Container_Deep_Dive.md](04-Advanced-CSharp/01-Reflection/Docs/07_IoC_Container_Deep_Dive.md) | `25.1-DependencyInjectionDemo`, `25.2-DependencyInjectionRealWorld` |
+| **04. Пізнє зв'язування, Reflection.Emit та UnsafeAccessor** | [04_IL_Generation_And_Reflection_Emit.md](04-Advanced-CSharp/01-Reflection/Docs/04_IL_Generation_And_Reflection_Emit.md), [05_Performance_Optimization_And_Native_AOT.md](04-Advanced-CSharp/01-Reflection/Docs/05_Performance_Optimization_And_Native_AOT.md) | `14-LateBindingDemo`, `reflection-example-late-binding-01`..`02`, `reflection-example-intro-02`..`03`, `16-UnsafeAccessorDemo` |
+| **05. Побудова власного IoC та DI контейнера** | [06_IoC_Container_Deep_Dive.md](04-Advanced-CSharp/01-Reflection/Docs/06_IoC_Container_Deep_Dive.md) | `25.1-DependencyInjectionDemo`, `25.2-DependencyInjectionRealWorld` |
 
 #### 4.2. [`02-Attributes-And-Metadata`](04-Advanced-CSharp/02-Attributes-And-Metadata/README.md) (`OOP-Attributes-And-Metadata.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
@@ -151,12 +151,12 @@ flowchart TD
 #### 4.3. [`03-LINQ`](04-Advanced-CSharp/03-LINQ/README.md) (`101 LINQ Samples.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
 |:---|:---|:---|
-| **01. Архітектура LINQ, відкладене виконання та спільне джерело даних** | [01-LINQ-Architecture-and-Execution.md](04-Advanced-CSharp/03-LINQ/docs/01-LINQ-Architecture-and-Execution.md) | `LinqSamplesCommon`, `n_QueryExecution`, `p_101 LINQ Samples` |
-| **02. Фільтрація та проєкція послідовностей (Where, Select, SelectMany)** | [02-Filtering-and-Projections.md](04-Advanced-CSharp/03-LINQ/docs/02-Filtering-and-Projections.md) | `a_RestrictionOperators`, `b_ProjectionOperators` |
-| **03. Пагінація та сортування (Take, Skip, OrderBy, ThenBy, Reverse)** | [03-Partitioning-and-Ordering.md](04-Advanced-CSharp/03-LINQ/docs/03-Partitioning-and-Ordering.md) | `c_PartitioningOperators`, `d_OrderingOperators` |
-| **04. Групування та множинні операції (GroupBy, Distinct, Union, Intersect, Except)** | [04-Grouping-and-Set-Operators.md](04-Advanced-CSharp/03-LINQ/docs/04-Grouping-and-Set-Operators.md) | `e_GroupingOperators`, `f_SetOperators` |
-| **05. Реляційні з'єднання та агрегація (Join, GroupJoin, Count, Sum, Min, Max, Aggregate)** | [05-Joins-and-Aggregate-Operators.md](04-Advanced-CSharp/03-LINQ/docs/05-Joins-and-Aggregate-Operators.md) | `o_JoinOperators`, `k_AggregateOperators` |
-| **06. Квантори, елементні оператори, генерація, конвертація та власні розширення** | [06-Quantifiers-Elements-Conversion-and-Custom.md](04-Advanced-CSharp/03-LINQ/docs/06-Quantifiers-Elements-Conversion-and-Custom.md) | `g_ConversionOperators`, `h_ElementOperators`, `i_GenerationOperators`, `j_Quantifiers`, `l_MiscellaneousOperators`, `m_CustomSequenceOperators` |
+| **01. Архітектура LINQ, відкладене виконання та спільне джерело даних** | [01_LINQ_Architecture_And_Execution.md](04-Advanced-CSharp/03-LINQ/Docs/01_LINQ_Architecture_And_Execution.md) | `LinqSamplesCommon`, `n_QueryExecution`, `p_101 LINQ Samples` |
+| **02. Фільтрація та проєкція послідовностей (Where, Select, SelectMany)** | [02_Filtering_And_Projections.md](04-Advanced-CSharp/03-LINQ/Docs/02_Filtering_And_Projections.md) | `a_RestrictionOperators`, `b_ProjectionOperators` |
+| **03. Пагінація та сортування (Take, Skip, OrderBy, ThenBy, Reverse)** | [03_Partitioning_And_Ordering.md](04-Advanced-CSharp/03-LINQ/Docs/03_Partitioning_And_Ordering.md) | `c_PartitioningOperators`, `d_OrderingOperators` |
+| **04. Групування та множинні операції (GroupBy, Distinct, Union, Intersect, Except)** | [04_Grouping_And_Set_Operators.md](04-Advanced-CSharp/03-LINQ/Docs/04_Grouping_And_Set_Operators.md) | `e_GroupingOperators`, `f_SetOperators` |
+| **05. Реляційні з'єднання та агрегація (Join, GroupJoin, Count, Sum, Min, Max, Aggregate)** | [05_Joins_And_Aggregate_Operators.md](04-Advanced-CSharp/03-LINQ/Docs/05_Joins_And_Aggregate_Operators.md) | `o_JoinOperators`, `k_AggregateOperators` |
+| **06. Квантори, елементні оператори, генерація, конвертація та власні розширення** | [06_Quantifiers_Elements_Conversion_And_Custom.md](04-Advanced-CSharp/03-LINQ/Docs/06_Quantifiers_Elements_Conversion_And_Custom.md) | `g_ConversionOperators`, `h_ElementOperators`, `i_GenerationOperators`, `j_Quantifiers`, `l_MiscellaneousOperators`, `m_CustomSequenceOperators` |
 
 #### 4.4. [`04-Expression-Trees`](04-Advanced-CSharp/04-Expression-Trees/README.md) (`OOP - Expression Trees.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
@@ -254,8 +254,8 @@ flowchart TD
 #### 8.1. [`01-SOLID-Principles`](08-Architecture-And-Patterns/01-SOLID-Principles/README.md) (`OOP - SOLID.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
 |:---|:---|:---|
-| **S..D. Принципи SOLID (SRP, OCP, LSP, ISP, DIP)** | [01_Single_Responsibility_Principle.md](08-Architecture-And-Patterns/01-SOLID-Principles/OOP%20-%20SOLID/Docs/01_Single_Responsibility_Principle.md) .. [05_Dependency_Inversion_Principle.md](08-Architecture-And-Patterns/01-SOLID-Principles/OOP%20-%20SOLID/Docs/05_Dependency_Inversion_Principle.md) | `S`, `O`, `L`, `I`, `D` (пари `Bad` vs `Good`) |
-| **DIP_IoC_DI_Evolution** | [06_DIP_IoC_DI_Containers_DeepDive.md](08-Architecture-And-Patterns/01-SOLID-Principles/OOP%20-%20SOLID/Docs/06_DIP_IoC_DI_Containers_DeepDive.md) | `DIP_IoC_DI_Evolution` |
+| **S..D. Принципи SOLID (SRP, OCP, LSP, ISP, DIP)** | [01_Single_Responsibility_Principle.md](08-Architecture-And-Patterns/01-SOLID-Principles/Docs/01_Single_Responsibility_Principle.md) .. [05_Dependency_Inversion_Principle.md](08-Architecture-And-Patterns/01-SOLID-Principles/Docs/05_Dependency_Inversion_Principle.md) | `S`, `O`, `L`, `I`, `D` (пари `Bad` vs `Good`) |
+| **DIP_IoC_DI_Evolution** | [06_DIP_IoC_DI_Containers_DeepDive.md](08-Architecture-And-Patterns/01-SOLID-Principles/Docs/06_DIP_IoC_DI_Containers_DeepDive.md) | `DIP_IoC_DI_Evolution` |
 
 #### 8.2. [`02-Generic-Host-Configuration-And-Logging`](08-Architecture-And-Patterns/02-Generic-Host-Configuration-And-Logging/README.md) (`OOP - Generic Host Configuration and Logging.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
@@ -295,7 +295,6 @@ flowchart TD
 #### 9.1. [`09-Dynamic-Programming`](09-Dynamic-Programming/README.md) (`DynamicProgramming.sln`)
 | Секція у Solution Explorer | Навчальний `.md`-посібник | Проєкти у секції |
 |:---|:---|:---|
-| **01. Алгоритмічне Динамічне Програмування (Мемоізація, Табуляція, Сходи, Монети, Рюкзак)** | [00_Curriculum_And_Roadmap.md](09-Dynamic-Programming/Docs/00_Curriculum_And_Roadmap.md), [01_Algorithmic_Dynamic_Programming.md](09-Dynamic-Programming/Docs/01_Algorithmic_Dynamic_Programming.md) | `01-Memoization-Basics` (Top-Down), `02-Tabulation-Basics` (Bottom-Up), `03-Classic-DP-Problems` (Сходи, Кавовий автомат, Туристичний рюкзак 0/1, Відстань Левенштейна), `04-Generic-Memoizer-Pattern` |
 | **02. Динамічне середовище виконання C# (DLR, dynamic, ExpandoObject)** | [02_CSharp_Dynamic_And_DLR_Internals.md](09-Dynamic-Programming/Docs/02_CSharp_Dynamic_And_DLR_Internals.md) | `05-Dynamic-Keyword-And-DLR`, `06-ExpandoObject-And-DynamicObject` |
 | **03. Динамічна генерація коду (IL Emit та Expression Trees)** | [03_Dynamic_Metaprogramming_And_Code_Generation.md](09-Dynamic-Programming/Docs/03_Dynamic_Metaprogramming_And_Code_Generation.md) | `07-DynamicMethod-Emit`, `08-Expression-Trees-Dynamic-Compilation` |
 | **04. Інтеграційний конвеєр (Dynamic Pipeline Engine)** | [04_Capstone_Pipeline_Deep_Dive.md](09-Dynamic-Programming/Docs/04_Capstone_Pipeline_Deep_Dive.md) | `09-Dynamic-Pipeline-Engine` |

@@ -8,13 +8,12 @@
 
 | Розділ | Тематика та ключові питання | Посилання |
 | :---: | :--- | :--- |
-| **00** | Навчальний план і дорожня карта рефлексії | [`Docs/00_Curriculum_And_Roadmap.md`](Docs/00_Curriculum_And_Roadmap.md) |
 | **01** | Система типів (`Type`, `Assembly`, `typeof`, `GetType`, `Type.GetType`) | [`Docs/01_Type_System_And_Metadata_Inspection.md`](Docs/01_Type_System_And_Metadata_Inspection.md) |
 | **02** | Члени типу та прапорці пошуку (`MemberInfo`, `BindingFlags`, `FieldInfo`, `PropertyInfo`, `MethodInfo`, `ConstructorInfo`) | [`Docs/02_Members_And_BindingFlags.md`](Docs/02_Members_And_BindingFlags.md) |
 | **03** | Рефлексія дженериків та варіантності (`MakeGenericType`, `MakeGenericMethod`, `GenericParameterAttributes`) | [`Docs/03_Late_Binding_And_Generics.md`](Docs/03_Late_Binding_And_Generics.md) |
 | **04** | Генерація проміжного коду CIL на льоту (`System.Reflection.Emit`, `DynamicMethod`, `ILGenerator`) | [`Docs/04_IL_Generation_And_Reflection_Emit.md`](Docs/04_IL_Generation_And_Reflection_Emit.md) |
-| **05** | Продуктивність рефлексії, `[UnsafeAccessor]` та Native AOT | [`Docs/06_Performance_Optimization_And_Native_AOT.md`](Docs/06_Performance_Optimization_And_Native_AOT.md) |
-| **06** | Архітектура власного IoC / Dependency Injection контейнера | [`Docs/07_IoC_Container_Deep_Dive.md`](Docs/07_IoC_Container_Deep_Dive.md) |
+| **05** | Продуктивність рефлексії, `[UnsafeAccessor]` та Native AOT | [`Docs/05_Performance_Optimization_And_Native_AOT.md`](Docs/05_Performance_Optimization_And_Native_AOT.md) |
+| **06** | Архітектура власного IoC / Dependency Injection контейнера | [`Docs/06_IoC_Container_Deep_Dive.md`](Docs/06_IoC_Container_Deep_Dive.md) |
 
 ---
 

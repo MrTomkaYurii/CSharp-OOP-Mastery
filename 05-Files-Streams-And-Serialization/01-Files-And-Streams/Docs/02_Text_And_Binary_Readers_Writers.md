@@ -49,11 +49,11 @@ graph LR
 
 ## 4. Проекти для практики
 
-- [02-01-StreamReader](file:///04-Data-And-IO/02-Files-And-Streams/02-01-StreamReader/Program.cs) — Створення та читання через `StreamReader`.
-- [02-02-StreamReader-StreamWriter](file:///04-Data-And-IO/02-Files-And-Streams/02-02-StreamReader-StreamWriter/Program.cs) — Запис рядків через `StreamWriter` з `AutoFlush`.
-- [02-03-StreamReader-StreamWriter](file:///04-Data-And-IO/02-Files-And-Streams/02-03-StreamReader-StreamWriter/Program.cs) — Дописування тексту в кінець файлу (Append).
-- [02-04-StreamReader-StreamWriter](file:///04-Data-And-IO/02-Files-And-Streams/02-04-StreamReader-StreamWriter/Program.cs) — Робота з кодуваннями (UTF-8, ASCII, Unicode).
-- [04-01-TextWriter-TextReader](file:///04-Data-And-IO/02-Files-And-Streams/04-01-TextWriter-TextReader/Program.cs) — Поліморфне використання абстрактних класів `TextWriter` та `TextReader`.
-- [05-01-BinaryWriter-BinaryReader](file:///04-Data-And-IO/02-Files-And-Streams/05-01-BinaryWriter-BinaryReader/Program.cs) — Серіалізація примітивних типів через `BinaryWriter`.
-- [05-02-BinaryWriter-BinaryReader](file:///04-Data-And-IO/02-Files-And-Streams/05-02-BinaryWriter-BinaryReader/Program.cs) — Десеріалізація та відновлення структурних даних через `BinaryReader`.
-- [06-01-StringWriter-StringReader](file:///04-Data-And-IO/02-Files-And-Streams/06-01-StringWriter-StringReader/Program.cs) — Потокова генерація рядків у пам'яті.
+- [02-01-StreamReader](../02-01-StreamReader/Program.cs) — Створення та читання через `StreamReader`.
+- [02-02-StreamReader-StreamWriter](../02-02-StreamReader-StreamWriter/Program.cs) — Запис рядків через `StreamWriter` з `AutoFlush`.
+- [02-03-StreamReader-StreamWriter](../02-03-StreamReader-StreamWriter/Program.cs) — Дописування тексту в кінець файлу (Append).
+- [02-04-StreamReader-StreamWriter](../02-04-StreamReader-StreamWriter/Program.cs) — Робота з кодуваннями (UTF-8, ASCII, Unicode).
+- [04-01-TextWriter-TextReader](../04-01-TextWriter-TextReader/Program.cs) — Поліморфне використання абстрактних класів `TextWriter` та `TextReader`.
+- [05-01-BinaryWriter-BinaryReader](../05-01-BinaryWriter-BinaryReader/Program.cs) — Серіалізація примітивних типів через `BinaryWriter`.
+- [05-02-BinaryWriter-BinaryReader](../05-02-BinaryWriter-BinaryReader/Program.cs) — Десеріалізація та відновлення структурних даних через `BinaryReader`.
+- [06-01-StringWriter-StringReader](../06-01-StringWriter-StringReader/Program.cs) — Потокова генерація рядків у пам'яті.

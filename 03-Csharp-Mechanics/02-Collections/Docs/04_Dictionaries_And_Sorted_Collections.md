@@ -16,7 +16,7 @@ graph LR
 ```
 
 ### Практика:
-- [GenericDictionary-06-01](file:///03-Csharp-Mechanics/02-Collections/GenericDictionary-06-01/Program.cs) — Створення, безпечний пошук через `TryGetValue`, обхід `KeyValuePair<TKey, TValue>`.
+- [GenericDictionary-06-01](../GenericDictionary-06-01/Program.cs) — Створення, безпечний пошук через `TryGetValue`, обхід `KeyValuePair<TKey, TValue>`.
 
 ### Безпечний доступ до значень:
 ```csharp
@@ -40,10 +40,10 @@ if (users.TryGetValue(1, out string? name))
 `SortedList<TKey, TValue>` зберігає ключі та значення у двох синхронізованих масивах (`TKey[] _keys`, `TValue[] _values`), які підтримуються у відсортованому стані.
 
 ### Практика:
-- [05-01-SortedList-Сreate](file:///03-Csharp-Mechanics/02-Collections/05-01-SortedList-Сreate/Program.cs) — Створення та порівняння ключів
-- [05-02-SortedList-Add](file:///03-Csharp-Mechanics/02-Collections/05-02-SortedList-Add/Program.cs) — Додавання з автоматичним сортуванням
-- [05-03-SortedList-Remove](file:///03-Csharp-Mechanics/02-Collections/05-03-SortedList-Remove/Program.cs) — Видалення за ключем або індексом
-- [05-04-SortedList-CheckTheAvailability](file:///03-Csharp-Mechanics/02-Collections/05-04-SortedList-CheckTheAvailability/Program.cs) — Перевірка наявності `ContainsKey` / `ContainsValue`
+- [05-01-SortedList-Сreate](../05-01-SortedList-Сreate/Program.cs) — Створення та порівняння ключів
+- [05-02-SortedList-Add](../05-02-SortedList-Add/Program.cs) — Додавання з автоматичним сортуванням
+- [05-03-SortedList-Remove](../05-03-SortedList-Remove/Program.cs) — Видалення за ключем або індексом
+- [05-04-SortedList-CheckTheAvailability](../05-04-SortedList-CheckTheAvailability/Program.cs) — Перевірка наявності `ContainsKey` / `ContainsValue`
 
 ---
 

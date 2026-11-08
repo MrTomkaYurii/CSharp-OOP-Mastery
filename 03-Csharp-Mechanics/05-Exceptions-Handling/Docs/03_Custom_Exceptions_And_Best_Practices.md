@@ -63,5 +63,5 @@ public class User
 
 ## 3. Проекти для практики
 
-- [example-user-defined-exception](file:///03-Csharp-Mechanics/05-Exceptions-Handling/example-user-defined-exception/Program.cs) — Створення та обробка власного класу виключення `TempIsZeroException`.
-- [p679[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p679[SOLIS]/Program.cs) — Використання `throw` виразів умовного вибору в тернарному операторі `? :`.
+- [example-user-defined-exception](../example-user-defined-exception/Program.cs) — Створення та обробка власного класу виключення `TempIsZeroException`.
+- [p679[SOLIS]](../p679[SOLIS]/Program.cs) — Використання `throw` виразів умовного вибору в тернарному операторі `? :`.

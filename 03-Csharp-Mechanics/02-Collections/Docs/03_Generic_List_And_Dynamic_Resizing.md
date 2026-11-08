@@ -72,6 +72,6 @@ sequenceDiagram
 
 ## 4. Проекти для практики
 
-- [04-01-GenericList-Create](file:///03-Csharp-Mechanics/02-Collections/04-01-GenericList-Create/Program.cs) — Створення списку, співвідношення `Count` та `Capacity`, автоматичне розширення.
-- [04-02-GenericList-Insert](file:///03-Csharp-Mechanics/02-Collections/04-02-GenericList-Insert/Program.cs) — Операції `Insert`, `InsertRange`, `Remove`, `RemoveAt`.
-- [04-03-GenericList-FindElement](file:///03-Csharp-Mechanics/02-Collections/04-03-GenericList-FindElement/Program.cs) — Пошук: `Contains`, `IndexOf`, предикати `Find`, `FindAll`, `Exists`, `TrueForAll`.
+- [04-01-GenericList-Create](../04-01-GenericList-Create/Program.cs) — Створення списку, співвідношення `Count` та `Capacity`, автоматичне розширення.
+- [04-02-GenericList-Insert](../04-02-GenericList-Insert/Program.cs) — Операції `Insert`, `InsertRange`, `Remove`, `RemoveAt`.
+- [04-03-GenericList-FindElement](../04-03-GenericList-FindElement/Program.cs) — Пошук: `Contains`, `IndexOf`, предикати `Find`, `FindAll`, `Exists`, `TrueForAll`.

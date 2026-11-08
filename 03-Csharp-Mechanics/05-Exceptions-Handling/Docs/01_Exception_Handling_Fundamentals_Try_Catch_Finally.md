@@ -73,8 +73,8 @@ catch (Exception ex)             // Загальний випадок (пере�
 
 ## 4. Проекти для практики
 
-- [p660[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p660[SOLIS]/Program.cs) — Необроблене виключення, аварія процесу.
-- [p662[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p662[SOLIS]/Program.cs) — Базовий захищений блок `try / catch`.
-- [p666[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p666[SOLIS]/Program.cs) — Специфічний блок `catch (DivideByZeroException e)`.
-- [example-Multiple-Catch-Blocks](file:///03-Csharp-Mechanics/05-Exceptions-Handling/example-Multiple-Catch-Blocks/Program.cs) — Множинні блоки `catch` для `DivideByZeroException`, `FormatException`, `OverflowException`.
-- [p669[SOLIS]](file:///03-Csharp-Mechanics/05-Exceptions-Handling/p669[SOLIS]/Program.cs) — Гарантоване виконання `finally` при наявності `return` у блоці `try`.
+- [p660[SOLIS]](../p660[SOLIS]/Program.cs) — Необроблене виключення, аварія процесу.
+- [p662[SOLIS]](../p662[SOLIS]/Program.cs) — Базовий захищений блок `try / catch`.
+- [p666[SOLIS]](../p666[SOLIS]/Program.cs) — Специфічний блок `catch (DivideByZeroException e)`.
+- [example-Multiple-Catch-Blocks](../example-Multiple-Catch-Blocks/Program.cs) — Множинні блоки `catch` для `DivideByZeroException`, `FormatException`, `OverflowException`.
+- [p669[SOLIS]](../p669[SOLIS]/Program.cs) — Гарантоване виконання `finally` при наявності `return` у блоці `try`.

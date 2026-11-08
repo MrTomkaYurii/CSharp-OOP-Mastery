@@ -64,5 +64,5 @@ ProcessNumbers(numbers, n => n % 2 == 0, n => Console.WriteLine($"Парне: {n
 
 ## 4. Проекти для практики
 
-- [ex01-DelegateAsParameter](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex01-DelegateAsParameter/Program.cs) — Передача делегата як аргументу методу, кастомні фільтри та колбеки.
-- [ex02-BuiltInDelegates](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex02-BuiltInDelegates/Program.cs) — Практичне застосування `Action`, `Func`, `Predicate` та `Comparison`.
+- [ex01-DelegateAsParameter](../ex01-DelegateAsParameter/Program.cs) — Передача делегата як аргументу методу, кастомні фільтри та колбеки.
+- [ex02-BuiltInDelegates](../ex02-BuiltInDelegates/Program.cs) — Практичне застосування `Action`, `Func`, `Predicate` та `Comparison`.

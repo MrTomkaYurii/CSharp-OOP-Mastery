@@ -6,19 +6,18 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{6A5425EF-BD15-5BD8-B87A-7974E01F3609}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		docs\README.md = docs\README.md
-		docs\01-LINQ-Architecture-and-Execution.md = docs\01-LINQ-Architecture-and-Execution.md
-		docs\02-Filtering-and-Projections.md = docs\02-Filtering-and-Projections.md
-		docs\03-Partitioning-and-Ordering.md = docs\03-Partitioning-and-Ordering.md
-		docs\04-Grouping-and-Set-Operators.md = docs\04-Grouping-and-Set-Operators.md
-		docs\05-Joins-and-Aggregate-Operators.md = docs\05-Joins-and-Aggregate-Operators.md
-		docs\06-Quantifiers-Elements-Conversion-and-Custom.md = docs\06-Quantifiers-Elements-Conversion-and-Custom.md
-		docs\LINQ-Lecture-Presentation.md = docs\LINQ-Lecture-Presentation.md
+		Docs\01_LINQ_Architecture_And_Execution.md = Docs\01_LINQ_Architecture_And_Execution.md
+		Docs\02_Filtering_And_Projections.md = Docs\02_Filtering_And_Projections.md
+		Docs\03_Partitioning_And_Ordering.md = Docs\03_Partitioning_And_Ordering.md
+		Docs\04_Grouping_And_Set_Operators.md = Docs\04_Grouping_And_Set_Operators.md
+		Docs\05_Joins_And_Aggregate_Operators.md = Docs\05_Joins_And_Aggregate_Operators.md
+		Docs\06_Quantifiers_Elements_Conversion_And_Custom.md = Docs\06_Quantifiers_Elements_Conversion_And_Custom.md
+		Docs\07_LINQ_Lecture_Presentation.md = Docs\07_LINQ_Lecture_Presentation.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Архітектура LINQ, відкладене виконання та спільне джерело даних", "01. Архітектура LINQ, відкладене виконання та спільне джерело даних", "{FEE4484B-912A-5904-8B52-A63C2F844F88}"
 	ProjectSection(SolutionItems) = preProject
-		docs\01-LINQ-Architecture-and-Execution.md = docs\01-LINQ-Architecture-and-Execution.md
+		Docs\01_LINQ_Architecture_And_Execution.md = Docs\01_LINQ_Architecture_And_Execution.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqSamplesCommon", "LinqSamplesCommon\LinqSamplesCommon.csproj", "{ED23B9DA-347C-5532-9462-88D39BCB2863}"
@@ -29,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p_101 LINQ Samples", "101 L
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Фільтрація та проєкція послідовностей (Where, Select, SelectMany)", "02. Фільтрація та проєкція послідовностей (Where, Select, SelectMany)", "{ADB92756-BEFE-5291-A86A-B4545AD2DF70}"
 	ProjectSection(SolutionItems) = preProject
-		docs\02-Filtering-and-Projections.md = docs\02-Filtering-and-Projections.md
+		Docs\02_Filtering_And_Projections.md = Docs\02_Filtering_And_Projections.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "a_RestrictionOperators", "LINQ - Restriction Operators\C#\RestrictionOperators\a_RestrictionOperators.csproj", "{D3A7A2BF-D5A0-51C1-A35D-E9C6A6F1A8CF}"
@@ -38,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "b_ProjectionOperators", "LI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Пагінація та сортування (Take, Skip, OrderBy, ThenBy, Reverse)", "03. Пагінація та сортування (Take, Skip, OrderBy, ThenBy, Reverse)", "{DBDA5494-5942-5CE8-AF72-30137748DBC0}"
 	ProjectSection(SolutionItems) = preProject
-		docs\03-Partitioning-and-Ordering.md = docs\03-Partitioning-and-Ordering.md
+		Docs\03_Partitioning_And_Ordering.md = Docs\03_Partitioning_And_Ordering.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c_PartitioningOperators", "LINQ - Partitioning Operators\C#\PartitioningOperators\c_PartitioningOperators.csproj", "{5E884635-9A76-56EA-8DB9-931DEACBFE8F}"
@@ -47,7 +46,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "d_OrderingOperators", "LINQ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Групування та множинні операції (GroupBy, Distinct, Union, Intersect, Except)", "04. Групування та множинні операції (GroupBy, Distinct, Union, Intersect, Except)", "{6E019FA3-6C13-5456-A6C0-10E2D1CA0351}"
 	ProjectSection(SolutionItems) = preProject
-		docs\04-Grouping-and-Set-Operators.md = docs\04-Grouping-and-Set-Operators.md
+		Docs\04_Grouping_And_Set_Operators.md = Docs\04_Grouping_And_Set_Operators.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "e_GroupingOperators", "LINQ  - Grouping Operators\C#\GroupingOperators\e_GroupingOperators.csproj", "{EAF288E9-6883-5EB5-98C0-6E813FA7A729}"
@@ -56,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "f_SetOperators", "LINQ - Se
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Реляційні з'єднання та агрегація (Join, GroupJoin, Count, Sum, Min, Max, Aggregate)", "05. Реляційні з'єднання та агрегація (Join, GroupJoin, Count, Sum, Min, Max, Aggregate)", "{A496E397-CEB3-5C0F-870C-FBA997D57637}"
 	ProjectSection(SolutionItems) = preProject
-		docs\05-Joins-and-Aggregate-Operators.md = docs\05-Joins-and-Aggregate-Operators.md
+		Docs\05_Joins_And_Aggregate_Operators.md = Docs\05_Joins_And_Aggregate_Operators.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "o_JoinOperators", "LINQ - Join Operators\C#\JoinOperators\o_JoinOperators.csproj", "{BD3E1533-A162-575B-BBD1-74795ACA892C}"
@@ -65,7 +64,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "k_AggregateOperators", "LIN
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Квантори, елементні оператори, генерація, конвертація та власні розширення", "06. Квантори, елементні оператори, генерація, конвертація та власні розширення", "{8A0A41A2-6D62-519A-A8A3-5E7FA97E2267}"
 	ProjectSection(SolutionItems) = preProject
-		docs\06-Quantifiers-Elements-Conversion-and-Custom.md = docs\06-Quantifiers-Elements-Conversion-and-Custom.md
+		Docs\06_Quantifiers_Elements_Conversion_And_Custom.md = Docs\06_Quantifiers_Elements_Conversion_And_Custom.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "g_ConversionOperators", "LINQ - Conversion Operators\C#\ConversionOperators\g_ConversionOperators.csproj", "{E60FF63F-1477-59E1-A4F1-BBFF06E72130}"

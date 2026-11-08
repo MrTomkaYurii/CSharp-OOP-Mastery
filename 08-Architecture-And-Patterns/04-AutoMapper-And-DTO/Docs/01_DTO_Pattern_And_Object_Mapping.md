@@ -51,4 +51,4 @@ public static UserDto ToDto(User user)
 
 ## 3. Проекти для практики
 
-- [AutoMapperDemo - ManualMappingFeature](file:///05-Architecture-And-Patterns/02-AutoMapper-And-DTO/AutoMapperDemo/Features/ManualMappingFeature.cs) — Детальний розбір ручного мапінгу сутностей у DTO, порівняння трудовитрат та підводних каменів.
+- [AutoMapperDemo - ManualMappingFeature](../AutoMapperDemo/Features/ManualMappingFeature.cs) — Детальний розбір ручного мапінгу сутностей у DTO, порівняння трудовитрат та підводних каменів.

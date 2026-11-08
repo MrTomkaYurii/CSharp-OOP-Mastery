@@ -65,4 +65,4 @@ catch (OperationCanceledException)
 
 ## 3. Проекти для практики
 
-- [CancellationTokenToCancelATask](file:///06-Advanced-DotNet/01-Asynchronous-Programming/CancellationTokenToCancelATask/Program.cs) — Створення `CancellationTokenSource`, передача токена та коректна реакція на скасування.
+- [CancellationTokenToCancelATask](../CancellationTokenToCancelATask/Program.cs) — Створення `CancellationTokenSource`, передача токена та коректна реакція на скасування.

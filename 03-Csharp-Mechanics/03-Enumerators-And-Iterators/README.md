@@ -19,16 +19,16 @@
 
 | Проект | Опис теми | Ключові концепції |
 | :--- | :--- | :--- |
-| **[p486[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p486[SOLIS]/Program.cs)** | Базовий цикл `foreach` | Синтаксис `foreach` по масиву |
-| **[p490[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p490[SOLIS]/Program.cs)** | Робота з `IEnumerator` напряму | `GetEnumerator()`, `while (ie.MoveNext())`, `(int)ie.Current` |
-| **[p492[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p492[SOLIS]/Program.cs)** | Власна реалізація `IEnumerator` | Клас `ColorEnumerator`, стан позиції `Position = -1` |
-| **[ex-01](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-01/Program.cs)** | Об'єктна модель ітерування | `People : IEnumerable`, `PeopleEnum : IEnumerator` |
-| **[ex-02](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-02/Program.cs)** | Узагальнене ітерування `IEnumerable<T>` | Делегування перебору внутрішній колекції `List<int>` |
-| **[p498[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p498[SOLIS]/Program.cs)** | Базовий `yield return` | Повернення `IEnumerator<string>` з методу-ітератора |
-| **[p500[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p500[SOLIS]/Program.cs)** | `yield return` з `IEnumerable<T>` | Повернення `IEnumerable<string>` та багаторазовий перебір |
-| **[p503[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p503[SOLIS]/Program.cs)** | Множинні ітератори | Методи `UVtoIR()` та `IRtoUV()` в одному класі |
-| **[p504[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p504[SOLIS]/Program.cs)** | Параметризований ітератор | Вибір напрямку обходу на базі конструктора |
-| **[ex-03-Yield](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-03-Yield/Program.cs)** | Генерація послідовностей | `RandomNumberGenerator`, `yield break` та нескінченні потоки |
+| **[p486[SOLIS]](p486[SOLIS]/Program.cs)** | Базовий цикл `foreach` | Синтаксис `foreach` по масиву |
+| **[p490[SOLIS]](p490[SOLIS]/Program.cs)** | Робота з `IEnumerator` напряму | `GetEnumerator()`, `while (ie.MoveNext())`, `(int)ie.Current` |
+| **[p492[SOLIS]](p492[SOLIS]/Program.cs)** | Власна реалізація `IEnumerator` | Клас `ColorEnumerator`, стан позиції `Position = -1` |
+| **[ex-01](ex-01/Program.cs)** | Об'єктна модель ітерування | `People : IEnumerable`, `PeopleEnum : IEnumerator` |
+| **[ex-02](ex-02/Program.cs)** | Узагальнене ітерування `IEnumerable<T>` | Делегування перебору внутрішній колекції `List<int>` |
+| **[p498[SOLIS]](p498[SOLIS]/Program.cs)** | Базовий `yield return` | Повернення `IEnumerator<string>` з методу-ітератора |
+| **[p500[SOLIS]](p500[SOLIS]/Program.cs)** | `yield return` з `IEnumerable<T>` | Повернення `IEnumerable<string>` та багаторазовий перебір |
+| **[p503[SOLIS]](p503[SOLIS]/Program.cs)** | Множинні ітератори | Методи `UVtoIR()` та `IRtoUV()` в одному класі |
+| **[p504[SOLIS]](p504[SOLIS]/Program.cs)** | Параметризований ітератор | Вибір напрямку обходу на базі конструктора |
+| **[ex-03-Yield](ex-03-Yield/Program.cs)** | Генерація послідовностей | `RandomNumberGenerator`, `yield break` та нескінченні потоки |
 
 ---
 

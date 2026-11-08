@@ -12,10 +12,10 @@
 
 | Solution Folder | Гайд / Документація | Проєкти у секції |
 |:---|:---|:---|
-| **01. Корінь ієрархії System.Object та семантика рівності** | [`01-SystemObjectAndEquality.md`](01-SystemObjectAndEquality.md) | [`01-SystemObjectAndEquality`](01-SystemObjectAndEquality/Program.cs) |
-| **02. Інкапсуляція в ієрархіях (protected, internal, private protected)** | [`02-HierarchyEncapsulationAndProtected.md`](02-HierarchyEncapsulationAndProtected.md) | [`02-HierarchyEncapsulationAndProtected`](02-HierarchyEncapsulationAndProtected/Program.cs) |
-| **03. Абстрактний клас проти Інтерфейсу та патерн Template Method** | [`03-AbstractClassVsInterface.md`](03-AbstractClassVsInterface.md) | [`03-AbstractClassVsInterface`](03-AbstractClassVsInterface/Program.cs) |
-| **04. Поліморфізм замість умовних операторів та Композиція проти Спадкування** | [`04-PolymorphismAndCompositionDesign.md`](04-PolymorphismAndCompositionDesign.md) | [`04-PolymorphismAndCompositionDesign`](04-PolymorphismAndCompositionDesign/Program.cs) |
+| **01. Корінь ієрархії System.Object та семантика рівності** | [`01_System_Object_And_Equality.md`](Docs/01_System_Object_And_Equality.md) | [`01-SystemObjectAndEquality`](01-SystemObjectAndEquality/Program.cs) |
+| **02. Інкапсуляція в ієрархіях (protected, internal, private protected)** | [`02_Hierarchy_Encapsulation_And_Protected.md`](Docs/02_Hierarchy_Encapsulation_And_Protected.md) | [`02-HierarchyEncapsulationAndProtected`](02-HierarchyEncapsulationAndProtected/Program.cs) |
+| **03. Абстрактний клас проти Інтерфейсу та патерн Template Method** | [`03_Abstract_Class_Vs_Interface.md`](Docs/03_Abstract_Class_Vs_Interface.md) | [`03-AbstractClassVsInterface`](03-AbstractClassVsInterface/Program.cs) |
+| **04. Поліморфізм замість умовних операторів та Композиція проти Спадкування** | [`04_Polymorphism_And_Composition_Design.md`](Docs/04_Polymorphism_And_Composition_Design.md) | [`04-PolymorphismAndCompositionDesign`](04-PolymorphismAndCompositionDesign/Program.cs) |
 
 ---
 

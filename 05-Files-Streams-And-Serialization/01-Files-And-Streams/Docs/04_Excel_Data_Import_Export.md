@@ -95,5 +95,5 @@ for (int r = 1; r <= sheet.LastRowNum; r++)
 
 ## 4. Проекти для практики
 
-- [09-01-ExportAndImportExcelData](file:///04-Data-And-IO/02-Files-And-Streams/09-01-ExportAndImportExcelData/Program.cs) — Повний цикл: генерація моделі `Employee`, стилізація клітинок, експорт у `.xlsx` та читання назад.
-- [09-02-ExportAndImportExcelData](file:///04-Data-And-IO/02-Files-And-Streams/09-02-ExportAndImportExcelData/Program.cs) — Альтернативні сценарії парсингу та валідації Excel-таблиць.
+- [09-01-ExportAndImportExcelData](../09-01-ExportAndImportExcelData/Program.cs) — Повний цикл: генерація моделі `Employee`, стилізація клітинок, експорт у `.xlsx` та читання назад.
+- [09-02-ExportAndImportExcelData](../09-02-ExportAndImportExcelData/Program.cs) — Альтернативні сценарії парсингу та валідації Excel-таблиць.

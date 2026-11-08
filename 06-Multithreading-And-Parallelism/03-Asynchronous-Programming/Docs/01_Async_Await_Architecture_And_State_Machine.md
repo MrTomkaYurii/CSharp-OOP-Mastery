@@ -48,8 +48,8 @@ sequenceDiagram
 
 ## 4. Проекти для практики
 
-- [01-AsyncAndAwait](file:///06-Advanced-DotNet/01-Asynchronous-Programming/01-AsyncAndAwait/Program.cs) — Перший виклик асинхронного методу та відмінність від синхронного блокування.
-- [02-Tasks](file:///06-Advanced-DotNet/01-Asynchronous-Programming/02-Tasks/Program.cs) — Створення та запуск завдань `Task.Run`.
-- [03-ReturnAValueFromTask-Console](file:///06-Advanced-DotNet/01-Asynchronous-Programming/03-ReturnAValueFromTask-Console/Program.cs) — Отримання значення з `Task<T>` через `await`.
-- [EX_01_async_await](file:///06-Advanced-DotNet/01-Asynchronous-Programming/EX_01_async_await/Program.cs) — Базова поведінка очікування.
-- [EX_02_async_await](file:///06-Advanced-DotNet/01-Asynchronous-Programming/EX_02_async_await/Program.cs) — Класичний приклад приготування асинхронного сніданку (Asynchronous Breakfast).
+- [01-AsyncAndAwait](../01-AsyncAndAwait/Program.cs) — Перший виклик асинхронного методу та відмінність від синхронного блокування.
+- [02-Tasks](../02-Tasks/Program.cs) — Створення та запуск завдань `Task.Run`.
+- [03-ReturnAValueFromTask-Console](../03-ReturnAValueFromTask-Console/Program.cs) — Отримання значення з `Task<T>` через `await`.
+- [EX_01_async_await](../EX_01_async_await/Program.cs) — Базова поведінка очікування.
+- [EX_02_async_await](../EX_02_async_await/Program.cs) — Класичний приклад приготування асинхронного сніданку (Asynchronous Breakfast).

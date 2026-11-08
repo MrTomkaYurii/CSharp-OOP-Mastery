@@ -78,8 +78,8 @@ public class Spectrum
 
 ## 4. Проекти для практики
 
-- [p498[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p498[SOLIS]/Program.cs) — Ітератор, що повертає `IEnumerator<string>`.
-- [p500[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p500[SOLIS]/Program.cs) — Ітератор, що повертає `IEnumerable<string>`.
-- [p503[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p503[SOLIS]/Program.cs) — Два іменовані ітератори в одному класі (`UVtoIR` та `IRtoUV`).
-- [p504[SOLIS]](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/p504[SOLIS]/Program.cs) — Динамічний вибір напрямку ітерування на основі прапорця в конструкторі.
-- [ex-03-Yield](file:///03-Csharp-Mechanics/03-Enumerators-And-Iterators/ex-03-Yield/Program.cs) — Генератор псевдовипадкових послідовностей та `yield break`.
+- [p498[SOLIS]](../p498[SOLIS]/Program.cs) — Ітератор, що повертає `IEnumerator<string>`.
+- [p500[SOLIS]](../p500[SOLIS]/Program.cs) — Ітератор, що повертає `IEnumerable<string>`.
+- [p503[SOLIS]](../p503[SOLIS]/Program.cs) — Два іменовані ітератори в одному класі (`UVtoIR` та `IRtoUV`).
+- [p504[SOLIS]](../p504[SOLIS]/Program.cs) — Динамічний вибір напрямку ітерування на основі прапорця в конструкторі.
+- [ex-03-Yield](../ex-03-Yield/Program.cs) — Генератор псевдовипадкових послідовностей та `yield break`.

@@ -67,7 +67,7 @@ string[] results = await Task.WhenAll(tasks);
 
 ## 3. Проекти для практики
 
-- [04-ExecuteMultipleTasks](file:///06-Advanced-DotNet/01-Asynchronous-Programming/04-ExecuteMultipleTasks/Program.cs) — Запуск кількох незалежних завдань без блокування головного потоку.
-- [04-ExecuteMultipleTasks-Task.WhenAll](file:///06-Advanced-DotNet/01-Asynchronous-Programming/04-ExecuteMultipleTasks-Task.WhenAll/Program.cs) — Координація масиву завдань через `Task.WhenAll`.
-- [05-LimitTheNumberOfConcurrentTasks](file:///06-Advanced-DotNet/01-Asynchronous-Programming/05-LimitTheNumberOfConcurrentTasks/Program.cs) — Обмеження пулу одночасних завдань за допомогою семафора.
-- [06-HandleResponseWhenExecutingMultipleTasks](file:///06-Advanced-DotNet/01-Asynchronous-Programming/06-HandleResponseWhenExecutingMultipleTasks/Program.cs) — Обробка результатів кожного завдання в міру їхньої готовності.
+- [04-ExecuteMultipleTasks](../04-ExecuteMultipleTasks/Program.cs) — Запуск кількох незалежних завдань без блокування головного потоку.
+- [04-ExecuteMultipleTasks-Task.WhenAll](../04-ExecuteMultipleTasks-Task.WhenAll/Program.cs) — Координація масиву завдань через `Task.WhenAll`.
+- [05-LimitTheNumberOfConcurrentTasks](../05-LimitTheNumberOfConcurrentTasks/Program.cs) — Обмеження пулу одночасних завдань за допомогою семафора.
+- [06-HandleResponseWhenExecutingMultipleTasks](../06-HandleResponseWhenExecutingMultipleTasks/Program.cs) — Обробка результатів кожного завдання в міру їхньої готовності.

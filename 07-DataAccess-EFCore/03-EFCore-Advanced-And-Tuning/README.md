@@ -41,9 +41,9 @@
 ---
 
 ## Навчальні матеріали
-1. [Розділ 1: Стратегії успадкування, Owned Types та JSON-стовпці](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/07-DataAccess-EFCore/03-EFCore-Advanced-And-Tuning/Docs/01_Inheritance_Mapping_TPH_TPT_TPC.md)
-2. [Розділ 2: Генерація даних та сидинг через Bogus](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/07-DataAccess-EFCore/03-EFCore-Advanced-And-Tuning/Docs/02_Bogus_Seeding_And_Data_Generation.md)
-3. [Розділ 3: Масові операції, Global Query Filters та Інтерцептори](file:///c:/Users/Yurii/source/repos/CSharp-OOP-Mastery/07-DataAccess-EFCore/03-EFCore-Advanced-And-Tuning/Docs/03_Performance_BulkOps_And_Interceptors.md)
+1. [Розділ 1: Стратегії успадкування, Owned Types та JSON-стовпці](Docs/01_Inheritance_Mapping_TPH_TPT_TPC.md)
+2. [Розділ 2: Генерація даних та сидинг через Bogus](Docs/02_Bogus_Seeding_And_Data_Generation.md)
+3. [Розділ 3: Масові операції, Global Query Filters та Інтерцептори](Docs/03_Performance_BulkOps_And_Interceptors.md)
 
 ---
 

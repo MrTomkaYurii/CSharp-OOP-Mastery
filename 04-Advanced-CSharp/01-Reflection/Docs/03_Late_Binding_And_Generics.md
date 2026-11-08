@@ -57,7 +57,7 @@ graph TD
 | **`Activator.CreateInstance(Type)`** | Шукає публічний конструктор за замовчуванням, валідує параметри та створює екземпляр. Має внутрішній LRU-кеш для конструкторів без аргументів. | Загальний випадок створення об'єктів за типом у бізнес-коді. | [14-LateBindingDemo/Program.cs](../14-LateBindingDemo/Program.cs#L14-L23) |
 | **`ConstructorInfo.Invoke(object[])`** | Дозволяє точково обрати приватний, захищений або специфічний перевантажений конструктор та передати аргументи. | Побудова IoC/DI контейнерів, де потрібен повний контроль над вибором конструктора. | [10-GetConstructorInfoDemo/Program.cs](../10-GetConstructorInfoDemo/Program.cs#L20-L35) |
 | **`RuntimeHelpers.GetUninitializedObject(Type)`** | **Виділяє блок пам'яті в керованій купі БЕЗ виклику будь-якого конструктора!** Усі поля ініціалізуються нульовими бітами (`null`, `0`, `false`). | Двійкова десеріалізація (ORM, Protobuf, форматтери), де виконання коду конструктора порушило б відновлюваний стан об'єкта. | [14-LateBindingDemo/Program.cs](../14-LateBindingDemo/Program.cs#L25-L35) |
-| **Compiled Expression Tree** | Компілює вираз виклику `Expression.New(ctor)` у прямий машинний код через `DynamicMethod`. | Високонавантажені сервери та фабрики об'єктів, де неприпустимий оверхед рефлексії. | [15-ReflectionPerformanceDemo/Program.cs](../15-ReflectionPerformanceDemo/Program.cs#L55-L63) |
+| **Compiled Expression Tree** | Компілює вираз виклику `Expression.New(ctor)` у прямий машинний код через `DynamicMethod`. | Високонавантажені сервери та фабрики об'єктів, де неприпустимий оверхед рефлексії. | [15-ReflectionPerformanceDemo/Program.cs](../../04-Expression-Trees/15.3-ReflectionPerformanceDemo/Program.cs) |
 
 ---
 

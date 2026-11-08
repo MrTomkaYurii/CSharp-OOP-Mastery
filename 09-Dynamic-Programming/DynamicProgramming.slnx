@@ -1,7 +1,6 @@
 <Solution>
   <Folder Name="/Docs/">
     <File Path="README.md" />
-    <File Path="Docs/00_Curriculum_And_Roadmap.md" />
     <File Path="Docs/01_Algorithmic_Dynamic_Programming.md" />
     <File Path="Docs/02_CSharp_Dynamic_And_DLR_Internals.md" />
     <File Path="Docs/03_Dynamic_Metaprogramming_And_Code_Generation.md" />

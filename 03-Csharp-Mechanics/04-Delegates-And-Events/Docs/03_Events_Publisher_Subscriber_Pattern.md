@@ -87,10 +87,10 @@ public class OrderService
 
 ## 4. Проекти для практики
 
-- [p379[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p379[SOLIS]/Program.cs) — Перше знайомство з подією `event` у класі `Incrementer`.
-- [p382[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p382[SOLIS]/Program.cs) — Стандартні угоди .NET: успадкування від `EventArgs` та типізований `EventHandler<T>`.
-- [p385[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p385[SOLIS]/Program.cs) — Підписка (`+=`) та відписка (`-=`) для уникнення витоків пам'яті.
-- [ex03-DelegateVsEvent](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex03-DelegateVsEvent/Program.cs) — Порівняння поведінки: чому `event` захищає від перезапису.
-- [ex04-PublisherSubscriber](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex04-PublisherSubscriber/Program.cs) — Приклад з життя: YouTube-канал (видавець) та користувачі (підписники).
-- [ex05-InteractiveCounter](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex05-InteractiveCounter/Program.cs) — Лічильник з інтерактивними сповіщеннями про досягнення порогових значень.
-- [ex06-BusinessProcessLogic](file:///03-Csharp-Mechanics/04-Delegates-And-Events/ex06-BusinessProcessLogic/Program.cs) — Реалізація системи замовлень з розсилкою SMS та Email без жорстких зв'язків.
+- [p379[SOLIS]](../p379[SOLIS]/Program.cs) — Перше знайомство з подією `event` у класі `Incrementer`.
+- [p382[SOLIS]](../p382[SOLIS]/Program.cs) — Стандартні угоди .NET: успадкування від `EventArgs` та типізований `EventHandler<T>`.
+- [p385[SOLIS]](../p385[SOLIS]/Program.cs) — Підписка (`+=`) та відписка (`-=`) для уникнення витоків пам'яті.
+- [ex03-DelegateVsEvent](../ex03-DelegateVsEvent/Program.cs) — Порівняння поведінки: чому `event` захищає від перезапису.
+- [ex04-PublisherSubscriber](../ex04-PublisherSubscriber/Program.cs) — Приклад з життя: YouTube-канал (видавець) та користувачі (підписники).
+- [ex05-InteractiveCounter](../ex05-InteractiveCounter/Program.cs) — Лічильник з інтерактивними сповіщеннями про досягнення порогових значень.
+- [ex06-BusinessProcessLogic](../ex06-BusinessProcessLogic/Program.cs) — Реалізація системи замовлень з розсилкою SMS та Email без жорстких зв'язків.

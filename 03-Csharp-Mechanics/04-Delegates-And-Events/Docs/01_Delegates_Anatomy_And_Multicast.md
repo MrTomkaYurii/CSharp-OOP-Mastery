@@ -58,7 +58,7 @@ del(10);        // Викликаються послідовно MethodA(10), п
 
 ## 3. Проекти для практики
 
-- [p349[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p349[SOLIS]/Program.cs) — Оголошення `delegate`, створення екземпляра та перший виклик.
-- [p360[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p360[SOLIS]/Program.cs) — Багатоадресні виклики через `+=`, поєднання static та instance методів.
-- [p361[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p361[SOLIS]/Program.cs) — Делегати зі значенням, демонстрація втрати проміжних результатів.
-- [p362[SOLIS]](file:///03-Csharp-Mechanics/04-Delegates-And-Events/p362[SOLIS]/Program.cs) — Делегати з параметрами `ref` та накопичувальний ефект.
+- [p349[SOLIS]](../p349[SOLIS]/Program.cs) — Оголошення `delegate`, створення екземпляра та перший виклик.
+- [p360[SOLIS]](../p360[SOLIS]/Program.cs) — Багатоадресні виклики через `+=`, поєднання static та instance методів.
+- [p361[SOLIS]](../p361[SOLIS]/Program.cs) — Делегати зі значенням, демонстрація втрати проміжних результатів.
+- [p362[SOLIS]](../p362[SOLIS]/Program.cs) — Делегати з параметрами `ref` та накопичувальний ефект.
