@@ -5,29 +5,29 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
+### Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`IWorkerBad`** | «Жирний» інтерфейс-моноліт (10 несумісних методів) | [👉 Відкрити `IWorkerBad.cs` (рядок 10)](ISPBadExample/IWorkerBad.cs) |
-| ❌ **Порушення (Bad)** | **`RobotWorkerBad`** | Робот: змушений реалізовувати обіди та зарплату | [👉 Відкрити `RobotWorkerBad.cs` (рядок 10)](ISPBadExample/RobotWorkerBad.cs) |
-| ❌ **Порушення (Bad)** | **`ProgrammerBad`** | Програміст: кидає винятки на бюджет і нічні зміни | [👉 Відкрити `ProgrammerBad.cs` (рядок 10)](ISPBadExample/ProgrammerBad.cs) |
-| 🎮 **Демонстрація** | **`IspBadExampleCommand`** | Консольний запуск сценарію з фіктивними методами | [👉 Відкрити `IspBadExampleCommand.cs` (рядок 15)](IspBadExampleCommand.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IWorkable`** | Рольовий контракт: базова робота (`Work`) | [👉 Відкрити `IWorkable.cs` (рядок 9)](ISPGoodExample/Contracts/IWorkable.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IEatable`** | Рольовий контракт: перерви на їжу та каву | [👉 Відкрити `IEatable.cs` (рядок 9)](ISPGoodExample/Contracts/IEatable.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IShiftWorker`** | Рольовий контракт: змінні та нічні графіки | [👉 Відкрити `IShiftWorker.cs` (рядок 9)](ISPGoodExample/Contracts/IShiftWorker.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`ISalaried`** | Рольовий контракт: виплата заробітної плати | [👉 Відкрити `ISalaried.cs` (рядок 9)](ISPGoodExample/Contracts/ISalaried.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IOfficeWorker`** | Рольовий контракт: мітинги та корпоративна пошта | [👉 Відкрити `IOfficeWorker.cs` (рядок 9)](ISPGoodExample/Contracts/IOfficeWorker.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IComputerUser`** | Рольовий контракт: робота за комп'ютером | [👉 Відкрити `IComputerUser.cs` (рядок 9)](ISPGoodExample/Contracts/IComputerUser.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IDeveloper`** | Рольовий контракт: написання та рев'ю коду | [👉 Відкрити `IDeveloper.cs` (рядок 9)](ISPGoodExample/Contracts/IDeveloper.cs) |
-| ✅ **Еталон ISP (Контракти)** | **`IManager`** | Рольовий контракт: управління командою і бюджетом | [👉 Відкрити `IManager.cs` (рядок 9)](ISPGoodExample/Contracts/IManager.cs) |
-| ✅ **Еталон ISP (Good)** | **`RobotWorkerGood`** | Робот: `IWorkable, IShiftWorker` (без зайвого!) | [👉 Відкрити `RobotWorkerGood.cs` (рядок 11)](ISPGoodExample/RobotWorkerGood.cs) |
-| ✅ **Еталон ISP (Good)** | **`ProgrammerGood`** | Програміст: розробницькі та офісні контракти | [👉 Відкрити `ProgrammerGood.cs` (рядок 11)](ISPGoodExample/ProgrammerGood.cs) |
-| ✅ **Еталон ISP (Good)** | **`ManagerGood`** | Менеджер: управлінські контракти | [👉 Відкрити `ManagerGood.cs` (рядок 11)](ISPGoodExample/ManagerGood.cs) |
-| ✅ **Еталон ISP (Good)** | **`InternGood`** | Інтерн: контракти навчання та розробки | [👉 Відкрити `InternGood.cs` (рядок 11)](ISPGoodExample/InternGood.cs) |
-| ✅ **Еталон ISP (Good)** | **`FreelancerGood`** | Фрілансер: контракт розробки без мітингів | [👉 Відкрити `FreelancerGood.cs` (рядок 11)](ISPGoodExample/FreelancerGood.cs) |
-| 🎮 **Демонстрація** | **`IspGoodExampleCommand`** | Консольний запуск еталонного сценарію | [👉 Відкрити `IspGoodExampleCommand.cs` (рядок 17)](IspGoodExampleCommand.cs) |
-| 📚 **Повна лекція** | **`04_Interface_Segregation_Principle.md`** | Академічна розширена лекція | [👉 Читати лекцію](../Docs/04_Interface_Segregation_Principle.md) |
+| **Порушення (Bad)** | **`IWorkerBad`** | «Жирний» інтерфейс-моноліт (10 несумісних методів) | [ Відкрити `IWorkerBad.cs` (рядок 10)](ISPBadExample/IWorkerBad.cs) |
+| **Порушення (Bad)** | **`RobotWorkerBad`** | Робот: змушений реалізовувати обіди та зарплату | [ Відкрити `RobotWorkerBad.cs` (рядок 10)](ISPBadExample/RobotWorkerBad.cs) |
+| **Порушення (Bad)** | **`ProgrammerBad`** | Програміст: кидає винятки на бюджет і нічні зміни | [ Відкрити `ProgrammerBad.cs` (рядок 10)](ISPBadExample/ProgrammerBad.cs) |
+| **Демонстрація** | **`IspBadExampleCommand`** | Консольний запуск сценарію з фіктивними методами | [ Відкрити `IspBadExampleCommand.cs` (рядок 15)](IspBadExampleCommand.cs) |
+| **Еталон ISP (Контракти)** | **`IWorkable`** | Рольовий контракт: базова робота (`Work`) | [ Відкрити `IWorkable.cs` (рядок 9)](ISPGoodExample/Contracts/IWorkable.cs) |
+| **Еталон ISP (Контракти)** | **`IEatable`** | Рольовий контракт: перерви на їжу та каву | [ Відкрити `IEatable.cs` (рядок 9)](ISPGoodExample/Contracts/IEatable.cs) |
+| **Еталон ISP (Контракти)** | **`IShiftWorker`** | Рольовий контракт: змінні та нічні графіки | [ Відкрити `IShiftWorker.cs` (рядок 9)](ISPGoodExample/Contracts/IShiftWorker.cs) |
+| **Еталон ISP (Контракти)** | **`ISalaried`** | Рольовий контракт: виплата заробітної плати | [ Відкрити `ISalaried.cs` (рядок 9)](ISPGoodExample/Contracts/ISalaried.cs) |
+| **Еталон ISP (Контракти)** | **`IOfficeWorker`** | Рольовий контракт: мітинги та корпоративна пошта | [ Відкрити `IOfficeWorker.cs` (рядок 9)](ISPGoodExample/Contracts/IOfficeWorker.cs) |
+| **Еталон ISP (Контракти)** | **`IComputerUser`** | Рольовий контракт: робота за комп'ютером | [ Відкрити `IComputerUser.cs` (рядок 9)](ISPGoodExample/Contracts/IComputerUser.cs) |
+| **Еталон ISP (Контракти)** | **`IDeveloper`** | Рольовий контракт: написання та рев'ю коду | [ Відкрити `IDeveloper.cs` (рядок 9)](ISPGoodExample/Contracts/IDeveloper.cs) |
+| **Еталон ISP (Контракти)** | **`IManager`** | Рольовий контракт: управління командою і бюджетом | [ Відкрити `IManager.cs` (рядок 9)](ISPGoodExample/Contracts/IManager.cs) |
+| **Еталон ISP (Good)** | **`RobotWorkerGood`** | Робот: `IWorkable, IShiftWorker` (без зайвого!) | [ Відкрити `RobotWorkerGood.cs` (рядок 11)](ISPGoodExample/RobotWorkerGood.cs) |
+| **Еталон ISP (Good)** | **`ProgrammerGood`** | Програміст: розробницькі та офісні контракти | [ Відкрити `ProgrammerGood.cs` (рядок 11)](ISPGoodExample/ProgrammerGood.cs) |
+| **Еталон ISP (Good)** | **`ManagerGood`** | Менеджер: управлінські контракти | [ Відкрити `ManagerGood.cs` (рядок 11)](ISPGoodExample/ManagerGood.cs) |
+| **Еталон ISP (Good)** | **`InternGood`** | Інтерн: контракти навчання та розробки | [ Відкрити `InternGood.cs` (рядок 11)](ISPGoodExample/InternGood.cs) |
+| **Еталон ISP (Good)** | **`FreelancerGood`** | Фрілансер: контракт розробки без мітингів | [ Відкрити `FreelancerGood.cs` (рядок 11)](ISPGoodExample/FreelancerGood.cs) |
+| **Демонстрація** | **`IspGoodExampleCommand`** | Консольний запуск еталонного сценарію | [ Відкрити `IspGoodExampleCommand.cs` (рядок 17)](IspGoodExampleCommand.cs) |
+| **Повна лекція** | **`04_Interface_Segregation_Principle.md`** | Академічна розширена лекція | [ Читати лекцію](../Docs/04_Interface_Segregation_Principle.md) |
 
 ---
 
@@ -90,8 +90,7 @@ flowchart TD
 ```mermaid
 classDiagram
     class IWorkerBad {
-        <<interface>>
-        +Work()
+        <<interface>> +Work()
         +WriteCode()
         +ReviewCode()
         +DebugCode()

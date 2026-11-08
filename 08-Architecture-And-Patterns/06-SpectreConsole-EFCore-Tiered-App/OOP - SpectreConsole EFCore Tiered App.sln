@@ -1,0 +1,50 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E5F6-7890-ABCD-860000000000}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Three_Tier_Architecture_EFCore_And_SpectreConsole.md = Docs\01_Three_Tier_Architecture_EFCore_And_SpectreConsole.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Шар роботи з даними (Data Access Layer - EF Core & Repositories)", "01. Шар роботи з даними (Data Access Layer - EF Core & Repositories)", "{A1B2C3D4-E5F6-7890-ABCD-860000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Шар бізнес-логіки (Business Logic Layer - Services, DTO & AutoMapper)", "02. Шар бізнес-логіки (Business Logic Layer - Services, DTO & AutoMapper)", "{A1B2C3D4-E5F6-7890-ABCD-860000000002}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Презентаційний консольний шар (Presentation Layer - Generic Host & Spectre.Console)", "03. Презентаційний консольний шар (Presentation Layer - Generic Host & Spectre.Console)", "{A1B2C3D4-E5F6-7890-ABCD-860000000003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.DataAccess", "StoreApp.DataAccess\StoreApp.DataAccess.csproj", "{B8600001-0001-4000-8000-000000000001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.BusinessLogic", "StoreApp.BusinessLogic\StoreApp.BusinessLogic.csproj", "{B8600001-0002-4000-8000-000000000002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.ConsoleUI", "StoreApp.ConsoleUI\StoreApp.ConsoleUI.csproj", "{B8600001-0003-4000-8000-000000000003}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8600001-0001-4000-8000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8600001-0001-4000-8000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8600001-0001-4000-8000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8600001-0001-4000-8000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8600001-0002-4000-8000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8600001-0002-4000-8000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8600001-0002-4000-8000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8600001-0002-4000-8000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8600001-0003-4000-8000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8600001-0003-4000-8000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8600001-0003-4000-8000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8600001-0003-4000-8000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8600001-0001-4000-8000-000000000001} = {A1B2C3D4-E5F6-7890-ABCD-860000000001}
+		{B8600001-0002-4000-8000-000000000002} = {A1B2C3D4-E5F6-7890-ABCD-860000000002}
+		{B8600001-0003-4000-8000-000000000003} = {A1B2C3D4-E5F6-7890-ABCD-860000000003}
+	EndGlobalSection
+EndGlobal

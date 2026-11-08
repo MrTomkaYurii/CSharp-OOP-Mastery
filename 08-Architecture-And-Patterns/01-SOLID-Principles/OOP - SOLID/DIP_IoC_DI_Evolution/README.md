@@ -5,36 +5,36 @@
 
 ---
 
-## 🧭 Швидка навігація до коду проекту
+## Швидка навігація до коду проекту
 
 Усі посилання оптимізовані для середовища **Visual Studio 2022** та **VS Code** (натисніть на посилання або відкрийте файл клавішею `F12`):
 
 | Етап еволюції | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| 🎮 **Головний запуск** | **`DipEvolutionCommand`** | Інтерактивне консольне меню для тестування кроків | [👉 Відкрити `DipEvolutionCommand.cs`](DipEvolutionCommand.cs) |
-| **Крок 1: DIP** | `IUserRepository` | Контракт доступу до бази даних користувачів | [👉 Відкрити `IUserRepository.cs`](Step1_DIP/IUserRepository.cs) |
-| **Крок 1: DIP** | `INotificationSender` | Контракт сповіщення клієнтів | [👉 Відкрити `INotificationSender.cs`](Step1_DIP/INotificationSender.cs) |
-| **Крок 1: DIP** | `ILogger` | Контракт системного логування та аудиту | [👉 Відкрити `ILogger.cs`](Step1_DIP/ILogger.cs) |
-| **Крок 1: DIP** | `MySqlUserRepository` | Конкретна низькорівнева реалізація сховища MySQL | [👉 Відкрити `MySqlUserRepository.cs`](Step1_DIP/MySqlUserRepository.cs) |
-| **Крок 1: DIP** | `SmtpNotificationSender` | Конкретна низькорівнева реалізація відправки Email | [👉 Відкрити `SmtpNotificationSender.cs`](Step1_DIP/SmtpNotificationSender.cs) |
-| **Крок 1: DIP** | `ConsoleLogger` | Конкретна реалізація виводу логів у термінал | [👉 Відкрити `ConsoleLogger.cs`](Step1_DIP/ConsoleLogger.cs) |
-| **Крок 1: DIP** | `DipPrincipleDemo` | Демонстрація розвороту стрілок залежностей | [👉 Відкрити `DipPrincipleDemo.cs`](Step1_DIP/DipPrincipleDemo.cs) |
-| **Крок 2: IoC** | `IInfrastructureFactory` | Інтерфейс патерна GoF Abstract Factory | [👉 Відкрити `IInfrastructureFactory.cs`](Step2_AbstractFactory_IoC/IInfrastructureFactory.cs) |
-| **Крок 2: IoC** | `MySqlInfrastructureFactory` | Конкретна фабрика сімейства MySQL + SMTP | [👉 Відкрити `ConcreteFactories.cs`](Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
-| **Крок 2: IoC** | `PostgresInfrastructureFactory`| Конкретна фабрика сімейства PostgreSQL + Push | [👉 Відкрити `ConcreteFactories.cs`](Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
-| **Крок 2: IoC** | `AlternativeInfrastructure` | Драйвери PostgreSQL, Push-сповіщень та FileLogger | [👉 Відкрити `AlternativeInfrastructure.cs`](Step2_AbstractFactory_IoC/AlternativeInfrastructure.cs) |
-| **Крок 2: IoC** | `UserServiceWithFactory` | Бізнес-сервіс із Pull-моделлю отримання залежностей | [👉 Відкрити `UserServiceWithFactory.cs`](Step2_AbstractFactory_IoC/UserServiceWithFactory.cs) |
-| **Крок 2: IoC** | `FactoryIoCDemo` | Демонстрація підміни всього стека одним рядком коду | [👉 Відкрити `FactoryIoCDemo.cs`](Step2_AbstractFactory_IoC/FactoryIoCDemo.cs) |
-| **Крок 3: DI** | `UserServiceWithDI` | Еталонний Constructor Injection (Push-модель) | [👉 Відкрити `UserServiceWithDI.cs`](Step3_DependencyInjection/UserServiceWithDI.cs) |
-| **Крок 3: DI** | `InvoiceService` | Демонстрація Method Injection та Property Injection | [👉 Відкрити `MethodAndPropertyInjectionDemo.cs`](Step3_DependencyInjection/MethodAndPropertyInjectionDemo.cs) |
-| **Крок 3: DI** | `FakeUserRepository` | In-memory Mock/Stub для миттєвих модульних тестів | [👉 Відкрити `FakeUserRepository.cs`](Step3_DependencyInjection/FakeUserRepository.cs) |
-| **Крок 3: DI** | `PureDiDemo` | Точка збирання (Composition Root), тести, Pure DI | [👉 Відкрити `PureDiDemo.cs`](Step3_DependencyInjection/PureDiDemo.cs) |
-| **Крок 4.1: Mini-IoC**| `SimpleContainer` | Власний контейнер із нуля на ~35 рядках Reflection | [👉 Відкрити `SimpleContainer.cs`](Step4_IoCContainer/MiniContainer/SimpleContainer.cs) |
-| **Крок 4.1: Mini-IoC**| `MiniContainerDemo` | Автоматичне рекурсивне збирання графу залежностей | [👉 Відкрити `MiniContainerDemo.cs`](Step4_IoCContainer/MiniContainer/MiniContainerDemo.cs) |
-| **Крок 4.2: Lifetimes**| `LifetimeContracts` | Контракти для аналізу Transient, Scoped, Singleton | [👉 Відкрити `LifetimeContracts.cs`](Step4_IoCContainer/DotNetContainer/LifetimeContracts.cs) |
-| **Крок 4.2: Lifetimes**| `LifetimesDemo` | Порівняння поведінки Scope 1 vs Scope 2 через Guid | [👉 Відкрити `LifetimesDemo.cs`](Step4_IoCContainer/DotNetContainer/LifetimesDemo.cs) |
-| **Крок 4.3: .NET DI** | `DotNetContainerDemo` | Промислове налаштування `IServiceCollection` у .NET | [👉 Відкрити `DotNetContainerDemo.cs`](Step4_IoCContainer/DotNetContainer/DotNetContainerDemo.cs) |
-| 📚 **Повний посібник** | `06_DeepDive.md` | Академічна лекція з архітектури та теорії | [👉 Читати повну лекцію](../Docs/06_DIP_IoC_DI_Containers_DeepDive.md) |
+| **Головний запуск** | **`DipEvolutionCommand`** | Інтерактивне консольне меню для тестування кроків | [ Відкрити `DipEvolutionCommand.cs`](DipEvolutionCommand.cs) |
+| **Крок 1: DIP** | `IUserRepository` | Контракт доступу до бази даних користувачів | [ Відкрити `IUserRepository.cs`](Step1_DIP/IUserRepository.cs) |
+| **Крок 1: DIP** | `INotificationSender` | Контракт сповіщення клієнтів | [ Відкрити `INotificationSender.cs`](Step1_DIP/INotificationSender.cs) |
+| **Крок 1: DIP** | `ILogger` | Контракт системного логування та аудиту | [ Відкрити `ILogger.cs`](Step1_DIP/ILogger.cs) |
+| **Крок 1: DIP** | `MySqlUserRepository` | Конкретна низькорівнева реалізація сховища MySQL | [ Відкрити `MySqlUserRepository.cs`](Step1_DIP/MySqlUserRepository.cs) |
+| **Крок 1: DIP** | `SmtpNotificationSender` | Конкретна низькорівнева реалізація відправки Email | [ Відкрити `SmtpNotificationSender.cs`](Step1_DIP/SmtpNotificationSender.cs) |
+| **Крок 1: DIP** | `ConsoleLogger` | Конкретна реалізація виводу логів у термінал | [ Відкрити `ConsoleLogger.cs`](Step1_DIP/ConsoleLogger.cs) |
+| **Крок 1: DIP** | `DipPrincipleDemo` | Демонстрація розвороту стрілок залежностей | [ Відкрити `DipPrincipleDemo.cs`](Step1_DIP/DipPrincipleDemo.cs) |
+| **Крок 2: IoC** | `IInfrastructureFactory` | Інтерфейс патерна GoF Abstract Factory | [ Відкрити `IInfrastructureFactory.cs`](Step2_AbstractFactory_IoC/IInfrastructureFactory.cs) |
+| **Крок 2: IoC** | `MySqlInfrastructureFactory` | Конкретна фабрика сімейства MySQL + SMTP | [ Відкрити `ConcreteFactories.cs`](Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
+| **Крок 2: IoC** | `PostgresInfrastructureFactory`| Конкретна фабрика сімейства PostgreSQL + Push | [ Відкрити `ConcreteFactories.cs`](Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
+| **Крок 2: IoC** | `AlternativeInfrastructure` | Драйвери PostgreSQL, Push-сповіщень та FileLogger | [ Відкрити `AlternativeInfrastructure.cs`](Step2_AbstractFactory_IoC/AlternativeInfrastructure.cs) |
+| **Крок 2: IoC** | `UserServiceWithFactory` | Бізнес-сервіс із Pull-моделлю отримання залежностей | [ Відкрити `UserServiceWithFactory.cs`](Step2_AbstractFactory_IoC/UserServiceWithFactory.cs) |
+| **Крок 2: IoC** | `FactoryIoCDemo` | Демонстрація підміни всього стека одним рядком коду | [ Відкрити `FactoryIoCDemo.cs`](Step2_AbstractFactory_IoC/FactoryIoCDemo.cs) |
+| **Крок 3: DI** | `UserServiceWithDI` | Еталонний Constructor Injection (Push-модель) | [ Відкрити `UserServiceWithDI.cs`](Step3_DependencyInjection/UserServiceWithDI.cs) |
+| **Крок 3: DI** | `InvoiceService` | Демонстрація Method Injection та Property Injection | [ Відкрити `MethodAndPropertyInjectionDemo.cs`](Step3_DependencyInjection/MethodAndPropertyInjectionDemo.cs) |
+| **Крок 3: DI** | `FakeUserRepository` | In-memory Mock/Stub для миттєвих модульних тестів | [ Відкрити `FakeUserRepository.cs`](Step3_DependencyInjection/FakeUserRepository.cs) |
+| **Крок 3: DI** | `PureDiDemo` | Точка збирання (Composition Root), тести, Pure DI | [ Відкрити `PureDiDemo.cs`](Step3_DependencyInjection/PureDiDemo.cs) |
+| **Крок 4.1: Mini-IoC**| `SimpleContainer` | Власний контейнер із нуля на ~35 рядках Reflection | [ Відкрити `SimpleContainer.cs`](Step4_IoCContainer/MiniContainer/SimpleContainer.cs) |
+| **Крок 4.1: Mini-IoC**| `MiniContainerDemo` | Автоматичне рекурсивне збирання графу залежностей | [ Відкрити `MiniContainerDemo.cs`](Step4_IoCContainer/MiniContainer/MiniContainerDemo.cs) |
+| **Крок 4.2: Lifetimes**| `LifetimeContracts` | Контракти для аналізу Transient, Scoped, Singleton | [ Відкрити `LifetimeContracts.cs`](Step4_IoCContainer/DotNetContainer/LifetimeContracts.cs) |
+| **Крок 4.2: Lifetimes**| `LifetimesDemo` | Порівняння поведінки Scope 1 vs Scope 2 через Guid | [ Відкрити `LifetimesDemo.cs`](Step4_IoCContainer/DotNetContainer/LifetimesDemo.cs) |
+| **Крок 4.3: .NET DI** | `DotNetContainerDemo` | Промислове налаштування `IServiceCollection` у .NET | [ Відкрити `DotNetContainerDemo.cs`](Step4_IoCContainer/DotNetContainer/DotNetContainerDemo.cs) |
+| **Повний посібник** | `06_DeepDive.md` | Академічна лекція з архітектури та теорії | [ Читати повну лекцію](../Docs/06_DIP_IoC_DI_Containers_DeepDive.md) |
 
 ---
 
@@ -160,7 +160,7 @@ flowchart TD
    ```text
    ╔══════════════════════════════════════════════════════════════════════════╗
    ║      ЕВОЛЮЦІЙНИЙ ПРАКТИКУМ: ВІД ПРИНЦИПУ ДО СУЧАСНОГО DI-КОНТЕЙНЕРА      ║
-   ║            DIP  --->  IoC  --->  Abstract Factory  --->  DI  --->  IoC  ║
+   ║            DIP  ---> IoC  ---> Abstract Factory  ---> DI  ---> IoC  ║
    ╚══════════════════════════════════════════════════════════════════════════╝
 
    1. [DIP]       Крок 1. Принцип інверсії залежностей (Контракти замість деталей)

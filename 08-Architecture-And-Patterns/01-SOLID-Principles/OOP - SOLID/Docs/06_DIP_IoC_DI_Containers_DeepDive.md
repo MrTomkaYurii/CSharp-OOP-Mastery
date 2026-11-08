@@ -6,28 +6,28 @@
 
 ---
 
-### 🧭 Швидка навігація до вихідного коду (Кнопки переходу у Visual Studio / VS Code):
+### Швидка навігація до вихідного коду (Кнопки переходу у Visual Studio / VS Code):
 
 | Етап еволюції | Клас / Файл коду | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| 📁 **Папка модуля**| `DIP_IoC_DI_Evolution`| Головна папка еволюційного практикуму | [👉 Відкрити `README.md`](../DIP_IoC_DI_Evolution/README.md) |
-| **Крок 1: DIP** | `IUserRepository.cs` | Контракт сховища користувачів | [👉 Відкрити `IUserRepository.cs` (рядок 7)](../DIP_IoC_DI_Evolution/Step1_DIP/IUserRepository.cs) |
-| **Крок 1: DIP** | `INotificationSender.cs` | Контракт каналу сповіщень | [👉 Відкрити `INotificationSender.cs` (рядок 7)](../DIP_IoC_DI_Evolution/Step1_DIP/INotificationSender.cs) |
-| **Крок 1: DIP** | `ILogger.cs` | Контракт аудиту та логування | [👉 Відкрити `ILogger.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step1_DIP/ILogger.cs) |
-| **Крок 1: DIP** | `DipPrincipleDemo.cs` | Демонстрація розвороту залежностей | [👉 Відкрити `DipPrincipleDemo.cs` (рядок 8)](../DIP_IoC_DI_Evolution/Step1_DIP/DipPrincipleDemo.cs) |
-| **Крок 2: IoC** | `IInfrastructureFactory.cs` | Абстрактна фабрика сімейств драйверів | [👉 Відкрити `IInfrastructureFactory.cs` (рядок 12)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/IInfrastructureFactory.cs) |
-| **Крок 2: IoC** | `ConcreteFactories.cs` | Фабрики MySQL та PostgreSQL | [👉 Відкрити `ConcreteFactories.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
-| **Крок 2: IoC** | `UserServiceWithFactory.cs` | Сервіс, залежний від фабрики (Pull model) | [👉 Відкрити `UserServiceWithFactory.cs` (рядок 16)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/UserServiceWithFactory.cs) |
-| **Крок 2: IoC** | `FactoryIoCDemo.cs` | Демонстрація інверсії контролю | [👉 Відкрити `FactoryIoCDemo.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/FactoryIoCDemo.cs) |
-| **Крок 3: DI** | `UserServiceWithDI.cs` | Чистий Constructor Injection (Push model) | [👉 Відкрити `UserServiceWithDI.cs` (рядок 16)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/UserServiceWithDI.cs) |
-| **Крок 3: DI** | `MethodAndPropertyInjectionDemo.cs`| Демонстрація Method та Property DI | [👉 Відкрити `MethodAndPropertyInjectionDemo.cs` (рядок 28)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/MethodAndPropertyInjectionDemo.cs) |
-| **Крок 3: DI** | `FakeUserRepository.cs` | In-memory Mock для ізольованого тесту | [👉 Відкрити `FakeUserRepository.cs` (рядок 10)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/FakeUserRepository.cs) |
-| **Крок 3: DI** | `PureDiDemo.cs` | Практикум Pure DI та тестування | [👉 Відкрити `PureDiDemo.cs` (рядок 8)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/PureDiDemo.cs) |
-| **Крок 4: Container**| `SimpleContainer.cs` | Власний навчальний IoC-контейнер з нуля | [👉 Відкрити `SimpleContainer.cs` (рядок 14)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/MiniContainer/SimpleContainer.cs) |
-| **Крок 4: Container**| `MiniContainerDemo.cs` | Демонстрація рефлексії контейнера | [👉 Відкрити `MiniContainerDemo.cs` (рядок 9)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/MiniContainer/MiniContainerDemo.cs) |
-| **Крок 4: Container**| `LifetimesDemo.cs` | Transient vs Scoped vs Singleton | [👉 Відкрити `LifetimesDemo.cs` (рядок 11)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/DotNetContainer/LifetimesDemo.cs) |
-| **Крок 4: Container**| `DotNetContainerDemo.cs` | Промисловий Microsoft.Extensions.DI | [👉 Відкрити `DotNetContainerDemo.cs` (рядок 11)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/DotNetContainer/DotNetContainerDemo.cs) |
-| 🎮 **Оркестратор** | `DipEvolutionCommand.cs` | Консольне інтерактивне меню запуску | [👉 Відкрити `DipEvolutionCommand.cs` (рядок 13)](../DIP_IoC_DI_Evolution/DipEvolutionCommand.cs) |
+| **Папка модуля**| `DIP_IoC_DI_Evolution`| Головна папка еволюційного практикуму | [ Відкрити `README.md`](../DIP_IoC_DI_Evolution/README.md) |
+| **Крок 1: DIP** | `IUserRepository.cs` | Контракт сховища користувачів | [ Відкрити `IUserRepository.cs` (рядок 7)](../DIP_IoC_DI_Evolution/Step1_DIP/IUserRepository.cs) |
+| **Крок 1: DIP** | `INotificationSender.cs` | Контракт каналу сповіщень | [ Відкрити `INotificationSender.cs` (рядок 7)](../DIP_IoC_DI_Evolution/Step1_DIP/INotificationSender.cs) |
+| **Крок 1: DIP** | `ILogger.cs` | Контракт аудиту та логування | [ Відкрити `ILogger.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step1_DIP/ILogger.cs) |
+| **Крок 1: DIP** | `DipPrincipleDemo.cs` | Демонстрація розвороту залежностей | [ Відкрити `DipPrincipleDemo.cs` (рядок 8)](../DIP_IoC_DI_Evolution/Step1_DIP/DipPrincipleDemo.cs) |
+| **Крок 2: IoC** | `IInfrastructureFactory.cs` | Абстрактна фабрика сімейств драйверів | [ Відкрити `IInfrastructureFactory.cs` (рядок 12)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/IInfrastructureFactory.cs) |
+| **Крок 2: IoC** | `ConcreteFactories.cs` | Фабрики MySQL та PostgreSQL | [ Відкрити `ConcreteFactories.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/ConcreteFactories.cs) |
+| **Крок 2: IoC** | `UserServiceWithFactory.cs` | Сервіс, залежний від фабрики (Pull model) | [ Відкрити `UserServiceWithFactory.cs` (рядок 16)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/UserServiceWithFactory.cs) |
+| **Крок 2: IoC** | `FactoryIoCDemo.cs` | Демонстрація інверсії контролю | [ Відкрити `FactoryIoCDemo.cs` (рядок 6)](../DIP_IoC_DI_Evolution/Step2_AbstractFactory_IoC/FactoryIoCDemo.cs) |
+| **Крок 3: DI** | `UserServiceWithDI.cs` | Чистий Constructor Injection (Push model) | [ Відкрити `UserServiceWithDI.cs` (рядок 16)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/UserServiceWithDI.cs) |
+| **Крок 3: DI** | `MethodAndPropertyInjectionDemo.cs`| Демонстрація Method та Property DI | [ Відкрити `MethodAndPropertyInjectionDemo.cs` (рядок 28)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/MethodAndPropertyInjectionDemo.cs) |
+| **Крок 3: DI** | `FakeUserRepository.cs` | In-memory Mock для ізольованого тесту | [ Відкрити `FakeUserRepository.cs` (рядок 10)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/FakeUserRepository.cs) |
+| **Крок 3: DI** | `PureDiDemo.cs` | Практикум Pure DI та тестування | [ Відкрити `PureDiDemo.cs` (рядок 8)](../DIP_IoC_DI_Evolution/Step3_DependencyInjection/PureDiDemo.cs) |
+| **Крок 4: Container**| `SimpleContainer.cs` | Власний навчальний IoC-контейнер з нуля | [ Відкрити `SimpleContainer.cs` (рядок 14)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/MiniContainer/SimpleContainer.cs) |
+| **Крок 4: Container**| `MiniContainerDemo.cs` | Демонстрація рефлексії контейнера | [ Відкрити `MiniContainerDemo.cs` (рядок 9)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/MiniContainer/MiniContainerDemo.cs) |
+| **Крок 4: Container**| `LifetimesDemo.cs` | Transient vs Scoped vs Singleton | [ Відкрити `LifetimesDemo.cs` (рядок 11)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/DotNetContainer/LifetimesDemo.cs) |
+| **Крок 4: Container**| `DotNetContainerDemo.cs` | Промисловий Microsoft.Extensions.DI | [ Відкрити `DotNetContainerDemo.cs` (рядок 11)](../DIP_IoC_DI_Evolution/Step4_IoCContainer/DotNetContainer/DotNetContainerDemo.cs) |
+| **Оркестратор** | `DipEvolutionCommand.cs` | Консольне інтерактивне меню запуску | [ Відкрити `DipEvolutionCommand.cs` (рядок 13)](../DIP_IoC_DI_Evolution/DipEvolutionCommand.cs) |
 
 ---
 
@@ -150,8 +150,7 @@ flowchart TD
 ```mermaid
 classDiagram
     class IInfrastructureFactory {
-        <<interface>>
-        +CreateUserRepository() IUserRepository
+        <<interface>> +CreateUserRepository() IUserRepository
         +CreateNotificationSender() INotificationSender
         +CreateLogger() ILogger
     }
@@ -307,7 +306,7 @@ Assert.Equal(1, fakeRepo.SaveCallCount); // Миттєва перевірка б
 Щоб зруйнувати цей міф, ми реалізували власний контейнер у файлі [`SimpleContainer.cs`](../DIP_IoC_DI_Evolution/Step4_IoCContainer/MiniContainer/SimpleContainer.cs) всього на **35 рядків коду**!
 
 ### Архітектура нашого SimpleContainer:
-1. **Словник реєстрації типів**: `Dictionary<Type, Type>` (зв'язує `IUserRepository` ➔ `PostgresUserRepository`).
+1. **Словник реєстрації типів**: `Dictionary<Type, Type>` (зв'язує `IUserRepository`  `PostgresUserRepository`).
 2. **Словник сінглтонів**: `Dictionary<Type, object>` (кешує створені екземпляри).
 3. **Рефлексія**:
    - `ConstructorInfo constructor = type.GetConstructors()[0];`

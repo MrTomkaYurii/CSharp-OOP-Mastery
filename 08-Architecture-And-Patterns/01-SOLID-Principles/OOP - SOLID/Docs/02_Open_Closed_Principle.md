@@ -6,21 +6,21 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів проєкту):
+### Швидка навігація до коду (Кнопки переходу до файлів проєкту):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`PaymentProcessorBad`** | Антипатерн Switch-Hell (перевірка типів оплати) | [👉 Відкрити `PaymentProcessorBad.cs` (рядок 11)](../O/PaymentProcessorBad.cs) |
-| 🎮 **Демонстрація** | **`OcpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [👉 Відкрити `OcpBadExampleCommand.cs` (рядок 15)](../O/OcpBadExampleCommand.cs) |
-| ✅ **Еталон OCP (Good)** | **`IPaymentMethod`** | Поліморфний контракт оплати (Стратегія) | [👉 Відкрити `IPaymentMethod.cs` (рядок 11)](../O/OCPGoodExample/IPaymentMethod.cs) |
-| ✅ **Еталон OCP (Good)** | **`CreditCardPayment`** | Стратегія: Оплата банківською карткою | [👉 Відкрити `CreditCardPayment.cs` (рядок 9)](../O/OCPGoodExample/CreditCardPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`PayPalPayment`** | Стратегія: Оплата через PayPal | [👉 Відкрити `PayPalPayment.cs` (рядок 9)](../O/OCPGoodExample/PayPalPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`CashPayment`** | Стратегія: Оплата готівкою | [👉 Відкрити `CashPayment.cs` (рядок 9)](../O/OCPGoodExample/CashPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`CryptoPayment`** | Стратегія: Оплата криптовалютою | [👉 Відкрити `CryptoPayment.cs` (рядок 9)](../O/OCPGoodExample/CryptoPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`ApplePayPayment`** | Стратегія: Оплата через Apple Pay | [👉 Відкрити `ApplePayPayment.cs` (рядок 9)](../O/OCPGoodExample/ApplePayPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`GooglePayPayment`** | Стратегія: Оплата через Google Pay | [👉 Відкрити `GooglePayPayment.cs` (рядок 9)](../O/OCPGoodExample/GooglePayPayment.cs) |
-| ✅ **Еталон OCP (Good)** | **`PaymentProcessorGood`** | Закритий для модифікацій процесор | [👉 Відкрити `PaymentProcessorGood.cs` (рядок 11)](../O/PaymentProcessorGood.cs) |
-| 🎮 **Демонстрація** | **`OcpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [👉 Відкрити `OcpGoodExampleCommand.cs` (рядок 17)](../O/OcpGoodExampleCommand.cs) |
+| **Порушення (Bad)** | **`PaymentProcessorBad`** | Антипатерн Switch-Hell (перевірка типів оплати) | [ Відкрити `PaymentProcessorBad.cs` (рядок 11)](../O/PaymentProcessorBad.cs) |
+| **Демонстрація** | **`OcpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [ Відкрити `OcpBadExampleCommand.cs` (рядок 15)](../O/OcpBadExampleCommand.cs) |
+| **Еталон OCP (Good)** | **`IPaymentMethod`** | Поліморфний контракт оплати (Стратегія) | [ Відкрити `IPaymentMethod.cs` (рядок 11)](../O/OCPGoodExample/IPaymentMethod.cs) |
+| **Еталон OCP (Good)** | **`CreditCardPayment`** | Стратегія: Оплата банківською карткою | [ Відкрити `CreditCardPayment.cs` (рядок 9)](../O/OCPGoodExample/CreditCardPayment.cs) |
+| **Еталон OCP (Good)** | **`PayPalPayment`** | Стратегія: Оплата через PayPal | [ Відкрити `PayPalPayment.cs` (рядок 9)](../O/OCPGoodExample/PayPalPayment.cs) |
+| **Еталон OCP (Good)** | **`CashPayment`** | Стратегія: Оплата готівкою | [ Відкрити `CashPayment.cs` (рядок 9)](../O/OCPGoodExample/CashPayment.cs) |
+| **Еталон OCP (Good)** | **`CryptoPayment`** | Стратегія: Оплата криптовалютою | [ Відкрити `CryptoPayment.cs` (рядок 9)](../O/OCPGoodExample/CryptoPayment.cs) |
+| **Еталон OCP (Good)** | **`ApplePayPayment`** | Стратегія: Оплата через Apple Pay | [ Відкрити `ApplePayPayment.cs` (рядок 9)](../O/OCPGoodExample/ApplePayPayment.cs) |
+| **Еталон OCP (Good)** | **`GooglePayPayment`** | Стратегія: Оплата через Google Pay | [ Відкрити `GooglePayPayment.cs` (рядок 9)](../O/OCPGoodExample/GooglePayPayment.cs) |
+| **Еталон OCP (Good)** | **`PaymentProcessorGood`** | Закритий для модифікацій процесор | [ Відкрити `PaymentProcessorGood.cs` (рядок 11)](../O/PaymentProcessorGood.cs) |
+| **Демонстрація** | **`OcpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [ Відкрити `OcpGoodExampleCommand.cs` (рядок 17)](../O/OcpGoodExampleCommand.cs) |
 
 ---
 
@@ -92,9 +92,9 @@ flowchart TD
 ## 4. Детальний розбір навчального прикладу
 
 ### 4.1. Поганий приклад: порушення OCP
-> 🔗 **Файл:** [`OOP - SOLID/O/PaymentProcessorBad.cs`](../O/PaymentProcessorBad.cs)  
-> 👉 [**Відкрити `PaymentProcessorBad.cs` у редакторі (рядок 11)**](../O/PaymentProcessorBad.cs)  
-> 🎮 [**Запуск демонстрації: `OcpBadExampleCommand.cs` (рядок 15)**](../O/OcpBadExampleCommand.cs)
+> **Файл:** [`OOP - SOLID/O/PaymentProcessorBad.cs`](../O/PaymentProcessorBad.cs)  
+> [**Відкрити `PaymentProcessorBad.cs` у редакторі (рядок 11)**](../O/PaymentProcessorBad.cs)  
+> [**Запуск демонстрації: `OcpBadExampleCommand.cs` (рядок 15)**](../O/OcpBadExampleCommand.cs)
 
 Погляньмо на реалізацію методу [`ProcessPayment`](../O/PaymentProcessorBad.cs) та [`CalculateFee`](../O/PaymentProcessorBad.cs):
 
@@ -139,19 +139,20 @@ public void ProcessPayment(string paymentType, decimal amount)
 
 | № | Клас / Інтерфейс | Роль у системі | Пряме посилання на код |
 |:---:|:---|:---|:---:|
-| 1 | **`IPaymentMethod`** | Контракт платіжного методу (`Process`, `CalculateFee`) | [👉 `IPaymentMethod.cs`](../O/OCPGoodExample/IPaymentMethod.cs) |
-| 2 | **`CreditCardPayment`** | Реалізація оплати банківською карткою | [👉 `CreditCardPayment.cs`](../O/OCPGoodExample/CreditCardPayment.cs) |
-| 3 | **`PayPalPayment`** | Реалізація оплати через гаманець PayPal | [👉 `PayPalPayment.cs`](../O/OCPGoodExample/PayPalPayment.cs) |
-| 4 | **`CashPayment`** | Реалізація готівкової оплати | [👉 `CashPayment.cs`](../O/OCPGoodExample/CashPayment.cs) |
-| 5 | **`CryptoPayment`** | Реалізація криптовалютного платежу | [👉 `CryptoPayment.cs`](../O/OCPGoodExample/CryptoPayment.cs) |
-| 6 | **`GooglePayPayment`** | Реалізація оплати Google Pay | [👉 `GooglePayPayment.cs`](../O/OCPGoodExample/GooglePayPayment.cs) |
-| 7 | **`ApplePayPayment`** | Реалізація оплати Apple Pay | [👉 `ApplePayPayment.cs`](../O/OCPGoodExample/ApplePayPayment.cs) |
-| 8 | **`PaymentProcessorGood`** | Процесор із відкритою реєстрацією методів | [👉 `PaymentProcessorGood.cs`](../O/PaymentProcessorGood.cs) |
-| 🎮 | **`OcpGoodExampleCommand`** | Консольна команда запуску OCP сценарію | [👉 `OcpGoodExampleCommand.cs`](../O/OcpGoodExampleCommand.cs) |
+| 1 | **`IPaymentMethod`** | Контракт платіжного методу (`Process`, `CalculateFee`) | [ `IPaymentMethod.cs`](../O/OCPGoodExample/IPaymentMethod.cs) |
+| 2 | **`CreditCardPayment`** | Реалізація оплати банківською карткою | [ `CreditCardPayment.cs`](../O/OCPGoodExample/CreditCardPayment.cs) |
+| 3 | **`PayPalPayment`** | Реалізація оплати через гаманець PayPal | [ `PayPalPayment.cs`](../O/OCPGoodExample/PayPalPayment.cs) |
+| 4 | **`CashPayment`** | Реалізація готівкової оплати | [ `CashPayment.cs`](../O/OCPGoodExample/CashPayment.cs) |
+| 5 | **`CryptoPayment`** | Реалізація криптовалютного платежу | [ `CryptoPayment.cs`](../O/OCPGoodExample/CryptoPayment.cs) |
+| 6 | **`GooglePayPayment`** | Реалізація оплати Google Pay | [ `GooglePayPayment.cs`](../O/OCPGoodExample/GooglePayPayment.cs) |
+| 7 | **`ApplePayPayment`** | Реалізація оплати Apple Pay | [ `ApplePayPayment.cs`](../O/OCPGoodExample/ApplePayPayment.cs) |
+| 8 | **`PaymentProcessorGood`** | Процесор із відкритою реєстрацією методів | [ `PaymentProcessorGood.cs`](../O/PaymentProcessorGood.cs) |
+|
+| **`OcpGoodExampleCommand`** | Консольна команда запуску OCP сценарію | [ `OcpGoodExampleCommand.cs`](../O/OcpGoodExampleCommand.cs) |
 
 #### Реалізація закритого процесора ([PaymentProcessorGood.cs](../O/PaymentProcessorGood.cs)):
-> 🔗 **Файл:** [`OOP - SOLID/O/PaymentProcessorGood.cs`](../O/PaymentProcessorGood.cs)  
-> 👉 [**Відкрити `PaymentProcessorGood.cs` у редакторі (рядок 45)**](../O/PaymentProcessorGood.cs)
+> **Файл:** [`OOP - SOLID/O/PaymentProcessorGood.cs`](../O/PaymentProcessorGood.cs)  
+> [**Відкрити `PaymentProcessorGood.cs` у редакторі (рядок 45)**](../O/PaymentProcessorGood.cs)
 
 ```csharp
 // Посилання на файл: OOP - SOLID/O/PaymentProcessorGood.cs (рядки 45-69)
@@ -183,8 +184,7 @@ public void ProcessPayment(string paymentMethodName, decimal amount)
 ```mermaid
 classDiagram
     class IPaymentMethod {
-        <<interface>>
-        +string Name
+        <<interface>> +string Name
         +Pay(amount decimal) void
     }
 
@@ -204,8 +204,7 @@ classDiagram
     }
 
     class ApplePayPayment {
-        <<нове розширення>>
-        +string Name
+        <<нове розширення>> +string Name
         +Pay(amount decimal) void
     }
 

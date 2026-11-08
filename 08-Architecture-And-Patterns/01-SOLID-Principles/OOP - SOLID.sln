@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A1B2C3D4-E
 		OOP - SOLID\Docs\05_Dependency_Inversion_Principle.md = OOP - SOLID\Docs\05_Dependency_Inversion_Principle.md
 		OOP - SOLID\Docs\06_DIP_IoC_DI_Containers_DeepDive.md = OOP - SOLID\Docs\06_DIP_IoC_DI_Containers_DeepDive.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Практикум із принципів SOLID та еволюції IoC/DI", "01. Практикум із принципів SOLID та еволюції IoC/DI", "{A1B2C3D4-E5F6-7890-ABCD-810000000001}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOP - SOLID", "OOP - SOLID\OOP - SOLID.csproj", "{B8100001-0001-4000-8000-000000000001}"
 EndProject
@@ -29,4 +31,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-EndGlobal
+	GlobalSection(NestedProjects) = preSolution
+		{B8100001-0001-4000-8000-000000000001} = {A1B2C3D4-E5F6-7890-ABCD-810000000001}
+	EndGlobalSection
+EndGlobal

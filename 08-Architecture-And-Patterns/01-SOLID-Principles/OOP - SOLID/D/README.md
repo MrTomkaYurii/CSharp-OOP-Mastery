@@ -6,32 +6,32 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
+### Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`UserServiceBad`** | Жорстка прив'язка через `new MySQLDatabase()` | [👉 Відкрити `UserServiceBad.cs` (рядок 12)](DIPBadExample/UserServiceBad.cs) |
-| ❌ **Порушення (Bad)** | **`MySqlDatabase`** | Низькорівневий модуль: жорстка реалізація СУБД | [👉 Відкрити `MySqlDatabase.cs` (рядок 9)](DIPBadExample/MySqlDatabase.cs) |
-| ❌ **Порушення (Bad)** | **`SmtpEmailSender`** | Низькорівневий модуль: поштовий сервіс | [👉 Відкрити `SmtpEmailSender.cs` (рядок 9)](DIPBadExample/SmtpEmailSender.cs) |
-| 🎮 **Демонстрація** | **`DipBadExampleCommand`** | Консольний запуск сценарію з жорсткими залежностями | [👉 Відкрити `DipBadExampleCommand.cs` (рядок 15)](DipBadExampleCommand.cs) |
-| ✅ **Еталон DIP (Контракти)** | **`IUserRepository`** | Абстракція доступу до даних (Сховище) | [👉 Відкрити `IUserRepository.cs` (рядок 9)](DIPGoodExample/Contracts/IUserRepository.cs) |
-| ✅ **Еталон DIP (Контракти)** | **`INotificationSender`** | Абстракція каналу сповіщень | [👉 Відкрити `INotificationSender.cs` (рядок 9)](DIPGoodExample/Contracts/INotificationSender.cs) |
-| ✅ **Еталон DIP (Контракти)** | **`ILogger`** | Абстракція аудиту та логування | [👉 Відкрити `ILogger.cs` (рядок 9)](DIPGoodExample/Contracts/ILogger.cs) |
-| ✅ **Еталон DIP (Good)** | **`UserServiceGood`** | Високорівневий бізнес-сервіс (чисті абстракції) | [👉 Відкрити `UserServiceGood.cs` (рядок 11)](DIPGoodExample/UserServiceGood.cs) |
-| ✅ **Провайдер БД** | **`MySqlUserRepository`** | Реалізація для MySQL | [👉 Відкрити `MySqlUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/MySqlUserRepository.cs) |
-| ✅ **Провайдер БД** | **`PostgresUserRepository`** | Реалізація для PostgreSQL | [👉 Відкрити `PostgresUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/PostgresUserRepository.cs) |
-| ✅ **Провайдер БД** | **`MongoUserRepository`** | Реалізація для MongoDB | [👉 Відкрити `MongoUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/MongoUserRepository.cs) |
-| ✅ **Провайдер логування** | **`ConsoleLoggerImpl`** | Логер у консоль | [👉 Відкрити `ConsoleLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/ConsoleLoggerImpl.cs) |
-| ✅ **Провайдер логування** | **`FileLoggerImpl`** | Логер у файл | [👉 Відкрити `FileLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/FileLoggerImpl.cs) |
-| ✅ **Провайдер логування** | **`DatabaseLoggerImpl`** | Логер у базу даних | [👉 Відкрити `DatabaseLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/DatabaseLoggerImpl.cs) |
-| ✅ **Провайдер сповіщень** | **`SmtpNotificationSender`** | Email сповіщення | [👉 Відкрити `SmtpNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/SmtpNotificationSender.cs) |
-| ✅ **Провайдер сповіщень** | **`SmsNotificationSender`** | SMS сповіщення | [👉 Відкрити `SmsNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/SmsNotificationSender.cs) |
-| ✅ **Провайдер сповіщень** | **`PushNotificationSender`** | Push сповіщення | [👉 Відкрити `PushNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/PushNotificationSender.cs) |
-| 🎮 **Демонстрація** | **`DipGoodExampleCommand`** | Консольний запуск еталонного сценарію через DI | [👉 Відкрити `DipGoodExampleCommand.cs` (рядок 17)](DipGoodExampleCommand.cs) |
-| 📁 **Модуль еволюції** | **`DIP_IoC_DI_Evolution`** | Окрема папка архітектурного практикуму | [👉 Відкрити `README.md`](../DIP_IoC_DI_Evolution/README.md) |
-| 🚀 **Еволюція (Практикум)**| **`DipEvolutionCommand`** | Повний ланцюжок: DIP -> Abstract Factory -> DI -> Container | [👉 Відкрити `DipEvolutionCommand.cs`](../DIP_IoC_DI_Evolution/DipEvolutionCommand.cs) |
-| 📚 **Базова лекція** | **`05_Dependency_Inversion_Principle.md`** | Академічна лекція з DIP | [👉 Читати лекцію](../Docs/05_Dependency_Inversion_Principle.md) |
-| 🔬 **Глибокий практикум** | **`06_DIP_IoC_DI_Containers_DeepDive.md`** | Майстер-клас: DIP, IoC, Abstract Factory, DI, Lifetimes | [👉 Читати практикум](../Docs/06_DIP_IoC_DI_Containers_DeepDive.md) |
+| **Порушення (Bad)** | **`UserServiceBad`** | Жорстка прив'язка через `new MySQLDatabase()` | [ Відкрити `UserServiceBad.cs` (рядок 12)](DIPBadExample/UserServiceBad.cs) |
+| **Порушення (Bad)** | **`MySqlDatabase`** | Низькорівневий модуль: жорстка реалізація СУБД | [ Відкрити `MySqlDatabase.cs` (рядок 9)](DIPBadExample/MySqlDatabase.cs) |
+| **Порушення (Bad)** | **`SmtpEmailSender`** | Низькорівневий модуль: поштовий сервіс | [ Відкрити `SmtpEmailSender.cs` (рядок 9)](DIPBadExample/SmtpEmailSender.cs) |
+| **Демонстрація** | **`DipBadExampleCommand`** | Консольний запуск сценарію з жорсткими залежностями | [ Відкрити `DipBadExampleCommand.cs` (рядок 15)](DipBadExampleCommand.cs) |
+| **Еталон DIP (Контракти)** | **`IUserRepository`** | Абстракція доступу до даних (Сховище) | [ Відкрити `IUserRepository.cs` (рядок 9)](DIPGoodExample/Contracts/IUserRepository.cs) |
+| **Еталон DIP (Контракти)** | **`INotificationSender`** | Абстракція каналу сповіщень | [ Відкрити `INotificationSender.cs` (рядок 9)](DIPGoodExample/Contracts/INotificationSender.cs) |
+| **Еталон DIP (Контракти)** | **`ILogger`** | Абстракція аудиту та логування | [ Відкрити `ILogger.cs` (рядок 9)](DIPGoodExample/Contracts/ILogger.cs) |
+| **Еталон DIP (Good)** | **`UserServiceGood`** | Високорівневий бізнес-сервіс (чисті абстракції) | [ Відкрити `UserServiceGood.cs` (рядок 11)](DIPGoodExample/UserServiceGood.cs) |
+| **Провайдер БД** | **`MySqlUserRepository`** | Реалізація для MySQL | [ Відкрити `MySqlUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/MySqlUserRepository.cs) |
+| **Провайдер БД** | **`PostgresUserRepository`** | Реалізація для PostgreSQL | [ Відкрити `PostgresUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/PostgresUserRepository.cs) |
+| **Провайдер БД** | **`MongoUserRepository`** | Реалізація для MongoDB | [ Відкрити `MongoUserRepository.cs` (рядок 11)](DIPGoodExample/Repositories/MongoUserRepository.cs) |
+| **Провайдер логування** | **`ConsoleLoggerImpl`** | Логер у консоль | [ Відкрити `ConsoleLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/ConsoleLoggerImpl.cs) |
+| **Провайдер логування** | **`FileLoggerImpl`** | Логер у файл | [ Відкрити `FileLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/FileLoggerImpl.cs) |
+| **Провайдер логування** | **`DatabaseLoggerImpl`** | Логер у базу даних | [ Відкрити `DatabaseLoggerImpl.cs` (рядок 11)](DIPGoodExample/Loggers/DatabaseLoggerImpl.cs) |
+| **Провайдер сповіщень** | **`SmtpNotificationSender`** | Email сповіщення | [ Відкрити `SmtpNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/SmtpNotificationSender.cs) |
+| **Провайдер сповіщень** | **`SmsNotificationSender`** | SMS сповіщення | [ Відкрити `SmsNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/SmsNotificationSender.cs) |
+| **Провайдер сповіщень** | **`PushNotificationSender`** | Push сповіщення | [ Відкрити `PushNotificationSender.cs` (рядок 11)](DIPGoodExample/Notifications/PushNotificationSender.cs) |
+| **Демонстрація** | **`DipGoodExampleCommand`** | Консольний запуск еталонного сценарію через DI | [ Відкрити `DipGoodExampleCommand.cs` (рядок 17)](DipGoodExampleCommand.cs) |
+| **Модуль еволюції** | **`DIP_IoC_DI_Evolution`** | Окрема папка архітектурного практикуму | [ Відкрити `README.md`](../DIP_IoC_DI_Evolution/README.md) |
+| **Еволюція (Практикум)**| **`DipEvolutionCommand`** | Повний ланцюжок: DIP -> Abstract Factory -> DI -> Container | [ Відкрити `DipEvolutionCommand.cs`](../DIP_IoC_DI_Evolution/DipEvolutionCommand.cs) |
+| **Базова лекція** | **`05_Dependency_Inversion_Principle.md`** | Академічна лекція з DIP | [ Читати лекцію](../Docs/05_Dependency_Inversion_Principle.md) |
+| **Глибокий практикум** | **`06_DIP_IoC_DI_Containers_DeepDive.md`** | Майстер-клас: DIP, IoC, Abstract Factory, DI, Lifetimes | [ Читати практикум](../Docs/06_DIP_IoC_DI_Containers_DeepDive.md) |
 
 ---
 
@@ -46,7 +46,7 @@
 
 ### 1.2. У чому полягає "Інверсія" (Inversion)?
 У класичному процедурному програмуванні або в поганому ООП потік залежностей іде зверху вниз:
-> **Бізнес-логіка ➔ Конкретна СУБД MySQL ➔ Драйвер файлової системи**
+> **Бізнес-логіка  Конкретна СУБД MySQL  Драйвер файлової системи**
 
 Якщо змінюється версія бази або ви вирішили перейти на хмарне сховище — вам доводиться переписувати бізнес-логіку!
 
@@ -178,18 +178,15 @@ public class UserServiceBad
 ```mermaid
 classDiagram
     class ILogger {
-        <<interface>>
-        +Log(string message)
+        <<interface>> +Log(string message)
     }
 
     class INotificationSender {
-        <<interface>>
-        +Send(recipient, subject, message)
+        <<interface>> +Send(recipient, subject, message)
     }
 
     class IUserRepository {
-        <<interface>>
-        +Save(userId, userData)
+        <<interface>> +Save(userId, userData)
     }
 
     class UserServiceGood {

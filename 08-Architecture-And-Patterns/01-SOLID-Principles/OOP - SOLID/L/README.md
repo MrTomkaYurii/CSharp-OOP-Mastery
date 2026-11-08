@@ -5,25 +5,25 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
+### Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`BirdBad`** | Базовий клас птаха з методом `Fly()` | [👉 Відкрити `BirdBad.cs` (рядок 10)](LSPBadExample/BirdBad.cs) |
-| ❌ **Порушення (Bad)** | **`OstrichBad`** | Страус: кидає `InvalidOperationException` | [👉 Відкрити `OstrichBad.cs` (рядок 9)](LSPBadExample/OstrichBad.cs) |
-| ❌ **Порушення (Bad)** | **`PenguinBad`** | Пінгвін: кидає `InvalidOperationException` | [👉 Відкрити `PenguinBad.cs` (рядок 9)](LSPBadExample/PenguinBad.cs) |
-| ❌ **Порушення (Bad)** | **`BirdSanctuaryBad`** | Заповідник: краш при спробі запуску | [👉 Відкрити `BirdSanctuaryBad.cs` (рядок 9)](LSPBadExample/BirdSanctuaryBad.cs) |
-| 🎮 **Демонстрація** | **`LspBadExampleCommand`** | Консольний запуск сценарію з крашем | [👉 Відкрити `LspBadExampleCommand.cs` (рядок 15)](LspBadExampleCommand.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`BirdGood`** | Спільний безпечний базовий клас (`Eat`, `Sleep`) | [👉 Відкрити `BirdGood.cs` (рядок 10)](LSPGoodExample/BirdGood.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`IFlyable`** | Окремий контракт польоту (`Fly`) | [👉 Відкрити `IFlyable.cs` (рядок 9)](LSPGoodExample/IFlyable.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`ISwimmable`** | Окремий контракт плавання (`Swim`) | [👉 Відкрити `ISwimmable.cs` (рядок 9)](LSPGoodExample/ISwimmable.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`SparrowGood`** | Горобець: реалізує `IFlyable` | [👉 Відкрити `SparrowGood.cs` (рядок 11)](LSPGoodExample/SparrowGood.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`EagleGood`** | Орел: реалізує `IFlyable` | [👉 Відкрити `EagleGood.cs` (рядок 11)](LSPGoodExample/EagleGood.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`PenguinGood`** | Пінгвін: плаває, не літає | [👉 Відкрити `PenguinGood.cs` (рядок 11)](LSPGoodExample/PenguinGood.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`OstrichGood`** | Страус: бігає, не літає | [👉 Відкрити `OstrichGood.cs` (рядок 11)](LSPGoodExample/OstrichGood.cs) |
-| ✅ **Еталон OCP/LSP (Good)** | **`BirdSanctuaryGood`** | Заповідник: безпечний поліморфізм | [👉 Відкрити `BirdSanctuaryGood.cs` (рядок 11)](LSPGoodExample/BirdSanctuaryGood.cs) |
-| 🎮 **Демонстрація** | **`LspGoodExampleCommand`** | Консольний запуск еталонного сценарію | [👉 Відкрити `LspGoodExampleCommand.cs` (рядок 17)](LspGoodExampleCommand.cs) |
-| 📚 **Повна лекція** | **`03_Liskov_Substitution_Principle.md`** | Академічна розширена лекція | [👉 Читати лекцію](../Docs/03_Liskov_Substitution_Principle.md) |
+| **Порушення (Bad)** | **`BirdBad`** | Базовий клас птаха з методом `Fly()` | [ Відкрити `BirdBad.cs` (рядок 10)](LSPBadExample/BirdBad.cs) |
+| **Порушення (Bad)** | **`OstrichBad`** | Страус: кидає `InvalidOperationException` | [ Відкрити `OstrichBad.cs` (рядок 9)](LSPBadExample/OstrichBad.cs) |
+| **Порушення (Bad)** | **`PenguinBad`** | Пінгвін: кидає `InvalidOperationException` | [ Відкрити `PenguinBad.cs` (рядок 9)](LSPBadExample/PenguinBad.cs) |
+| **Порушення (Bad)** | **`BirdSanctuaryBad`** | Заповідник: краш при спробі запуску | [ Відкрити `BirdSanctuaryBad.cs` (рядок 9)](LSPBadExample/BirdSanctuaryBad.cs) |
+| **Демонстрація** | **`LspBadExampleCommand`** | Консольний запуск сценарію з крашем | [ Відкрити `LspBadExampleCommand.cs` (рядок 15)](LspBadExampleCommand.cs) |
+| **Еталон OCP/LSP (Good)** | **`BirdGood`** | Спільний безпечний базовий клас (`Eat`, `Sleep`) | [ Відкрити `BirdGood.cs` (рядок 10)](LSPGoodExample/BirdGood.cs) |
+| **Еталон OCP/LSP (Good)** | **`IFlyable`** | Окремий контракт польоту (`Fly`) | [ Відкрити `IFlyable.cs` (рядок 9)](LSPGoodExample/IFlyable.cs) |
+| **Еталон OCP/LSP (Good)** | **`ISwimmable`** | Окремий контракт плавання (`Swim`) | [ Відкрити `ISwimmable.cs` (рядок 9)](LSPGoodExample/ISwimmable.cs) |
+| **Еталон OCP/LSP (Good)** | **`SparrowGood`** | Горобець: реалізує `IFlyable` | [ Відкрити `SparrowGood.cs` (рядок 11)](LSPGoodExample/SparrowGood.cs) |
+| **Еталон OCP/LSP (Good)** | **`EagleGood`** | Орел: реалізує `IFlyable` | [ Відкрити `EagleGood.cs` (рядок 11)](LSPGoodExample/EagleGood.cs) |
+| **Еталон OCP/LSP (Good)** | **`PenguinGood`** | Пінгвін: плаває, не літає | [ Відкрити `PenguinGood.cs` (рядок 11)](LSPGoodExample/PenguinGood.cs) |
+| **Еталон OCP/LSP (Good)** | **`OstrichGood`** | Страус: бігає, не літає | [ Відкрити `OstrichGood.cs` (рядок 11)](LSPGoodExample/OstrichGood.cs) |
+| **Еталон OCP/LSP (Good)** | **`BirdSanctuaryGood`** | Заповідник: безпечний поліморфізм | [ Відкрити `BirdSanctuaryGood.cs` (рядок 11)](LSPGoodExample/BirdSanctuaryGood.cs) |
+| **Демонстрація** | **`LspGoodExampleCommand`** | Консольний запуск еталонного сценарію | [ Відкрити `LspGoodExampleCommand.cs` (рядок 17)](LspGoodExampleCommand.cs) |
+| **Повна лекція** | **`03_Liskov_Substitution_Principle.md`** | Академічна розширена лекція | [ Читати лекцію](../Docs/03_Liskov_Substitution_Principle.md) |
 
 ---
 
@@ -123,8 +123,7 @@ void TestArea(Rectangle r)
 ```mermaid
 classDiagram
     class BirdBad {
-        <<abstract>>
-        +string Name
+        <<abstract>> +string Name
         +Eat()*
         +Fly()*
     }
@@ -214,21 +213,18 @@ public void MakeBirdsFly(List<BirdBad> birds)
 ```mermaid
 classDiagram
     class BirdGood {
-        <<abstract>>
-        +string Name
+        <<abstract>> +string Name
         +Eat()*
         +MakeSound()*
     }
 
     class IFlyable {
-        <<interface>>
-        +Fly()
+        <<interface>> +Fly()
         +GetMaxAltitude() int
     }
 
     class ISwimmable {
-        <<interface>>
-        +Swim()
+        <<interface>> +Swim()
     }
 
     class SparrowGood {

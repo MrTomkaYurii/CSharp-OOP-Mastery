@@ -6,21 +6,21 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів проєкту):
+### Швидка навігація до коду (Кнопки переходу до файлів проєкту):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`OrderProcessorBad`** | Монолітний God Object (валідація, БД, email, PDF, лог) | [👉 Відкрити `OrderProcessorBad.cs` (рядок 12)](../S/OrderProcessorBad.cs) |
-| 🎮 **Демонстрація** | **`SrpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [👉 Відкрити `SrpBadExampleCommand.cs` (рядок 15)](../S/SrpBadExampleCommand.cs) |
-| ✅ **Еталон SRP (Good)** | **`Order`** | Модель даних (Entity / DTO) | [👉 Відкрити `Order.cs` (рядок 11)](../S/SRPGoodExample/Order.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderValidator`** | Бізнес-правила перевірки замовлення | [👉 Відкрити `OrderValidator.cs` (рядок 11)](../S/SRPGoodExample/OrderValidator.cs) |
-| ✅ **Еталон SRP (Good)** | **`DiscountCalculator`** | Фінансові розрахунки знижок | [👉 Відкрити `DiscountCalculator.cs` (рядок 9)](../S/SRPGoodExample/DiscountCalculator.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderRepository`** | Персистентність (робота з базою даних) | [👉 Відкрити `OrderRepository.cs` (рядок 12)](../S/SRPGoodExample/OrderRepository.cs) |
-| ✅ **Еталон SRP (Good)** | **`EmailService`** | Форматування та надсилання сповіщень | [👉 Відкрити `EmailService.cs` (рядок 11)](../S/SRPGoodExample/EmailService.cs) |
-| ✅ **Еталон SRP (Good)** | **`ReportGenerator`** | Генерація друкованих документів та PDF | [👉 Відкрити `ReportGenerator.cs` (рядок 11)](../S/SRPGoodExample/ReportGenerator.cs) |
-| ✅ **Еталон SRP (Good)** | **`Logger`** | Системне логування та аудит | [👉 Відкрити `Logger.cs` (рядок 9)](../S/SRPGoodExample/Logger.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [👉 Відкрити `OrderProcessorGood.cs` (рядок 12)](../S/OrderProcessorGood.cs) |
-| 🎮 **Демонстрація** | **`SrpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [👉 Відкрити `SrpGoodExampleCommand.cs` (рядок 17)](../S/SrpGoodExampleCommand.cs) |
+| **Порушення (Bad)** | **`OrderProcessorBad`** | Монолітний God Object (валідація, БД, email, PDF, лог) | [ Відкрити `OrderProcessorBad.cs` (рядок 12)](../S/OrderProcessorBad.cs) |
+| **Демонстрація** | **`SrpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [ Відкрити `SrpBadExampleCommand.cs` (рядок 15)](../S/SrpBadExampleCommand.cs) |
+| **Еталон SRP (Good)** | **`Order`** | Модель даних (Entity / DTO) | [ Відкрити `Order.cs` (рядок 11)](../S/SRPGoodExample/Order.cs) |
+| **Еталон SRP (Good)** | **`OrderValidator`** | Бізнес-правила перевірки замовлення | [ Відкрити `OrderValidator.cs` (рядок 11)](../S/SRPGoodExample/OrderValidator.cs) |
+| **Еталон SRP (Good)** | **`DiscountCalculator`** | Фінансові розрахунки знижок | [ Відкрити `DiscountCalculator.cs` (рядок 9)](../S/SRPGoodExample/DiscountCalculator.cs) |
+| **Еталон SRP (Good)** | **`OrderRepository`** | Персистентність (робота з базою даних) | [ Відкрити `OrderRepository.cs` (рядок 12)](../S/SRPGoodExample/OrderRepository.cs) |
+| **Еталон SRP (Good)** | **`EmailService`** | Форматування та надсилання сповіщень | [ Відкрити `EmailService.cs` (рядок 11)](../S/SRPGoodExample/EmailService.cs) |
+| **Еталон SRP (Good)** | **`ReportGenerator`** | Генерація друкованих документів та PDF | [ Відкрити `ReportGenerator.cs` (рядок 11)](../S/SRPGoodExample/ReportGenerator.cs) |
+| **Еталон SRP (Good)** | **`Logger`** | Системне логування та аудит | [ Відкрити `Logger.cs` (рядок 9)](../S/SRPGoodExample/Logger.cs) |
+| **Еталон SRP (Good)** | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [ Відкрити `OrderProcessorGood.cs` (рядок 12)](../S/OrderProcessorGood.cs) |
+| **Демонстрація** | **`SrpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [ Відкрити `SrpGoodExampleCommand.cs` (рядок 17)](../S/SrpGoodExampleCommand.cs) |
 
 ---
 
@@ -108,9 +108,9 @@ SRP є основним практичним інструментом для о�
 ## 4. Детальний розбір навчального прикладу
 
 ### 4.1. Поганий приклад: порушення SRP
-> 🔗 **Файл:** [`OOP - SOLID/S/OrderProcessorBad.cs`](../S/OrderProcessorBad.cs)  
-> 👉 [**Відкрити `OrderProcessorBad.cs` у редакторі (рядок 12)**](../S/OrderProcessorBad.cs)  
-> 🎮 [**Запуск демонстрації: `SrpBadExampleCommand.cs` (рядок 15)**](../S/SrpBadExampleCommand.cs)
+> **Файл:** [`OOP - SOLID/S/OrderProcessorBad.cs`](../S/OrderProcessorBad.cs)  
+> [**Відкрити `OrderProcessorBad.cs` у редакторі (рядок 12)**](../S/OrderProcessorBad.cs)  
+> [**Запуск демонстрації: `SrpBadExampleCommand.cs` (рядок 15)**](../S/SrpBadExampleCommand.cs)
 
 Погляньмо на реалізацію методу [`ProcessOrder`](../S/OrderProcessorBad.cs) у монолітному класі:
 
@@ -157,19 +157,20 @@ public void ProcessOrder(string customerEmail, List<string> items, decimal total
 
 | № | Клас / Компонент | Зона відповідальності | Пряме посилання на код |
 |:---:|:---|:---|:---:|
-| 1 | **`Order`** | Модель даних та стан замовлення | [👉 `Order.cs`](../S/SRPGoodExample/Order.cs) |
-| 2 | **`OrderValidator`** | Перевірка коректності email, товарів та суми | [👉 `OrderValidator.cs`](../S/SRPGoodExample/OrderValidator.cs) |
-| 3 | **`DiscountCalculator`** | Фінансові правила розрахунку знижки | [👉 `DiscountCalculator.cs`](../S/SRPGoodExample/DiscountCalculator.cs) |
-| 4 | **`OrderRepository`** | Збереження та вибірка із сховища даних | [👉 `OrderRepository.cs`](../S/SRPGoodExample/OrderRepository.cs) |
-| 5 | **`EmailService`** | Форматування та надсилання поштових листів | [👉 `EmailService.cs`](../S/SRPGoodExample/EmailService.cs) |
-| 6 | **`ReportGenerator`** | Генерація PDF та текстових документів | [👉 `ReportGenerator.cs`](../S/SRPGoodExample/ReportGenerator.cs) |
-| 7 | **`Logger`** | Технічний аудит та системне логування | [👉 `Logger.cs`](../S/SRPGoodExample/Logger.cs) |
-| 8 | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [👉 `OrderProcessorGood.cs`](../S/OrderProcessorGood.cs) |
-| 🎮 | **`SrpGoodExampleCommand`** | Консольна команда запуску сценарію | [👉 `SrpGoodExampleCommand.cs`](../S/SrpGoodExampleCommand.cs) |
+| 1 | **`Order`** | Модель даних та стан замовлення | [ `Order.cs`](../S/SRPGoodExample/Order.cs) |
+| 2 | **`OrderValidator`** | Перевірка коректності email, товарів та суми | [ `OrderValidator.cs`](../S/SRPGoodExample/OrderValidator.cs) |
+| 3 | **`DiscountCalculator`** | Фінансові правила розрахунку знижки | [ `DiscountCalculator.cs`](../S/SRPGoodExample/DiscountCalculator.cs) |
+| 4 | **`OrderRepository`** | Збереження та вибірка із сховища даних | [ `OrderRepository.cs`](../S/SRPGoodExample/OrderRepository.cs) |
+| 5 | **`EmailService`** | Форматування та надсилання поштових листів | [ `EmailService.cs`](../S/SRPGoodExample/EmailService.cs) |
+| 6 | **`ReportGenerator`** | Генерація PDF та текстових документів | [ `ReportGenerator.cs`](../S/SRPGoodExample/ReportGenerator.cs) |
+| 7 | **`Logger`** | Технічний аудит та системне логування | [ `Logger.cs`](../S/SRPGoodExample/Logger.cs) |
+| 8 | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [ `OrderProcessorGood.cs`](../S/OrderProcessorGood.cs) |
+|
+| **`SrpGoodExampleCommand`** | Консольна команда запуску сценарію | [ `SrpGoodExampleCommand.cs`](../S/SrpGoodExampleCommand.cs) |
 
 #### Реалізація координатора ([OrderProcessorGood.cs](../S/OrderProcessorGood.cs)):
-> 🔗 **Файл:** [`OOP - SOLID/S/OrderProcessorGood.cs`](../S/OrderProcessorGood.cs)  
-> 👉 [**Відкрити `OrderProcessorGood.cs` у редакторі (рядок 49)**](../S/OrderProcessorGood.cs)
+> **Файл:** [`OOP - SOLID/S/OrderProcessorGood.cs`](../S/OrderProcessorGood.cs)  
+> [**Відкрити `OrderProcessorGood.cs` у редакторі (рядок 49)**](../S/OrderProcessorGood.cs)
 
 ```csharp
 // Посилання на файл: OOP - SOLID/S/OrderProcessorGood.cs (рядки 49-78)

@@ -5,22 +5,22 @@
 
 ---
 
-### 🧭 Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
+### Швидка навігація до коду (Кнопки переходу до файлів цієї теми):
 
 | Тип прикладу | Клас / Компонент | Роль в архітектурі | Посилання на вихідний код |
 | :--- | :--- | :--- | :---: |
-| ❌ **Порушення (Bad)** | **`OrderProcessorBad`** | Монолітний God Object (валідація, БД, email, PDF, лог) | [👉 Відкрити `OrderProcessorBad.cs` (рядок 12)](OrderProcessorBad.cs) |
-| 🎮 **Демонстрація** | **`SrpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [👉 Відкрити `SrpBadExampleCommand.cs` (рядок 15)](SrpBadExampleCommand.cs) |
-| ✅ **Еталон SRP (Good)** | **`Order`** | Модель даних (Entity / DTO) | [👉 Відкрити `Order.cs` (рядок 11)](SRPGoodExample/Order.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderValidator`** | Бізнес-правила перевірки замовлення | [👉 Відкрити `OrderValidator.cs` (рядок 11)](SRPGoodExample/OrderValidator.cs) |
-| ✅ **Еталон SRP (Good)** | **`DiscountCalculator`** | Фінансові розрахунки знижок | [👉 Відкрити `DiscountCalculator.cs` (рядок 9)](SRPGoodExample/DiscountCalculator.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderRepository`** | Персистентність (робота з базою даних) | [👉 Відкрити `OrderRepository.cs` (рядок 12)](SRPGoodExample/OrderRepository.cs) |
-| ✅ **Еталон SRP (Good)** | **`EmailService`** | Форматування та надсилання сповіщень | [👉 Відкрити `EmailService.cs` (рядок 11)](SRPGoodExample/EmailService.cs) |
-| ✅ **Еталон SRP (Good)** | **`ReportGenerator`** | Генерація друкованих документів та PDF | [👉 Відкрити `ReportGenerator.cs` (рядок 11)](SRPGoodExample/ReportGenerator.cs) |
-| ✅ **Еталон SRP (Good)** | **`Logger`** | Системне логування та аудит | [👉 Відкрити `Logger.cs` (рядок 9)](SRPGoodExample/Logger.cs) |
-| ✅ **Еталон SRP (Good)** | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [👉 Відкрити `OrderProcessorGood.cs` (рядок 12)](OrderProcessorGood.cs) |
-| 🎮 **Демонстрація** | **`SrpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [👉 Відкрити `SrpGoodExampleCommand.cs` (рядок 17)](SrpGoodExampleCommand.cs) |
-| 📚 **Повна лекція** | **`01_Single_Responsibility_Principle.md`** | Академічна розширена лекція | [👉 Читати лекцію](../Docs/01_Single_Responsibility_Principle.md) |
+| **Порушення (Bad)** | **`OrderProcessorBad`** | Монолітний God Object (валідація, БД, email, PDF, лог) | [ Відкрити `OrderProcessorBad.cs` (рядок 12)](OrderProcessorBad.cs) |
+| **Демонстрація** | **`SrpBadExampleCommand`** | Консольний запуск сценарію з порушенням | [ Відкрити `SrpBadExampleCommand.cs` (рядок 15)](SrpBadExampleCommand.cs) |
+| **Еталон SRP (Good)** | **`Order`** | Модель даних (Entity / DTO) | [ Відкрити `Order.cs` (рядок 11)](SRPGoodExample/Order.cs) |
+| **Еталон SRP (Good)** | **`OrderValidator`** | Бізнес-правила перевірки замовлення | [ Відкрити `OrderValidator.cs` (рядок 11)](SRPGoodExample/OrderValidator.cs) |
+| **Еталон SRP (Good)** | **`DiscountCalculator`** | Фінансові розрахунки знижок | [ Відкрити `DiscountCalculator.cs` (рядок 9)](SRPGoodExample/DiscountCalculator.cs) |
+| **Еталон SRP (Good)** | **`OrderRepository`** | Персистентність (робота з базою даних) | [ Відкрити `OrderRepository.cs` (рядок 12)](SRPGoodExample/OrderRepository.cs) |
+| **Еталон SRP (Good)** | **`EmailService`** | Форматування та надсилання сповіщень | [ Відкрити `EmailService.cs` (рядок 11)](SRPGoodExample/EmailService.cs) |
+| **Еталон SRP (Good)** | **`ReportGenerator`** | Генерація друкованих документів та PDF | [ Відкрити `ReportGenerator.cs` (рядок 11)](SRPGoodExample/ReportGenerator.cs) |
+| **Еталон SRP (Good)** | **`Logger`** | Системне логування та аудит | [ Відкрити `Logger.cs` (рядок 9)](SRPGoodExample/Logger.cs) |
+| **Еталон SRP (Good)** | **`OrderProcessorGood`** | Оркестратор процесу (Фасад) | [ Відкрити `OrderProcessorGood.cs` (рядок 12)](OrderProcessorGood.cs) |
+| **Демонстрація** | **`SrpGoodExampleCommand`** | Консольний запуск еталонного сценарію | [ Відкрити `SrpGoodExampleCommand.cs` (рядок 17)](SrpGoodExampleCommand.cs) |
+| **Повна лекція** | **`01_Single_Responsibility_Principle.md`** | Академічна розширена лекція | [ Читати лекцію](../Docs/01_Single_Responsibility_Principle.md) |
 
 ---
 
