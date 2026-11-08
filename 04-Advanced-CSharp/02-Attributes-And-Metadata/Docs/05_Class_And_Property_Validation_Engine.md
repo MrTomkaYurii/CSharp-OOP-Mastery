@@ -25,8 +25,8 @@ flowchart TD
     CheckProps --> Collect
     
     Collect --> Decision{"Чи є помилки?"}
-    Decision -->|Так| ReturnErrors["Повернення списку помилок: IsValid = false"]:::res
-    Decision -->|Ні| Success["Продовження обробки: IsValid = true"]
+    Decision -->|"Так"| ReturnErrors["Повернення списку помилок: IsValid = false"]:::res
+    Decision -->|"Ні"| Success["Продовження обробки: IsValid = true"]
 ```
 
 ---

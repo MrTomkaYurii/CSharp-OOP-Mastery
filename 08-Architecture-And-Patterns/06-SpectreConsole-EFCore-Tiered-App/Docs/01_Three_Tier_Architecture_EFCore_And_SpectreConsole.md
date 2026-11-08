@@ -16,11 +16,11 @@ flowchart TD
     UI["Presentation Layer (StoreApp.ConsoleUI)<br/>Spectre.Console (AnsiConsole.Prompt, Table)"]:::ui
     BLL["Business Logic Layer (StoreApp.BusinessLogic)<br/>OrderService : IOrderService"]:::bll
     DAL["Data Access Layer (StoreApp.DataAccess)<br/>OrderRepository : IOrderRepository, StoreDbContext"]:::dal
-    DB[(База даних SQLite)]:::dal
+    DB[("База даних SQLite")]:::dal
 
-    UI -->|Викликає CreateOrderAsync| BLL
-    BLL -->|Викликає AddAsync / SaveChangesAsync| DAL
-    DAL -->|SQL INSERT| DB
+    UI -->|"Викликає CreateOrderAsync"| BLL
+    BLL -->|"Викликає AddAsync / SaveChangesAsync"| DAL
+    DAL -->|"SQL INSERT"| DB
 ```
 
 ---

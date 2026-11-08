@@ -79,11 +79,11 @@ sequenceDiagram
     participant Heap as Керована Купа (Managed Heap)
 
     Note over Stack: GeoCoordinate coord = new(50.45, 30.52)<br/>(16 байт на стеку)
-    Stack->>CLR: object boxed = coord; (IL-інструкція: box)
+    Stack->>CLR: object boxed = coord (IL-інструкція box)
     CLR->>Heap: 1. Виділяє 32 байти в Купі (16 байт Header + 16 байт даних)
     CLR->>Heap: 2. Копіює байти полів Latitude та Longitude зі Стеку в Купу
     Heap-->>Stack: 3. Записує адресу створеного об'єкта в змінну boxed
-    Stack->>CLR: GeoCoordinate unboxed = (GeoCoordinate)boxed; (IL: unbox.any)
+    Stack->>CLR: GeoCoordinate unboxed = (GeoCoordinate)boxed (IL unbox.any)
     CLR->>Heap: 4. Перевіряє тотожність типу в MethodTable (інакше InvalidCastException)
     Heap-->>Stack: 5. Копіює 16 байт полів із Купи назад у локальну змінну на Стеку
 ```

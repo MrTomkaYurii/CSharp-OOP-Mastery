@@ -18,12 +18,12 @@
 sequenceDiagram
     autonumber
     participant App as Потік Застосунку (Main / ThreadPool)
-    participant Kernel as Ядро ОС / Мережева карта
+    participant Kernel as Ядро ОС / Дискова підсистема
     participant Pool as ThreadPool Worker
 
-    App->>Kernel: await httpClient.GetStringAsync(url)
+    App->>Kernel: await File.ReadAllTextAsync(filePath)
     Note over App: Метод повертає Task, потік повертається в пул!
-    Kernel->>Kernel: Передача TCP-пакетів через апаратне забезпечення
+    Kernel->>Kernel: Зчитування секторів диска контролером DMA
     Kernel-->>Pool: Сигнал I/O Completion Port (IOCP) про надходження байтів
     Pool->>Pool: Потік із пулу виконує наступні рядки коду після await
 ```
@@ -46,8 +46,8 @@ flowchart TD
     classDef run fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
     Start["Виклик асинхронного методу"]:::st --> Check{"task.IsCompleted == true?"}:::chk
-    Check -->|Так (Синхронно)| Next["Синхронне виконання без перемикання контексту"]:::run
-    Check -->|Ні (Асинхронно)| Hook["awaiter.UnsafeOnCompleted(MoveNext)"]:::st
+    Check -->|"Так (Синхронно)"| Next["Синхронне виконання без перемикання контексту"]:::run
+    Check -->|"Ні (Асинхронно)"| Hook["awaiter.UnsafeOnCompleted(MoveNext)"]:::st
     Hook --> ReturnTask["Повернення незавершеного Task тому, хто викликав"]:::st
     ReturnTask -.-> Complete["Сигнал завершення I/O -> ThreadPool викликає MoveNext()"]:::run
     Next --> End["Повернення результату"]:::run

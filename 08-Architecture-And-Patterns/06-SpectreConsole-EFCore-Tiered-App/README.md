@@ -25,12 +25,12 @@ flowchart TD
 
     subgraph DAL ["Шар доступу до даних (DataAccess)"]
         Repos["StoreApp.DataAccess<br/>StoreDbContext, IOrderRepository, Entity Framework Core"]:::dal
-        DB[(База даних SQLite / InMemory)]:::dal
+        DB[("База даних SQLite / InMemory")]:::dal
     end
 
-    ConsoleApp -->|Викликає інтерфейси сервісів| Services
-    Services -->|Викликає інтерфейси репозиторіїв| Repos
-    Repos -->|Виконує SQL / LINQ-запити| DB
+    ConsoleApp -->|"Викликає інтерфейси сервісів"| Services
+    Services -->|"Викликає інтерфейси репозиторіїв"| Repos
+    Repos -->|"Виконує SQL / LINQ-запити"| DB
 ```
 
 ---

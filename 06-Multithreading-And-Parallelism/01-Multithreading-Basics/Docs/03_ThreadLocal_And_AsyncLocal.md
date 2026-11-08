@@ -23,8 +23,8 @@ flowchart TD
     
     Await --> Switch{"Відновлення операції<br/>(Пул потоків обрав вільний Потік #2)"}
 
-    Switch -->|ThreadLocal<T>| Fail["ThreadLocal повертає NULL або значення іншого потоку!<br/>Контекст ВТРАЧЕНО!"]:::tl
-    Switch -->|AsyncLocal<T>| Success["AsyncLocal автоматично переніс значення в Потік #2<br/>через ExecutionContext! Контекст ЗБЕРЕЖЕНО!"]:::al
+    Switch -->|"ThreadLocal<T>"| Fail["ThreadLocal повертає NULL або значення іншого потоку!<br/>Контекст ВТРАЧЕНО!"]:::tl
+    Switch -->|"AsyncLocal<T>"| Success["AsyncLocal автоматично переніс значення в Потік #2<br/>через ExecutionContext! Контекст ЗБЕРЕЖЕНО!"]:::al
 ```
 
 ---

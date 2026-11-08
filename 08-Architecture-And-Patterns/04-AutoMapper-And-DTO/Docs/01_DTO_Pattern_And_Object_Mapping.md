@@ -17,7 +17,7 @@ flowchart LR
 
     UserEntity["User Entity (EF Core)<br/>- Id, Username<br/>- PasswordHash, Salt<br/>- Roles, RefreshToken"]:::ent
     
-    UserEntity -->|Мапінг без витоку секретів| UserDto["UserResponseDto<br/>- Id: int<br/>- Username: string<br/>- DisplayName: string"]:::dto
+    UserEntity -->|"Мапінг без витоку секретів"| UserDto["UserResponseDto<br/>- Id: int<br/>- Username: string<br/>- DisplayName: string"]:::dto
 ```
 
 ---

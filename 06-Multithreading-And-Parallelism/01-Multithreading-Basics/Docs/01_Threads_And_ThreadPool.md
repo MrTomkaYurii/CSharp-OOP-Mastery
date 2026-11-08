@@ -45,7 +45,7 @@ flowchart LR
         Worker2["Потік #2"]:::t2
     end
 
-    Worker2 -.->|Краде роботу (Work-Stealing)| LocalQ1
+    Worker2 -.->|"Краде роботу (Work-Stealing)"| LocalQ1
 ```
 
 ---

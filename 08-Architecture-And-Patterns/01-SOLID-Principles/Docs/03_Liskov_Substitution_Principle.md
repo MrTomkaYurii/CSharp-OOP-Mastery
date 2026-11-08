@@ -54,14 +54,14 @@ flowchart TD
 
     Call["Поліморфний виклик клієнта:<br/><b>Обробка колекції птахів</b>"]:::mainNode
 
-    Call -->|Порушення LSP: Ненадійні підтипи| Client1["foreach (BirdBad b in birds)<br/><b>b.Fly();</b>"]:::mainNode
+    Call -->|"Порушення LSP: Ненадійні підтипи"| Client1["foreach (BirdBad b in birds)<br/><b>b.Fly();</b>"]:::mainNode
     Client1 --> Sparrow1["SparrowBad.Fly()<br/>Успішний політ"]:::mainNode
     Client1 --> Ostrich1["OstrichBad.Fly()<br/><b>КРАХ ПРОГРАМИ!</b><br/>InvalidOperationException"]:::badStyle
 
-    Call -->|Дотримання LSP: Поведінкова сумісність| Client2["foreach (IFlyingBird b in flyingBirds)<br/><b>b.Fly();</b>"]:::mainNode
+    Call -->|"Дотримання LSP: Поведінкова сумісність"| Client2["foreach (IFlyingBird b in flyingBirds)<br/><b>b.Fly();</b>"]:::mainNode
     Client2 --> Sparrow2["SparrowGood.Fly()<br/>Гарантований безпечний політ"]:::goodStyle
 
-    Call -->|Спільна базова поведінка для всіх| Client3["foreach (IBird b in allBirds)<br/><b>b.Eat();</b>"]:::mainNode
+    Call -->|"Спільна базова поведінка для всіх"| Client3["foreach (IBird b in allBirds)<br/><b>b.Eat();</b>"]:::mainNode
     Client3 --> Penguin2["PenguinGood.Eat()<br/>Безпечне харчування для всіх птахів"]:::goodStyle
 ```
 

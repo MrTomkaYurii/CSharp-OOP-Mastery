@@ -47,7 +47,7 @@ flowchart TD
 
     subgraph Selection["Селекція: Where(Units > 0)"]
         P1 --> W1["Пройшов (39 > 0)"]
-        P2 -.->|Відкинуто| WD["X (Units == 0)"]
+        P2 -.->|"Відкинуто"| WD["X (Units == 0)"]
         P3 --> W3["Пройшов (13 > 0)"]
     end
 
@@ -101,10 +101,10 @@ var result = numbers.Where((num, index) => num < index);
 
 ```mermaid
 flowchart TD
-    Mixed["Колекція об'єктів: [ 1, 'текст', 3.14, 'hello', null ]"] --> Choice{Який метод використати?}
+    Mixed["Колекція об'єктів: [ 1, 'текст', 3.14, 'hello', null ]"] --> Choice{"Який метод використати?"}
 
-    Choice -->|Cast&lt;string&gt;()| CastOp["Жорстке приведення: (T)item"]
-    Choice -->|OfType&lt;string&gt;()| OfTypeOp["Безпечна фільтрація: item is T"]
+    Choice -->|"Cast&lt;string&gt;()"| CastOp["Жорстке приведення: (T)item"]
+    Choice -->|"OfType&lt;string&gt;()"| OfTypeOp["Безпечна фільтрація: item is T"]
 
     CastOp --> CastFail[" InvalidCastException при першому невідповідному типі (на числі 1)"]
     OfTypeOp --> OfTypeSuccess[" Повертає лише рядки: ['текст', 'hello'] (ігнорує числа та null)"]

@@ -20,7 +20,7 @@ flowchart TD
         Contexts["Збереження контексту<br/>ThreadLocal (TLS) проти AsyncLocal (ExecutionContext)"]:::mem
     end
 
-    OSThread -.->|Пул повторно використовує потоки ОС| TP
+    OSThread -.->|"Пул повторно використовує потоки ОС"| TP
     TP --> Inter
     TP --> Contexts
 ```

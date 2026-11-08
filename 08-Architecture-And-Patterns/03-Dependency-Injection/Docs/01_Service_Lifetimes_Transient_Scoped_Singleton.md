@@ -13,9 +13,9 @@ flowchart TD
     classDef sng fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
     Req["Запит сервісу: provider.GetRequiredService<T>()"] --> Switch{"Який Lifetime зареєстровано?"}
-    Switch -->|AddTransient| T["Transient:<br/>Кожен раз створюється абсолютно НОВИЙ об'єкт.<br/>Контейнер не кешує посилання."]:::trn
-    Switch -->|AddScoped| S["Scoped:<br/>ОДИН спільний екземпляр на межі поточного Scope.<br/>Повторні виклики повертають той самий екземпляр."]:::scp
-    Switch -->|AddSingleton| G["Singleton:<br/>ЄДИНИЙ об'єкт на весь час роботи процесу.<br/>Створюється ліниво при першому запиті."]:::sng
+    Switch -->|"AddTransient"| T["Transient:<br/>Кожен раз створюється абсолютно НОВИЙ об'єкт.<br/>Контейнер не кешує посилання."]:::trn
+    Switch -->|"AddScoped"| S["Scoped:<br/>ОДИН спільний екземпляр на межі поточного Scope.<br/>Повторні виклики повертають той самий екземпляр."]:::scp
+    Switch -->|"AddSingleton"| G["Singleton:<br/>ЄДИНИЙ об'єкт на весь час роботи процесу.<br/>Створюється ліниво при першому запиті."]:::sng
 ```
 
 ---

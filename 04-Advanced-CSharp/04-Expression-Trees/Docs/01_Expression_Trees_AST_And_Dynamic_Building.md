@@ -61,10 +61,10 @@ graph TD
     LeftNode["Left: ParameterExpression<br/><b>Name</b>: 'age'<br/><b>Type</b>: Int32"]
     RightNode["Right: ConstantExpression<br/><b>Value</b>: 18<br/><b>Type</b>: Int32"]
     
-    Root -->|Parameters| Params
-    Root -->|Body| Body
-    Body -->|Left Operand| LeftNode
-    Body -->|Right Operand| RightNode
+    Root -->|"Parameters"| Params
+    Root -->|"Body"| Body
+    Body -->|"Left Operand"| LeftNode
+    Body -->|"Right Operand"| RightNode
 ```
 
 ### 2.2. Ієрархія основних типів вузлів виразів
@@ -114,7 +114,7 @@ flowchart BT
     MulNode --> AddNode
     Const10 --> AddNode
     AddNode --> LambdaNode
-    ParamX -.->|Параметри лямбди| LambdaNode
+    ParamX -.->|"Параметри лямбди"| LambdaNode
 ```
 
 ### 3.2. Діаграма побудови умовного бізнес-правила (If-Then-Else)
@@ -138,9 +138,9 @@ graph TD
     DiscountRate["Константа: 0.90m"]
 
     RootLambda --> CondNode
-    CondNode -->|Test| TestExpr
-    CondNode -->|IfTrue| TrueBranch
-    CondNode -->|IfFalse| FalseBranch
+    CondNode -->|"Test"| TestExpr
+    CondNode -->|"IfTrue"| TrueBranch
+    CondNode -->|"IfFalse"| FalseBranch
     
     TestExpr --> RawCalc
     TestExpr --> Threshold

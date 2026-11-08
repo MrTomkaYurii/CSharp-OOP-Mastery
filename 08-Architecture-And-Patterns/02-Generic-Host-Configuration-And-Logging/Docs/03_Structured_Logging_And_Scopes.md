@@ -18,16 +18,16 @@ _logger.LogInformation("Користувач {UserId} оформив замов�
 
 ```mermaid
 flowchart TD
-    classDef call fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef callStyle fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
     classDef scope fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
     classDef prov fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
 
-    Call["Виклик: _logger.LogInformation(...)"]:::call --> Check{"Рівень повідомлення >= LogLevel фільтра?"}
-    Check -->|Ні| Drop["Повідомлення ігнорується (нульові витрати)"]
-    Check -->|Так| ScopeCheck{"Чи активний BeginScope?"}:::scope
+    Call["Виклик: _logger.LogInformation(...)"]:::callStyle --> Check{"Рівень повідомлення >= LogLevel фільтра?"}
+    Check -->|"Ні"| Drop["Повідомлення ігнорується (нульові витрати)"]
+    Check -->|"Так"| ScopeCheck{"Чи активний BeginScope?"}:::scope
 
-    ScopeCheck -->|Так| Enrich["Збагатити повідомлення метаданими Scope<br/>(TraceId, CorrelationId, CustomerId)"]:::scope
-    ScopeCheck -->|Ні| Pipeline["Передача в зареєстровані провайдери"]:::prov
+    ScopeCheck -->|"Так"| Enrich["Збагатити повідомлення метаданими Scope<br/>(TraceId, CorrelationId, CustomerId)"]:::scope
+    ScopeCheck -->|"Ні"| Pipeline["Передача в зареєстровані провайдери"]:::prov
 
     Enrich --> Pipeline
     Pipeline --> Cons["Console Logger"]:::prov

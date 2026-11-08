@@ -31,14 +31,14 @@
 flowchart TD
     subgraph AnyOp["Оператор Any(predicate) — Квантор існування (∃)"]
         A_In["Потік елементів"] --> A_Check{"Знайдено елемент, де predicate == true?"}
-        A_Check -->|Так| A_True["Негайно повертає TRUE (зупинка ітерації)"]
-        A_Check -->|Дійшов до кінця без знахідок| A_False["Повертає FALSE"]
+        A_Check -->|"Так"| A_True["Негайно повертає TRUE (зупинка ітерації)"]
+        A_Check -->|"Дійшов до кінця без знахідок"| A_False["Повертає FALSE"]
     end
 
     subgraph AllOp["Оператор All(predicate) — Квантор загальності (∀)"]
         All_In["Потік елементів"] --> All_Check{"Знайдено елемент, де predicate == false?"}
-        All_Check -->|Так| All_False["Негайно повертає FALSE (зупинка ітерації)"]
-        All_Check -->|Всі елементи задовольняють умову| All_True["Повертає TRUE"]
+        All_Check -->|"Так"| All_False["Негайно повертає FALSE (зупинка ітерації)"]
+        All_Check -->|"Всі елементи задовольняють умову"| All_True["Повертає TRUE"]
     end
 ```
 
@@ -109,13 +109,13 @@ var user = dbContext.Users.SingleOrDefault(u => u.Email == email);
 
 ```mermaid
 flowchart TD
-    Stream["Лінивий потік IEnumerable<T>"] --> Choice{У яку структуру матеріалізувати?}
+    Stream["Лінивий потік IEnumerable<T>"] --> Choice{"У яку структуру матеріалізувати?"}
 
-    Choice -->|ToList()| List["List<T>\nДинамічний масив (подвоєння пам'яті)"]
-    Choice -->|ToArray()| Arr["T[]\nФіксований компактний масив"]
-    Choice -->|ToDictionary()| Dict["Dictionary<TKey, TValue>\nХеш-індекс за унікальним ключем"]
-    Choice -->|ToHashSet()| Set["HashSet<T>\nМножина унікальних значень O(1)"]
-    Choice -->|ToLookup()| Look["ILookup<TKey, TElement>\nНезмінний індекс 1:N (мультисловник)"]
+    Choice -->|"ToList()"| List["List&lt;T&gt;<br/>Динамічний масив (подвоєння пам'яті)"]
+    Choice -->|"ToArray()"| Arr["T[]<br/>Фіксований компактний масив"]
+    Choice -->|"ToDictionary()"| Dict["Dictionary&lt;TKey, TValue&gt;<br/>Хеш-індекс за унікальним ключем"]
+    Choice -->|"ToHashSet()"| Set["HashSet&lt;T&gt;<br/>Множина унікальних значень O(1)"]
+    Choice -->|"ToLookup()"| Look["ILookup&lt;TKey, TElement&gt;<br/>Незмінний індекс 1:N (мультисловник)"]
 ```
 
 ### Пастка подвоєння пам'яті та LOH (Large Object Heap):
@@ -178,7 +178,7 @@ flowchart TD
     A["Послідовність A: [ 1, 2, 3 ]"]
     B["Послідовність B: [ 'A', 'B', 'C' ]"]
 
-    A & B -->|"A.Zip(B, (a, b) => $"{a}-{b}")"| Z["Zip Результат: [ '1-A', '2-B', '3-C' ]"]
+    A & B -->|"A.Zip(B, (a, b) => $'{a}-{b}')"| Z["Zip Результат: [ '1-A', '2-B', '3-C' ]"]
 ```
 
 * **Правило коротшої послідовності:** Якщо одна послідовність довша за іншу, `Zip` зупиняється, як тільки закінчується коротша з них.

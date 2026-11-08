@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -36,7 +36,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EX_04_async_await", "EX_04_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-ReturnAValueFromTask-Console", "03-ReturnAValueFromTask-Console\03-ReturnAValueFromTask-Console.csproj", "{C6104A21-4B49-5D2A-8124-9BCE8C412966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-ReturnAValueFromTask-API", "03-ReturnAValueFromTask-API\03-ReturnAValueFromTask-API.csproj", "{14640EFD-6B2C-5D6F-BE41-50C872CC792E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-ReturnAValueFromTask-FileProcessing", "03-ReturnAValueFromTask-FileProcessing\03-ReturnAValueFromTask-FileProcessing.csproj", "{14640EFD-6B2C-5D6F-BE41-50C872CC792E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-ReturnComplexTypeValueFromАTask", "03-ReturnComplexTypeValueFromАTask\03-ReturnComplexTypeValueFromАTask.csproj", "{BB430BFE-BA38-5E0C-8ED3-520080CD85DB}"
 EndProject

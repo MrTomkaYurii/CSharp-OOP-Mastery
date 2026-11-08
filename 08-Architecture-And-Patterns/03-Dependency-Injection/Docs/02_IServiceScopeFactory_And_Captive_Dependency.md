@@ -11,7 +11,7 @@ flowchart TD
     classDef bad fill:#dc2626,stroke:#f87171,color:#ffffff,stroke-width:2px;
     classDef good fill:#16a34a,stroke:#4ade80,color:#ffffff,stroke-width:2px;
 
-    Singleton["Singleton Service<br/>(Живе весь час процесу)"]:::bad -->|Приймає через конструктор| Captive["Scoped Service (DbContext)!<br/>(Мав жити лише один запит)"]:::bad
+    Singleton["Singleton Service<br/>(Живе весь час процесу)"]:::bad -->|"Приймає через конструктор"| Captive["Scoped Service (DbContext)!<br/>(Мав жити лише один запит)"]:::bad
     
     Captive --> Bug1["1. Витік пам'яті: ChangeTracker ніколи не очищується"]:::bad
     Captive --> Bug2["2. Застарілі дані: сутності закешовані назавжди"]:::bad

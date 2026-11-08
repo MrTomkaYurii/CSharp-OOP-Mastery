@@ -106,10 +106,10 @@ var query = from p in products
 
 ```mermaid
 flowchart LR
-    Source["Джерело даних"] --> Choice{Що вибрати?}
+    Source["Джерело даних"] --> Choice{"Що вибрати?"}
 
-    Choice -->|GroupBy(key)| GB["IEnumerable&lt;IGrouping&lt;K, V&gt;&gt;"]
-    Choice -->|ToLookup(key)| TL["ILookup&lt;K, V&gt; (Lookup&lt;K, V&gt;)"]
+    Choice -->|"GroupBy(key)"| GB["IEnumerable&lt;IGrouping&lt;K, V&gt;&gt;"]
+    Choice -->|"ToLookup(key)"| TL["ILookup&lt;K, V&gt; (Lookup&lt;K, V&gt;)"]
 
     GB --> GB_Prop["• Відкладене виконання (Deferred)\n• Результати НЕ кешуються при повторному обході\n• Немає швидкого індексатора [key]"]
     TL --> TL_Prop["• Негайне виконання (Immediate)\n• Незмінна структура даних у Heap (Кеш)\n• Швидкий O(1) доступ: lookup[key]\n• Якщо ключа немає — повертає empty, без винятків!"]

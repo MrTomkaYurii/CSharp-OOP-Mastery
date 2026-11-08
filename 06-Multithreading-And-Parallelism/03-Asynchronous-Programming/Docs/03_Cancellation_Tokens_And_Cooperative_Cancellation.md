@@ -31,15 +31,14 @@ sequenceDiagram
 ## 2. Практичний шаблон реалізації
 
 ```csharp
-public async Task DownloadFileAsync(string url, CancellationToken ct = default)
+public async Task ProcessDataFileAsync(string filePath, CancellationToken ct = default)
 {
-    using var client = new HttpClient();
-    
-    // Передаємо токен скасування у всі внутрішні асинхронні API
-    using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
-    
-    // Ручна перевірка в довготривалих циклах
-    while (hasMoreData)
+    using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true);
+    using var reader = new StreamReader(stream);
+
+    string? line;
+    // Передаємо токен скасування у внутрішні асинхронні виклики
+    while ((line = await reader.ReadLineAsync(ct)) != null)
     {
         ct.ThrowIfCancellationRequested(); // Кине OperationCanceledException, якщо Cancel() викликано
         // Обробка чергової порції даних...

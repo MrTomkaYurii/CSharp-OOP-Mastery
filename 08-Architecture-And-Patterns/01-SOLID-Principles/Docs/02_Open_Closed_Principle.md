@@ -52,10 +52,10 @@ flowchart TD
 
     Req["Нова вимога бізнесу:<br/><b>Додати підтримку оплати Crypto</b>"]:::mainNode
 
-    Req -->|Шлях антипатерну: Порушення OCP| ModCore["Редагування PaymentProcessorBad.cs<br/>(Дописування нового case до switch)"]:::badBox
+    Req -->|"Шлях антипатерну: Порушення OCP"| ModCore["Редагування PaymentProcessorBad.cs<br/>(Дописування нового case до switch)"]:::badBox
     ModCore --> Risk["Ризик регресійного збою:<br/>Випадкове пошкодження логіки CreditCard чи PayPal.<br/>Необхідність повного повторного тестування класу"]:::badBox
 
-    Req -->|Шлях архітектури: Дотримання OCP| NewClass["Створення нового класу CryptoPayment.cs<br/>(Реалізує контракт IPaymentMethod)"]:::goodBox
+    Req -->|"Шлях архітектури: Дотримання OCP"| NewClass["Створення нового класу CryptoPayment.cs<br/>(Реалізує контракт IPaymentMethod)"]:::goodBox
     NewClass --> Safe["Безпека та стабільність:<br/>Ядро PaymentProcessorGood залишається недоторканим.<br/>Нульовий ризик зламати наявні платіжні методи"]:::goodBox
 ```
 

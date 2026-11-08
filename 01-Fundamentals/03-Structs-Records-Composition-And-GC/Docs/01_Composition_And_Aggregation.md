@@ -64,8 +64,7 @@ sequenceDiagram
     Note right of Ord: Order зберігає посилання на існуючий Customer
     Main->>Ord: order.AddItem("Клавіатура", 1, 3500m)
     Ord->>Item: new OrderLineItem(...) (створюється всередині!)
-    Main->>Ord: order = null (замовлення скасовано / знищено)
-    Destroy Ord
+    Main-xOrd: order = null (замовлення скасовано / знищено)
     Note over Ord,Item: OrderLineItem втрачає єдине посилання і збирається GC разом з Order
     Main->>Cust: Console.WriteLine(customer.FullName)
     Note right of Cust: Customer продовжує жити незалежно від Order!

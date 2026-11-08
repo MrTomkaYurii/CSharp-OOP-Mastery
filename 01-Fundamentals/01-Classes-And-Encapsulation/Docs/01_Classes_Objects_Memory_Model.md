@@ -24,7 +24,7 @@ flowchart LR
         heapObj["Об'єкт BankAccount в 0x00FF4A<br/>-----------------------------<br/>SyncBlockIndex (8 байт)<br/>TypeHandle (8 байт)<br/>_balance = 100m (16 байт)"]
     end
 
-    refVar -->|Вказує на адресу в купі| heapObj
+    refVar -->|"Вказує на адресу в купі"| heapObj
 ```
 
 ### Як це працює в коді:

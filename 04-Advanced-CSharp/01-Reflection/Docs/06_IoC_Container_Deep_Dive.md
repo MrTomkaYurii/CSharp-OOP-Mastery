@@ -79,7 +79,7 @@ graph TD
     OrderService --> IOrderRepository["IOrderRepository (Transient)"]
     OrderService --> IPaymentService["IPaymentService (Transient)"]
     OrderService --> ILogger["ILogger (Singleton)"]
-    OrderService -.->|Property Injection| INotificationService["INotificationService (Transient)"]
+    OrderService -.->|"Property Injection"| INotificationService["INotificationService (Transient)"]
 
     IProductRepository --> IDatabaseContext
     IProductRepository --> ILogger

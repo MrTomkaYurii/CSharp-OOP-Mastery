@@ -12,7 +12,7 @@ flowchart LR
     classDef map fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
     classDef dto fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
-    DB[(База даних)] --> EF["Entity Framework Models<br/>(User, Order, PasswordHash)"]:::ent
+    DB[("База даних")] --> EF["Entity Framework Models<br/>(User, Order, PasswordHash)"]:::ent
     EF --> Mapper["AutoMapper Profile<br/>(Трансформація, маскування, сплющення)"]:::map
     Mapper --> DTO["Data Transfer Objects (DTO)<br/>(UserResponseDto, OrderSummaryDto)"]:::dto
     DTO --> API["UI / API / Зовнішні клієнти"]

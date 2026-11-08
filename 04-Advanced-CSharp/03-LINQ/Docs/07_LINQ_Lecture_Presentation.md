@@ -77,9 +77,9 @@ flowchart LR
 ```mermaid
 flowchart TD
     LINQ["LINQ Запит: .Where(x => x.Price > 100)"]
-    LINQ -->|IEnumerable&lt;T&gt;| L2O["LINQ to Objects\n(Делегати в пам'яті C#)"]
-    LINQ -->|IQueryable&lt;T&gt;| EF["LINQ to Entities (EF Core)\n(Генерація SQL: WHERE Price > 100)"]
-    LINQ -->|XElement| XML["LINQ to XML\n(Фільтрація DOM-вузлів XML)"]
+    LINQ -->|"IEnumerable&lt;T&gt;"| L2O["LINQ to Objects\n(Делегати в пам'яті C#)"]
+    LINQ -->|"IQueryable&lt;T&gt;"| EF["LINQ to Entities (EF Core)\n(Генерація SQL: WHERE Price > 100)"]
+    LINQ -->|"XElement"| XML["LINQ to XML\n(Фільтрація DOM-вузлів XML)"]
 ```
 
 #### 2. Посилання на код у репозиторії
@@ -177,9 +177,9 @@ var m = products.Where(p => p.UnitPrice > 20).Select(p => p.ProductName);
 
 ```mermaid
 flowchart TD
-    A["Створення: var q = list.Where(...)"] -->|Deferred| B["Нічого не відбувається в пам'яті!"]
+    A["Створення: var q = list.Where(...)"] -->|"Deferred"| B["Нічого не відбувається в пам'яті!"]
     B --> C["Цикл foreach або .ToList()"]
-    C -->|Виконання| D["Реальне виконання обчислень"]
+    C -->|"Виконання"| D["Реальне виконання обчислень"]
 ```
 
 #### 2. Посилання на код у репозиторії
@@ -206,7 +206,7 @@ flowchart LR
     subgraph Buffering["Buffering (OrderBy)"]
         B1["Item 1"] --> Buf["Буфер пам'яті O(N)"]
         B2["Item 2"] --> Buf
-        Buf -->|Сортування| Sorted["Впорядкований вивід"]
+        Buf -->|"Сортування"| Sorted["Впорядкований вивід"]
     end
 ```
 
@@ -250,7 +250,7 @@ var numbersOnly = mixed.OfType<int>(); // Результат: [42, 100]
 
 ```mermaid
 flowchart LR
-    A["Product: { ID=1, Name='Чай', Price=50, Stock=100 }"] -->|Select| B["DTO: { Name='Чай', Price=50 }"]
+    A["Product: { ID=1, Name='Чай', Price=50, Stock=100 }"] -->|"Select"| B["DTO: { Name='Чай', Price=50 }"]
 ```
 
 #### 2. Посилання на код у репозиторії
@@ -510,8 +510,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    AnyCheck["any.Any()"] -->|Один елемент є?| Yes["true (Миттєво зупинився)"]
-    CountCheck["any.Count() > 0"] -->|Рахує 1... 2... 1 000 000| Slow["Пройшов весь мільйон елементів!"]
+    AnyCheck["any.Any()"] -->|"Один елемент є?"| Yes["true (Миттєво зупинився)"]
+    CountCheck["any.Count() > 0"] -->|"Рахує 1... 2... 1 000 000"| Slow["Пройшов весь мільйон елементів!"]
 ```
 
 #### 2. Посилання на код у репозиторії
@@ -579,8 +579,8 @@ flowchart LR
 flowchart TD
     Sup["Постачальник: Японія"] --> GJ["GroupJoin клієнтів Японії"]
     GJ --> Cond{Є клієнти?}
-    Cond -->|Так| RetRows["Вивід пар (Постачальник, Клієнт)"]
-    Cond -->|Ні| Def["DefaultIfEmpty() -> null"]
+    Cond -->|"Так"| RetRows["Вивід пар (Постачальник, Клієнт)"]
+    Cond -->|"Ні"| Def["DefaultIfEmpty() -> null"]
     Def --> NullRow["Вивід: (Постачальник, '(No customers)')"]
 ```
 

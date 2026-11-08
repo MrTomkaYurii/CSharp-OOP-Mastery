@@ -11,9 +11,9 @@ flowchart TD
 
     TaskType{"Який тип операції?"}
     
-    TaskType -->|CPU-Bound: важка математика, зображення| CPU["Паралелізм обчислень<br/>PLINQ (AsParallel), Parallel.For<br/>Обмежений кількістю фізичних ядер CPU"]:::cpu
+    TaskType -->|"CPU-Bound: важка математика, зображення"| CPU["Паралелізм обчислень<br/>PLINQ (AsParallel), Parallel.For<br/>Обмежений кількістю фізичних ядер CPU"]:::cpu
     
-    TaskType -->|I/O-Bound: HTTP, База даних, Диск| IO["Асинхронний паралелізм<br/>Parallel.ForEachAsync, Task.WhenAll<br/>Може виконувати сотні запитів без блокування потоків"]:::io
+    TaskType -->|"I/O-Bound: HTTP, База даних, Диск"| IO["Асинхронний паралелізм<br/>Parallel.ForEachAsync, Task.WhenAll<br/>Може виконувати сотні запитів без блокування потоків"]:::io
 ```
 
 ---

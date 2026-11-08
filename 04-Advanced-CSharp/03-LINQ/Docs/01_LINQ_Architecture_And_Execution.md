@@ -52,10 +52,10 @@ flowchart TD
     Query --> Compiler["Компілятор Roslyn (Децукрування & Перевірка типів)"]
     Method --> Compiler
 
-    Compiler -->|LINQ to Objects| L2O["IEnumerable&lt;T&gt; (In-Memory delegates, IL)"]
-    Compiler -->|LINQ to Entities / SQL| L2E["IQueryable&lt;T&gt; (Expression Trees -> SQL)"]
-    Compiler -->|LINQ to XML| L2X["XElement, XDocument (In-Memory Tree)"]
-    Compiler -->|Parallel LINQ| PLINQ["ParallelQuery&lt;T&gt; (Багатопотоковий розпаралелений рушій)"]
+    Compiler -->|"LINQ to Objects"| L2O["IEnumerable&lt;T&gt; (In-Memory delegates, IL)"]
+    Compiler -->|"LINQ to Entities / SQL"| L2E["IQueryable&lt;T&gt; (Expression Trees -> SQL)"]
+    Compiler -->|"LINQ to XML"| L2X["XElement, XDocument (In-Memory Tree)"]
+    Compiler -->|"Parallel LINQ"| PLINQ["ParallelQuery&lt;T&gt; (Багатопотоковий розпаралелений рушій)"]
 ```
 
 > **Ключовий висновок:**  
@@ -264,8 +264,8 @@ stateDiagram-v2
 flowchart TD
     LINQ["Виклик LINQ-виразу"] --> ReturnType{Що повертає оператор?}
 
-    ReturnType -->|IEnumerable&lt;T&gt; / IOrderedEnumerable&lt;T&gt;| Deferred["Відкладене виконання (Deferred Execution)"]
-    ReturnType -->|Скаляр, bool, int, T, List, Dictionary, Array| Immediate["Негайне виконання (Immediate Execution)"]
+    ReturnType -->|"IEnumerable&lt;T&gt; / IOrderedEnumerable&lt;T&gt;"| Deferred["Відкладене виконання (Deferred Execution)"]
+    ReturnType -->|"Скаляр, bool, int, T, List, Dictionary, Array"| Immediate["Негайне виконання (Immediate Execution)"]
 
     Deferred --> DefBehavior["Будується лише об'єкт запиту (план).\nЖодної ітерації по даних НЕ відбувається!"]
     Immediate --> ImmBehavior["Запит виконується НЕГАЙНО на місці.\nДані проганяються через конвеєр і матеріалізуються."]
@@ -296,14 +296,14 @@ flowchart TD
 flowchart LR
     subgraph Streaming["1. Потокові оператори (Streaming / Lazy)"]
         S_In["Вхідний потік [1, 2, 3...]"] --> S_Filter["Where / Select"]
-        S_Filter -->|Обробка по 1 елементу| S_Out["Вихідний потік [1, 2, 3...]"]
+        S_Filter -->|"Обробка по 1 елементу"| S_Out["Вихідний потік [1, 2, 3...]"]
         Note1["Пам'ять: O(1) константна!"]
     end
 
     subgraph Buffering["2. Буферизуючі оператори (Buffering / Eager)"]
         B_In["Вхідний потік [4, 1, 3...]"] --> B_Buf["OrderBy / GroupBy / Reverse"]
-        B_Buf -->|Зчитує ВСІ елементи в масив| B_Mem["Внутрішній масив у Heap"]
-        B_Mem -->|Сортування / Хешування| B_Out["Вихідний відсортований потік"]
+        B_Buf -->|"Зчитує ВСІ елементи в масив"| B_Mem["Внутрішній масив у Heap"]
+        B_Mem -->|"Сортування / Хешування"| B_Out["Вихідний відсортований потік"]
         Note2["Пам'ять: O(N) пропорційна обсягу даних!"]
     end
 ```

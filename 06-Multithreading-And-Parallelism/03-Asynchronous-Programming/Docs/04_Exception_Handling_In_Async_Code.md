@@ -32,11 +32,11 @@ graph TD
 ```csharp
 try
 {
-    await FailingMethodAsync();
+    await ReadConfigurationFileAsync("missing_settings.json");
 }
-catch (HttpRequestException ex) // Працює напряму без AggregateException!
+catch (FileNotFoundException ex) // Працює напряму без AggregateException!
 {
-    Console.WriteLine($"Перехоплено мережеву помилку: {ex.Message}");
+    Console.WriteLine($"Перехоплено помилку відсутності файлу: {ex.Message}");
 }
 ```
 

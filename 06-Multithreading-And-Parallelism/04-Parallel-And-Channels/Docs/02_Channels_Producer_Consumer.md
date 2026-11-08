@@ -17,16 +17,16 @@ flowchart LR
     classDef chan fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
     classDef cons fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
-    P1["Producer #1 (Web API)"]:::prod -->|WriteAsync| Writer["ChannelWriter<T>"]:::chan
-    P2["Producer #2 (Worker)"]:::prod -->|WriteAsync| Writer
+    P1["Producer #1 (Web API)"]:::prod -->|"WriteAsync"| Writer["ChannelWriter<T>"]:::chan
+    P2["Producer #2 (Worker)"]:::prod -->|"WriteAsync"| Writer
     
     subgraph ChannelBuffer ["Буфер Каналу (Bounded / Unbounded)"]
         Writer --> Queue["Черга повідомлень у пам'яті"]:::chan
         Queue --> Reader["ChannelReader<T>"]:::chan
     end
 
-    Reader -->|ReadAllAsync| C1["Consumer #1 (DB Writer)"]:::cons
-    Reader -->|ReadAllAsync| C2["Consumer #2 (Metrics)"]:::cons
+    Reader -->|"ReadAllAsync"| C1["Consumer #1 (DB Writer)"]:::cons
+    Reader -->|"ReadAllAsync"| C2["Consumer #2 (Metrics)"]:::cons
 ```
 
 ---

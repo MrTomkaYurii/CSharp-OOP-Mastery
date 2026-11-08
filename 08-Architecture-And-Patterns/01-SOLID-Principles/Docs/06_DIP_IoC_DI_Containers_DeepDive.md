@@ -63,10 +63,10 @@ flowchart TD
     L3["3. DI (Шаблон проектування)<br/>Залежності передаються ззовні у конструктор (PUSH замість PULL)"]:::diStyle
     L4["4. IoC Container (Інструмент автоматизації)<br/>Рефлексія, автоматичний граф залежностей, керування Lifetimes"]:::contStyle
 
-    L0 -->|Крок 1: Вводимо абстракції| L1
-    L1 -->|Крок 2: Інвертуємо керування створенням| L2
-    L2 -->|Крок 3: Передаємо готові об'єкти ззовні| L3
-    L3 -->|Крок 4: Автоматизуємо створення сотень класів| L4
+    L0 -->|"Крок 1: Вводимо абстракції"| L1
+    L1 -->|"Крок 2: Інвертуємо керування створенням"| L2
+    L2 -->|"Крок 3: Передаємо готові об'єкти ззовні"| L3
+    L3 -->|"Крок 4: Автоматизуємо створення сотень класів"| L4
 ```
 
 | Критерій порівняння | DIP (Принцип інверсії) | IoC (Інверсія контролю) | DI (Впровадження залежностей) | IoC Container (Контейнер) |
@@ -120,12 +120,12 @@ flowchart TD
     classDef contract fill:#1e293b,stroke:#64748b,color:#ffffff,stroke-width:2px;
 
     subgraph BeforeDIP["До DIP: Пряма залежність зверху вниз"]
-        UserBad["UserService (Високий рівень)"]:::bad -->|прямий new| SqlBad["MySqlDatabase (Низький рівень)"]:::bad
+        UserBad["UserService (Високий рівень)"]:::bad -->|"прямий new"| SqlBad["MySqlDatabase (Низький рівень)"]:::bad
     end
 
     subgraph AfterDIP["Після DIP: Обидва модулі дивляться на контракт"]
-        UserGood["UserService (Високий рівень)"]:::good -->|використовує| IRepo["<<interface>> IUserRepository (Контракт)"]:::contract
-        SqlGood["MySqlUserRepository (Деталь)"]:::good -.->|реалізує контракт| IRepo
+        UserGood["UserService (Високий рівень)"]:::good -->|"використовує"| IRepo["<<interface>> IUserRepository (Контракт)"]:::contract
+        SqlGood["MySqlUserRepository (Деталь)"]:::good -.->|"реалізує контракт"| IRepo
     end
 ```
 
@@ -228,13 +228,13 @@ flowchart LR
     classDef pushStyle fill:#1e40af,stroke:#3b82f6,color:#ffffff,stroke-width:2px;
 
     subgraph PullModel["Модель PULL (Abstract Factory)"]
-        UserPull["UserService"]:::pullStyle -->|1. Викликай CreateRepo()| Factory["IInfrastructureFactory"]:::pullStyle
-        Factory -.->|2. Поверни екземпляр| UserPull
+        UserPull["UserService"]:::pullStyle -->|"1. Викликай CreateRepo()"| Factory["IInfrastructureFactory"]:::pullStyle
+        Factory -.->|"2. Поверни екземпляр"| UserPull
     end
 
     subgraph PushModel["Модель PUSH (Dependency Injection)"]
-        Root["Composition Root<br/>(Зовнішній викликач)"]:::pushStyle -->|1. Створив repo| Repo["MySqlRepo"]:::pushStyle
-        Root -->|2. Впорснув у конструктор| UserPush["UserService(repo)"]:::pushStyle
+        Root["Composition Root<br/>(Зовнішній викликач)"]:::pushStyle -->|"1. Створив repo"| Repo["MySqlRepo"]:::pushStyle
+        Root -->|"2. Впорснув у конструктор"| UserPush["UserService(repo)"]:::pushStyle
     end
 ```
 
@@ -356,14 +356,14 @@ flowchart TD
     Scoped["<b>Scoped</b> (AddScoped)<br/>Один екземпляр у межах одного Scope (HTTP-запиту)"]:::scopeStyle
     Singleton["<b>Singleton</b> (AddSingleton)<br/>Єдиний екземпляр на весь життєвий цикл додатку"]:::singleStyle
 
-    Transient -->|Запит 1| T1["Об'єкт #1 (Id: aaa)"]:::transStyle
-    Transient -->|Запит 2| T2["Об'єкт #2 (Id: bbb)"]:::transStyle
+    Transient -->|"Запит 1"| T1["Об'єкт #1 (Id: aaa)"]:::transStyle
+    Transient -->|"Запит 2"| T2["Об'єкт #2 (Id: bbb)"]:::transStyle
 
-    Scoped -->|Scope A - Запит 1| SA["Об'єкт #A (Id: ccc)"]:::scopeStyle
-    Scoped -->|Scope A - Запит 2| SA
-    Scoped -->|Scope B - Запит 3| SB["Об'єкт #B (Id: ddd)"]:::scopeStyle
+    Scoped -->|"Scope A - Запит 1"| SA["Об'єкт #A (Id: ccc)"]:::scopeStyle
+    Scoped -->|"Scope A - Запит 2"| SA
+    Scoped -->|"Scope B - Запит 3"| SB["Об'єкт #B (Id: ddd)"]:::scopeStyle
 
-    Singleton -->|Будь-який Scope, будь-який запит| S1["Об'єкт #1 (Id: eee)"]:::singleStyle
+    Singleton -->|"Будь-який Scope, будь-який запит"| S1["Об'єкт #1 (Id: eee)"]:::singleStyle
 ```
 
 ### Практичний доказ у коді [`LifetimesDemo.cs`](../OOP%20-%20SOLID/DIP_IoC_DI_Evolution/Step4_IoCContainer/DotNetContainer/LifetimesDemo.cs):

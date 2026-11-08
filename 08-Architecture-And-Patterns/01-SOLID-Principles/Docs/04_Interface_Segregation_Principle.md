@@ -59,10 +59,10 @@ flowchart TD
 
     Client["Клієнтський код:<br/><b>Потребує виключно функції друку документів</b>"]:::mainNode
 
-    Client -->|Порушення ISP: Товстий монолітний контракт| FatCase["SimplePrinterBad залежить від IMultiFunctionDevice"]:::badStyle
+    Client -->|"Порушення ISP: Товстий монолітний контракт"| FatCase["SimplePrinterBad залежить від IMultiFunctionDevice"]:::badStyle
     FatCase --> FatFail["Змушений реалізовувати зайві Scan, Fax, Copy.<br/>Кидає NotImplementedException при випадковому виклику!"]:::badStyle
 
-    Client -->|Дотримання ISP: Сегреговані рольові контракти| CleanCase["SimplePrinterGood залежить лише від IPrinter"]:::goodStyle
+    Client -->|"Дотримання ISP: Сегреговані рольові контракти"| CleanCase["SimplePrinterGood залежить лише від IPrinter"]:::goodStyle
     CleanCase --> CleanPass["Реалізує рівно ту роль, яку фізично підтримує.<br/>Чистий безпечний контракт без фіктивних заглушок"]:::goodStyle
 ```
 

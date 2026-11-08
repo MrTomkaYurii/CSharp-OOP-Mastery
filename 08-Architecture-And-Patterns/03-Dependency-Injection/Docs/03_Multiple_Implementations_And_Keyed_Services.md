@@ -25,7 +25,7 @@ flowchart TD
 
     Consumer["Клієнтський клас CheckoutService"]:::cons --> Inj["Конструктор із атрибутом:<br/>[FromKeyedServices('stripe')] IPaymentGateway gateway"]:::cons
     
-    K1 -.->|Впровадження потрібної реалізації| Inj
+    K1 -.->|"Впровадження потрібної реалізації"| Inj
 ```
 
 ---

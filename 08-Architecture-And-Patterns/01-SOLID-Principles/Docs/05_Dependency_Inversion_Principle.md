@@ -75,8 +75,8 @@ flowchart TD
         SqlBad["SqlDatabase<br/>(Низькорівнева БД)"]:::mainNode
         SmtpBad["SmtpEmailService<br/>(Низькорівнева пошта)"]:::mainNode
         
-        UserBad -->|Пряма залежність через new| SqlBad
-        UserBad -->|Пряма залежність через new| SmtpBad
+        UserBad -->|"Пряма залежність через new"| SqlBad
+        UserBad -->|"Пряма залежність через new"| SmtpBad
     end
 
     subgraph GoodDIP[" ВАРІАНТ 2. Дотримання DIP: Інверсія через абстракції "]
@@ -85,13 +85,13 @@ flowchart TD
         IDb["<<interface>><br/>IDatabase"]:::ifaceStyle
         IMail["<<interface>><br/>IEmailNotificationService"]:::ifaceStyle
         
-        UserGood -->|Залежить від абстракції| IDb
-        UserGood -->|Залежить від абстракції| IMail
+        UserGood -->|"Залежить від абстракції"| IDb
+        UserGood -->|"Залежить від абстракції"| IMail
         
-        SqlGood["SqlDatabaseGood"]:::mainNode -.->|Реалізує| IDb
-        MongoGood["MongoDatabase"]:::mainNode -.->|Реалізує| IDb
-        SmtpGood["SmtpNotificationService"]:::mainNode -.->|Реалізує| IMail
-        SendGridGood["SendGridNotificationService"]:::mainNode -.->|Реалізує| IMail
+        SqlGood["SqlDatabaseGood"]:::mainNode -.->|"Реалізує"| IDb
+        MongoGood["MongoDatabase"]:::mainNode -.->|"Реалізує"| IDb
+        SmtpGood["SmtpNotificationService"]:::mainNode -.->|"Реалізує"| IMail
+        SendGridGood["SendGridNotificationService"]:::mainNode -.->|"Реалізує"| IMail
     end
 
     BadDIP ~~~ GoodDIP

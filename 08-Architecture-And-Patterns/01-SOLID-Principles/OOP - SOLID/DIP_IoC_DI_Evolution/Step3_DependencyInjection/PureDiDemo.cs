@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OOP___SOLID.DIP_IoC_DI_Evolution.Step1_DIP;
 using OOP___SOLID.DIP_IoC_DI_Evolution.Step2_AbstractFactory_IoC;
 
@@ -56,7 +56,7 @@ namespace OOP___SOLID.DIP_IoC_DI_Evolution.Step3_DependencyInjection
             Console.WriteLine("Коли в реальній системі не 3 класи, а 200:");
             Console.WriteLine("   var svc = new OrderService(");
             Console.WriteLine("       new CustomerRepo(new DbConnection(config)),");
-            Console.WriteLine("       new TaxCalculator(new ExchangeRateService(new HttpClient())),");
+            Console.WriteLine("       new TaxCalculator(new ExchangeRateService(new CurrencyProvider())),");
             Console.WriteLine("       new InvoiceGenerator(new PdfEngine(new FontProvider())),");
             Console.WriteLine("       new EmailNotifier(new SmtpClient(config)),");
             Console.WriteLine("       ... і так далі до нескінченності);");

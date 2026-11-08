@@ -31,7 +31,7 @@ namespace TaskBasedAsynchronousProgramming
 
         private static async Task<Employee> GetEmployeeDetailsAsync()
         {
-            // Імітація асинхронної паузи (наприклад, запит до бази даних або зовнішнього API)
+            // Імітація асинхронної паузи (наприклад, читання з бази даних або дискового сховища)
             await Task.Delay(100);
 
             return new Employee

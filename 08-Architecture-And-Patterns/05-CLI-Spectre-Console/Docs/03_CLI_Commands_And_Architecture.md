@@ -8,12 +8,12 @@
 
 ```mermaid
 graph TD
-    App[CommandApp - Вхідна точка додатку] --> Config[IConfigurator - Реєстрація команд і гілок]
-    Config --> Cmd1[Command<TSettings> - Конкретна команда]
-    Config --> Branch[Branch - Вкладені підкоманди]
-    Branch --> Cmd2[Command<TSettings2>]
-    Cmd1 --> Settings[CommandSettings - Парсинг аргументів і валідація]
-    Cmd1 --> DI[TypeRegistrar / TypeResolver - Впровадження залежностей]
+    App["CommandApp - Вхідна точка додатку"] --> Config["IConfigurator - Реєстрація команд і гілок"]
+    Config --> Cmd1["Command&lt;TSettings&gt; - Конкретна команда"]
+    Config --> Branch["Branch - Вкладені підкоманди"]
+    Branch --> Cmd2["Command&lt;TSettings2&gt;"]
+    Cmd1 --> Settings["CommandSettings - Парсинг аргументів і валідація"]
+    Cmd1 --> DI["TypeRegistrar / TypeResolver - Впровадження залежностей"]
 ```
 
 ---

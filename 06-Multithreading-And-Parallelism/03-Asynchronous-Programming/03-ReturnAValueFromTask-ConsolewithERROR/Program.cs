@@ -1,5 +1,6 @@
 using System;
-using System.Net.Http;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AsynchronousProgramming
@@ -8,34 +9,53 @@ namespace AsynchronousProgramming
     /// =========================================================================================
     /// ОБРОБКА ПОМИЛОК В АСИНХРОННОМУ I/O: Відловлювання винятків у Task<T>
     /// =========================================================================================
-    /// Демонструє виникнення помилок при асинхронному мережевому запиті.
-    /// Показує, як класичний блок try/catch перехоплює виняток, розгорнутий оператором 'await'.
+    /// Демонструє виникнення помилок при асинхронній операції введення-виведення (I/O).
+    /// Показує фундаментальну перевагу оператора 'await':
+    /// - Класичний блок try/catch перехоплює виняток, розгорнутий оператором 'await'
+    ///   (без необхідності вручну розпаковувати громіздкий AggregateException).
+    /// - Демонструє відмінність між безпечним 'await' та блокуючим викликом '.Result'.
     /// </summary>
     internal class Program
     {
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("Main розпочато...");
-            Console.Write("Введіть ім'я для запиту з помилкою: ");
-            string name = Console.ReadLine() ?? "Студент";
+            Console.WriteLine("======================================================================");
+            Console.WriteLine(" ОБРОБКА ПОМИЛОК В Task<T>: Відловлювання винятків через try / catch");
+            Console.WriteLine("======================================================================\n");
 
-            await SomeMethodAsync(name);
+            Console.WriteLine($"[Main Thread #{Thread.CurrentThread.ManagedThreadId}] Старт головної програми.\n");
 
-            Console.WriteLine("Main успішно завершено.");
+            // Сценарій 1: Безпечна обробка помилки через оператор await
+            Console.WriteLine("--- СЦЕНАРІЙ 1: Ідіоматична обробка через await (Розгортання винятку) ---");
+            await LoadConfigurationWithAwaitAsync("non_existent_system_config.json");
+
+            // Сценарій 2: Демонстрація того, як .Result загортає помилку в AggregateException
+            Console.WriteLine("\n--- СЦЕНАРІЙ 2: Блокуючий виклик .Result (Антипатерн: AggregateException) ---");
+            DemonstrateBlockingResultTrap("missing_archive.dat");
+
+            Console.WriteLine($"\n[Main Thread #{Thread.CurrentThread.ManagedThreadId}] Програма успішно завершила всі демонстрації.");
         }
 
-        public static async Task SomeMethodAsync(string name)
+        // =====================================================================================
+        // Сценарій 1: Рекомендований спосіб — try/catch разом з оператором await
+        // =====================================================================================
+        public static async Task LoadConfigurationWithAwaitAsync(string configFileName)
         {
-            Console.WriteLine("Спроба виконати асинхронний запит із потенційною помилкою...");
+            Console.WriteLine($"[Сценарій 1] Спроба асинхронно зчитати файл: '{configFileName}'...");
 
             try
             {
-                var greetingsMessage = await GreetingsWithError(name);
-                Console.WriteLine($"\n{greetingsMessage}");
+                // Оператор await автоматично розгортає AggregateException
+                // і викидає конкретний тип винятку: FileNotFoundException
+                string content = await ReadFileContentAsync(configFileName);
+                Console.WriteLine($"Зчитано дані: {content}");
             }
-            catch (HttpRequestException ex)
+            catch (FileNotFoundException ex)
             {
-                Console.WriteLine($"\n[Очікувана помилка мережі]: Запит завершився з кодом збою. Деталі: {ex.Message}");
+                Console.WriteLine($"\n[Успішно перехоплено FileNotFoundException]:");
+                Console.WriteLine($"  - Повідомлення: {ex.Message}");
+                Console.WriteLine($"  - Відсутній файл: {ex.FileName}");
+                Console.WriteLine($"  - Поведінка: Застосунок не впав, застосовано резервну конфігурацію за замовчуванням.\n");
             }
             catch (Exception ex)
             {
@@ -43,18 +63,51 @@ namespace AsynchronousProgramming
             }
         }
 
-        public static async Task<string> GreetingsWithError(string name)
+        // =====================================================================================
+        // Сценарій 2: Антипатерн — блокуюче звернення через .Result
+        // =====================================================================================
+        public static void DemonstrateBlockingResultTrap(string missingFileName)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                // Запит до ендпоінту, що гарантовано повертає статус помилки 404
-                client.BaseAddress = new Uri("https://httpbin.org/");
-                client.Timeout = TimeSpan.FromSeconds(5);
+            Console.WriteLine($"[Сценарій 2] Звернення до задачі через блокуючу властивість .Result...");
 
-                HttpResponseMessage response = await client.GetAsync("status/404");
-                response.EnsureSuccessStatusCode(); // Викидає HttpRequestException для 4xx/5xx статусів
-                return await response.Content.ReadAsStringAsync();
+            Task<string> task = ReadFileContentAsync(missingFileName);
+
+            try
+            {
+                // УВАГА: звернення до .Result блокує потік та загортає помилку в AggregateException!
+                string result = task.Result;
+                Console.WriteLine($"Результат: {result}");
             }
+            catch (AggregateException aggEx)
+            {
+                Console.WriteLine($"\n[Пастка .Result / .Wait()]: Виник AggregateException!");
+                Console.WriteLine($"  - Тип винятку: {aggEx.GetType().Name}");
+                Console.WriteLine($"  - Кількість внутрішніх винятків: {aggEx.InnerExceptions.Count}");
+                foreach (var inner in aggEx.InnerExceptions)
+                {
+                    Console.WriteLine($"  -> Внутрішня помилка: {inner.GetType().Name}: {inner.Message}");
+                }
+                Console.WriteLine($"\n[Висновок]: Завжди використовуйте 'await', щоб уникнути AggregateException!");
+            }
+        }
+
+        // =====================================================================================
+        // Допоміжний асинхронний метод читання файлу
+        // =====================================================================================
+        public static async Task<string> ReadFileContentAsync(string fileName)
+        {
+            // Невелика асинхронна пауза (імітація перевірки дискової підсистеми)
+            await Task.Delay(150);
+
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+            if (!File.Exists(fullPath))
+            {
+                // Генеруємо виняток відсутності файлу
+                throw new FileNotFoundException($"Файл конфігурації '{fileName}' не знайдено на диску.", fileName);
+            }
+
+            return await File.ReadAllTextAsync(fullPath);
         }
     }
 }

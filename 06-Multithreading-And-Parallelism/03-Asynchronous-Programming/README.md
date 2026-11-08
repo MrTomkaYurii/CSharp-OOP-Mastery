@@ -25,7 +25,7 @@
 | :--- | :--- | :--- |
 | **01-AsyncAndAwait** | [ README проекту](01-AsyncAndAwait/Program.cs) | Синхронне блокування потоку (`Thread.Sleep`), Thread Pool Starvation. |
 | **02-Tasks** | [ README проекту](02-Tasks/Program.cs) | Неблокуюче очікування (`Task.Delay`), життєвий цикл таймера, пастка `async void`. |
-| **03-ReturnAValueFromTask-API** | [ README проекту](03-ReturnAValueFromTask-API/Program.cs) | Асинхронний Web API контролер ASP.NET Core, обробка Kestrel. |
+| **03-ReturnAValueFromTask-API** | [ README проекту](03-ReturnAValueFromTask-FileProcessing/Program.cs) | Асинхронний Web API контролер ASP.NET Core, обробка Kestrel. |
 | **03-ReturnAValueFromTask-Console** | [ README проекту](03-ReturnAValueFromTask-Console/Program.cs) | Отримання результату `Task<T>`, `HttpClient` запити, розгортання `await`. |
 | **03-ReturnAValueFromTask-ConsolewithERROR** | [ README проекту](03-ReturnAValueFromTask-ConsolewithERROR/Program.cs) | Асинхронні помилки I/O, `EnsureSuccessStatusCode`, `HttpRequestException`. |
 | **03-ReturnComplexTypeValueFromАTask** | [ README проекту](03-ReturnComplexTypeValueFromАTask/Program.cs) | Повернення складних сутностей `Task<Employee>`, типізація та DTO. |

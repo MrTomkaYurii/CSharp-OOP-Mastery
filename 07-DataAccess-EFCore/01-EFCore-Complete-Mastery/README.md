@@ -21,13 +21,13 @@ flowchart TD
         Batcher["SQL Translation & Command Batching<br/>(Оптимізація та групування запитів)"]:::ef
     end
 
-    DB[(Реляційна СУБД: SQL Server, PostgreSQL, SQLite)]:::db
+    DB[("Реляційна СУБД: SQL Server, PostgreSQL, SQLite")]:::db
 
     App --> Provider
     Provider --> Model
     Model --> Tracker
     Tracker --> Batcher
-    Batcher -->|Транзакційний batch SQL| DB
+    Batcher -->|"Транзакційний batch SQL"| DB
 ```
 
 ---
