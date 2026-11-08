@@ -1,0 +1,118 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{D5E9C482-ED5E-5408-86A7-EDB8349B1173}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Json_And_Xml_Serialization_Fundamentals.md = Docs\01_Json_And_Xml_Serialization_Fundamentals.md
+		Docs\02_Json_Streams_Polymorphism_And_Xml.md = Docs\02_Json_Streams_Polymorphism_And_Xml.md
+		Docs\03_Custom_Reflection_Serializers_Under_The_Hood.md = Docs\03_Custom_Reflection_Serializers_Under_The_Hood.md
+		Docs\04_Stream_Compression_Zip_And_FileSystemWatcher.md = Docs\04_Stream_Compression_Zip_And_FileSystemWatcher.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Серіалізація JSON (System.Text.Json, Streams, Polymorphism, Utf8JsonWriter)", "01. Серіалізація JSON (System.Text.Json, Streams, Polymorphism, Utf8JsonWriter)", "{2CFDC33F-57AC-5679-B6A9-B76030AC4CEE}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Json_And_Xml_Serialization_Fundamentals.md = Docs\01_Json_And_Xml_Serialization_Fundamentals.md
+		Docs\02_Json_Streams_Polymorphism_And_Xml.md = Docs\02_Json_Streams_Polymorphism_And_Xml.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "00-Shared", "00-Shared\00-Shared.csproj", "{AE8F6A22-8661-5540-951E-E78A5A05ED4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19-SerializationBasicsJsonDemo", "19-SerializationBasicsJsonDemo\19-SerializationBasicsJsonDemo.csproj", "{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19.1-JsonStreamsAndPolymorphismDemo", "19.1-JsonStreamsAndPolymorphismDemo\19.1-JsonStreamsAndPolymorphismDemo.csproj", "{01965865-CB5E-5777-935A-02986EEC1065}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Серіалізація XML та LINQ to XML (XmlSerializer, XDocument, XmlReader)", "02. Серіалізація XML та LINQ to XML (XmlSerializer, XDocument, XmlReader)", "{EF3DD77F-F230-564E-9964-DEA51A3A01A2}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Json_Streams_Polymorphism_And_Xml.md = Docs\02_Json_Streams_Polymorphism_And_Xml.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "20-SerializationBasicsXmlDemo", "20-SerializationBasicsXmlDemo\20-SerializationBasicsXmlDemo.csproj", "{CAA820C0-7262-5BC4-A438-7D0E301F0BA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Власні серіалізатори та десеріалізатори під капотом (Reflection & Custom Attributes)", "03. Власні серіалізатори та десеріалізатори під капотом (Reflection & Custom Attributes)", "{EB4D1DD5-8339-518B-B513-DBD173082434}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Custom_Reflection_Serializers_Under_The_Hood.md = Docs\03_Custom_Reflection_Serializers_Under_The_Hood.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "21-JsonSerializationDemo", "21-JsonSerializationDemo\21-JsonSerializationDemo.csproj", "{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "22-XmlSerializationDemo", "22-XmlSerializationDemo\22-XmlSerializationDemo.csproj", "{79BB2B1D-266B-566C-B89B-060A10A991DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "23-JsonDeserializationDemo", "23-JsonDeserializationDemo\23-JsonDeserializationDemo.csproj", "{5BB35FD8-E442-58B9-AAA0-E999C160FD3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "24-XmlDeserializationDemo", "24-XmlDeserializationDemo\24-XmlDeserializationDemo.csproj", "{D8BE37E9-2297-5796-B825-20D43670904A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Стиснення потоків (GZip, Brotli), ZIP-архіви та реактивний FileSystemWatcher", "04. Стиснення потоків (GZip, Brotli), ZIP-архіви та реактивний FileSystemWatcher", "{789EF19A-6C3E-5E6A-B04B-D2C6B9E8D16C}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\04_Stream_Compression_Zip_And_FileSystemWatcher.md = Docs\04_Stream_Compression_Zip_And_FileSystemWatcher.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "25-CompressionAndZipArchivesDemo", "25-CompressionAndZipArchivesDemo\25-CompressionAndZipArchivesDemo.csproj", "{820D0DDB-C11F-5F38-983C-571CB76FEE18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "26-FileSystemWatcherAndCsvPipelineDemo", "26-FileSystemWatcherAndCsvPipelineDemo\26-FileSystemWatcherAndCsvPipelineDemo.csproj", "{4102476C-27C0-5301-9C8C-CF89F3942360}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE8F6A22-8661-5540-951E-E78A5A05ED4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8F6A22-8661-5540-951E-E78A5A05ED4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8F6A22-8661-5540-951E-E78A5A05ED4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8F6A22-8661-5540-951E-E78A5A05ED4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01965865-CB5E-5777-935A-02986EEC1065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01965865-CB5E-5777-935A-02986EEC1065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01965865-CB5E-5777-935A-02986EEC1065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01965865-CB5E-5777-935A-02986EEC1065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAA820C0-7262-5BC4-A438-7D0E301F0BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAA820C0-7262-5BC4-A438-7D0E301F0BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAA820C0-7262-5BC4-A438-7D0E301F0BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAA820C0-7262-5BC4-A438-7D0E301F0BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79BB2B1D-266B-566C-B89B-060A10A991DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79BB2B1D-266B-566C-B89B-060A10A991DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79BB2B1D-266B-566C-B89B-060A10A991DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79BB2B1D-266B-566C-B89B-060A10A991DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB35FD8-E442-58B9-AAA0-E999C160FD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB35FD8-E442-58B9-AAA0-E999C160FD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB35FD8-E442-58B9-AAA0-E999C160FD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB35FD8-E442-58B9-AAA0-E999C160FD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BE37E9-2297-5796-B825-20D43670904A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BE37E9-2297-5796-B825-20D43670904A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BE37E9-2297-5796-B825-20D43670904A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BE37E9-2297-5796-B825-20D43670904A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820D0DDB-C11F-5F38-983C-571CB76FEE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820D0DDB-C11F-5F38-983C-571CB76FEE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820D0DDB-C11F-5F38-983C-571CB76FEE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820D0DDB-C11F-5F38-983C-571CB76FEE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4102476C-27C0-5301-9C8C-CF89F3942360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4102476C-27C0-5301-9C8C-CF89F3942360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4102476C-27C0-5301-9C8C-CF89F3942360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4102476C-27C0-5301-9C8C-CF89F3942360}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE8F6A22-8661-5540-951E-E78A5A05ED4F} = {2CFDC33F-57AC-5679-B6A9-B76030AC4CEE}
+		{C52E1658-DCC3-5EFA-9AEA-BA4B86FA55CE} = {2CFDC33F-57AC-5679-B6A9-B76030AC4CEE}
+		{01965865-CB5E-5777-935A-02986EEC1065} = {2CFDC33F-57AC-5679-B6A9-B76030AC4CEE}
+		{CAA820C0-7262-5BC4-A438-7D0E301F0BA7} = {EF3DD77F-F230-564E-9964-DEA51A3A01A2}
+		{F70B6E5B-4BDF-5E6D-BA6B-D85EABEF269B} = {EB4D1DD5-8339-518B-B513-DBD173082434}
+		{79BB2B1D-266B-566C-B89B-060A10A991DD} = {EB4D1DD5-8339-518B-B513-DBD173082434}
+		{5BB35FD8-E442-58B9-AAA0-E999C160FD3D} = {EB4D1DD5-8339-518B-B513-DBD173082434}
+		{D8BE37E9-2297-5796-B825-20D43670904A} = {EB4D1DD5-8339-518B-B513-DBD173082434}
+		{820D0DDB-C11F-5F38-983C-571CB76FEE18} = {789EF19A-6C3E-5E6A-B04B-D2C6B9E8D16C}
+		{4102476C-27C0-5301-9C8C-CF89F3942360} = {789EF19A-6C3E-5E6A-B04B-D2C6B9E8D16C}
+	EndGlobalSection
+EndGlobal

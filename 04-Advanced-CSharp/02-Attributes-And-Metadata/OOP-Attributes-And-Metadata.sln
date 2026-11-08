@@ -1,0 +1,129 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8E3B61A9-B568-5B81-9067-1F0B956298FC}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Custom_Attributes_Fundamentals.md = Docs\01_Custom_Attributes_Fundamentals.md
+		Docs\02_Metadata_Querying_And_Runtime_Processing.md = Docs\02_Metadata_Querying_And_Runtime_Processing.md
+		Docs\03_Attributes_And_Metadata_Validation.md = Docs\03_Attributes_And_Metadata_Validation.md
+		Docs\04_Custom_Attributes_Deep_Dive.md = Docs\04_Custom_Attributes_Deep_Dive.md
+		Docs\05_Class_And_Property_Validation_Engine.md = Docs\05_Class_And_Property_Validation_Engine.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Системні атрибути компілятора та Caller Info (Obsolete, Conditional, CallerMemberName)", "01. Системні атрибути компілятора та Caller Info (Obsolete, Conditional, CallerMemberName)", "{017C4261-68F9-553C-95E5-D8F0BD1EDF3B}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Custom_Attributes_Fundamentals.md = Docs\01_Custom_Attributes_Fundamentals.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p701[SOLIS]", "p701[SOLIS]\p701[SOLIS].csproj", "{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p703[SOLIS]", "p703[SOLIS]\p703[SOLIS].csproj", "{070791CF-E537-5DB0-826C-9B0DF98EDE2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p704[SOLIS]", "p704[SOLIS]\p704[SOLIS].csproj", "{88D259A1-8BC7-564B-95BC-EC357D8A5C1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "attribute-example-02", "attribute-exmple-02\attribute-example-02.csproj", "{D6F378C8-1163-555F-84A0-FB3C422969C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Проєктування власних атрибутів та таблиці метаданих (AttributeUsage, GetCustomAttributes)", "02. Проєктування власних атрибутів та таблиці метаданих (AttributeUsage, GetCustomAttributes)", "{BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Metadata_Querying_And_Runtime_Processing.md = Docs\02_Metadata_Querying_And_Runtime_Processing.md
+		Docs\04_Custom_Attributes_Deep_Dive.md = Docs\04_Custom_Attributes_Deep_Dive.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "00-Shared", "00-Shared\00-Shared.csproj", "{371734F5-9DA3-51D9-8DE9-DECF535F39B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p717[SOLIS]", "p717[SOLIS]\p717[SOLIS].csproj", "{2C32EC2C-E01A-5423-88AE-9A7715686AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p718[SOLIS]", "p718[SOLIS]\p718[SOLIS].csproj", "{87131DF5-225B-5F00-84A3-F8AA042F8AB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "attribute-example-01", "Attributes-Example-01\attribute-example-01.csproj", "{B3829A89-E550-5A6A-8C13-57746D23DFA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "attribute-example-03", "attribute-example-03\attribute-example-03.csproj", "{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "attribute-example-04", "attribute-example-04\attribute-example-04.csproj", "{F0819547-05F2-5AA3-9D05-5E309E1DADD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "17-AttributesBasicsDemo", "17-AttributesBasicsDemo\17-AttributesBasicsDemo.csproj", "{6674C917-1C3C-542D-AAB4-00167D381406}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Декларативна валідація моделей та правил у Runtime", "03. Декларативна валідація моделей та правил у Runtime", "{7E344423-3D34-522D-AFEF-B476259419F1}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Attributes_And_Metadata_Validation.md = Docs\03_Attributes_And_Metadata_Validation.md
+		Docs\05_Class_And_Property_Validation_Engine.md = Docs\05_Class_And_Property_Validation_Engine.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "18-AttributesValidationDemo", "18-AttributesValidationDemo\18-AttributesValidationDemo.csproj", "{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070791CF-E537-5DB0-826C-9B0DF98EDE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070791CF-E537-5DB0-826C-9B0DF98EDE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070791CF-E537-5DB0-826C-9B0DF98EDE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070791CF-E537-5DB0-826C-9B0DF98EDE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D259A1-8BC7-564B-95BC-EC357D8A5C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D259A1-8BC7-564B-95BC-EC357D8A5C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D259A1-8BC7-564B-95BC-EC357D8A5C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D259A1-8BC7-564B-95BC-EC357D8A5C1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F378C8-1163-555F-84A0-FB3C422969C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F378C8-1163-555F-84A0-FB3C422969C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F378C8-1163-555F-84A0-FB3C422969C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F378C8-1163-555F-84A0-FB3C422969C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{371734F5-9DA3-51D9-8DE9-DECF535F39B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{371734F5-9DA3-51D9-8DE9-DECF535F39B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{371734F5-9DA3-51D9-8DE9-DECF535F39B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{371734F5-9DA3-51D9-8DE9-DECF535F39B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C32EC2C-E01A-5423-88AE-9A7715686AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C32EC2C-E01A-5423-88AE-9A7715686AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C32EC2C-E01A-5423-88AE-9A7715686AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C32EC2C-E01A-5423-88AE-9A7715686AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87131DF5-225B-5F00-84A3-F8AA042F8AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87131DF5-225B-5F00-84A3-F8AA042F8AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87131DF5-225B-5F00-84A3-F8AA042F8AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87131DF5-225B-5F00-84A3-F8AA042F8AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3829A89-E550-5A6A-8C13-57746D23DFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3829A89-E550-5A6A-8C13-57746D23DFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3829A89-E550-5A6A-8C13-57746D23DFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3829A89-E550-5A6A-8C13-57746D23DFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0819547-05F2-5AA3-9D05-5E309E1DADD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0819547-05F2-5AA3-9D05-5E309E1DADD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0819547-05F2-5AA3-9D05-5E309E1DADD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0819547-05F2-5AA3-9D05-5E309E1DADD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6674C917-1C3C-542D-AAB4-00167D381406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6674C917-1C3C-542D-AAB4-00167D381406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6674C917-1C3C-542D-AAB4-00167D381406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6674C917-1C3C-542D-AAB4-00167D381406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB50E636-2C1B-5A75-AC8D-B7D8DD8EA131} = {017C4261-68F9-553C-95E5-D8F0BD1EDF3B}
+		{070791CF-E537-5DB0-826C-9B0DF98EDE2F} = {017C4261-68F9-553C-95E5-D8F0BD1EDF3B}
+		{88D259A1-8BC7-564B-95BC-EC357D8A5C1E} = {017C4261-68F9-553C-95E5-D8F0BD1EDF3B}
+		{D6F378C8-1163-555F-84A0-FB3C422969C7} = {017C4261-68F9-553C-95E5-D8F0BD1EDF3B}
+		{371734F5-9DA3-51D9-8DE9-DECF535F39B8} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{2C32EC2C-E01A-5423-88AE-9A7715686AF9} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{87131DF5-225B-5F00-84A3-F8AA042F8AB5} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{B3829A89-E550-5A6A-8C13-57746D23DFA4} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{5C8C9C7F-90E4-5D47-9A2A-DA61A02F505F} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{F0819547-05F2-5AA3-9D05-5E309E1DADD0} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{6674C917-1C3C-542D-AAB4-00167D381406} = {BF869C9B-DCC5-5D31-BA41-7F60C5B9B901}
+		{AEF03903-1DDE-578C-AA04-EC2C7C9A2A0D} = {7E344423-3D34-522D-AFEF-B476259419F1}
+	EndGlobalSection
+EndGlobal

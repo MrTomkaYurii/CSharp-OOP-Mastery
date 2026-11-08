@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{370989A8-5DB4-5688-9835-C257C95FCCCC}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Docs\01_Expression_Trees_AST_And_Dynamic_Building.md = Docs\01_Expression_Trees_AST_And_Dynamic_Building.md
+		Docs\02_Compiled_Delegates_And_Reflection_Boosting.md = Docs\02_Compiled_Delegates_And_Reflection_Boosting.md
+		Docs\03_Dynamic_LINQ_Predicates_And_IQueryable_Translation.md = Docs\03_Dynamic_LINQ_Predicates_And_IQueryable_Translation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Анатомія дерев виразів (AST) та ручне конструювання у Runtime", "01. Анатомія дерев виразів (AST) та ручне конструювання у Runtime", "{5044354D-F308-5D0C-B035-65E495D0CCDF}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\01_Expression_Trees_AST_And_Dynamic_Building.md = Docs\01_Expression_Trees_AST_And_Dynamic_Building.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.0-ExpressionTreesBasicsDemo", "15.0-ExpressionTreesBasicsDemo\15.0-ExpressionTreesBasicsDemo.csproj", "{64F3F1CE-A76B-5A38-9007-AAF23F389270}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.1-ExpressionTreesBuildingDemo", "15.1-ExpressionTreesBuildingDemo\15.1-ExpressionTreesBuildingDemo.csproj", "{B470E84A-011C-5FB8-93C0-A28363E5922C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Компіляція швидких делегатів та бустінг рефлексії (Expression vs Invoke)", "02. Компіляція швидких делегатів та бустінг рефлексії (Expression vs Invoke)", "{A9D7A49A-43E0-5631-929C-7EF1B34975C4}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\02_Compiled_Delegates_And_Reflection_Boosting.md = Docs\02_Compiled_Delegates_And_Reflection_Boosting.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "00-Shared", "00-Shared\00-Shared.csproj", "{FDBAA839-9316-5906-A88D-24312260E675}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.2-ExpressionTreesMemberAccessDemo", "15.2-ExpressionTreesMemberAccessDemo\15.2-ExpressionTreesMemberAccessDemo.csproj", "{28A6FCFE-93AB-5208-A197-2A80C2D58428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.3-ReflectionPerformanceDemo", "15.3-ReflectionPerformanceDemo\15.3-ReflectionPerformanceDemo.csproj", "{978318ED-1179-59A7-B3AA-91D930A53E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Динамічні LINQ-предикати, ExpressionVisitor та трансляція IQueryable", "03. Динамічні LINQ-предикати, ExpressionVisitor та трансляція IQueryable", "{87E03330-3D22-517D-814A-405547625CA8}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\03_Dynamic_LINQ_Predicates_And_IQueryable_Translation.md = Docs\03_Dynamic_LINQ_Predicates_And_IQueryable_Translation.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.4-DynamicLinqPredicateBuilderDemo", "15.4-DynamicLinqPredicateBuilderDemo\15.4-DynamicLinqPredicateBuilderDemo.csproj", "{B20265E5-9D16-5CBB-98A9-47DF199DB92B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64F3F1CE-A76B-5A38-9007-AAF23F389270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F3F1CE-A76B-5A38-9007-AAF23F389270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F3F1CE-A76B-5A38-9007-AAF23F389270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F3F1CE-A76B-5A38-9007-AAF23F389270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B470E84A-011C-5FB8-93C0-A28363E5922C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B470E84A-011C-5FB8-93C0-A28363E5922C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B470E84A-011C-5FB8-93C0-A28363E5922C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B470E84A-011C-5FB8-93C0-A28363E5922C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDBAA839-9316-5906-A88D-24312260E675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBAA839-9316-5906-A88D-24312260E675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBAA839-9316-5906-A88D-24312260E675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBAA839-9316-5906-A88D-24312260E675}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A6FCFE-93AB-5208-A197-2A80C2D58428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A6FCFE-93AB-5208-A197-2A80C2D58428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A6FCFE-93AB-5208-A197-2A80C2D58428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A6FCFE-93AB-5208-A197-2A80C2D58428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978318ED-1179-59A7-B3AA-91D930A53E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978318ED-1179-59A7-B3AA-91D930A53E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978318ED-1179-59A7-B3AA-91D930A53E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978318ED-1179-59A7-B3AA-91D930A53E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B20265E5-9D16-5CBB-98A9-47DF199DB92B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20265E5-9D16-5CBB-98A9-47DF199DB92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20265E5-9D16-5CBB-98A9-47DF199DB92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20265E5-9D16-5CBB-98A9-47DF199DB92B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64F3F1CE-A76B-5A38-9007-AAF23F389270} = {5044354D-F308-5D0C-B035-65E495D0CCDF}
+		{B470E84A-011C-5FB8-93C0-A28363E5922C} = {5044354D-F308-5D0C-B035-65E495D0CCDF}
+		{FDBAA839-9316-5906-A88D-24312260E675} = {A9D7A49A-43E0-5631-929C-7EF1B34975C4}
+		{28A6FCFE-93AB-5208-A197-2A80C2D58428} = {A9D7A49A-43E0-5631-929C-7EF1B34975C4}
+		{978318ED-1179-59A7-B3AA-91D930A53E51} = {A9D7A49A-43E0-5631-929C-7EF1B34975C4}
+		{B20265E5-9D16-5CBB-98A9-47DF199DB92B} = {87E03330-3D22-517D-814A-405547625CA8}
+	EndGlobalSection
+EndGlobal

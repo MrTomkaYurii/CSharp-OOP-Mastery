@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/01. Система під тестуванням (System Under Test - Бізнес-логіка та контракти)/">
+    <Project Path="Testing.Core.Domain/Testing.Core.Domain.csproj" />
+  </Folder>
+  <Folder Name="/02. Модульне тестування з xUnit (Fact, Theory, InlineData, MemberData)/">
+    <Project Path="01-Testing.xUnit/01-Testing.xUnit.csproj" />
+  </Folder>
+  <Folder Name="/03. Модульне тестування з NUnit (TestFixture, Test, TestCase, SetUp, Constraint Model)/">
+    <Project Path="02-Testing.NUnit/02-Testing.NUnit.csproj" />
+  </Folder>
+  <Folder Name="/04. Ізоляція залежностей та Мокінг з бібліотекою Moq/">
+    <Project Path="03-Testing.Moq/03-Testing.Moq.csproj" />
+  </Folder>
+  <Folder Name="/05. Альтернативний мокінг (NSubstitute), FluentAssertions та тестування EF Core (SQLite In-Memory)/">
+    <Project Path="Testing.UnitTests/Testing.UnitTests.csproj" />
+    <Project Path="Testing.EFCore.InMemoryTests/Testing.EFCore.InMemoryTests.csproj" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="README.md" />
+    <File Path="Docs/01_xUnit_Fundamentals.md" />
+    <File Path="Docs/02_NUnit_Fundamentals_And_Comparison.md" />
+    <File Path="Docs/03_Mocking_With_Moq_StepByStep.md" />
+    <File Path="Docs/04_Mocking_With_NSubstitute_And_FluentAssertions.md" />
+    <File Path="Docs/05_Testing_EFCore_SQLite_InMemory.md" />
+  </Folder>
+</Solution>
