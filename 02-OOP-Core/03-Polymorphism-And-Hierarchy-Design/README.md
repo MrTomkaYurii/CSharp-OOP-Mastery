@@ -1,27 +1,53 @@
-# 03. Поліморфізм та Архітектурне Проектування Ієрархій (`03-Polymorphism-And-Hierarchy-Design`)
+# Підмодуль 03: Проєктування ієрархій та поліморфізм на практиці (`OOP-Polymorphism-And-Design.sln`)
 
-Синтезуючий підмодуль розділу **`02-OOP-Core`**, який переводить синтаксис спадкування та інтерфейсів у площину реального ООП-дизайну:
-* Віртуальні методи базового для всіх типів класу **`System.Object`** (`ToString`, `Equals`, `GetHashCode`, `MemberwiseClone`).
-* Правильна **інкапсуляція в ієрархіях** через `protected`, `protected set`, `private protected` без розкриття приватних полів базового класу.
-* Вибір між **`abstract class` (Template Method)** та **`interface` (Role Contract)**.
-* Заміна розгалужених `switch/if` на **поліморфізм** та перевага **Композиції над Спадкуванням**.
+Цей підмодуль фокусується на глибинних інженерних аспектах об'єктно-орієнтованого проєктування в C#:
+від семантики кореня ієрархії `System.Object` (рівність посилань vs значень, хешування, клонування) та тонкощів інкапсуляції в спадкоємцях (`protected`, `private protected`) до фундаментального вибору між абстрактними класами та інтерфейсами (патерн Template Method) та заміни умовних операторів поліморфними правилами замість глибокого спадкування.
 
 ---
 
-## Структура Solution (`OOP-Polymorphism-And-Design.sln`) за Solution-теками
+## Навчальна дорожня карта модуля
 
-| Solution Folder | Гайд / Документація | Проєкти у секції |
-|:---|:---|:---|
-| **01. Корінь ієрархії System.Object та семантика рівності** | [`01_System_Object_And_Equality.md`](Docs/01_System_Object_And_Equality.md) | [`01-SystemObjectAndEquality`](01-SystemObjectAndEquality/Program.cs) |
-| **02. Інкапсуляція в ієрархіях (protected, internal, private protected)** | [`02_Hierarchy_Encapsulation_And_Protected.md`](Docs/02_Hierarchy_Encapsulation_And_Protected.md) | [`02-HierarchyEncapsulationAndProtected`](02-HierarchyEncapsulationAndProtected/Program.cs) |
-| **03. Абстрактний клас проти Інтерфейсу та патерн Template Method** | [`03_Abstract_Class_Vs_Interface.md`](Docs/03_Abstract_Class_Vs_Interface.md) | [`03-AbstractClassVsInterface`](03-AbstractClassVsInterface/Program.cs) |
-| **04. Поліморфізм замість умовних операторів та Композиція проти Спадкування** | [`04_Polymorphism_And_Composition_Design.md`](Docs/04_Polymorphism_And_Composition_Design.md) | [`04-PolymorphismAndCompositionDesign`](04-PolymorphismAndCompositionDesign/Program.cs) |
+```mermaid
+flowchart TD
+    classDef stepClass fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef ruleClass fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+
+    S1["01. Корінь ієрархії System.Object<br/>ToString, Equals, GetHashCode, ReferenceEquals, клонування"]:::stepClass
+    S2["02. Інкапсуляція в ієрархіях<br/>protected, internal, private protected, захист інваріантів"]:::stepClass
+    S3["03. Абстрактний клас проти Інтерфейсу<br/>Патерн Template Method, спільний стан vs чистий контракт"]:::ruleClass
+    S4["04. Поліморфізм проти Switch/If<br/>Композиція замість спадкування, поліморфні правила розрахунку"]:::ruleClass
+
+    S1 --> S2 --> S3 --> S4
+```
+
+---
+
+## Навігація по навчальних посібниках (`Docs`)
+
+| № | Посібник | Ключові теми та архітектурні патерни | Посилання на документ |
+|:---:|:---|:---|:---|
+| 01 | **Семантика System.Object** | Перевизначення `Equals`, контракт із `GetHashCode`, `MemberwiseClone` | [Docs/01_System_Object_And_Equality.md](Docs/01_System_Object_And_Equality.md) |
+| 02 | **Інкапсуляція в ієрархіях** | Захист полів у спадкоємцях, `protected` vs `private protected`, безпека інваріантів | [Docs/02_Hierarchy_Encapsulation_And_Protected.md](Docs/02_Hierarchy_Encapsulation_And_Protected.md) |
+| 03 | **Абстрактний клас чи Інтерфейс** | Архітектурний компроміс: стан проти поведінки, патерн Template Method | [Docs/03_Abstract_Class_Vs_Interface.md](Docs/03_Abstract_Class_Vs_Interface.md) |
+| 04 | **Поліморфізм і Композиція** | Заміна `switch` на поліморфні стратегії, чому композиція перевершує множинне наслідування | [Docs/04_Polymorphism_And_Composition_Design.md](Docs/04_Polymorphism_And_Composition_Design.md) |
+
+---
+
+## Структура проєктів рішення `OOP-Polymorphism-And-Design.sln`
+
+* **`01. Корінь ієрархії System.Object та семантика рівності`**
+  * `01-SystemObjectAndEquality`
+* **`02. Інкапсуляція в ієрархіях (protected, internal, private protected)`**
+  * `02-HierarchyEncapsulationAndProtected`
+* **`03. Абстрактний клас проти Інтерфейсу та патерн Template Method`**
+  * `03-AbstractClassVsInterface`
+* **`04. Поліморфізм замість умовних операторів та Композиція проти Спадкування`**
+  * `04-PolymorphismAndCompositionDesign`
 
 ---
 
 ## Збірка та запуск
 
-```bash
-dotnet build OOP-Polymorphism-And-Design.sln
-dotnet run --project 04-PolymorphismAndCompositionDesign/04-PolymorphismAndCompositionDesign.csproj
+```powershell
+dotnet build "02-OOP-Core/03-Polymorphism-And-Hierarchy-Design/OOP-Polymorphism-And-Design.sln" -c Release
 ```

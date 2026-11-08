@@ -1,60 +1,115 @@
-# Тришарова архітектура застосунку: EF Core (SQLite) + Business Logic (DTO, AutoMapper) + Spectre.Console
+# 01. Трирівнева Архітектура: Від Entity Framework Core до Spectre.Console
 
-Цей підсумковий інтеграційний проєкт поєднує в єдиній системі всі ключові технології, розглянуті у курсі:
-- **Глава 07**: `Entity Framework Core (SQLite)`, конфігурація `Fluent API`, `AsNoTracking()`, жадібне завантаження `Include()` та транзакції.
-- **Глава 08 (Підмодулі 01–05)**: принципи `SOLID`, `Generic Host`, `IConfiguration` + `IOptions<T>`, структуроване логування `ILogger<T>`, контейнер `Dependency Injection`, трансформація через `AutoMapper` (`DTO`) та багатий термінальний інтерфейс `Spectre.Console`.
+## 1. Класична трирівнева архітектура (3-Tier Architecture)
 
----
-
-## 1. Декомпозиція на три фізичні шари (3-Tier Architecture)
-
-Замість розміщення всього коду в одному монолітному проєкті, система фізично розділена на три окремі збірки (`.csproj`), кожна з яких має чітко окреслену зону відповідальності:
+Головний принцип трирівневої архітектури — **односпрямована залежність** та **розділення відповідальностей (Separation of Concerns)**:
+1. **Шар даних (Data Access Layer - DAL)** знає виключно про базу даних, таблиці, ключі та ORM (EF Core). Він не знає, як дані будуть відображатися на екрані.
+2. **Шар бізнес-логіки (Business Logic Layer - BLL)** інкапсулює правила предметної області: як розраховується знижка, чи дозволено змінювати статус замовлення, які повідомлення генерувати. Він залежить лише від контрактів репозиторіїв.
+3. **Шар представлення (Presentation Layer - UI)** відповідає за взаємодію з людиною: рендеринг меню через Spectre.Console, зчитування вибору клавіатури, відображення помилок. Він звертається виключно до сервісів BLL і ніколи напряму не підключає `DbContext`.
 
 ```mermaid
 flowchart TD
-    subgraph UI["03. Презентаційний шар (StoreApp.ConsoleUI)"]
-        Host["Program.cs (Generic Host + DI Composition Root)"]
-        Dashboard["StoreConsoleDashboard (Spectre.Console Tables, Panels, Charts)"]
-    end
+    classDef ui fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
+    classDef bll fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef dal fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
 
-    subgraph BLL["02. Шар бізнес-логіки (StoreApp.BusinessLogic)"]
-        Services["CatalogService, OrderProcessingService, AnalyticsService"]
-        DTOs["ProductDto, OrderReceiptDto, CategoryAnalyticsDto, StoreSettings"]
-        Mapper["StoreMappingProfile (AutoMapper)"]
-    end
+    UI["Presentation Layer (StoreApp.ConsoleUI)<br/>Spectre.Console (AnsiConsole.Prompt, Table)"]:::ui
+    BLL["Business Logic Layer (StoreApp.BusinessLogic)<br/>OrderService : IOrderService"]:::bll
+    DAL["Data Access Layer (StoreApp.DataAccess)<br/>OrderRepository : IOrderRepository, StoreDbContext"]:::dal
+    DB[(База даних SQLite)]:::dal
 
-    subgraph DAL["01. Шар роботи з даними (StoreApp.DataAccess)"]
-        Repos["IProductRepository / ProductRepository, IOrderRepository / OrderRepository"]
-        Db["StoreDbContext (EF Core SQLite + Fluent API)"]
-        Entities["Category, Product, CustomerOrder, OrderLine"]
-    end
-
-    Host --> Dashboard
-    Dashboard -->|Викликає методи бізнес-сценаріїв та отримує DTO| Services
-    Services -->|Трансформує сутності у DTO| Mapper
-    Services -->|Звертається через інтерфейси репозиторіїв| Repos
-    Repos --> Db
-    Db --> Entities
+    UI -->|Викликає CreateOrderAsync| BLL
+    BLL -->|Викликає AddAsync / SaveChangesAsync| DAL
+    DAL -->|SQL INSERT| DB
 ```
 
 ---
 
-## 2. Детальний розбір кожного шару
+## 2. Порушення архітектури (Антипатерн) проти Чистого підходу
 
-### Шар 1: `StoreApp.DataAccess` (Data Access Layer)
-Відповідає виключно за збереження та вибірку даних із реляційної бази SQLite:
-- **`StoreDbContext`**: налаштовує таблиці `Categories`, `Products`, `CustomerOrders`, `OrderLines`, унікальні індекси на `Sku` та `OrderNumber`, а також точність грошових полів `HasPrecision(18, 2)`.
-- **`ProductRepository`**: використовує `.AsNoTracking().Include(p => p.Category)` для швидкого читання каталогу без накладних витрат Change Tracker, і окремі Tracked-методи для модифікації залишків.
-- **`OrderRepository`**: виконує атомарне списання складських залишків та створення замовлення всередині явної транзакції `BeginTransactionAsync()` / `CommitAsync()`.
+### Антипатерн "Розумний UI" (Smart UI)
+```csharp
+// ПОГАНО: Пряме звернення до БД всередині коду консольного меню!
+public class BadConsoleMenu
+{
+    public void DisplayOrders()
+    {
+        using var db = new StoreDbContext(); // ПОМИЛКА: UI знає про підключення до БД!
+        var orders = db.Orders.ToList();
+        
+        foreach(var o in orders)
+            Console.WriteLine(o.Id);
+    }
+}
+```
 
-### Шар 2: `StoreApp.BusinessLogic` (Business Logic Layer)
-Містить правила предметної області (Domain Rules) та ізолює презентаційний шар від деталей бази даних:
-- **Моделі DTO (`ProductDto`, `OrderReceiptDto`, `CategoryAnalyticsDto`)**: плоскі моделі передачі даних, які не містять циклічних навігаційних властивостей EF Core.
-- **`StoreMappingProfile` (`AutoMapper`)**: автоматично сплющує граф `Product -> Category.Name` у поле `ProductDto.CategoryName`.
-- **`CatalogService` та `OrderProcessingService`**: перевіряють бізнес-інваріанти (наявність товару на складі, розрахунок VIP-знижки згідно з `IOptions<StoreSettings>`) та записують структуровані події через `ILogger<T>`.
-- **`AnalyticsService`**: агрегує виторг та вартість складських запасів у розрізі категорій.
+### Рекомендована реалізація: Взаємодія через сервісний контракт
+```csharp
+// 1. DAL: Репозиторій ізолює EF Core
+public class OrderRepository : IOrderRepository
+{
+    private readonly StoreDbContext _context;
+    public OrderRepository(StoreDbContext context) => _context = context;
 
-### Шар 3: `StoreApp.ConsoleUI` (Presentation Layer & Composition Root)
-Виконує дві ролі:
-1. **Корінь компонування (`Composition Root`)**: конфігурує `Host.CreateApplicationBuilder`, читає `appsettings.json`, валідує `StoreSettings` при старті (`ValidateOnStart()`), реєструє `StoreDbContext`, репозиторії, сервіси та `AutoMapper` у контейнері DI.
-2. **Термінальний інтерфейс (`StoreConsoleDashboard`)**: візуалізує отримані DTO за допомогою віджетів `Spectre.Console` (`Table`, `Panel`, `Rule`, `BarChart`, `BreakdownChart`).
+    public async Task<List<Order>> GetAllWithDetailsAsync() =>
+        await _context.Orders.Include(o => o.Customer).Include(o => o.Items).ToListAsync();
+}
+
+// 2. BLL: Бізнес-сервіс розраховує правила та повертає DTO
+public class OrderService : IOrderService
+{
+    private readonly IOrderRepository _repository;
+    public OrderService(IOrderRepository repository) => _repository = repository;
+
+    public async Task<List<OrderSummaryDto>> GetOrdersSummaryAsync()
+    {
+        var orders = await _repository.GetAllWithDetailsAsync();
+        return orders.Select(o => new OrderSummaryDto(o.Id, o.Customer.Name, o.CalculateTotal())).ToList();
+    }
+}
+
+// 3. UI: Spectre.Console відображає підготовлені DTO
+public class OrderConsoleView
+{
+    private readonly IOrderService _orderService;
+    public OrderConsoleView(IOrderService orderService) => _orderService = orderService;
+
+    public async Task RenderAsync()
+    {
+        var summaries = await _orderService.GetOrdersSummaryAsync();
+        
+        var table = new Table().Border(TableBorder.Rounded);
+        table.AddColumn("[bold]Номер[/]");
+        table.AddColumn("[bold]Клієнт[/]");
+        table.AddColumn("[bold]Сума[/]");
+
+        foreach (var item in summaries)
+        {
+            table.AddRow(item.Id.ToString(), item.CustomerName, $"[green]{item.TotalAmount:C}[/]");
+        }
+
+        AnsiConsole.Write(table);
+    }
+}
+```
+
+---
+
+## 3. Матриця відповідальності компонентів
+
+| Компонент | Шар | Що дозволено | Чого категорично НЕ повинно бути |
+|:---|:---:|:---|:---|
+| **`StoreDbContext`** | DAL | Опис схеми БД, конфігурація зв'язків | Викликів `Console.Write` або бізнес-валідації цін |
+| **`OrderRepository`** | DAL | CRUD-операції, LINQ-запити, збереження | Логіки інтерфейсу користувача |
+| **`OrderService`** | BLL | Розрахунок знижок, транзакційні правила | Прямих SQL-запитів, посилань на Spectre.Console |
+| **`ConsoleApp`** | UI | Рендеринг кольорів, таблиць, зчитування меню | Прямого створення екземплярів `DbContext` через `new` |
+
+---
+
+## 4. Матриця проєктів цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`StoreApp.DataAccess`](../StoreApp.DataAccess/Repositories/StoreRepositories.cs) | [StoreRepositories.cs](../StoreApp.DataAccess/Repositories/StoreRepositories.cs) | Інкапсуляція роботи з `StoreDbContext`, підвантаження залежних таблиць через `Include`. |
+| [`StoreApp.BusinessLogic`](../StoreApp.BusinessLogic/Services/StoreBusinessServices.cs) | [StoreBusinessServices.cs](../StoreApp.BusinessLogic/Services/StoreBusinessServices.cs) | Реалізація бізнес-правил підтвердження замовлень та мапінг сутностей у DTO. |
+| [`StoreApp.ConsoleUI`](../StoreApp.ConsoleUI/Program.cs) | [Program.cs](../StoreApp.ConsoleUI/Program.cs) | Головний цикл інтерактивного меню з використанням таблиць і запитів Spectre.Console. |

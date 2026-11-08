@@ -1,51 +1,100 @@
-# 02. Моделювання сутностей: Data Annotations проти Fluent API
+# 02. Моделювання сутностей: DataAnnotations та Fluent API
 
-## 1. Три рівні конфігурації моделі у EF Core
+## 1. Конфігураційні рівні метаданих у EF Core
 
-Entity Framework Core будує метамодель бази даних, комбінуючи три підходи (у порядку зростання пріоритету):
-1. **За угодою (Conventions)** — автоматичні правила: клас стає таблицею, властивість `Id` або `<ClassName>Id` стає первинним ключем (`PRIMARY KEY`), reference-типи без `?` (за увімкненого `<Nullable>enable</Nullable>`) стають `NOT NULL`.
-2. **Атрибути (Data Annotations)** — декларативні атрибути з просторів імен `System.ComponentModel.DataAnnotations` та `...Schema` (`[Table]`, `[Column]`, `[Key]`, `[Required]`, `[MaxLength]`, `[NotMapped]`), які розміщуються безпосередньо над класами та властивостями.
-3. **Fluent API (`OnModelCreating`)** — програмна конфігурація через `ModelBuilder`. Має **найвищий пріоритет** і перекриває як угоди, так і атрибути. Дозволяє налаштовувати можливості, недоступні в атрибутах (Check-обмеження, значення за замовчуванням, складені ключі та фільтри).
+Entity Framework Core будує внутрішню реляційну модель бази даних (**`IModel`**), використовуючи суворий трирівневий пріоритет:
+
+```mermaid
+flowchart TD
+    classDef conv fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef annot fill:#b45309,stroke:#f59e0b,color:#ffffff,stroke-width:2px;
+    classDef fluent fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+
+    C1["1. Конвенції за замовчуванням (Conventions)<br/>- Id або {Entity}Id стає первинним ключем<br/>- Типи string стають nvarchar(max)<br/>- Імена таблиць відповідають DbSet<T>"]:::conv
+    
+    C1 --> C2["2. Атрибути Data Annotations<br/>[Table], [Key], [Required], [MaxLength(100)], [Column]"]:::annot
+    
+    C2 --> C3["3. Конфігурація Fluent API (Найвищий пріоритет!)<br/>modelBuilder.Entity<T>().Property(...).HasMaxLength(150)"]:::fluent
+
+    C3 --> FinalModel["Фінальна модель реляційної схеми (IModel)"]
+```
 
 ---
 
-## 2. Чиста архітектура: `IEntityTypeConfiguration<T>`
+## 2. Fluent API: Розділення конфігурацій через `IEntityTypeConfiguration<T>`
 
-Щоб метод `OnModelCreating` у `DbContext` не розростався на сотні рядків, конфігурацію кожної сутності виносять в окремий клас, що реалізує інтерфейс **`IEntityTypeConfiguration<TEntity>`**:
+Розміщення сотень рядків конфігурацій прямо всередині `OnModelCreating` роздуває контекст до непідтримуваних розмірів. Найкраща архітектурна практика полягає у винесенні конфігурації кожної сутності в окремий клас:
 
 ```csharp
-public class ProductConfiguration : IEntityTypeConfiguration<Product> {
-    public void Configure(EntityTypeBuilder<Product> builder)
+public class OrderConfiguration : IEntityTypeConfiguration<Order>
+{
+    public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("CatalogProducts");
-        builder.HasKey(p => p.Id);
-        // ...
+        builder.ToTable("tbl_orders", schema: "sales");
+
+        builder.HasKey(o => o.Id);
+
+        builder.Property(o => o.OrderNumber)
+            .IsRequired()
+            .HasMaxLength(32)
+            .IsUnicode(false); // VARCHAR замість NVARCHAR для оптимізації розміру індексу
+
+        builder.Property(o => o.TotalAmount)
+            .HasPrecision(18, 2); // Запобігає обрізанню фінансових даних
+
+        // Створення унікального композитного індексу:
+        builder.HasIndex(o => new { o.CustomerId, o.OrderNumber }).IsUnique();
     }
 }
+
+// Автоматична реєстрація всіх конфігурацій із поточної збірки в DbContext:
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+    modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreDbContext).Assembly);
+}
 ```
-А у `OnModelCreating` достатньо одного рядка для автоматичного сканування та застосування всіх конфігурацій зі збірки:
+
+---
+
+## 3. Розширені можливості: Тіньові властивості та Конвертери значень
+
+### Тіньові властивості (Shadow Properties)
+Тіньові властивості — це стовпці в базі даних, яких фізично немає у C# класі сутності. Вони ідеально підходять для службових полів аудиту:
+
 ```csharp
-modelBuilder.ApplyConfigurationsFromAssembly(typeof(ModelingDbContext).Assembly);
+// Реєстрація тіньових властивостей у Fluent API:
+builder.Property<DateTime>("CreatedAt").HasDefaultValueSql("GETUTCDATE()");
+builder.Property<string>("LastModifiedBy").HasMaxLength(50);
+
+// Читання або запис тіньової властивості через Entry:
+context.Entry(order).Property("LastModifiedBy").CurrentValue = "admin";
+```
+
+### Конвертери значень (Value Converters)
+Дозволяють прозоро трансформувати типи між C# та базою даних (наприклад, зберігати `Enum` як зрозумілий рядок або серіалізувати об'єкт у JSON-колонку):
+
+```csharp
+builder.Property(o => o.Status)
+    .HasConversion<string>() // У базі буде 'Delivered', 'Pending', а не 0, 1
+    .HasMaxLength(20);
 ```
 
 ---
 
-## 3. Порівняльна таблиця Data Annotations та Fluent API
+## 4. Порівняння: Data Annotations проти Fluent API
 
-| Завдання моделювання | Data Annotations | Fluent API (`EntityTypeBuilder<T>`) |
-| :--- | :--- | :--- |
-| Зміна імені таблиці | `[Table("CatalogProducts")]` | `builder.ToTable("CatalogProducts")` |
-| Зміна імені та типу стовпця | `[Column("ProductId", TypeName = "decimal(18,2)")]` | `builder.Property(p => p.UnitPrice).HasColumnName("...").HasColumnType("decimal(18,2)")` |
-| Первинний ключ | `[Key]` | `builder.HasKey(p => p.Id)` |
-| Складений первинний ключ | `[PrimaryKey(nameof(WarehouseCode), nameof(ProductId))]` | `builder.HasKey(w => new { w.WarehouseCode, w.ProductId })` |
-| Альтернативний ключ (`UNIQUE NOT NULL`) | *Не підтримується* | `builder.HasAlternateKey(p => p.Sku)` |
-| Обмеження `CHECK` у таблиці | *Не підтримується* | `builder.ToTable(t => t.HasCheckConstraint("CK_Price", "UnitPrice >= 0"))` |
-| Значення за замовчуванням (`DEFAULT`) | *Не підтримується* | `builder.Property(p => p.StockQuantity).HasDefaultValue(0)` |
-| Виключення властивості з таблиці БД | `[NotMapped]` | `builder.Ignore(w => w.TemporaryInspectorNote)` |
+| Критерій | Data Annotations | Fluent API |
+|:---|:---|:---|
+| **Чистота доменної моделі (POCO)** | Порушується: сутність залежить від атрибутів БД | 100% чистий C# клас без жодних інфраструктурних залежностей |
+| **Потужність налаштувань** | Базова (лише прості обмеження) | Повна (індекси, фільтри, тіньові поля, конвертери) |
+| **Композитні ключі та індекси** | Обмежено | Повна підтримка будь-яких складених структур |
+| **Зручність читання** | Атрибути прямо над полями | Відокремлено у файлах `EntityTypeConfiguration` |
 
 ---
 
-## 4. Початкове заповнення даних (`HasData`)
+## 5. Матриця проєкту цієї секції
 
-Метод `builder.HasData(...)` дозволяє зафіксувати довідкові або стартові записи прямо в метамоделі EF Core (вони автоматично потрапляють у DDL/міграції та створюються під час `EnsureCreatedAsync()`).
-- При використанні `HasData` необхідно **явно вказувати значення первинного ключа (`Id = 1`, `Id = 2`)**, навіть якщо у БД ключ є автоінкрементним.
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`02-EntityModelingAnnotationsAndFluentApi`](../02-EntityModelingAnnotationsAndFluentApi/Program.cs) | [Program.cs](../02-EntityModelingAnnotationsAndFluentApi/Program.cs) | Застосування Fluent API, створення таблиць із кастомними типами, конфігурація `HasPrecision`, індекси та тіньові поля. |

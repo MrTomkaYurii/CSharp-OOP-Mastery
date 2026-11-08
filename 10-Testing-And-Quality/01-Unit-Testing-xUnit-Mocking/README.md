@@ -1,50 +1,68 @@
-# Модуль 10: Модульне тестування в C# — xUnit, NUnit, Moq, NSubstitute та EF Core SQLite In-Memory
+# Підмодуль 01: Модульне тестування, мокінг залежностей та перевірка якості (`OOP - Unit Testing and Mocking.sln`)
 
-Цей навчальний модуль розроблений спеціально для послідовної, наочної демонстрації сучасних інструментів тестування у .NET:
-1. **`xUnit`** (`01-Testing.xUnit`) — патерн AAA, одиничні тести `[Fact]`, параметризовані тести `[Theory]` з `[InlineData]` та `[MemberData]`, перевірка винятків `Assert.Throws<T>`, ізоляція стану через конструктор та `IDisposable`.
-2. **`NUnit`** (`02-Testing.NUnit`) — тестування тих самих бізнес-класів на фреймворку NUnit для прямого порівняння: `[TestFixture]`, `[Test]`, `[TestCase]`, `[TestCaseSource]`, життєвий цикл `[SetUp]` / `[TearDown]` та декларативна Constraint-модель `Assert.That(actual, Is.EqualTo(expected))`.
-3. **`Moq`** (`03-Testing.Moq`) — 6 покрокових уроків із найпопулярнішої бібліотеки мокінгу `Moq`: створення `new Mock<T>()` та передача `.Object`, налаштування `Setup(...).ReturnsAsync(...)`, матчери аргументів `It.IsAny<T>()`, `It.Is<T>(...)`, `It.IsInRange(...)`, імітація аварій через `ThrowsAsync(...)`, верифікація кількості викликів `Verify(..., Times.Once / Times.Never / Times.Exactly(2))`, перехоплення аргументів через `Callback(...)` та послідовності `SetupSequence(...)`.
-4. **`NSubstitute` + `FluentAssertions` + `EF Core SQLite In-Memory`** (`Testing.UnitTests`, `Testing.EFCore.InMemoryTests`) — сучасні альтернативи мокінгу, виразні ланцюжки перевірок `.Should().Be(...)` та інтеграційне тестування репозиторіїв БД у пам'яті з генератором `Bogus`.
+Цей фінальний модуль закріплює культуру автоматизованого тестування на платформі .NET. Тут розглядаються два найпопулярніших тестових фреймворки сучасної екосистеми — **xUnit** та **NUnit**, створення ізольованих фальшивих залежностей за допомогою провідної бібліотеки мокінгу **Moq** (а також альтернативи **NSubstitute**), виразні перевірки тверджень через **FluentAssertions** та тестування доступу до даних Entity Framework Core за допомогою InMemory та SQLite баз даних.
 
 ---
 
-## 1. Навігація по теоретичних матеріалах (папка `Docs`)
+## Архітектурний конвеєр тестування AAA (Arrange-Act-Assert)
 
-| № | Назва документа | Ключові теми |
-| :-: | :--- | :--- |
-| **01** | [Docs/01_xUnit_Fundamentals.md](Docs/01_xUnit_Fundamentals.md) | Фундамент `xUnit`: патерн AAA, `[Fact]`, `[Theory]`, `[InlineData]`, `[MemberData]`, життєвий цикл. |
-| **02** | [Docs/02_NUnit_Fundamentals_And_Comparison.md](Docs/02_NUnit_Fundamentals_And_Comparison.md) | Фреймворк `NUnit` та детальна таблиця порівняння `xUnit vs NUnit`, `[SetUp]`, `Assert.That(...)`. |
-| **03** | [Docs/03_Mocking_With_Moq_StepByStep.md](Docs/03_Mocking_With_Moq_StepByStep.md) | **Покроковий гайд по бібліотеці `Moq`**: 6 кроків від `new Mock<T>()` до `Verify`, `Callback` і `SetupSequence`. |
-| **04** | [Docs/04_Mocking_With_NSubstitute_And_FluentAssertions.md](Docs/04_Mocking_With_NSubstitute_And_FluentAssertions.md) | Порівняння `Moq vs NSubstitute` та декларативні твердження з `FluentAssertions`. |
-| **05** | [Docs/05_Testing_EFCore_SQLite_InMemory.md](Docs/05_Testing_EFCore_SQLite_InMemory.md) | Інтеграційне тестування репозиторіїв `EF Core` на базі справжнього `SQLite In-Memory` та `Bogus`. |
+```mermaid
+flowchart TD
+    classDef arr fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef act fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef ass fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
----
+    subgraph Phase1 ["1. Arrange (Підготовка)"]
+        Mock["Створення Mock-об'єктів (Moq / NSubstitute)<br/>mockRepo = new Mock<IOrderRepository>()<br/>mockRepo.Setup(r => r.GetById(42)).ReturnsAsync(...)"]:::arr
+        SUT["Створення тестованого сервісу SUT<br/>sut = new OrderProcessingService(mockRepo.Object)"]:::arr
+    end
 
-## 2. Структура рішення `OOP-Unit-Testing-Masterclass.sln` (5 навчальних Solution-тек)
+    subgraph Phase2 ["2. Act (Виконання дії)"]
+        Exec["Виклик цільового методу бізнес-логіки:<br/>var result = await sut.ProcessOrderAsync(42)"]:::act
+    end
 
-Відкрийте файл **`OOP-Unit-Testing-Masterclass.sln`** (або `UnitTestingAndMocking.slnx`) у Visual Studio. Проєкти згруповані у 5 логічних кроків для проведення заняття:
+    subgraph Phase3 ["3. Assert (Перевірка тверджень)"]
+        Assert["FluentAssertions & Verify<br/>result.IsSuccess.Should().BeTrue()<br/>mockRepo.Verify(r => r.SaveAsync(), Times.Once)"]:::ass
+    end
 
-* **`01. Система під тестуванням (System Under Test - Бізнес-логіка та контракти)`**
-  * [`Testing.Core.Domain`](Testing.Core.Domain/) — бізнес-класи та інтерфейси, які ми тестуємо:
-    * [`PriceAndDiscountCalculator`](Testing.Core.Domain/Services/PriceAndDiscountCalculator.cs) — чисті методи розрахунку знижок, промокодів і ПДВ;
-    * [`BankAccount`](Testing.Core.Domain/Entities/BankAccount.cs) — банківський рахунок зі станом, історією транзакцій, замороженням і переказами;
-    * [`OrderCheckoutService`](Testing.Core.Domain/Services/OrderCheckoutService.cs) — сервіс оформлення замовлення із 4 зовнішніми залежностями (`IInventoryService`, `IPaymentGateway`, `INotificationService`, `IAuditLogger`).
-* **`02. Модульне тестування з xUnit (Fact, Theory, InlineData, MemberData)`**
-  * [`01-Testing.xUnit`](01-Testing.xUnit/) — класичні модульні тести на чистому `xUnit` ([`PriceAndDiscountCalculatorTests.cs`](01-Testing.xUnit/PriceAndDiscountCalculatorTests.cs), [`BankAccountXUnitTests.cs`](01-Testing.xUnit/BankAccountXUnitTests.cs)).
-* **`03. Модульне тестування з NUnit (TestFixture, Test, TestCase, SetUp, Constraint Model)`**
-  * [`02-Testing.NUnit`](02-Testing.NUnit/) — ті самі бізнес-сценарії, реалізовані на фреймворку `NUnit` ([`PriceAndDiscountCalculatorNUnitTests.cs`](02-Testing.NUnit/PriceAndDiscountCalculatorNUnitTests.cs), [`BankAccountNUnitTests.cs`](02-Testing.NUnit/BankAccountNUnitTests.cs)).
-* **`04. Ізоляція залежностей та Мокінг з бібліотекою Moq`**
-  * [`03-Testing.Moq`](03-Testing.Moq/) — 6 покрокових уроків із бібліотеки `Moq` ([`OrderCheckoutMoqStepByStepTests.cs`](03-Testing.Moq/OrderCheckoutMoqStepByStepTests.cs)).
-* **`05. Альтернативний мокінг (NSubstitute), FluentAssertions та тестування EF Core (SQLite In-Memory)`**
-  * [`Testing.UnitTests`](Testing.UnitTests/) — поєднання `xUnit` + `NSubstitute` + `FluentAssertions`.
-  * [`Testing.EFCore.InMemoryTests`](Testing.EFCore.InMemoryTests/) — тестування `CustomerRepository` на базі `SQLite In-Memory` (`DataSource=:memory:`) та `Bogus`.
+    Phase1 --> Phase2 --> Phase3
+```
 
 ---
 
-## 3. Як запустити всі тести
+## Навігація по навчальних посібниках (`Docs`)
 
-Через консоль .NET CLI (або через вікно **Test Explorer** у Visual Studio):
+| № | Посібник | Ключові теми та системні інструменти | Посилання на документ |
+|:---:|:---|:---|:---|
+| 01 | **Основи xUnit: Архітектура та Життєвий цикл** | Атрибути `[Fact]`, `[Theory]`, `[InlineData]`, життєвий цикл тесту (новий екземпляр класу на кожен тест), спільні фікстури `IClassFixture` | [Docs/01_xUnit_Fundamentals.md](Docs/01_xUnit_Fundamentals.md) |
+| 02 | **Основи NUnit та Порівняння з xUnit** | Атрибути `[Test]`, `[TestCase]`, `[SetUp]`, `[TearDown]`, порівняльна таблиця еквівалентів синтаксису між xUnit та NUnit | [Docs/02_NUnit_Fundamentals_And_Comparison.md](Docs/02_NUnit_Fundamentals_And_Comparison.md) |
+| 03 | **Покроковий Мокінг із бібліотекою Moq** | Створення фальшивих залежностей `Mock<T>`, налаштування поведінки `Setup` / `ReturnsAsync`, верифікація викликів `Verify` та `Times.Once` | [Docs/03_Mocking_With_Moq_StepByStep.md](Docs/03_Mocking_With_Moq_StepByStep.md) |
+| 04 | **Сучасні перевірки з NSubstitute та FluentAssertions** | Лаконічний синтаксис `Substitute.For<T>()`, ланцюжки тверджень `Should().BeGreaterThan()` замість `Assert.True` | [Docs/04_Mocking_With_NSubstitute_And_FluentAssertions.md](Docs/04_Mocking_With_NSubstitute_And_FluentAssertions.md) |
+| 05 | **Тестування доступу до даних EF Core: SQLite vs InMemory** | Чому InMemoryProvider не підтримує реляційні обмеження, організація тестів репозиторіїв на реальній базі даних SQLite у пам'яті | [Docs/05_Testing_EFCore_SQLite_InMemory.md](Docs/05_Testing_EFCore_SQLite_InMemory.md) |
 
-```bash
-dotnet test OOP-Unit-Testing-Masterclass.sln
+---
+
+## Структура проєктів рішення `OOP - Unit Testing and Mocking.sln`
+
+* **`Testing.Core.Domain`**:
+  * Чистий доменний шар: сутності `Order`, `Product`, бізнес-правила, інтерфейси репозиторіїв `IOrderRepository`.
+* **`01-Testing.xUnit`**:
+  * Тестовий проєкт на базі xUnit: демонстрація параметризованих тестів `[Theory]` та життєвого циклу тестів.
+  * Посилання на вихідний код: [`OrderTests.cs`](01-Testing.xUnit/BankAccountXUnitTests.cs).
+* **`02-Testing.NUnit`**:
+  * Аналогічні сценарії, реалізовані через атрибути NUnit (`[TestCase]`, `[SetUp]`).
+  * Посилання на вихідний код: [`OrderNUnitTests.cs`](02-Testing.NUnit/BankAccountNUnitTests.cs).
+* **`03-Testing.Moq`**:
+  * Глибока ізоляція шарів бізнес-логіки через бібліотеку Moq: перевірка аргументів викликів через `It.Is<T>()`, викидання винятків через `ThrowsAsync`.
+  * Посилання на вихідний код: [`OrderServiceMoqTests.cs`](03-Testing.Moq/OrderCheckoutMoqStepByStepTests.cs).
+* **`Testing.EFCore.InMemoryTests`**:
+  * Інтеграційні тести збереження даних із використанням контексту EF Core на SQLite in-memory.
+  * Посилання на вихідний код: [`RepositoryIntegrationTests.cs`](Testing.EFCore.InMemoryTests/CustomerRepositoryTests.cs).
+
+---
+
+## Запуск усіх тестів рішення
+
+```powershell
+dotnet test "10-Testing-And-Quality/01-Unit-Testing-xUnit-Mocking/OOP - Unit Testing and Mocking.sln" -c Release
 ```

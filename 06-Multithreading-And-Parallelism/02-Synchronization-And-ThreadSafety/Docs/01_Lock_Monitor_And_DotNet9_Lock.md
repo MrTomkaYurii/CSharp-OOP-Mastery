@@ -1,36 +1,74 @@
-# 01. Критичні секції: `lock`, `Monitor` та новий `System.Threading.Lock` (.NET 9/10)
+# 01. Критичні секції: `lock`, `Monitor` та `.NET 10 System.Threading.Lock`
 
-## 1. Як працює класичний `lock (object)`?
-Коли необхідно виконати декілька операцій як єдину неподільну транзакцію (наприклад, перевірити залишок на складі і списати товар), атомарного `Interlocked` уже недостатньо — потрібна **критична секція**.
+## 1. Як влаштований `lock` під капотом CLR
 
-Конструкція `lock (_syncRoot)` є синтаксичним цукром компілятора C# над класом `System.Threading.Monitor`:
+Конструкція `lock (syncObject) { ... }` є синтаксичним цукром над статичним класом `System.Threading.Monitor`:
 
 ```csharp
 bool lockTaken = false;
 try
 {
-    Monitor.Enter(_syncRoot, ref lockTaken);
-    // Критична секція: одночасно тут перебуває лише ОДИН потік
+    Monitor.Enter(syncObject, ref lockTaken);
+    // Критична секція (лише один потік одночасно)
 }
 finally
 {
-    if (lockTaken)
-        Monitor.Exit(_syncRoot);
+    if (lockTaken) Monitor.Exit(syncObject);
+}
+```
+
+### Заголовок об'єкта та SyncBlockIndex
+Кожен посилальний об'єкт у купі .NET має заголовок із двох службових полів:
+1. **MethodTable Pointer**: вказівник на таблицю методів типу.
+2. **SyncBlockIndex**: 4-байтне поле, яке спочатку зберігає хеш-код об'єкта. При першому виклику `Monitor.Enter` CLR виділяє запис у глобальній таблиці синхроблоків і записує його індекс у це поле.
+
+---
+
+## 2. Новий тип `.NET 9 / .NET 10`: `System.Threading.Lock`
+
+Починаючи з C# 13 та .NET 9+, якщо об'єктом блокування виступає екземпляр нового типу `System.Threading.Lock`, компілятор генерує набагато швидший код через структуру `Lock.Scope`:
+
+```csharp
+// Сучасний стандарт (.NET 9 / .NET 10):
+private readonly Lock _gate = new();
+
+public void ExecuteCriticalWork()
+{
+    lock (_gate) // Автоматично використовує ref struct Scope!
+    {
+        // Відсутній оверхед на SyncBlockIndex у купі!
+    }
 }
 ```
 
 ---
 
-## 2. Новий тип `System.Threading.Lock` у .NET 9 та .NET 10
-Починаючи з .NET 9, у BCL з'явився спеціалізований тип `System.Threading.Lock`. Якщо змінна оголошена як `private readonly Lock _lock = new();`, конструкція `lock (_lock)` автоматично використовує новий швидкий механізм `Lock.EnterScope()` замість застарілого заголовка об'єкта `SyncBlock`.
+## 3. Запобігання зависанню через `Monitor.TryEnter`
+
+Якщо потік не може отримати блокування протягом визначеного часу, замість нескінченного очікування слід вийти з таймаутом:
+
+```csharp
+if (Monitor.TryEnter(_syncLock, TimeSpan.FromSeconds(2)))
+{
+    try
+    {
+        // Робота з ресурсом
+    }
+    finally
+    {
+        Monitor.Exit(_syncLock);
+    }
+}
+else
+{
+    Console.WriteLine("[Warning] Не вдалося отримати блокування за 2 секунди. Пропускаємо.");
+}
+```
 
 ---
 
-## 3. Методи класів `Monitor` та `Lock`
+## 4. Матриця проєкту цієї секції
 
-| Метод | Опис | Приклад у коді | Документація MSDN |
-|:---|:---|:---|:---|
-| `Monitor.Enter(object, ref bool)` | Захоплює ексклюзивне блокування на об'єкті | [Program.cs](../01-LockAndMonitorDemo/Program.cs#L28) | [Monitor.Enter](https://learn.microsoft.com/en-us/dotnet/api/system.threading.monitor.enter) |
-| `Monitor.TryEnter(object, TimeSpan, ref bool)` | Намагається увійти в критичну секцію протягом заданого таймауту | [Program.cs](../01-LockAndMonitorDemo/Program.cs#L56) | [Monitor.TryEnter](https://learn.microsoft.com/en-us/dotnet/api/system.threading.monitor.tryenter) |
-| `Monitor.Exit(object)` | Звільняє блокування об'єкта у блоці `finally` | [Program.cs](../01-LockAndMonitorDemo/Program.cs#L69) | [Monitor.Exit](https://learn.microsoft.com/en-us/dotnet/api/system.threading.monitor.exit) |
-| `Lock.EnterScope()` | Повертає `ref struct Scope`, що автоматично знімає блокування при виході з `lock` | [Program.cs](../01-LockAndMonitorDemo/Program.cs#L43) | [Lock.EnterScope](https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock.enterscope) | 
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`01-LockAndMonitor`](../01-LockAndMonitorDemo/Program.cs) | [Program.cs](../01-LockAndMonitorDemo/Program.cs) | Порівняння класичного `lock`, класу `Monitor.TryEnter` із таймаутом та нового типу `.NET 10 System.Threading.Lock`. |

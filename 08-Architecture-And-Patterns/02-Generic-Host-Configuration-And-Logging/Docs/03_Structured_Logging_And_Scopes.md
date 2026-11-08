@@ -1,92 +1,114 @@
-# 03. Система логування в .NET (`ILogger<T>`, Рівні логування, Структуроване логування та Scopes)
+# 03. Структуроване Логування, Scopes та Високопродуктивний аудит
 
-Стандартна бібліотека `Microsoft.Extensions.Logging` забезпечує єдиний високопродуктивний фасад логування для всіх типів застосунків .NET. Вона відділяє код генерації подій (`ILogger<T>`) від кінцевих приймачів (провайдерів виводу в консоль, файли чи системи агрегації логів).
+## 1. Парадигма Structured Logging проти рядкової конкатенації
+
+Традиційне логування записувало в журнал плоскі тексти: `log.Info("Користувач " + userId + " купив товар " + productId)`. У такому вигляді лог майже неможливо автоматизовано парсити та фільтрувати у великих системах (ELK, Seq, Datadog).
+
+**Структуроване логування (Semantic / Structured Logging)** зберігає повідомлення як шаблон із пойменованими властивостями:
+```csharp
+_logger.LogInformation("Користувач {UserId} оформив замовлення {OrderId} на суму {TotalAmount:C}", 
+    userId, orderId, totalAmount);
+```
+
+Компілятор та провайдер логування не склеюють текст через `string.Format`, а передають у підсистему структурований JSON-об'єкт із полями `UserId`, `OrderId`, `TotalAmount`. Це дозволяє виконувати пошукові SQL-подібні запити типу: `OrderId = 42 AND TotalAmount > 1000`.
 
 ---
 
-## 1. Категорії логування та рівні критичності (`LogLevel`)
+## 2. Діаграма конвеєра логування та контекстних областей (Scopes)
 
-Коли клас отримує в конструкторі залежність `ILogger<OrderCheckoutService>`, фабрика `ILoggerFactory` автоматично призначає йому **категорію**, що дорівнює повному імені класу разом із простором імен (`StructuredLoggingAndScopes.OrderCheckoutService`).
+```mermaid
+flowchart TD
+    classDef call fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef scope fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
+    classDef prov fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
 
-Саме за цими категоріями конфігурація дозволяє гнучко фільтрувати детальність журналу без перекомпіляції коду:
+    Call["Виклик: _logger.LogInformation(...)"]:::call --> Check{"Рівень повідомлення >= LogLevel фільтра?"}
+    Check -->|Ні| Drop["Повідомлення ігнорується (нульові витрати)"]
+    Check -->|Так| ScopeCheck{"Чи активний BeginScope?"}:::scope
 
-```json
+    ScopeCheck -->|Так| Enrich["Збагатити повідомлення метаданими Scope<br/>(TraceId, CorrelationId, CustomerId)"]:::scope
+    ScopeCheck -->|Ні| Pipeline["Передача в зареєстровані провайдери"]:::prov
+
+    Enrich --> Pipeline
+    Pipeline --> Cons["Console Logger"]:::prov
+    Pipeline --> File["File / JSON Logger"]:::prov
+    Pipeline --> OTel["OpenTelemetry / Seq / ELK"]:::prov
+```
+
+---
+
+## 3. Діагностичні області `BeginScope`: Трасування операцій
+
+Метод `logger.BeginScope` дозволяє "обернути" блок коду логічним контекстом. Усі логи, згенеровані всередині цього блоку (навіть у викликаних підсервісах), автоматично міститимуть параметри цієї області:
+
+```csharp
+public async Task ProcessOrderBatchAsync(Guid batchId, List<Order> orders)
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "StructuredLoggingAndScopes.OrderCheckoutService": "Debug"
+    // Створюємо контекстну область для всієї пачки:
+    using (_logger.BeginScope(new Dictionary<string, object>
+    {
+        ["BatchId"] = batchId,
+        ["TotalOrders"] = orders.Count
+    }))
+    {
+        _logger.LogInformation("Початок обробки пакету замовлень.");
+
+        foreach (var order in orders)
+        {
+            // Вкладена область конкретного замовлення:
+            using (_logger.BeginScope("OrderId: {OrderId}", order.Id))
+            {
+                _logger.LogInformation("Валідація замовлення...");
+                await ProcessSingleOrderAsync(order);
+                _logger.LogInformation("Замовлення успішно оброблено.");
+            }
+        }
+
+        _logger.LogInformation("Обробку пакету завершено.");
     }
-  }
 }
 ```
 
-### Шкала рівнів `LogLevel` (за зростанням важливості):
-1. **`Trace` (0)** — наддетальні технічні дані (вміст пакетів, кроки низькорівневих алгоритмів).
-2. **`Debug` (1)** — діагностична інформація для розробників під час налагодження.
-3. **`Information` (2)** — штатний потік бізнес-подій (старт служби, успішно оброблене замовлення).
-4. **`Warning` (3)** — нештатна, але не критична ситуація (повторна спроба підключення, відхилено некоректні вхідні дані).
-5. **`Error` (4)** — збій конкретної операції (перехоплено виняток при збереженні замовлення), але застосунок продовжує працювати.
-6. **`Critical` (5)** — катастрофічна відмова на рівні всієї системи (втрата сховища даних, вичерпання дискового простору).
-
 ---
 
-## 2. Структуроване логування проти інтерполяції рядків
+## 4. Високопродуктивне логування: `[LoggerMessage]` Source Generators
 
-> [!WARNING]
-> **Ніколи не використовуйте інтерполяцію рядків `$""` у викликах логера!**
+При мільйонах операцій на секунду стандартний виклик `_logger.LogInformation(...)` створює навантаження на збирач сміття (GC) через пакування типів-значень (`boxing`) та виділення пам'яті під масиви аргументів `params object[]`.
 
-```csharp
-//  ПОГАНО (Антипатерн):
-// 1. Рядок форматується в пам'яті ЗАВЖДИ, навіть якщо рівень Information вимкнено.
-// 2. Система логування отримує суцільний текст і втрачає окремі поля OrderId та Amount.
-_logger.LogInformation($"Оброблено замовлення {orderId} на суму {amount} грн");
-
-//  ДОБРЕ (Структурований шаблон — Message Template):
-// Параметри передаються окремо і зберігаються як іменовані пари Ключ-Значення!
-_logger.LogInformation("Оброблено замовлення {OrderId} на суму {Amount} грн", orderId, amount);
-```
-
-Завдяки структурованим шаблонам сучасні провайдери логів можуть індексувати параметри `{OrderId}` та `{Amount}` як окремі типізовані поля, дозволяючи миттєво будувати запити на кшталт `WHERE Amount > 1000 AND OrderId = 1042`.
-
----
-
-## 3. Контекстні області видимості (`logger.BeginScope`)
-
-Коли складна операція викликає десяток методів у різних класах, дуже важливо об'єднати всі їхні записи спільним контекстом (наприклад, `CorrelationId` та `OrderId`), не передаючи ці параметри в кожен окремий виклик `LogInformation`.
-
-Для цього використовується метод `BeginScope`:
-```csharp
-using IDisposable? scope = _logger.BeginScope(
-    "CorrelationId={CorrelationId}, OrderId={OrderId}",
-    correlationId, orderId);
-
-_logger.LogDebug("Перевірка кошика...");
-_logger.LogInformation("Замовлення підтверджено.");
-```
-Усі повідомлення, записані всередині блоку `using`, автоматично збагачуються метаданими поточної області видимості!
-
----
-
-## 4. Надшвидке логування через генератор коду `[LoggerMessage]`
-
-У високонавантажених циклах звичайний виклик `_logger.LogInformation("...", id, amount)` має невеликі накладні витрати: створення масиву `params object[]` у купі та пакування (boxing) значущих типів (`int`, `decimal`).
-
-Починаючи з сучасних версій .NET, атрибут `[LoggerMessage]` генерує на етапі компіляції строго типізований метод без боксингу та з попередньо розпарсеним шаблоном:
+У сучасному C# використовується **Source Generator `[LoggerMessage]`**:
 
 ```csharp
-internal static partial class HighPerformanceLogs
+public static partial class LogExtensions
 {
+    // Нульовий allocation: компілятор створює оптимізований код без боксингу аргументів
     [LoggerMessage(
-        EventId = 2001,
+        EventId = 101,
         Level = LogLevel.Information,
-        Message = "Платіж для замовлення #{OrderId} на суму {Amount} {Currency} авторизовано.")]
-    public static partial void LogPaymentAuthorized(
-        ILogger logger, int orderId, decimal amount, string currency);
+        Message = "Користувач {UserId} успішно авторизувався з IP-адреси {IpAddress}")]
+    public static partial void LogUserLoggedIn(this ILogger logger, int userId, string ipAddress);
 }
+
+// Виклик:
+_logger.LogUserLoggedIn(42, "192.168.1.1");
 ```
 
-Якщо рівень `Information` вимкнено в конфігурації, згенерований метод виконує лише одну надшвидку перевірку `if (!logger.IsEnabled(LogLevel.Information)) return;` з **нульовою алокацією пам'яті**.
+---
 
-Детальний робочий приклад дивіться у проєкті [`03-StructuredLoggingAndScopes`](../03-StructuredLoggingAndScopes/Program.cs).
+## 5. Порівняння рівнів логування (`LogLevel`)
+
+| Рівень | Enum | Коли використовувати | Типова реакція інженера |
+|:---|:---:|:---|:---|
+| **Trace** | 0 | Найдетальніший дамп байтів, сокетів, внутрішніх структур | Лише для локального відлагодження критичних багів |
+| **Debug** | 1 | Поточні змінні, внутрішній стан методів | Середовище тестування та Dev |
+| **Information** | 2 | Ключові бізнес-події (запуск сервісу, оформлення чека) | Продакшн-моніторинг |
+| **Warning** | 3 | Неочікувані ситуації, відновлені автоматично (ретраї мережі) | Аналіз черги технічного боргу |
+| **Error** | 4 | Помилки, через які конкретна операція перервалася | Сповіщення в чат чергових інженерів |
+| **Critical** | 5 | Аварія застосунку (відсутній доступ до БД, OutOfMemory) | Негайна тривога, автоперезапуск подика |
+
+---
+
+## 6. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`03-StructuredLoggingAndScopes`](../03-StructuredLoggingAndScopes/Program.cs) | [Program.cs](../03-StructuredLoggingAndScopes/Program.cs) | Налаштування рівнів фільтрації логів, семантична передача параметрів у шаблони та використання `BeginScope` для трекінгу кореляційних ідентифікаторів. |

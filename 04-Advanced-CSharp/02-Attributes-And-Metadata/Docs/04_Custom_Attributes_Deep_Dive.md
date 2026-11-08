@@ -1,56 +1,106 @@
-# Класи System.Attribute, AttributeUsageAttribute та CustomAttributeData
+# 04. Поглиблений розбір кастомних атрибутів, `AttributeUsage` та потоку `#Blob`
 
-> **Простір імен**: `System`, `System.Reflection`  
-> **Збірка**: `System.Private.CoreLib.dll`  
-> **Базовий проєкт**: [17-AttributesBasicsDemo](../17-AttributesBasicsDemo/Program.cs)  
-> **Офіційна документація**: [Attributes in C# (Microsoft Learn)](https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/)
+## 1. Внутрішній устрій: Як атрибути зберігаються у збірці .NET
 
-Атрибути в C# та .NET — це спосіб прикріпити додаткову інформацію (метадані) до будь-якого елемента коду: класу, методу, властивості, поля або параметра.
-
----
-
-## 1. Навіщо потрібні атрибути? (Пояснення на реальних прикладах)
-
-Уявіть собі звичайну коробку з товаром на складі. Сама коробка — це ваш **клас або метод**. На коробку наклеюють **стікери (ярлики)**: «Крихке», «Зберігати при -18C», «Тільки для персоналу». Сам паперовий стікер нічого не робить, але коли працівник складу або автоматичний сканер (**рефлексія**) бачить цей стікер, він змінює спосіб обробки коробки.
-
-У проєкті [17-AttributesBasicsDemo](../17-AttributesBasicsDemo/Program.cs) показано 4 головні причини, для чого створюють атрибути:
-
-1. **Підказки компілятору**: атрибут `[Obsolete]` попереджає розробника, що метод застарів, а `[CallerMemberName]` автоматично підставляє ім'я методу, звідки відбувся виклик.
-2. **Паспортизація та документування коду**: атрибут `[AuthorInfo("Олександр Коваленко", Version = "2.1")]` зберігає історію авторів і версій прямо всередині скомпільованого `.dll` файлу.
-3. **Автоматична маршрутизація (побудова меню команд або веб-ендпоінтів)**: атрибут `[ConsoleCommand("status", "...")]` дозволяє програмі самій знайти всі методи-команди без громіздких конструкцій `switch-case`.
-4. **Декларативна безпека та авторизація**: атрибут `[RequiresPermission("Admin")]` дозволяє перевірити роль поточного користувача перед викликом методу через `Invoke`.
-
----
-
-## 2. Позиційні проти Іменованих параметрів атрибута
+Атрибути в C# не є звичайними об'єктами, що постійно існують в пам'яті. При компіляції вихідного коду компілятор Roslyn не створює екземпляр класу атрибута. Натомість він записує в таблицю метаданих **`CustomAttribute` (таблиця 0x0C)** посилання на конструктор атрибута та бінарний серіалізований масив аргументів у купу **`#Blob`**:
 
 ```mermaid
-flowchart LR
-    Syntax["[AuthorInfo(&quot;Марія Бойко&quot;, Version = &quot;2.1&quot;, LastModified = &quot;2026-10-20&quot;)]"]
-    Syntax --> Pos["1. Позиційний параметр:<br/>&quot;Марія Бойко&quot;<br/>(Обов'язковий аргумент конструктора)"]
-    Syntax --> Named["2. Іменовані параметри:<br/>Version, LastModified<br/>(Необов'язкові публічні властивості get/set)"]
+flowchart TD
+    classDef src fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef pe fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef rt fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
+
+    Source["[Author('Марія', Version = '2.1')]"]:::src
+    
+    Source --> Roslyn["Компілятор C#"]:::src
+    Roslyn --> Meta["Таблиця метаданих CustomAttribute (0x0C)<br/>Parent Token: Метод/Клас<br/>Constructor Token: .ctor<br/>Value: Індекс у потоці #Blob"]:::pe
+    Roslyn --> Blob["Потік #Blob (Бінарні байти)<br/>01 00 (Prolog) + 'Марія' + 01 (Named count) + 'Version' = '2.1'"]:::pe
+
+    Meta -.-> Read["Через reflection: створення об'єкта ТІЛЬКИ при виклику GetCustomAttribute()"]:::rt
+```
+
+Об'єкт класу атрибута інстанціюється **виключно у той момент**, коли код викликає метод `GetCustomAttribute<T>()`. Якщо атрибут ніколи не запитується рефлексією, його екземпляр у купі ніколи не буде створено!
+
+---
+
+## 2. Обмеження типів параметрів конструктора атрибутів
+
+Оскільки аргументи атрибута повинні бути записані в бінарний потік метаданих на етапі компіляції, специфікація CLI накладає суворе обмеження на типи даних, які дозволено передавати в конструктор:
+
+* **Дозволені типи**:
+  1. Примітивні типи (`bool`, `byte`, `char`, `short`, `int`, `long`, `float`, `double`).
+  2. Рядки (`string`).
+  3. Типи `System.Type` (передаються через оператор `typeof(...)`).
+  4. Перелічення (`enum`).
+  5. Одновимірні масиви з перерахованих вище типів (наприклад, `int[]` або `string[]`).
+* **Заборонені типи**:
+  * Довільні складні об'єкти (класи), інтерфейси, структури, значення `decimal` та багатовимірні масиви. Спроба оголосити такий аргумент призведе до помилки компіляції `CS0182`.
+
+---
+
+## 3. Керування застосуванням через `[AttributeUsage]`
+
+Клас `AttributeUsageAttribute` визначає, де і як саме компілятор дозволяє застосовувати ваш кастомний атрибут:
+
+```csharp
+[AttributeUsage(
+    AttributeTargets.Class | AttributeTargets.Struct, // Дозволено лише для типів
+    AllowMultiple = false,                          // Заборонено дублювати на одному класі
+    Inherited = true)]                              // Нащадки автоматично успадкують цей атрибут
+public sealed class DomainEntityAttribute : Attribute
+{
+    public string TableName { get; }
+    public DomainEntityAttribute(string tableName) => TableName = tableName;
+}
+```
+
+### Параметри `AttributeUsage`:
+1. **`ValidOn (AttributeTargets)`** — бітова маска: `Class`, `Method`, `Property`, `Field`, `Parameter`, `ReturnValue`, `Assembly` тощо.
+2. **`AllowMultiple`** — якщо `true`, атрибут можна вказувати декілька разів над одним елементом коду.
+3. **`Inherited`** — якщо `true`, запит атрибута у похідного класу через `type.GetCustomAttribute<T>(inherit: true)` знайде атрибут, визначений на базовому класі.
+
+---
+
+## 4. Високопродуктивне зчитування: `CustomAttributeData`
+
+Коли потрібно лише прочитати метадані без виконання коду конструктора атрибута (наприклад, в утилітах статичного аналізу або для запобігання запуску побічних дій у конструкторі), використовується клас **`CustomAttributeData`**:
+
+```csharp
+// Зчитує метадані напряму з потоку #Blob БЕЗ інстанціювання екземпляра атрибута:
+IList<CustomAttributeData> attributes = typeof(Customer).GetCustomAttributesData();
+
+foreach (CustomAttributeData attr in attributes)
+{
+    Console.WriteLine($"Тип атрибута: {attr.AttributeType.FullName}");
+    
+    // Позиційні аргументи:
+    foreach (var ctorArg in attr.ConstructorArguments)
+    {
+        Console.WriteLine($"  Ctor arg ({ctorArg.ArgumentType}): {ctorArg.Value}");
+    }
+
+    // Іменовані параметри:
+    foreach (var namedArg in attr.NamedArguments)
+    {
+        Console.WriteLine($"  Named arg {namedArg.MemberName} = {namedArg.TypedValue.Value}");
+    }
+}
 ```
 
 ---
 
-## 3. Властивості для роботи з атрибутами (Properties)
+## 5. Порівняльна таблиця методів доступу до атрибутів
 
-| Властивість | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
-| :--- | :--- | :--- | :---: | :--- | :--- |
-| **`AttributeType`** | `Type AttributeType { get; }` | Тип атрибута, збережений у дескрипторі `CustomAttributeData` | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L71) | [CustomAttributeData.AttributeType](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributedata.attributetype) |
-| **`ConstructorArguments`** | `IList<CustomAttributeTypedArgument> ConstructorArguments { get; }` | Список позиційних аргументів, переданих у конструктор атрибута | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L72) | [CustomAttributeData.ConstructorArguments](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributedata.constructorarguments) |
-| **`NamedArguments`** | `IList<CustomAttributeNamedArgument> NamedArguments { get; }` | Список іменованих аргументів (властивостей/полів), встановлених при застосуванні атрибута | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L76) | [CustomAttributeData.NamedArguments](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributedata.namedarguments) |
-| **`ValidOn`** | `AttributeTargets ValidOn { get; }` | Бітова маска цілей коду (`Class`, `Method`, `Property`), до яких дозволено застосовувати атрибут | Використано | [17-AttributesBasicsDemo/CustomAttributes.cs](../17-AttributesBasicsDemo/CustomAttributes.cs#L10) | [AttributeUsageAttribute.ValidOn](https://learn.microsoft.com/en-us/dotnet/api/system.attributeusageattribute.validon) |
-| **`AllowMultiple`** | `bool AllowMultiple { get; }` | Дозволяє застосовувати той самий атрибут до одного елемента коду декілька разів | Використано | [17-AttributesBasicsDemo/CustomAttributes.cs](../17-AttributesBasicsDemo/CustomAttributes.cs#L10) | [AttributeUsageAttribute.AllowMultiple](https://learn.microsoft.com/en-us/dotnet/api/system.attributeusageattribute.allowmultiple) |
-| **`Inherited`** | `bool Inherited { get; }` | Визначає, чи успадковується атрибут похідними класами та перевизначеними методами | Використано | [17-AttributesBasicsDemo/CustomAttributes.cs](../17-AttributesBasicsDemo/CustomAttributes.cs#L42) | [AttributeUsageAttribute.Inherited](https://learn.microsoft.com/en-us/dotnet/api/system.attributeusageattribute.inherited) |
+| Метод | Інстанціює об'єкт? | Швидкодія | Коли використовувати |
+|:---|:---:|:---:|:---|
+| **`MemberInfo.IsDefined(type)`** | Ні | Максимальна (перевіряє лише наявність запису в таблиці 0x0C) | Швидкі фільтри: перевірити, чи є клас командою |
+| **`MemberInfo.GetCustomAttribute<T>()`** | **Так** (викликає `.ctor`) | Середня (виділяє пам'ять у heap) | Стандартне прикладне читання значень у бізнес-коді |
+| **`CustomAttributeData.GetCustomAttributesData()`** | Ні | Висока | Інспекція збірок, плагінів без завантаження залежностей |
 
 ---
 
-## 4. Методи для роботи з атрибутами (Methods)
+## 6. Матриця проєкту цієї секції
 
-| Метод | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
-| :--- | :--- | :--- | :---: | :--- | :--- |
-| **`IsDefined`** | `bool IsDefined(Type attributeType, bool inherit)` | Швидко перевіряє факт наявності атрибута без виклику його конструктора | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L50) | [MemberInfo.IsDefined](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.isdefined) |
-| **`GetCustomAttribute<T>`** | `static T? GetCustomAttribute<T>(this MemberInfo element)` | Повертає один типізований екземпляр атрибута заданого типу `T` | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L52) | [CustomAttributeExtensions.GetCustomAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributeextensions.getcustomattribute) |
-| **`GetCustomAttributes<T>`** | `static IEnumerable<T> GetCustomAttributes<T>(this MemberInfo element)` | Повертає всі екземпляри атрибута `T` (коли `AllowMultiple = true`) | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L32) | [CustomAttributeExtensions.GetCustomAttributes](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributeextensions.getcustomattributes) |
-| **`GetCustomAttributesData`**| `IList<CustomAttributeData> GetCustomAttributesData()` | Зчитує сирі метадані атрибутів із `#Blob` без інстанціювання їхніх об'єктів | Використано | [17-AttributesBasicsDemo/Program.cs](../17-AttributesBasicsDemo/Program.cs#L69) | [MemberInfo.GetCustomAttributesData](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.getcustomattributesdata) | 
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`17-AttributesBasicsDemo`](../17-AttributesBasicsDemo/Program.cs) | [Program.cs](../17-AttributesBasicsDemo/Program.cs) | Оголошення кастомних атрибутів, робота з позиційними та іменованими параметрами, перевірка `IsDefined` та читання дескрипторів `CustomAttributeData`. |

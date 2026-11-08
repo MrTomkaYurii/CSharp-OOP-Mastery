@@ -1,65 +1,99 @@
-# 03. Множинні реалізації інтерфейсів та Keyed Services (`.NET 8+`)
+# 03. Множинні реалізації та Keyed Services (.NET 8/9)
 
-У реальних корпоративних системах один і той самий контракт часто має кілька реалізацій (наприклад, `INotificationChannel` реалізовано класами `EmailNotificationChannel`, `SmsNotificationChannel` та `TelegramNotificationChannel`). Розглянемо, як контейнер `Microsoft.Extensions.DependencyInjection` дозволяє керувати такими колекціями та точково обирати потрібну стратегію.
+## 1. Проблема вибору реалізації одного інтерфейсу
 
----
+У складних корпоративних застосунках один інтерфейс часто має декілька конкретних реалізацій:
+* `INotificationService` -> `EmailNotificationService`, `SmsNotificationService`, `TelegramNotificationService`
+* `IPaymentGateway` -> `StripePaymentGateway`, `PayPalPaymentGateway`, `LiqPayPaymentGateway`
 
-## 1. Реєстрація кількох реалізацій та `IEnumerable<T>`
+До виходу .NET 8 вибір між ними вимагав створення громіздких фабрик на базі делегатів `Func<string, IPaymentGateway>` або використання сторонніх IoC-контейнерів (Autofac).
 
-Якщо зареєструвати кілька класів під одним інтерфейсом:
-```csharp
-builder.Services.AddScoped<INotificationChannel, EmailNotificationChannel>();
-builder.Services.AddScoped<INotificationChannel, SmsNotificationChannel>();
-builder.Services.AddScoped<INotificationChannel, TelegramNotificationChannel>();
-```
-
-Контейнер підтримує два сценарії впровадження:
-1. **Запит колекції `IEnumerable<INotificationChannel>`**: контейнер створить і передасть **усі три реалізації** у порядку їх реєстрації. Це ідеальна основа для патернів **Composite**, **Chain of Responsibility** або **Pipeline** (наприклад, прогін замовлення через список усіх правил валідації `IEnumerable<IOrderRule>`).
-2. **Запит одиничного `INotificationChannel`**: контейнер поверне **останню зареєстровану реалізацію** (`TelegramNotificationChannel`), не викидаючи помилки.
-
-### Запобігання дублікатам: сімейство методів `TryAdd*`
-Простір імен `Microsoft.Extensions.DependencyInjection.Extensions` містить захисні методи:
-- `TryAddScoped<TService, TImpl>()` — реєструє сервіс **лише тоді**, коли для `TService` ще не зареєстровано жодної реалізації.
-- `TryAddEnumerable(ServiceDescriptor.Scoped<TService, TImpl>())` — додає нову реалізацію в колекцію `IEnumerable<TService>`, але захищає від випадкової повторної реєстрації того самого класу `TImpl`.
+Починаючи з .NET 8, стандартний контейнер надає першокласну підтримку **Keyed Services**.
 
 ---
 
-## 2. Іменовані сервіси — Keyed Services (`.NET 8+` / `.NET 10`)
+## 2. Архітектура реєстрації та резолву за ключем
 
-Раніше, коли одному класу був потрібен саме `SmsNotificationChannel`, а іншому — `EmailNotificationChannel`, розробникам доводилося писати власні фабрики або словники стратегій. Починаючи з .NET 8, контейнер має вбудовану підтримку **Keyed Services** (реєстрація за ключем будь-якого типу: `string` або `enum`):
+```mermaid
+flowchart TD
+    classDef reg fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef key fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef cons fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
-```csharp
-builder.Services.AddKeyedScoped<INotificationChannel, EmailNotificationChannel>("email");
-builder.Services.AddKeyedScoped<INotificationChannel, SmsNotificationChannel>("sms");
-builder.Services.AddKeyedScoped<INotificationChannel, TelegramNotificationChannel>("telegram");
+    Builder["Реєстрація у контейнері:"]:::reg --> K1["AddKeyedSingleton<IPaymentGateway>('stripe', StripeGateway)"]:::key
+    Builder --> K2["AddKeyedSingleton<IPaymentGateway>('paypal', PayPalGateway)"]:::key
+
+    Consumer["Клієнтський клас CheckoutService"]:::cons --> Inj["Конструктор із атрибутом:<br/>[FromKeyedServices('stripe')] IPaymentGateway gateway"]:::cons
+    
+    K1 -.->|Впровадження потрібної реалізації| Inj
 ```
 
-Для отримання потрібної реалізації прямо в конструкторі використовується атрибут **`[FromKeyedServices("...")]`**:
+---
+
+## 3. Порівняння: `IEnumerable<T>` проти Keyed Services
+
+### Підхід 1: Ін'єкція списку `IEnumerable<T>` (Патерн Стратегія / Chain of Responsibility)
+Корисно, коли операцію потрібно виконати **всіма** зареєстрованими обробниками:
 
 ```csharp
-public sealed class SecurityAlertService
+public class NotificationManager
 {
-    private readonly INotificationChannel _smsChannel;
+    private readonly IEnumerable<INotificationService> _senders;
 
-    public SecurityAlertService(
-        [FromKeyedServices("sms")] INotificationChannel smsChannel)
+    public NotificationManager(IEnumerable<INotificationService> senders)
     {
-        _smsChannel = smsChannel;
+        _senders = senders; // Контейнер автоматично передасть УСІ зареєстровані реалізації
+    }
+
+    public async Task BroadcastAsync(string message)
+    {
+        foreach (var sender in _senders)
+        {
+            await sender.SendAsync(message);
+        }
     }
 }
 ```
 
----
-
-## 3. Фабричні делегати реєстрації (`sp => ...`)
-
-Коли створення об'єкта потребує додаткових параметрів конструктора (наприклад, рядкового префікса) або обгортання одного сервісу в інший (патерн **Decorator**), використовується перевантаження реєстрації з фабричним делегатом:
+### Підхід 2: Сучасні Keyed Services (.NET 8+)
+Корисно, коли потрібна **конкретна** реалізація за бізнес-ідентифікатором або конфігурацією:
 
 ```csharp
-builder.Services.AddKeyedScoped<INotificationChannel>("urgent-fallback", (sp, key) => {
-    var innerSms = sp.GetRequiredKeyedService<INotificationChannel>("sms");
-    return new UrgentPrefixDecoratorChannel(innerSms, prefix: $"[КЛЮЧ:{key}] ТЕРМІНОВО");
-});
+// Реєстрація:
+builder.Services.AddKeyedScoped<IPaymentGateway, StripePaymentGateway>("stripe");
+builder.Services.AddKeyedScoped<IPaymentGateway, PayPalPaymentGateway>("paypal");
+
+// Споживання через атрибут [FromKeyedServices]:
+public class OrderCheckoutHandler
+{
+    private readonly IPaymentGateway _paymentGateway;
+
+    public OrderCheckoutHandler([FromKeyedServices("stripe")] IPaymentGateway paymentGateway)
+    {
+        _paymentGateway = paymentGateway;
+    }
+
+    public async Task CheckoutAsync(decimal amount) => await _paymentGateway.ProcessPaymentAsync(amount);
+}
+
+// Динамічний резолв за ключем під час виконання:
+var gateway = serviceProvider.GetRequiredKeyedService<IPaymentGateway>("paypal");
 ```
 
-Повний робочий приклад можна запустити у проєкті [`03-MultipleAndKeyedServices`](../03-MultipleAndKeyedServices/Program.cs).
+---
+
+## 4. Порівняльна таблиця стратегій вибору залежності
+
+| Метод | Як реєструється | Як ін'єктується | Переваги | Обмеження |
+|:---|:---|:---|:---|:---|
+| **Остання реєстрація (Last-in)** | `AddTransient<I, A>()`<br/>`AddTransient<I, B>()` | `public C(I service)` | Простота | Сервіс `B` безмовно заміщує `A` при звичайній ін'єкції одного `I` |
+| **Колекція `IEnumerable<T>`** | Багаторазовий `AddTransient` | `public C(IEnumerable<I> list)` | Ідеально для плагінів, правил валідації, пайплайнів | Необхідно вручну фільтрувати потрібний сервіс через LINQ |
+| **Keyed Services (.NET 8+)** | `AddKeyedTransient<I, A>("key")` | `[FromKeyedServices("key")]` або `GetKeyedService` | Висока продуктивність, чистий та зрозумілий синтаксис | Потребує .NET 8 або новіших версій |
+
+---
+
+## 5. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`03-MultipleAndKeyedServices`](../03-MultipleAndKeyedServices/Program.cs) | [Program.cs](../03-MultipleAndKeyedServices/Program.cs) | Реєстрація кількох обробників одного інтерфейсу, ін'єкція `IEnumerable<T>` та робота з `[FromKeyedServices]`. |

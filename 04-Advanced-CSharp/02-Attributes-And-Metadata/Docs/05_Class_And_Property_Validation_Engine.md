@@ -1,58 +1,156 @@
-# Декларативна валідація даних на рівні класу та властивостей
+# 05. Архітектура рушія валідації на рівні класу та властивостей
 
-> **Базовий проєкт**: [18-AttributesValidationDemo](../18-AttributesValidationDemo/Program.cs)  
-> **Ключові класи**: `System.Attribute`, `System.Type`, `System.Reflection.PropertyInfo`  
-> **Офіційна документація**: [System.ComponentModel.DataAnnotations Namespace (Microsoft Learn)](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations)
+## 1. Патерн декларативного валідатора в архітектурі .NET
 
-У реальних програмних системах валідація вхідних даних поділяється на два рівні: **валідація окремих властивостей (Property-Level)** та **валідація бізнес-узгодженості всього класу (Class-Level)**.
+У промислових застосунках валідація вхідних моделей (DTO, запитів, конфігурацій) не повинна бути "розмазана" по бізнес-методах у вигляді сотень одноманітних блоків `if (string.IsNullOrEmpty(...))`.
 
----
-
-## 1. Чому недостатньо валідувати лише окремі властивості?
-
-Розглянемо профіль кандидата [`CandidateProfile`](../18-AttributesValidationDemo/CandidateProfile.cs):
-- `Age = 22` — окремо цілком валідний вік повнолітньої людини (`[NumberRange(18, 70)]`).
-- `YearsOfExperience = 10` — окремо валідний стаж роботи (`[NumberRange(0, 50)]`).
-- `ExpectedMinSalary = 4500` та `ExpectedMaxSalary = 3000` — кожне число окремо входить у допустимі межі зарплат.
-
-Проте **на рівні всього класу** такий об'єкт є суперечливим: у 22 роки неможливо мати 10 років офіційного стажу (з 18 років), а мінімальна зарплата не може перевищувати максимальну. Саме для цього створюються атрибути з ціллю `AttributeTargets.Class`.
-
----
-
-## 2. Двофазний пайплайн рефлексивного валідатора
+Декларативний підхід полягає у розмітці моделей атрибутами:
+* **Валідація властивостей (`Property-level`)**: перевірка окремого атомарного поля (`[Required]`, `[Range]`, `[EmailAddress]`).
+* **Валідація класу (`Class-level`)**: перевірка взаємозв'язку між декількома полями (наприклад, `DateEnd > DateStart` або наявність хоча б одного способу зв'язку).
 
 ```mermaid
 flowchart TD
-    Input["Вхідний об'єкт CandidateProfile"] --> Phase1["Фаза 1: Валідація властивостей (Property-Level)<br/>type.GetProperties()"]
+    classDef ent fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef val fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef res fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
+
+    Obj["Об'єкт для перевірки (DTO / Entity)<br/>UserRegistrationDto"]:::ent --> Engine["ModelValidator.Validate(obj)"]:::val
+
+    subgraph Inspection ["Фаза рефлексивної інспекції"]
+        Engine --> CheckClass["1. Перевірка Class-level атрибутів<br/>(Комплексні правила над усім об'єктом)"]:::val
+        Engine --> CheckProps["2. Перевірка Property-level атрибутів<br/>Для кожної публічної властивості об'єкта"]:::val
+    end
+
+    CheckClass --> Collect["Акумулятор помилок ValidationResult"]:::res
+    CheckProps --> Collect
     
-    Phase1 --> P1["[RequiredField]: перевірка на null / порожній рядок"]
-    Phase1 --> P2["[StringLengthRange]: перевірка MinLength..MaxLength"]
-    Phase1 --> P3["[NumberRange]: перевірка Min..Max"]
-    
-    P1 & P2 & P3 --> Phase2["Фаза 2: Валідація на рівні класу (Class-Level)<br/>type.GetCustomAttributes()"]
-    
-    Phase2 --> C1["[RangeConsistency]: порівняння MinProperty <= MaxProperty"]
-    Phase2 --> C2["[ExperienceAgeConsistency]: перевірка Experience <= Age - 18"]
-    
-    C1 & C2 --> Output["Результуючий список помилок List&lt;string&gt;"]
+    Collect --> Decision{"Чи є помилки?"}
+    Decision -->|Так| ReturnErrors["Повернення списку помилок: IsValid = false"]:::res
+    Decision -->|Ні| Success["Продовження обробки: IsValid = true"]
 ```
 
 ---
 
-## 3. Властивості рефлексії, задіяні у валідації (Properties)
+## 2. Реалізація базових валідаційних атрибутів
 
-| Властивість | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
-| :--- | :--- | :--- | :---: | :--- | :--- |
-| **`Name`** | `string Name { get; }` | Назва властивості або класу для формування зрозумілого повідомлення про помилку | Використано | [18-AttributesValidationDemo/ClassAndPropertyValidator.cs](../18-AttributesValidationDemo/ClassAndPropertyValidator.cs#L33) | [MemberInfo.Name](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.name) |
-| **`ValidOn`** | `AttributeTargets ValidOn { get; }` | Визначає рівень застосування атрибута: `AttributeTargets.Class` або `AttributeTargets.Property` | Використано | [18-AttributesValidationDemo/ValidationAttributes.cs](../18-AttributesValidationDemo/ValidationAttributes.cs#L13) | [AttributeUsageAttribute.ValidOn](https://learn.microsoft.com/en-us/dotnet/api/system.attributeusageattribute.validon) |
+```csharp
+// Базовий абстрактний атрибут для всіх перевірок властивостей:
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+public abstract class PropertyValidationAttribute : Attribute
+{
+    public string ErrorMessage { get; set; } = "Значення поля є невалідним.";
+    public abstract bool IsValid(object? value);
+}
+
+// Конкретний валідатор обов'язкового рядка:
+public class RequiredStringAttribute : PropertyValidationAttribute
+{
+    public override bool IsValid(object? value) =>
+        value is string s && !string.IsNullOrWhiteSpace(s);
+}
+
+// Конкретний валідатор діапазону чисел:
+public class NumberRangeAttribute : PropertyValidationAttribute
+{
+    public int Min { get; }
+    public int Max { get; }
+
+    public NumberRangeAttribute(int min, int max)
+    {
+        Min = min;
+        Max = max;
+        ErrorMessage = $"Значення має перебувати в межах від {min} до {max}.";
+    }
+
+    public override bool IsValid(object? value) =>
+        value is int number && number >= Min && number <= Max;
+}
+```
 
 ---
 
-## 4. Методи рефлексії, задіяні у валідації (Methods)
+## 3. Архітектура рефлексивного рушія перевірки
 
-| Метод | Сигнатура | Опис призначення | Статус у курсі | Приклад у коді | Документація MSDN |
-| :--- | :--- | :--- | :---: | :--- | :--- |
-| **`GetProperties`** | `PropertyInfo[] GetProperties(BindingFlags bindingAttr)` | Отримує всі відкриті властивості об'єкта для почергової перевірки | Використано | [18-AttributesValidationDemo/ClassAndPropertyValidator.cs](../18-AttributesValidationDemo/ClassAndPropertyValidator.cs#L21) | [Type.GetProperties](https://learn.microsoft.com/en-us/dotnet/api/system.type.getproperties) |
-| **`GetProperty`** | `PropertyInfo? GetProperty(string name)` | Знаходить взаємопов'язані властивості за їхніми іменами під час валідації на рівні класу | Використано | [18-AttributesValidationDemo/ClassAndPropertyValidator.cs](../18-AttributesValidationDemo/ClassAndPropertyValidator.cs#L68) | [Type.GetProperty](https://learn.microsoft.com/en-us/dotnet/api/system.type.getproperty) |
-| **`GetValue`** | `object? GetValue(object? obj)` | Витягує фактичне значення поля з об'єкта для перевірки умови | Використано | [18-AttributesValidationDemo/ClassAndPropertyValidator.cs](../18-AttributesValidationDemo/ClassAndPropertyValidator.cs#L25) | [PropertyInfo.GetValue](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.propertyinfo.getvalue) |
-| **`GetCustomAttributes<T>`**| `IEnumerable<T> GetCustomAttributes<T>(bool inherit)` | Зчитує всі валідаційні правила рівня класу з дескриптора `Type` | Використано | [18-AttributesValidationDemo/ClassAndPropertyValidator.cs](../18-AttributesValidationDemo/ClassAndPropertyValidator.cs#L65) | [CustomAttributeExtensions.GetCustomAttributes](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.customattributeextensions.getcustomattributes) | 
+```csharp
+public record ValidationError(string PropertyName, string ErrorMessage);
+
+public static class ModelValidator
+{
+    public static List<ValidationError> Validate(object? model)
+    {
+        var errors = new List<ValidationError>();
+        if (model == null)
+        {
+            errors.Add(new ValidationError(string.Empty, "Об'єкт перевірки є null."));
+            return errors;
+        }
+
+        Type type = model.GetType();
+
+        // 1. Інспекція властивостей
+        PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        foreach (PropertyInfo prop in properties)
+        {
+            var attributes = prop.GetCustomAttributes<PropertyValidationAttribute>(inherit: true);
+            foreach (var attr in attributes)
+            {
+                object? value = prop.GetValue(model);
+                if (!attr.IsValid(value))
+                {
+                    errors.Add(new ValidationError(prop.Name, attr.ErrorMessage));
+                }
+            }
+        }
+
+        return errors;
+    }
+}
+```
+
+---
+
+## 4. Оптимізація продуктивності: Кешування метаданих
+
+Прямий виклик `type.GetProperties()` та `prop.GetCustomAttributes()` при кожній валідації тисяч запитів на секунду призводить до зайвих алокацій масивів у пам'яті.
+
+Професійні рушії (такі як `FluentValidation` або `System.ComponentModel.DataAnnotations`) використовують **статичний кеш метаданих**:
+
+```csharp
+// Потокобезпечний кеш списку валідаторів для кожного типу
+private static readonly ConcurrentDictionary<Type, List<(PropertyInfo Prop, PropertyValidationAttribute Attr)>> _cache = new();
+
+private static List<(PropertyInfo, PropertyValidationAttribute)> GetValidatorsForType(Type type)
+{
+    return _cache.GetOrAdd(type, t =>
+    {
+        var list = new List<(PropertyInfo, PropertyValidationAttribute)>();
+        foreach (var prop in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            foreach (var attr in prop.GetCustomAttributes<PropertyValidationAttribute>(inherit: true))
+            {
+                list.Add((prop, attr));
+            }
+        }
+        return list;
+    });
+}
+```
+
+---
+
+## 5. Порівняння підходів до валідації в .NET
+
+| Параметр | Ручний код (`if-else`) | DataAnnotations / Кастомні Атрибути | FluentValidation |
+|:---|:---|:---|:---|
+| **Місце опису правил** | Всередині сервісів або конструкторів | Декларативно над властивостями моделі | В окремих класах `AbstractValidator<T>` |
+| **Зв'язність з моделлю** | Відсутня | Модель розмічена атрибутами | Модель залишається 100% чистим POCO |
+| **Підтримка складних БД-правил**| Так | Складно (немає прямого доступу до DI) | Так (ін'єкція `DbContext` у валідатор) |
+| **Швидкість розробки** | Низька (рутина) | Дуже висока (один атрибут) | Висока |
+
+---
+
+## 6. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`18-AttributesValidationDemo`](../18-AttributesValidationDemo/Program.cs) | [Program.cs](../18-AttributesValidationDemo/Program.cs) | Повна реалізація декларативного рушія валідації моделей на рівні властивостей і класів з детальним виводом звіту помилок. |

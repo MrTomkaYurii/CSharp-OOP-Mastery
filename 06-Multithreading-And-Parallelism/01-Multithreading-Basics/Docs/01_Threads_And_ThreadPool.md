@@ -1,58 +1,87 @@
-# 01. Потоки ОС (`System.Threading.Thread`) та Пул потоків (`ThreadPool`)
+# 01. Керовані потоки (`Thread`) та Пул потоків (`ThreadPool`)
 
-## 1. Що таке потік (Thread)?
-**Потік (Thread)** — це найменша одиниця виконання, якій планувальник операційної системи виділяє процесорний час. Кожен процес у .NET починається з одного головного потоку (`MainThread`), але може створювати додаткові потоки.
+## 1. Анатомія потоку в ОС та CLR
 
-Кожен виділений потік ОС має:
-- Власний стек викликів (за замовчуванням **~1 МБ** віртуальної пам'яті).
-- Власний набір регістрів CPU (включно з лічильником інструкцій `IP` та вказівником стека `SP`).
-- Стан життєвого циклу (`ThreadState`: `Unstarted`, `Running`, `WaitSleepJoin`, `Stopped`).
+У сучасних багатозадачних операційних системах (Windows, Linux, macOS) потік є найменшою одиницею планування виконання процесора:
+* **Стек пам'яті**: За замовчуванням під стек кожного нового потоку виділяється **1 МБ пам'яті** в адресному просторі процесу. Створення 1 000 ручних потоків миттєво забере 1 ГБ оперативної пам'яті виключно під стекові кадри.
+* **Перемикання контексту (Context Switch)**: Коли планувальник ОС зупиняє один потік і перемикає ядро процесора на інший, він зберігає всі регістри процесора, скидає конвеєр команд та інвалідує процесорні кеші (L1/L2). Це забирає сотні тактових циклів CPU.
+
+Створення ручних потоків через `new Thread()` є вкрай дорогою операцією:
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Unstarted : new Thread(...)
-    Unstarted --> Running : Start()
-    Running --> WaitSleepJoin : Thread.Sleep() / Join() / lock
-    WaitSleepJoin --> Running : Таймер минув / Ресурс звільнено
-    Running --> Stopped : Метод завершився
-    Stopped --> [*]
+flowchart TD
+    classDef bad fill:#dc2626,stroke:#f87171,color:#ffffff,stroke-width:2px;
+    classDef good fill:#16a34a,stroke:#4ade80,color:#ffffff,stroke-width:2px;
+
+    NewThread["new Thread() (Ручний потік)<br/>- 1 МБ пам'яті під стек<br/>- Звернення до ядра ОС<br/>- Повільна ініціалізація (мілісекунди)"]:::bad
+    
+    ThreadPool["ThreadPool (Пул потоків .NET)<br/>- Повторне використання готових потоків<br/>- Адаптивний Hill-Climbing алгоритм<br/>- Нуль витрат на повторний старт (мікросекунди)"]:::good
 ```
 
 ---
 
-## 2. Foreground проти Background потоків
-У .NET кожен потік є або **основним (Foreground)**, або **фоновим (Background)**:
-- **Foreground (`IsBackground = false`)**: Процес .NET **не завершиться**, доки працює хоча б один Foreground-потік (навіть якщо метод `Main` вже завершився). Усі потоки, створені через `new Thread(...)`, за замовчуванням є Foreground.
-- **Background (`IsBackground = true`)**: Коли всі Foreground-потоки завершують роботу, середовище CLR автоматично зупиняє всі Background-потоки і закриває процес. Усі потоки з `ThreadPool` завжди є фоновими (`IsBackground = true`).
+## 2. Архітектура ThreadPool: Алгоритм Work-Stealing
+
+Пул потоків .NET оптимізований для уникнення взаємних блокувань між завданнями:
+1. **Глобальна черга (Global Queue)**: Завдання, поставлені ззовні (наприклад, через `ThreadPool.QueueUserWorkItem`), потрапляють у спільну чергу FIFO (First In, First Out).
+2. **Локальні черги (Local Queues)**: Кожен робочий потік пулу має власну внутрішню чергу, організовану за принципом LIFO (Last In, First Out) для кращої локальності кешу CPU.
+3. **Крадіжка завдань (Work-Stealing)**: Якщо потік завершив усі завдання зі своєї локальної черги, він не засинає, а "краде" завдання з кінця черги іншого завантаженого потоку.
+
+```mermaid
+flowchart LR
+    classDef gq fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef t1 fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef t2 fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
+
+    GlobalQueue["Глобальна Черга FIFO"]:::gq --> Worker1
+    GlobalQueue --> Worker2
+
+    subgraph Thread1 ["Робочий Потік #1"]
+        Worker1["Потік #1"]:::t1
+        LocalQ1["Локальна черга LIFO"]:::t1
+    end
+
+    subgraph Thread2 ["Робочий Потік #2 (Вільний)"]
+        Worker2["Потік #2"]:::t2
+    end
+
+    Worker2 -.->|Краде роботу (Work-Stealing)| LocalQ1
+```
 
 ---
 
-## 3. Чому потрібен `ThreadPool`?
-Створення нового потоку через `new Thread()` є дорогою системною операцією (виділення 1 МБ пам'яті, системний виклик ядра ОС, перемикання контексту). Якщо веб-сервер створюватиме новий потік на кожен HTTP-запит, при 5 000 одночасних клієнтів лише під стеки потоків знадобиться **5 ГБ ОЗП**.
+## 3. Фоновий проти Головного потоку (`IsBackground`)
 
-`System.Threading.ThreadPool` вирішує цю проблему за рахунок пулу попередньо створених фонових потоків:
-1. Завдання ставиться в чергу викликом `ThreadPool.QueueUserWorkItem(...)` або `Task.Run(...)`.
-2. Вільний потік із пулу бере завдання, виконує його та **повертається до пулу** для виконання наступного завдання без знищення потоку ОС.
+* **Foreground Thread (Головний потік за замовчуванням при `new Thread`)**: Процес додатка продовжує працювати доти, доки живий хоча б один такий потік, навіть якщо функція `Main()` давно завершилася.
+* **Background Thread (Усі потоки ThreadPool)**: Якщо всі головні потоки завершили роботу, CLR негайно аварійно завершує процес, не чекаючи завершення фонових потоків.
+
+```csharp
+var thread = new Thread(() =>
+{
+    Thread.Sleep(5000);
+    Console.WriteLine("Цей текст не буде надрукований, якщо IsBackground = true!");
+});
+
+thread.IsBackground = true; // Тепер потік не блокує закриття процесу
+thread.Start();
+```
 
 ---
 
-## 4. Основні властивості та методи API
+## 4. Порівняння: Прямий `Thread` проти `ThreadPool`
 
-### Властивості класу `Thread`
+| Характеристика | Пряме створення `Thread` | Пул потоків `ThreadPool` |
+|:---|:---|:---|
+| **Витрати пам'яті** | ~1 МБ на потік | Використовує вже виділені потоки з пулу |
+| **Швидкість запуску** | Повільна (звернення до ядра ОС) | Майже миттєва (передача делегата в чергу) |
+| **Кількість** | Обмежена пам'яттю (ризик `OutOfMemoryException`) | Динамічно масштабується алгоритмом Hill-Climbing |
+| **Коли використовувати** | Тільки для надтривалих завдань або специфічних пріоритетів | Для 99.9% повсякденних обчислювальних та I/O операцій |
 
-| Властивість | Опис | Приклад у коді | Документація MSDN |
-|:---|:---|:---|:---|
-| `CurrentThread` | Повертає об'єкт `Thread`, який виконує поточний код | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L24) | [Thread.CurrentThread](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.currentthread) |
-| `ManagedThreadId` | Унікальний числовий ідентифікатор керованого потоку | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L25) | [Thread.ManagedThreadId](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.managedthreadid) |
-| `IsBackground` | Визначає, чи є потік фоновим (`true`) або основним (`false`) | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L61) | [Thread.IsBackground](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.isbackground) |
-| `IsThreadPoolThread` | Вказує, чи належить потік до системного пулу `ThreadPool` | [Program.cs](../02-ThreadPoolAndWorkItems/Program.cs#L22) | [Thread.IsThreadPoolThread](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.isthreadpoolthread) |
-| `ThreadState` | Поточний стан потоку в кінцевому автоматі CLR | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L64) | [Thread.ThreadState](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.threadstate) |
+---
 
-### Методи класів `Thread` та `ThreadPool`
+## 5. Матриця проєкту цієї секції
 
-| Метод | Опис | Приклад у коді | Документація MSDN |
-|:---|:---|:---|:---|
-| `Thread.Start()` | Запускає виконання потоку на рівні операційної системи | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L65) | [Thread.Start](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.start) |
-| `Thread.Join()` | Блокує викликаючий потік до моменту завершення цільового потоку | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L69) | [Thread.Join](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.join) |
-| `Thread.Sleep(int)` | Призупиняє поточний потік на вказану кількість мілісекунд | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs#L30) | [Thread.Sleep](https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.sleep) |
-| `ThreadPool.QueueUserWorkItem` | Додає делегат у чергу завдань системного пулу потоків | [Program.cs](../02-ThreadPoolAndWorkItems/Program.cs#L62) | [ThreadPool.QueueUserWorkItem](https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadpool.queueuserworkitem) | 
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`01-ThreadCreationAndLifecycle`](../01-ThreadCreationAndLifecycle/Program.cs) | [Program.cs](../01-ThreadCreationAndLifecycle/Program.cs) | Створення та запуск потоків `Thread`, порівняння поведінки `IsBackground = true` проти `false`. |
+| [`02-ThreadPoolAndWorkItems`](../02-ThreadPoolAndWorkItems/Program.cs) | [Program.cs](../02-ThreadPoolAndWorkItems/Program.cs) | Черга пулу потоків через `ThreadPool.QueueUserWorkItem`, бенчмарк швидкості запуску завдань у порівнянні з `new Thread`. |

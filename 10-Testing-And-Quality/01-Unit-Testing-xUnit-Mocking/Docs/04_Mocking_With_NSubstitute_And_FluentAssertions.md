@@ -1,62 +1,90 @@
-# Розділ 04: Альтернативний мокінг із NSubstitute та виразні перевірки FluentAssertions
+# 04. Сучасні перевірки: NSubstitute та виразні твердження FluentAssertions
 
-У проєкті [Testing.UnitTests](../Testing.UnitTests/) продемонстровано поєднання двох популярних бібліотек сучасної екосистеми .NET:
-1. **NSubstitute** — лаконічна альтернатива бібліотеці `Moq` без лямбда-виразів `Setup(x => ...)` та `.Object`;
-2. **FluentAssertions** — бібліотека для запису перевірок у вигляді читабельних ланцюжків `.Should().Be(...)`.
+## 1. Еволюція перевірок: Чому `Assert.Equal` поступається FluentAssertions?
 
----
+Стандартні методи тверджень тестових фреймворків (`Assert.Equal(expected, actual)`) мають низку недоліків:
+1. **Плутанина порядку аргументів**: Розробники часто випадково міняють місцями `expected` та `actual`. У разі збою фреймворк виводить безглузде повідомлення про помилку: "Expected 42, but was 100", коли насправді все навпаки.
+2. **Низька виразність**: Перевірка складних колекцій, часових інтервалів або винятків вимагає багаторядкового громіздкого коду.
 
-## 1. Порівняння синтаксису: Moq проти NSubstitute
+**FluentAssertions** вирішує ці проблеми, пропонуючи виразний fluent-синтаксис у стилі людської мови:
 
-| Дія | Як пишеться в **Moq** ([03-Testing.Moq](../03-Testing.Moq/)) | Як пишеться в **NSubstitute** ([Testing.UnitTests](../Testing.UnitTests/)) |
-| :--- | :--- | :--- |
-| **Створення мока** | `var mock = new Mock<IPaymentGateway>();` | `var sub = Substitute.For<IPaymentGateway>();` |
-| **Передача у конструктор** | `new Service(mock.Object)` | `new Service(sub)` (сам об'єкт вже є інтерфейсом!) |
-| **Налаштування відповіді** | `mock.Setup(x => x.ChargeAsync(...)).ReturnsAsync("tx");` | `sub.ChargeAsync(...).Returns("tx");` |
-| **Матчер будь-якого значення** | `It.IsAny<CancellationToken>()` | `Arg.Any<CancellationToken>()` |
-| **Матчер за умовою** | `It.Is<decimal>(a => a > 0)` | `Arg.Is<decimal>(a => a > 0)` |
-| **Перевірка 1 виклику** | `mock.Verify(x => x.ChargeAsync(...), Times.Once);` | `await sub.Received(1).ChargeAsync(...);` |
-| **Перевірка відсутності виклику** | `mock.Verify(x => x.ChargeAsync(...), Times.Never);` | `await sub.DidNotReceive().ChargeAsync(...);` |
+```mermaid
+flowchart LR
+    classDef std fill:#dc2626,stroke:#f87171,color:#ffffff,stroke-width:2px;
+    classDef fa fill:#16a34a,stroke:#4ade80,color:#ffffff,stroke-width:2px;
 
----
-
-## 2. Практичні патерни роботи з NSubstitute ([OrderCheckoutServiceTests.cs](../Testing.UnitTests/OrderCheckoutServiceTests.cs))
-
-### А. Створення моків та налаштування поведінки
-```csharp
-private readonly IPaymentGateway _paymentGateway = Substitute.For<IPaymentGateway>();
-private readonly IInventoryService _inventoryService = Substitute.For<IInventoryService>();
-private readonly INotificationService _notificationService = Substitute.For<INotificationService>();
-
-// Налаштування повернення значень:
-_inventoryService.ReserveStockAsync(request.Items, Arg.Any<CancellationToken>())
-    .Returns(Task.FromResult(true));
-
-_paymentGateway.ChargeAsync(request.CustomerEmail, expectedTotal, Arg.Any<CancellationToken>())
-    .Returns(Task.FromResult("tx_987654"));
-```
-
-### Б. Верифікація викликів
-```csharp
-await _inventoryService.Received(1).ReserveStockAsync(request.Items, Arg.Any<CancellationToken>());
-await _paymentGateway.Received(1).ChargeAsync(request.CustomerEmail, expectedTotal, Arg.Any<CancellationToken>());
-await _inventoryService.DidNotReceive().ReleaseStockAsync(Arg.Any<IEnumerable<OrderItemDto>>(), Arg.Any<CancellationToken>());
+    Std["Assert.True(user.Age >= 18 && user.IsActive);<br/>(При збої: 'Assert.True() Failure: expected True, got False')"]:::std
+    
+    FA["user.Age.Should().BeGreaterThanOrEqualTo(18);<br/>user.IsActive.Should().BeTrue();<br/>(При збої: 'Expected user.Age to be >= 18, but found 16')"]:::fa
 ```
 
 ---
 
-## 3. Виразні твердження з FluentAssertions ([BankAccountTests.cs](../Testing.UnitTests/BankAccountTests.cs))
+## 2. Ключові можливості бібліотеки FluentAssertions
 
-Замість стандартного `Assert.Equal(expected, actual)` бібліотека **FluentAssertions** дозволяє будувати природні ланцюжки перевірок з надзвичайно детальними повідомленнями у разі падіння тесту:
+### Перевірка колекцій та складних графів
+```csharp
+var users = await userService.GetActiveUsersAsync();
+
+// Перевірка кількості та умов над елементами:
+users.Should().NotBeNullOrEmpty()
+    .And.HaveCount(3)
+    .And.OnlyHaveUniqueItems()
+    .And.Contain(u => u.Role == "Admin");
+
+// Глибоке структурне порівняння всіх полів двох об'єктів:
+actualOrder.Should().BeEquivalentTo(expectedOrder, options => options
+    .Excluding(o => o.CreatedAt) // Ігноруємо динамічну дату створення
+    .ComparingByMembers<OrderItem>());
+```
+
+### Перевірка винятків
+```csharp
+Func<Task> action = async () => await service.TransferMoneyAsync(-500);
+
+await action.Should().ThrowAsync<ArgumentOutOfRangeException>()
+    .WithMessage("*сума має бути більшою за нуль*");
+```
+
+---
+
+## 3. NSubstitute: Мінімалістична та елегантна альтернатива Moq
+
+Бібліотека **NSubstitute** набула великої популярності в екосистемі .NET завдяки відсутності обгортки `new Mock<T>()` та набагато природнішому C# синтаксису:
 
 ```csharp
-// Перевірка властивостей та колекцій:
-account.Balance.Should().Be(750m);
-account.Transactions.Should().HaveCount(1)
-    .And.ContainSingle(t => t.Type == "Deposit" && t.Amount == 250m);
+// 1. Створення мока прямо через інтерфейс:
+var repository = Substitute.For<IOrderRepository>();
 
-// Перевірка синхронних та асинхронних винятків:
-Action act = () => account.Withdraw(500m);
-act.Should().Throw<InsufficientFundsException>()
-    .WithMessage("*Недостатньо коштів*");
+// 2. Налаштування повернення результату (без складного Setup/Returns):
+repository.GetByIdAsync(42).Returns(new Order { Id = 42, Total = 500 });
+
+// 3. Перевірка факту виклику (Verify):
+await service.ProcessAsync(42);
+
+// Перевіряємо, що метод SaveChangesAsync викликався рівно 1 раз:
+await repository.Received(1).SaveChangesAsync();
+
+// Перевіряємо, що метод Delete ніколи не викликався:
+await repository.DidNotReceive().DeleteAsync(Arg.Any<int>());
 ```
+
+---
+
+## 4. Порівняння бібліотек мокінгу: Moq проти NSubstitute
+
+| Критерій | Moq | NSubstitute |
+|:---|:---|:---|
+| **Синтаксис створення** | `var mock = new Mock<IRepo>();` | `var mock = Substitute.For<IRepo>();` |
+| **Доступ до об'єкта** | Через поле `mock.Object` | Сам мок і є об'єктом інтерфейсу `mock` |
+| **Налаштування поведінки** | `mock.Setup(x => x.Do()).Returns(val);` | `mock.Do().Returns(val);` |
+| **Верифікація викликів** | `mock.Verify(x => x.Do(), Times.Once);` | `mock.Received(1).Do();` |
+| **Читабельність у тестах** | Добра, але присутній "шум" `.Object` | Максимально лаконічна, мінімум коду |
+
+---
+
+## 5. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`03-Testing.Moq`](../03-Testing.Moq/OrderCheckoutMoqStepByStepTests.cs) | [OrderCheckoutMoqStepByStepTests.cs](../03-Testing.Moq/OrderCheckoutMoqStepByStepTests.cs) | Практика написання модульних тестів за патерном AAA, налаштування мок-поведінки через Moq та застосування тверджень FluentAssertions. |

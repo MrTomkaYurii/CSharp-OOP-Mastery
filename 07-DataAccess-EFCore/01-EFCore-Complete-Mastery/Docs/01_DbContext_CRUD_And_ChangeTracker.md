@@ -1,64 +1,93 @@
-# 01. Основи `DbContext`, операції CRUD, Логування SQL та механізм `ChangeTracker`
+# 01. Життєвий цикл DbContext, операції CRUD та ChangeTracker
 
-## 1. Архітектура `DbContext` та `DbSet<TEntity>`
+## 1. Патерни Unit of Work та Repository в архітектурі EF Core
 
-У Entity Framework Core центральним компонентом взаємодії з базою даних є клас **`DbContext`**. З точки зору об'єктно-орієнтованого проєктування, він поєднує два класичні архітектурні патерни Мартіна Фаулера:
-1. **Unit of Work (Одиниця роботи)** — акумулює всі зміни над об'єктами в оперативній пам'яті (додавання, редагування, видалення) та застосовує їх до бази даних однією атомарною транзакцією при виклику `SaveChanges()` / `SaveChangesAsync()`.
-2. **Repository (Репозиторій)** — кожна властивість типу **`DbSet<TEntity>`** представляє типізовану колекцію сутностей, яка відображається на відповідну таблицю БД і дозволяє формувати LINQ-запити.
+Клас **`DbContext`** у Entity Framework Core є вбудованою комбінацією двох класичних патернів проєктування:
+1. **Repository (Репозиторій)** — кожна властивість `DbSet<TEntity>` виступає як типізована колекція в пам'яті, що приховує деталі SQL-запитів.
+2. **Unit of Work (Одиниця роботи)** — сам екземпляр `DbContext` відстежує всі модифікації, додавання та видалення сутностей, і зберігає їх в єдиній атомарній транзакції при виклику `SaveChanges()` / `SaveChangesAsync()`.
+
+---
+
+## 2. Діаграма переходів станів сутності в `ChangeTracker`
+
+Внутрішній компонент **`ChangeTracker`** підтримує метадані для кожної відстежуваної сутності у вигляді структури **`EntityEntry`**, що має один із 5 канонічних станів:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Detached: new Entity()
+    Detached --> Added: context.Add(entity)
+    Detached --> Unchanged: context.Entities.First() (завантаження з БД)
+    
+    Unchanged --> Modified: entity.Property = newValue
+    Unchanged --> Deleted: context.Remove(entity)
+    
+    Added --> Unchanged: SaveChangesAsync() (успішний INSERT)
+    Modified --> Unchanged: SaveChangesAsync() (успішний UPDATE)
+    Deleted --> Detached: SaveChangesAsync() (успішний DELETE)
+```
+
+---
+
+## 3. Детальний розбір станів сутності (`EntityState`)
+
+| Стан (`EntityState`) | Опис у пам'яті | SQL дія при `SaveChangesAsync()` |
+|:---|:---|:---|
+| **`Detached`** | Сутність існує в CLR, але контекст про неї не знає | Ніякої дії |
+| **`Added`** | Зареєстрована для створення, первинний ключ може бути тимчасовим | Генерує команду `INSERT INTO ...` |
+| **`Unchanged`** | Завантажена з БД, жодне поле не змінювалося з моменту зчитування | Ніякої дії (пропускається для економії I/O) |
+| **`Modified`** | Змінено значення хоча б однієї скалярної властивості | Генерує команду `UPDATE ... WHERE Id = @id` лише для змінених стовпців |
+| **`Deleted`** | Позначена для видалення | Генерує команду `DELETE FROM ... WHERE Id = @id` |
+
+---
+
+## 4. Порівняння: Пакетні операції (Batching) проти одиничних запитів
+
+У наївних ORM кожен виклик збереження провокував окреме мережеве звернення. EF Core автоматично об'єднує декілька команд в один пакет (**SQL Batch**):
 
 ```csharp
-public class LibraryDbContext : DbContext
+// ДОБРЕ: Атомарна транзакція та єдиний пакетний запит (Batching)
+using var context = new StoreDbContext();
+
+for (int i = 0; i < 50; i++)
 {
-    public DbSet<Book> Books => Set<Book>();
+    context.Products.Add(new Product { Title = $"Товар #{i}", Price = 100 + i });
 }
+
+// Усі 50 записів надсилаються в БД ОДНИМ мережевим пакетом:
+await context.SaveChangesAsync();
 ```
 
-### Життєвий цикл `DbContext`
-Екземпляр `DbContext` є **легковаговим, але НЕ потокобезпечним (not thread-safe)** і розрахований на одну короткоживучу бізнес-операцію (один HTTP-запит у вебзастосунку або один блок `await using` у консольному/десктопному сценарії).
+### Ручне керування станом без попереднього запиту (Disconnect Scenario)
 
----
-
-## 2. Керування схемою БД для локальної розробки та тестів
-
-Для швидкого прототипування та інтеграційних тестів властивість `context.Database` надає два методи:
-- `await context.Database.EnsureDeletedAsync()` — видаляє файл бази даних (для SQLite) або саму базу на сервері, якщо вона існує.
-- `await context.Database.EnsureCreatedAsync()` — створює базу даних та всі таблиці за поточною моделлю C#, якщо БД ще не існує (повертає `true`, якщо БД була створена).
-
-> **Важливо:** `EnsureCreated()` не створює таблицю історії міграцій `__EFMigrationsHistory`. У промислових проєктах зі змінною схемою замість нього використовують механізм **Міграцій (`Database.MigrateAsync()`)** (детально розглянутий у підмодулі `02-CodeFirst-MultiProvider`).
-
----
-
-## 3. Логування згенерованих SQL-запитів
-
-Щоб бачити, які саме SQL-команди генерує EF Core під капотом, у методі `OnConfiguring` використовується метод **`LogTo`**:
+Коли об'єкт приходить іззовні (наприклад, з JSON у веб-запиті), немає потреби завантажувати його з бази для оновлення одного поля:
 
 ```csharp
-optionsBuilder
-    .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-    .EnableSensitiveDataLogging();
+var product = new Product { Id = 42, Price = 199.99m };
+
+// Прив'язуємо сутність до контексту без запиту SELECT:
+context.Attach(product);
+
+// Позначаємо конкретне поле як модифіковане:
+context.Entry(product).Property(p => p.Price).IsModified = true;
+
+// Згенерований SQL: UPDATE Products SET Price = 199.99 WHERE Id = 42;
+await context.SaveChangesAsync();
 ```
-- Фільтр `DbLoggerCategory.Database.Command.Name` залишає лише чисті SQL-запити без службового шуму.
-- `EnableSensitiveDataLogging()` вмикає відображення конкретних значень параметрів (`@p0`, `@p1`) у логах (використовується лише під час розробки та налагодження).
 
 ---
 
-## 4. Механізм `ChangeTracker` та стани `EntityState`
+## 5. Порівняльна таблиця операцій оновлення даних
 
-Кожен об'єкт, завантажений через `DbContext` або прикріплений до нього, отримує обгортку **`EntityEntry`**, яка зберігає стан об'єкта у переліку **`EntityState`**:
+| Підхід | Кількість SQL-запитів | Навантаження на пам'ять | Безпека бізнес-правил |
+|:---|:---:|:---|:---|
+| **Класичний Read-then-Update** | 2 (`SELECT` + `UPDATE`) | Вимагає створення знімка сутності | Найвища: перевіряються всі інваріанти |
+| **Attach + IsModified** | 1 (`UPDATE`) | Мінімальне: зчитування з БД відсутнє | Висока: оновлюються лише обрані поля |
+| **ExecuteUpdateAsync (.NET 7+)** | 1 (`UPDATE` безпосередньо в БД) | Нульове: об'єкти не завантажуються в пам'ять | Потребує обережності: оминає ChangeTracker |
 
-| Стан (`EntityState`) | Опис стану | Що зробить `SaveChangesAsync()` |
-| :--- | :--- | :--- |
-| **`Detached`** | Об'єкт створений у коді (`new Book()`) або отриманий через `.AsNoTracking()`. Контекст не стежить за ним. | Ігнорується (жодного SQL). |
-| **`Added`** | Новий об'єкт зареєстровано через `context.Books.Add(book)`. | Виконує команду **`INSERT`**, після чого стан змінюється на `Unchanged`. |
-| **`Unchanged`** | Об'єкт завантажено з БД і жодна його властивість ще не змінювалася. | Ігнорується (жодного SQL). |
-| **`Modified`** | Хоча б одна властивість відстежуваного об'єкта була змінена. | Виконує команду **`UPDATE`** (обов'язково оновлюючи лише змінені стовпці!). |
-| **`Deleted`** | Об'єкт позначено на видалення через `context.Books.Remove(book)`. | Виконує команду **`DELETE`**, після чого об'єкт видаляється з контексту (`Detached`). |
+---
 
-### Перевірка `OriginalValue` та `CurrentValue`
-Коли об'єкт завантажується з БД, `ChangeTracker` робить знімок його початкових значень (**Snapshot Change Tracking**). Через `context.Entry(book).Properties` можна дізнатися:
-- `prop.OriginalValue` — значення, яке було прочитане з бази даних;
-- `prop.CurrentValue` — поточне значення властивості в об'єкті C#;
-- `prop.IsModified` — чи відрізняється поточне значення від оригінального.
+## 6. Матриця проєкту цієї секції
 
-### Кеш першого рівня (First-Level Cache / Identity Map) та `FindAsync`
-Метод `await context.Books.FindAsync(id)` спочатку перевіряє локальний кеш `ChangeTracker`. Якщо сутність із таким первинним ключем уже завантажена в поточний `DbContext`, EF Core миттєво повертає посилання на неї з оперативної пам'яті **без повторного звернення до бази даних**.
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`01-DbContextCrudAndChangeTracker`](../01-DbContextCrudAndChangeTracker/Program.cs) | [Program.cs](../01-DbContextCrudAndChangeTracker/Program.cs) | Практика CRUD-операцій, інспекція станів `EntityEntry.State`, порівняння знімків пам'яті до та після виклику `SaveChangesAsync()`. |

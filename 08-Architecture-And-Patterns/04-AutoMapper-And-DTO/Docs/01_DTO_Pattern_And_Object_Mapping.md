@@ -1,54 +1,88 @@
-# Патерн DTO (Data Transfer Object) та трансформація об'єктів
+# 01. Патерн DTO (Data Transfer Object) та Об'єктний Мапінг
 
-## Вступ
-У сучасній розробці корпоративних додатків неприпустимо безпосередньо віддавати доменні сутності (Entities) або моделі бази даних (EF Core) у клієнтський інтерфейс чи API. Для передачі даних між шарами архітектури використовується патерн **DTO (Data Transfer Object)**.
+## 1. Навіщо потрібен DTO? Проблема розкриття сутностей бази даних
 
----
+У наївних архітектурах сутності ORM (наприклад, `User` або `Account`) повертаються безпосередньо у відповідь на запити користувача або приймаються від нього у форму введення. Це призводить до трьох критичних проблем:
 
-## 1. Навіщо потрібен патерн DTO?
+1. **Витік конфіденційних даних (Data Exposure)**: Сутність бази даних містить службові поля: `PasswordHash`, `SecurityStamp`, `InternalNotes`. Випадкове повернення всієї сутності передає ці дані клієнту.
+2. **Атака Over-Posting (Mass Assignment)**: Коли клієнт передає JSON, де поряд із дозволеними полями змінює `IsAdmin: true` або `Balance: 999999`, наївний ORM збереже ці значення в таблицю.
+3. **Циклічні посилання та Cartesian Overhead**: Навігаційні властивості EF Core (`Order.Customer.Orders...`) ламають серіалізатор через рекурсивні зациклення або роздувають розмір мережевого трафіку.
+
+**Data Transfer Object (DTO)** — це чистий клас або рекорд без бізнес-поведінки, який містить лише ті дані, які необхідні для конкретної операції обміну:
 
 ```mermaid
 flowchart LR
-    subgraph DataLayer["Шар даних (Domain / Database)"]
-        Entity["UserEntity<br/>- Id<br/>- PasswordHash<br/>- SecurityStamp<br/>- Salary<br/>- InternalNotes"]
-    end
-    subgraph MappingLayer["Трансформація (Mapping)"]
-        Mapper["AutoMapper / Mapper"]
-    end
-    subgraph ClientLayer["Зовнішній шар (API / UI)"]
-        DTO["UserDto<br/>- Id<br/>- FullName<br/>- Email"]
-    end
+    classDef ent fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef dto fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
-    Entity --> Mapper --> DTO
+    UserEntity["User Entity (EF Core)<br/>- Id, Username<br/>- PasswordHash, Salt<br/>- Roles, RefreshToken"]:::ent
+    
+    UserEntity -->|Мапінг без витоку секретів| UserDto["UserResponseDto<br/>- Id: int<br/>- Username: string<br/>- DisplayName: string"]:::dto
 ```
-
-### Ключові причини використання DTO:
-1. **Безпека (Security & Over-Posting):** Приховування конфіденційних полів (хеші паролів, внутрішні ідентифікатори, зарплатні відомості). Захист від масового присвоєння (Mass Assignment / Over-Posting vulnerability), коли зловмисник передає зайві поля, такі як `IsAdmin = true`.
-2. **Розв'язання циклічних посилань:** Доменні сутності часто мають двонаправлені зв'язки (`Order -> Customer -> Orders`). Спроба їх прямої серіалізації в JSON призводить до виключення `JsonException: A possible object cycle was detected`.
-3. **Оптимізація трафіку:** DTO містить лише ті дані, які необхідні конкретному екрану користувача, заощаджуючи мережевий трафік.
-4. **Стабільність API-контрактів:** Внутрішня структура таблиць БД може змінюватися в процесі рефакторингу, але публічний DTO контракт залишається незмінним.
 
 ---
 
-## 2. Ручний мапінг (Manual Mapping) проти автоматизованого
+## 2. Порівняння: Ручний мапінг проти AutoMapper
 
-Ручний мапінг:
+### Варіант 1: Ручний мапінг (Pure C# Extension Methods)
+* **Плюси:** Абсолютна швидкість виконання (нульовий оверхед), повний контроль компілятора над кожним полем, легкий рефакторинг та підтримка Native AOT.
+* **Мінуси:** Багатослівність ("boilertemplate") при великій кількості моделей з 20+ властивостями.
+
 ```csharp
-public static UserDto ToDto(User user)
+public static class UserMappingExtensions
 {
-    return new UserDto
-    {
-        Id = user.Id,
-        FullName = $"{user.FirstName} {user.LastName}",
-        Email = user.Email
-    };
+    public static UserResponseDto ToDto(this User user) => new(
+        user.Id,
+        user.Username,
+        $"{user.FirstName} {user.LastName}",
+        user.Orders.Count
+    );
 }
 ```
-- **Переваги:** Максимальна швидкість виконання, явність, відсутність сторонніх залежностей.
-- **Недоліки:** Величезна кількість рутинного шаблонного коду (Boilerplate). При зміні властивостей потрібно вручну оновлювати всі методи мапінгу; висока ймовірність забути скопіювати нове поле.
+
+### Варіант 2: Бібліотека AutoMapper
+* **Плюси:** Декларативний опис правил, авто-мапінг за збігом імен, автоматичне сплющення ієрархій (`Customer.Address.City` -> `CustomerAddressCity`).
+* **Мінуси:** Невеликий оверхед під час запуску (побудова дерев виразів), необхідність валідації тестів конфігурації.
 
 ---
 
-## 3. Проекти для практики
+## 3. Проєктування DTO на базі `record` у сучасному C#
 
-- [AutoMapperDemo - ManualMappingFeature](../AutoMapperDemo/Features/ManualMappingFeature.cs) — Детальний розбір ручного мапінгу сутностей у DTO, порівняння трудовитрат та підводних каменів.
+У C# 9-12 ідеальним синтаксисом для DTO є позиційні записи (**`record`**):
+* Незмінність (`immutability`) за замовчуванням завдяки `init`-only властивостям.
+* Вбудоване структурне порівняння за значеннями полів (`Value Equality`).
+* Лаконічний однорядковий синтаксис:
+
+```csharp
+public record CreateUserRequestDto(
+    [Required] string Username,
+    [EmailAddress] string Email,
+    [MinLength(8)] string Password
+);
+
+public record UserSummaryResponseDto(
+    int Id,
+    string Username,
+    string FullName,
+    DateTime RegisteredAt
+);
+```
+
+---
+
+## 4. Порівняльна таблиця підходів до трансформації об'єктів
+
+| Критерій | Ручний мапінг (`Select` / Extension) | Генератори коду (Mapperly, Riok) | AutoMapper |
+|:---|:---|:---|:---|
+| **Швидкість роботи** | Максимальна (нативна) | Максимальна (згенерований код) | Дуже висока (компіляція Expression Trees) |
+| **Перевірка компілятором** | 100% під час збірки проєкту | 100% під час збірки проєкту | Під час виконання (`AssertConfigurationIsValid`) |
+| **Підтримка Native AOT** | Повна | Повна | Обмежена (використовує динамічну генерацію) |
+| **Зручність при 50+ класах** | Велика кількість ручного коду | Декларативна, нуль рутини | Декларативна, автоконвенції |
+
+---
+
+## 5. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`AutoMapperDemo`](../AutoMapperDemo/Program.cs) | [Program.cs](../AutoMapperDemo/Program.cs) | Базове налаштування AutoMapper, створення мапінгу між доменними моделями та DTO, тестування валідності профілів. |

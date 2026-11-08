@@ -1,27 +1,65 @@
 # 03. Абстрактний клас проти Інтерфейсу та патерн Template Method
 
-Одне з головних архітектурних питань ООП: **коли створювати `abstract class`, а коли `interface`?**
+## 1. Фундаментальний архітектурний вибір
+
+Розробники постійно стикаються з вибором: оголосити базовий контракт як `abstract class` чи як `interface`?
+
+```mermaid
+flowchart LR
+    Question{"Що потрібно проєктувати?"}
+    Question -->|Спільний стан (поля) + алгоритмічний скелет| AC["Абстрактний клас (abstract class)<br/>Відношення IS-A (Є різновидом)"]
+    Question -->|Чиста поведінкова роль + множинна реалізація| IFC["Інтерфейс (interface)<br/>Відношення CAN-DO (Вміє робити)"]
+```
 
 ---
 
-## 1. Порівняльна таблиця для прийняття рішень
+## 2. Реалізація патерну Template Method
 
-| Критерій | Абстрактний клас (`abstract class`) | Інтерфейс (`interface`) |
+Абстрактні класи є природним вибором для патерну **Template Method (Шаблонний метод)**, оскільки інтерфейси не можуть гарантувати виконання обов'язкових кроків у фіксованому порядку зі спільним станом.
+
+```csharp
+public abstract class ReportExporter
+{
+    // Шаблонний метод фіксує скелет експорту звіту:
+    public byte[] Export(ReportData data)
+    {
+        ValidateData(data);
+        var formatted = FormatReport(data);
+        var finalBytes = ApplyPackaging(formatted);
+        LogExportCompleted(data.Title);
+        return finalBytes;
+    }
+
+    private void ValidateData(ReportData data)
+    {
+        if (data == null) throw new ArgumentNullException(nameof(data));
+    }
+
+    // Кроки, які реалізують спеціалізовані спадкоємці:
+    protected abstract byte[] FormatReport(ReportData data);
+    protected virtual byte[] ApplyPackaging(byte[] content) => content; // Опціональний хук
+
+    private void LogExportCompleted(string title) =>
+        Console.WriteLine($"[Audit] Звіт '{title}' успішно експортовано.");
+}
+```
+
+---
+
+## 3. Матриця порівняння концепцій
+
+| Критерій | Абстрактний клас | Інтерфейс |
 |:---|:---|:---|
-| **Семантика зв'язку** | **IS-A** («Хто об'єкт є за своєю природою»: `ReportExporter`) | **CAN-DO** («Яку здатність/роль підтримує»: `IEncryptable`, `ICompressible`) |
-| **Стан (поля екземпляра)** | Може зберігати спільні поля стану (`ExportCount`, `ExporterName`) і конструктори | Не може мати полів екземпляра чи конструкторів |
-| **Кількість у класу** | Лише **один** базовий клас | **Необмежена** кількість інтерфейсів |
-| **Головний патерн** | **Template Method** (незмінний кістяк алгоритму в базовому класі + абстрактні кроки) | **Role / Strategy** (взаємозамінні плагіни поведінки) |
+| Природа зв'язку | **IS-A** (Ієрархія сутностей) | **CAN-DO** (Здатність, контракт поведінки) |
+| Стан (поля) | Підтримує повноцінний стан об'єкта | Лише константи та статичні змінні |
+| Множинність | Одинарне спадкування | Множинна реалізація |
+| Еволюція в BCL | Додавання неабстрактних методів безпечне | Потребує DIM (C# 8+), інакше ламає компіляцію |
+| Патерни GoF | Template Method, State | Strategy, Observer, Plugin Architecture |
 
 ---
 
-## 2. Патерн Шаблонний Метод (Template Method)
-У класі `ReportExporter` метод `ExportReport(...)` оголошений як **невіртуальний** (`public string ExportReport`). Він фіксує незмінний порядок кроків (Валідація -> Форматування -> Опціональне стиснення/шифрування -> Лічильник), делегуючи підкласам лише специфічний крок `protected abstract string FormatDocument(...)`.
+## 4. Матриця проєкту цієї секції
 
----
-
-## Матриця проєктів цієї секції
-
-| Проєкт | Основні класи | Що демонструє |
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
 |:---|:---|:---|
-| [`03-AbstractClassVsInterface`](../03-AbstractClassVsInterface/Program.cs) | `ReportExporter`, `ICompressible`, `IEncryptable` | Поєднання абстрактного класу з патерном Template Method та опціональних інтерфейсних ролей (`ICompressible`, `IEncryptable`). | 
+| [`03-AbstractClassVsInterface`](../03-AbstractClassVsInterface/Program.cs) | [Program.cs](../03-AbstractClassVsInterface/Program.cs) | Поєднання абстрактного базового класу експортерів `ReportExporter` із композиційними інтерфейсними ролями `ICompressible` та `IEncryptable`. |

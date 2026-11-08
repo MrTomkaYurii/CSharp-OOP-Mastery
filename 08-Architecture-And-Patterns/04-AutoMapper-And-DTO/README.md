@@ -1,49 +1,43 @@
-# Підмодуль 04: AutoMapper, патерн DTO та серіалізація в C# (.NET 10)
+# Підмодуль 04: Патерн DTO та бібліотека AutoMapper (`OOP - AutoMapper and DTO.sln`)
 
-Цей підмодуль присвячений архітектурним патернам передачі та трансформації даних у корпоративних системах на базі .NET: від концепції Data Transfer Object (DTO) та автоматизованого мапінгу складних графів об'єктів (AutoMapper) до високопродуктивної серіалізації в JSON (`System.Text.Json`) та XML (`XmlSerializer`).
-
----
-
-## Карта підручника (Навчальні гайди)
-
-1. **[01. Патерн DTO (Data Transfer Object) та трансформація об'єктів](Docs/01_DTO_Pattern_And_Object_Mapping.md)**
-   - Навіщо потрібен DTO, ізоляція доменного шару, захист від зайвого експонування полів, вирішення проблеми циклічних посилань.
-2. **[02. AutoMapper: Профілі, Конвенції та Розширена Конфігурація](Docs/02_AutoMapper_Profiles_And_Advanced_Config.md)**
-   - Профілі `Profile`, автоматичне сплющення ієрархій (Flattening), `ForMember`, `Ignore`, `MapFrom`, кастомні резолвери `IValueResolver`, інтеграція з DI.
-3. **[03. Серіалізація даних у .NET: System.Text.Json та XmlSerializer](Docs/03_Serialization_Patterns_JSON_XML.md)**
-   - Конфігурація `JsonSerializerOptions`, запобігання циклам через `ReferenceHandler`, атрибути `[XmlRoot]`/`[XmlElement]`, порівняння форматів.
+Цей підмодуль розглядає практики розділення внутрішніх моделей збереження даних (Entities) та зовнішніх контрактів взаємодії (DTO — Data Transfer Objects), проектування профілів трансформації за допомогою популярної бібліотеки **AutoMapper**, а також шаблони серіалізації даних.
 
 ---
 
-## Структура проєктів підмодуля
+## Архітектурний розподіл рівнів: Entities проти DTO
 
-### 1. AutoMapperDemo (Трансформація та мапінг об'єктів)
-| Компонент | Опис теми | Ключові файли |
-| :--- | :--- | :--- |
-| **Центральний профіль** | Налаштування правил мапінгу | [MappingProfile.cs](AutoMapperDemo/Mapping/MappingProfile.cs) |
-| **Базовий мапінг** | Простий мапінг властивостей за назвами | [BasicMappingFeature.cs](AutoMapperDemo/Features/BasicMappingFeature.cs) |
-| **Колекції** | Мапінг списків `List<T>`, масивів | [CollectionsFeature.cs](AutoMapperDemo/Features/CollectionsFeature.cs) |
-| **Складний мапінг** | Сплющення вкладених сутностей | [ComplexMappingFeature.cs](AutoMapperDemo/Features/ComplexMappingFeature.cs) |
-| **Умовний мапінг** | Мапінг за предикатом `Condition` | [ConditionalMappingFeature.cs](AutoMapperDemo/Features/ConditionalMappingFeature.cs) |
-| **Ігнорування полів** | Виключення чутливих властивостей | [IgnoreMappingFeature.cs](AutoMapperDemo/Features/IgnoreMappingFeature.cs) |
-| **Зворотний мапінг** | Двонаправлений зв'язок `ReverseMap` | [ReverseMappingFeature.cs](AutoMapperDemo/Features/ReverseMappingFeature.cs) |
-| **Користувацькі резолвери** | Обчислення значень через `IValueResolver` | [AdvancedFeature.cs](AutoMapperDemo/Features/Advanced/AdvancedFeature.cs) |
-| **Ручний мапінг** | Еталонний код без бібліотек | [ManualMappingFeature.cs](AutoMapperDemo/Features/ManualMappingFeature.cs) |
+```mermaid
+flowchart LR
+    classDef ent fill:#0284c7,stroke:#38bdf8,color:#ffffff,stroke-width:2px;
+    classDef map fill:#0d9488,stroke:#2dd4bf,color:#ffffff,stroke-width:2px;
+    classDef dto fill:#7e22ce,stroke:#c084fc,color:#ffffff,stroke-width:2px;
 
-### 2. SerializationDemo (Серіалізація та архітектура застосунку)
-| Компонент | Опис теми | Ключові файли |
-| :--- | :--- | :--- |
-| **Сервіс серіалізації** | Уніфікована робота з JSON та XML | [SerializationService.cs](SerializationDemo/SerializationService.cs) |
-| **Генератор даних** | Фабрика тестових сутностей | [DataGenerator.cs](SerializationDemo/DataGenerator.cs) |
-| **Демонстратор** | Покрокове виконання тестів серіалізації | [DemoRunner.cs](SerializationDemo/DemoRunner.cs) |
-| **Хост застосунку** | Інверсія керування (DI) та запуск | [AppHost.cs](SerializationDemo/AppHost.cs) |
-| **Доменні моделі** | Сутності `Customer`, `Order`, `Address` | [Models/](SerializationDemo/Models/) |
-
----
-
-## Перевірка збірки (Zero-Error Verification)
-
-Обидва проєкти налаштовані на роботу з **.NET 10** та компілюються через центральне рішення:
-```powershell
-dotnet build "08-Architecture-And-Patterns/04-AutoMapper-And-DTO/OOP - Serialization-AutoMapper.sln" -c Release
+    DB[(База даних)] --> EF["Entity Framework Models<br/>(User, Order, PasswordHash)"]:::ent
+    EF --> Mapper["AutoMapper Profile<br/>(Трансформація, маскування, сплющення)"]:::map
+    Mapper --> DTO["Data Transfer Objects (DTO)<br/>(UserResponseDto, OrderSummaryDto)"]:::dto
+    DTO --> API["UI / API / Зовнішні клієнти"]
 ```
+
+---
+
+## Навігація по навчальних посібниках (`Docs`)
+
+| № | Посібник | Ключові теми та системні інструменти | Посилання на документ |
+|:---|:---|:---|:---|
+| 01 | **Патерн DTO та Об'єктний Мапінг** | Навіщо потрібні DTO, захист від Over-Posting, проектування чистих контрактів без витоку деталей БД | [Docs/01_DTO_Pattern_And_Object_Mapping.md](Docs/01_DTO_Pattern_And_Object_Mapping.md) |
+| 02 | **Профілі AutoMapper та Розширена Конфігурація** | `Profile`, `CreateMap`, `ForMember`, сплющення ієрархій (`Flattening`), конвертери значень | [Docs/02_AutoMapper_Profiles_And_Advanced_Config.md](Docs/02_AutoMapper_Profiles_And_Advanced_Config.md) |
+| 03 | **Шаблони Серіалізації JSON та XML** | Серіалізація DTO у JSON (`System.Text.Json`), налаштування CamelCase, атрибути ігнорування | [Docs/03_Serialization_Patterns_JSON_XML.md](Docs/03_Serialization_Patterns_JSON_XML.md) |
+
+---
+
+## Структура проєктів рішення `OOP - AutoMapper and DTO.sln`
+
+* **`AutoMapperDemo`**:
+  * Створення доменних сутностей `Customer`, `Order`, `Address`.
+  * Оголошення профілів мапінгу `CustomerProfile` із кастомними правилами обчислення полів.
+  * Тестування конфігурації мапінгу через `configuration.AssertConfigurationIsValid()`.
+  * Посилання на вихідний код: [`Program.cs`](AutoMapperDemo/Program.cs).
+* **`SerializationDemo`**:
+  * Серіалізація та десеріалізація отриманих DTO-об'єктів за допомогою сучасного `System.Text.Json`.
+  * Налаштування конвертерів та оптимізація розміру вихідного корисного навантаження.
+  * Посилання на вихідний код: [`Program.cs`](SerializationDemo/Program.cs).

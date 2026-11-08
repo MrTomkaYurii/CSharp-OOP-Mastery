@@ -1,73 +1,101 @@
-# 01. Архітектура Generic Host та Фонові служби (`IHost`, `BackgroundService`)
+# 01. Generic Host та Фонові Сервіси (`IHostedService`, `BackgroundService`)
 
-У сучасній екосистемі .NET будь-який нетривіальний консольний застосунок, фоновий сервіс обробки черг чи системний демон будується навколо уніфікованого каркасу — **Generic Host** (`Microsoft.Extensions.Hosting`).
+## 1. Архітектура та призначення Generic Host
+
+У ранніх версіях .NET для побудови додатків існував розрив: консольні утиліти писалися вручну без стандартизованої ініціалізації, тоді як веб-додатки використовували розвинений `WebHost`. Починаючи з .NET Core 2.1 і отримавши сучасний вигляд у .NET 7/8/9, платформа надає **Generic Host** (`Microsoft.Extensions.Hosting`).
+
+Generic Host інкапсулює всі базові ресурси довгоживучого процесу:
+* **Dependency Injection (DI)** — реєстрація та резолв залежностей через `IServiceCollection`.
+* **Configuration** — каскадне об'єднання джерел (`appsettings.json`, змінні оточення, аргументи CLI).
+* **Logging** — уніфікований конвеєр журналювання подій через `ILoggerFactory`.
+* **Lifetime Management** — відстеження сигналів ОС (SIGTERM, CTRL+C), запуск фонових воркерів та плавна зупинка (`Graceful Shutdown`).
+
+Сучасний підхід базується на класі **`HostApplicationBuilder`**, який надає інтуїтивний та лаконічний API налаштування перед остаточною збіркою контейнера:
+
+```csharp
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+// Реєстрація залежностей та фонових служб:
+builder.Services.AddHostedService<QueueProcessingWorker>();
+
+using IHost host = builder.Build();
+await host.RunAsync();
+```
 
 ---
 
-## 1. Навіщо потрібен Generic Host?
-
-У класичних навчальних консольних програмах метод `Main` часто перетворюється на хаотичний скрипт, де вручну створюються об'єкти, відкриваються файли конфігурації та запускаються нескінченні цикли `while (true)`. Такий підхід має критичні вади:
-- Відсутня стандартизована обробка сигналів завершення процесу (`Ctrl+C`, `SIGINT`, `SIGTERM` у контейнерах або системних службах Windows/Linux).
-- Немає єдиного механізму конфігурації, логування та контейнера інверсії керування (DI).
-- Фонові потоки обриваються примусово посеред транзакції при закритті вікна термінала.
-
-**`IHost` (Універсальний Хост)** інкапсулює всі інфраструктурні ресурси застосунку в одному об'єкті:
-1. **Контейнер залежностей (`IServiceProvider`)** — керує створенням і часом життя компонентів.
-2. **Конфігурацію (`IConfiguration`)** — збирає налаштування з `appsettings.json`, змінних середовища та аргументів CLI.
-3. **Систему логування (`ILoggerFactory` / `ILogger<T>`)** — маршрутизує діагностичні повідомлення.
-4. **Керування життєвим циклом (`IHostApplicationLifetime`)** — координує запуск і граційну зупинку всіх фонових служб (`IHostedService`).
+## 2. Діаграма життєвого циклу хоста та фонової служби
 
 ```mermaid
-flowchart TD
-    Builder["Host.CreateApplicationBuilder(args)"] --> Config["IConfiguration<br/>(JSON, Env, CLI)"]
-    Builder --> Logging["ILoggingBuilder<br/>(Console, Debug, EventLog)"]
-    Builder --> DI["IServiceCollection<br/>(Сервіси та BackgroundService)"]
-    Config --> Host["IHost = builder.Build()"]
-    Logging --> Host
-    DI --> Host
-    Host --> Run["await host.RunAsync()"]
+sequenceDiagram
+    autonumber
+    participant App as Program / Runtime
+    participant Host as IHost (Generic Host)
+    participant Worker as BackgroundService (IHostedService)
+    participant Token as CancellationTokenSource
+
+    App->>Host: host.RunAsync()
+    Host->>Worker: StartAsync(cancellationToken)
+    Note over Worker: Запуск фонового циклу в окремому потоці ThreadPool: ExecuteAsync(stoppingToken)
+    Worker-->>Host: Повернення керування (завдання запущено)
+    Host-->>App: Додаток працює, обробляє сигнали ОС
+
+    Note over App: Отримано сигнал CTRL+C / SIGTERM
+    App->>Host: Запит на зупинку
+    Host->>Token: Скасування stoppingToken.Cancel()
+    Host->>Worker: StopAsync(cancellationToken)
+    Note over Worker: Переривання await Task.Delay / I/O, очищення ресурсів
+    Worker-->>Host: Завершення роботи
+    Host-->>App: host.Dispose(), процес успішно завершено
 ```
 
 ---
 
-## 2. Життєвий цикл хоста та `IHostApplicationLifetime`
+## 3. Порівняння: `IHostedService` проти `BackgroundService`
 
-Інтерфейс `IHostApplicationLifetime` дозволяє будь-якому сервісу підписатися на три ключові стани застосунку через властивості типу `CancellationToken`:
+Для запуску коду у фоні .NET пропонує два контракти:
 
-| Властивість | Момент спрацювання | Типове призначення |
-|:---|:---|:---|
-| **`ApplicationStarted`** | Усі зареєстровані `IHostedService.StartAsync` успішно завершилися. | Логування готовності системи, відправка сигналу «Healthy» у систему моніторингу. |
-| **`ApplicationStopping`** | Отримано сигнал зупинки (`Ctrl+C` або виклик `StopApplication()`), але `StopAsync` служб ще триває. | Припинення прийому нових задач із черги, скидання буферів на диск. |
-| **`ApplicationStopped`** | Усі служби завершили `StopAsync`, хост от-от звільнить ресурси. | Фінальний запис у журнал про коректний вихід. | Крім того, метод `_lifetime.StopApplication()` дозволяє **будь-якому фоновому воркеру** ініціювати штатне завершення всього застосунку (наприклад, коли пакетне завдання виконано до кінця або виявлено критичну помилку конфігурації).
+1. **`IHostedService`** — низькорівневий інтерфейс із методами `StartAsync` та `StopAsync`. Якщо в методі `StartAsync` виконати тривалу або блокуючу роботу (наприклад, нескінченний цикл `while`), хост заблокується і взагалі не зможе запустити решту служб.
+2. **`BackgroundService`** — рекомендований абстрактний клас, що реалізує `IHostedService`. Він делегує виконання абстрактному методу `ExecuteAsync(CancellationToken stoppingToken)` у фоновий потік пулу, уникаючи блокування ініціалізації хоста.
 
----
+### Антипатерн проти рекомендованої реалізації
 
-## 3. Контракт `IHostedService` проти `BackgroundService`
-
-### 3.1. Інтерфейс `IHostedService`
-Це базовий контракт для будь-якої керованої хостом служби:
 ```csharp
-public interface IHostedService
+// ПОГАНО: Блокування StartAsync в IHostedService зупиняє старт усього хоста!
+public class BadWorker : IHostedService
 {
-    Task StartAsync(CancellationToken cancellationToken);
-    Task StopAsync(CancellationToken cancellationToken);
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested) // ПОМИЛКА: Нескінченний цикл блокує старт хоста!
+        {
+            await Task.Delay(1000);
+        }
+    }
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }
-```
-> [!IMPORTANT]
-> Хост викликає `StartAsync` для кожної служби **послідовно в порядку їх реєстрації** та **чекає** завершення `Task`, перш ніж перейти до наступної служби! Тому в `StartAsync` не можна запускати нескінченний блокуючий цикл `while` — це заблокує старт усього застосунку. `IHostedService` ідеально підходить для **коротких підготовчих задач** (перевірка з'єднання з базою даних, прогрів кешу).
 
-### 3.2. Абстрактний клас `BackgroundService`
-Для тривалих циклічних процесів (опитування черги, моніторинг, робота за таймером) у .NET передбачено базовий клас `BackgroundService`, який сам реалізує `IHostedService` і запускає метод `ExecuteAsync(CancellationToken stoppingToken)` у фоновому режимі:
-
-```csharp
-public sealed class TelemetryProcessingWorker : BackgroundService
+// ДОБРЕ: Спадкування від BackgroundService з коректним graceful shutdown
+public class GoodWorker : BackgroundService
 {
+    private readonly ILogger<GoodWorker> _logger;
+
+    public GoodWorker(ILogger<GoodWorker> logger) => _logger = logger;
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(250));
-        while (await timer.WaitForNextTickAsync(stoppingToken))
+        _logger.LogInformation("Фоновий воркер запущено.");
+        while (!stoppingToken.IsCancellationRequested)
         {
-            // Корисне навантаження циклу
+            try
+            {
+                await Task.Delay(2000, stoppingToken);
+                _logger.LogInformation("Ітерація обробки черги успішна.");
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogWarning("Отримано сигнал зупинки. Завершення фонового циклу...");
+                break;
+            }
         }
     }
 }
@@ -75,11 +103,19 @@ public sealed class TelemetryProcessingWorker : BackgroundService
 
 ---
 
-## 4. Граційна зупинка (Graceful Shutdown) та `ShutdownTimeout`
+## 4. Порівняльна характеристика типів хостингу
 
-Коли користувач натискає `Ctrl+C` або хост викликає `StopApplication()`:
-1. Токен `stoppingToken`, переданий у `ExecuteAsync`, переходить у стан `IsCancellationRequested = true`.
-2. Асинхронні операції (`PeriodicTimer.WaitForNextTickAsync`, `Task.Delay`, `DbContext.SaveChangesAsync`) миттєво викидають `OperationCanceledException` і переривають очікування.
-3. Хост чекає завершення методу `StopAsync` усіх воркерів протягом часу, заданого в `HostOptions.ShutdownTimeout` (за замовчуванням 30 секунд).
+| Параметр | Старий підхід (Console App) | Generic Host (`HostApplicationBuilder`) | WebHost (`WebApplication`) |
+|:---|:---|:---|:---|
+| **Призначення** | Одноразові скрипти, алгоритмічні тести | Демони, черги, бекграунд-воркери, CLI | Веб-сервіси, REST API, gRPC, Blazor |
+| **Життєвий цикл** | Ручне керування, ризик раптового аварійного виходу | Повна підтримка Graceful Shutdown та сигналів ОС | Graceful Shutdown для HTTP-з'єднань |
+| **Ін'єкція залежностей** | Відсутня або ручне створення ServiceProvider | Вбудований стандартний DI-контейнер .NET | Повний DI-контейнер із Web-специфічними скоупами |
+| **Конфігурація** | Ручний парсинг аргументів `args` або файлів | Каскадне злиття JSON, Environment Variables, CLI | Каскадне злиття з додатковими endpoints |
 
-Практичну реалізацію можна переглянути та запустити у проєкті [`01-GenericHostLifecycleAndWorkers`](../01-GenericHostLifecycleAndWorkers/Program.cs).
+---
+
+## 5. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`01-GenericHostLifecycleAndWorkers`](../01-GenericHostLifecycleAndWorkers/Program.cs) | [Program.cs](../01-GenericHostLifecycleAndWorkers/Program.cs) | Конфігурація `HostApplicationBuilder`, реєстрація фонового працівника через `AddHostedService<T>`, обробка `CancellationToken` та коректне очищення пам'яті при зупинці процесу. |

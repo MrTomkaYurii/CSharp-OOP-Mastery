@@ -1,65 +1,115 @@
-# 02. Управління областями видимості (`IServiceScopeFactory`) та пастка Captive Dependency
+# 02. Управління областями (`IServiceScopeFactory`) та пастка `Captive Dependency`
 
-Робота з `Scoped`-сервісами у консольних застосунках та фонових воркерах (`BackgroundService`) вимагає чіткого розуміння того, хто і коли створює межі області видимості (`IServiceScope`). Найнебезпечніша архітектурна помилка при роботі з DI відома як **Captive Dependency («Ув'язнена залежність»)**.
+## 1. Що таке Captive Dependency (Захоплена залежність)?
 
----
+**Captive Dependency** — це одна з найнебезпечніших архітектурних помилок у .NET-застосунках. Вона виникає тоді, коли довгоживучий сервіс (наприклад, **`Singleton`**) приймає у свій конструктор залежність із коротшим часом життя (наприклад, **`Scoped`**).
 
-## 1. Суть пастки Captive Dependency
-
-Правило ієрархії часів життя у DI звучить категорично:
-> [!CAUTION]
-> **Сервіс ніколи не повинен напряму залежати від іншого сервісу з коротшим часом життя!**
-> - `Singleton`  може напряму інжектувати лише `Singleton`.
-> - `Scoped`  може інжектувати `Scoped` та `Singleton`.
-
-Що трапиться, якщо `Singleton`-координатор (або `BackgroundService`, який сам реєструється як `Singleton`) попросить у своєму конструкторі `Scoped`-залежність (наприклад, `StoreDbContext` чи `ScopedUnitOfWork`)?
+Оскільки Singleton створюється лише один раз і живе протягом усього життя застосунку, переданий йому в конструктор Scoped-об'єкт стає його "бранцем" (captive) і ніколи не знищується.
 
 ```mermaid
-flowchart LR
-    Root["Кореневий контейнер (Singleton)"] --> Single["BrokenSingletonProcessor<br/>(Живе вічно)"]
-    Single -.->|" УВ'ЯЗНЕННЯ!<br/>Конструктор викликається лише 1 раз"| Scoped["ScopedUnitOfWork / DbContext<br/>(Мав би жити лише 1 операцію, але став вічним!)"]
+flowchart TD
+    classDef bad fill:#dc2626,stroke:#f87171,color:#ffffff,stroke-width:2px;
+    classDef good fill:#16a34a,stroke:#4ade80,color:#ffffff,stroke-width:2px;
+
+    Singleton["Singleton Service<br/>(Живе весь час процесу)"]:::bad -->|Приймає через конструктор| Captive["Scoped Service (DbContext)!<br/>(Мав жити лише один запит)"]:::bad
+    
+    Captive --> Bug1["1. Витік пам'яті: ChangeTracker ніколи не очищується"]:::bad
+    Captive --> Bug2["2. Застарілі дані: сутності закешовані назавжди"]:::bad
+    Captive --> Bug3["3. Race Condition: багатопотоковий доступ до не-потокобезпечного DbContext"]:::bad
 ```
 
-### Наслідки ув'язнення `Scoped`-сервісу всередині `Singleton`:
-1. **Витік пам'яті та деградація EF Core**: `DbContext` ніколи не викликає `Dispose()`, його `ChangeTracker` нескінченно накопичує тисячі закешованих об'єктів у пам'яті.
-2. **Застарілі дані (Stale State)**: контекст повертає старі закешовані записи замість актуальних даних із SQLite/SQL-бази.
-3. **Краш при багатопотоковому доступі**: `DbContext` не підтримує паралельних викликів з кількох потоків.
+---
+
+## 2. Як вбудований валідатор контейнера виявляє Captive Dependency
+
+У режимі розробки сучасний .NET Generic Host автоматично вмикає дві критичні перевірки при побудові провайдера:
+* **`ValidateScopes = true`** — забороняє резолвити Scoped-сервіси безпосередньо з кореневого контейнера (`Root Provider`).
+* **`ValidateOnBuild = true`** — перевіряє граф залежностей уже на етапі запуску програми і викидає виняток `InvalidOperationException`:
+
+```
+Cannot consume scoped service 'StoreDbContext' from singleton 'BackgroundWorker'.
+```
 
 ---
 
-## 2. Автоматичне виявлення помилки (`ValidateScopes` та `ValidateOnBuild`)
+## 3. Порівняння: Помилкова конфігурація проти `IServiceScopeFactory`
 
-У `Generic Host` у середовищі `Development` (або при явному налаштуванні `ServiceProviderOptions`) вмикаються два потужні запобіжники:
-- **`ValidateScopes = true`** — забороняє створювати `Scoped`-сервіси з кореневого контейнера `host.Services`.
-- **`ValidateOnBuild = true`** — перевіряє весь граф конструкторів усіх зареєстрованих сервісів ще в момент виклику `builder.Build()`, миттєво викидаючи `InvalidOperationException: Cannot consume scoped service '...' from singleton '...'`.
-
----
-
-## 3. Еталонне виправлення через `IServiceScopeFactory`
-
-Як же фоновій службі (`BackgroundService`) або `Singleton`-сервісу легально звернутися до бази даних чи `Scoped`-репозиторію?
-
-Замість самої `Scoped`-залежності у конструктор інжектується фабрика областей видимості — **`IServiceScopeFactory`** (яка сама є безпечним `Singleton`-інфраструктурним сервісом):
+### Антипатерн: Пряме захоплення у конструкторі
 
 ```csharp
-public sealed class SafeBatchCoordinator
+// ПОГАНО: Помилка Captive Dependency
+public class BadBackgroundWorker : BackgroundService
 {
-    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly StoreDbContext _dbContext; // ПОМИЛКА: Scoped у Singleton!
 
-    public SafeBatchCoordinator(IServiceScopeFactory scopeFactory)
+    public BadBackgroundWorker(StoreDbContext dbContext)
     {
-        _scopeFactory = scopeFactory;
+        _dbContext = dbContext;
     }
 
-    public async Task ProcessJobAsync(string jobName)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // На кожну окрему задачу відкриваємо свіжий ізольований Scope!
-        await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
-
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<ScopedUnitOfWork>();
-        await unitOfWork.SaveBatchAsync(jobName);
-    } // <-- Тут Scope автоматично закривається і викликає DisposeAsync/Dispose!
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            // Непотокобезпечний паралельний доступ до одного й того самого DbContext!
+            var count = await _dbContext.Orders.CountAsync(stoppingToken);
+            await Task.Delay(5000, stoppingToken);
+        }
+    }
 }
 ```
 
-Практичну демонстрацію перехоплення `Captive Dependency` та еталонного виправлення через `IServiceScopeFactory` дивіться у проєкті [`02-ScopesAndCaptiveDependency`](../02-ScopesAndCaptiveDependency/Program.cs).
+### Рекомендоване рішення: Створення динамічної області через `IServiceScopeFactory`
+
+```csharp
+// ДОБРЕ: Singleton ін'єктує фабрику скоупів та створює ізольовану область на кожну операцію
+public class GoodBackgroundWorker : BackgroundService
+{
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ILogger<GoodBackgroundWorker> _logger;
+
+    public GoodBackgroundWorker(IServiceScopeFactory scopeFactory, ILogger<GoodBackgroundWorker> logger)
+    {
+        _scopeFactory = scopeFactory;
+        _logger = logger;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            // Створюємо ізольовану область на кожну ітерацію:
+            using (IServiceScope scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
+                
+                var pendingOrders = await dbContext.Orders
+                    .Where(o => !o.IsProcessed)
+                    .ToListAsync(stoppingToken);
+
+                // Безпечна обробка...
+            } // ТУТ DbContext гарантовано викликає Dispose() та очищає ChangeTracker!
+
+            await Task.Delay(5000, stoppingToken);
+        }
+    }
+}
+```
+
+---
+
+## 4. Матриця сумісності життєвих циклів
+
+| Сервіс-споживач (Залежить від) | Може безпечно ін'єктувати `Transient` | Може безпечно ін'єктувати `Scoped` | Може безпечно ін'єктувати `Singleton` |
+|:---|:---:|:---:|:---:|
+| **Transient** | Так | Тільки якщо сам створюється всередині Scope | Так |
+| **Scoped** | Так | Так (обидва живуть у межах одного Scope) | Так |
+| **Singleton** | Так (якщо Transient без стану) | **НІ! Заборонено (Captive Dependency)** | Так |
+
+---
+
+## 5. Матриця проєкту цієї секції
+
+| Проєкт | Посилання на вихідний код | Що демонструє під капотом |
+|:---|:---|:---|
+| [`02-ScopesAndCaptiveDependency`](../02-ScopesAndCaptiveDependency/Program.cs) | [Program.cs](../02-ScopesAndCaptiveDependency/Program.cs) | Демонстрація виявлення Captive Dependency за допомогою `ValidateScopes = true` та безпечна робота через `IServiceScopeFactory`. |
