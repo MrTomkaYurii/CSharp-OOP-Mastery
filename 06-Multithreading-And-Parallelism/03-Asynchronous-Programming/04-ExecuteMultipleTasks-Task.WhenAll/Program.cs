@@ -7,107 +7,68 @@ namespace AsynchronousProgramming
 {
     /// <summary>
     /// =========================================================================================
-    /// КОМБІНАТОР TASK.WHENALL: Послідовне vs Паралельне асинхронне виконання
+    /// Task.WhenAll: Паралельне очікування пачки завдань
     /// =========================================================================================
-    /// Демонструє кардинальну різницю у продуктивності:
-    /// 1. Послідовний await у циклі: кожна ітерація чекає завершення попередньої (10 * 1с = 10 секунд).
-    /// 2. Паралельний комбінатор Task.WhenAll: всі 10 задач запускаються одночасно (загальний час ~1 секунда).
+    /// Показує, як передати список Task у Task.WhenAll та отримати зведений масив результатів.
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Точка входу в програму
-        // =====================================================================================
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Main Thread Started");
-
-            // Генерація 10 карток для наочного порівняння часу виконання
-            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(10);
-            Console.WriteLine($"Credit Card Generated : {creditCards.Count}");
-
-            // Демонстрація виконання через Task.WhenAll
-            ProcessCreditCardsWithWhenAll(creditCards);
-
-            Console.WriteLine("Main Thread Completed");
-            Console.ReadKey();
-        }
-
-        // =====================================================================================
-        // БЛОК 2 (ВАРІАНТ 1): Послідовне очікування в циклі (Sequential Await)
-        // АНТИПАТТЕРН для незалежних операцій: блокує прогрес наступної задачі до завершення поточної.
-        // Час виконання: O(N * T), де N - кількість елементів, T - час однієї операції.
-        // =====================================================================================
-        public static async Task ProcessCreditCardsSequentially(List<CreditCard> creditCards)
+        public static async Task Main(string[] args)
         {
             var stopwatch = Stopwatch.StartNew();
+            Console.WriteLine("Запуск демонстрації Task.WhenAll...");
 
-            foreach (var creditCard in creditCards)
-            {
-                // Кожен await зупиняє метод на 1 секунду
-                var response = await ProcessCard(creditCard);
-            }
+            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(15);
+            Console.WriteLine($"Підготовлено {creditCards.Count} карток для транзакцій.\n");
+
+            await ProcessCreditCardsAsync(creditCards);
 
             stopwatch.Stop();
-            Console.WriteLine($"[ПОСЛІДОВНО]: {creditCards.Count} карток оброблено за {stopwatch.ElapsedMilliseconds / 1000.0} секунд (Очікувано ~10 сек)");
+            Console.WriteLine($"Загальний час виконання програми: {stopwatch.Elapsed.TotalSeconds:F2} сек.");
         }
 
-        // =====================================================================================
-        // БЛОК 3 (ВАРІАНТ 2): Паралельний комбінатор Task.WhenAll
-        // ЕТАЛОННИЙ ПАТЕРН: всі задачі стартують одночасно, WhenAll очікує завершення найповільнішої.
-        // Час виконання: O(max(T)), тобто приблизно 1 секунда для всіх 10 задач!
-        // =====================================================================================
-        public static async void ProcessCreditCardsWithWhenAll(List<CreditCard> creditCards)
+        public static async Task ProcessCreditCardsAsync(List<CreditCard> creditCards)
         {
-            var stopwatch = Stopwatch.StartNew();
             var tasks = new List<Task<string>>();
-
-            // Крок 1: Запуск усіх асинхронних операцій без негайного await
-            foreach (var creditCard in creditCards)
+            foreach (var card in creditCards)
             {
-                var task = ProcessCard(creditCard);
-                tasks.Add(task);
+                tasks.Add(ProcessCardAsync(card));
             }
 
-            // Крок 2: Одночасне очікування завершення всієї групи задач
-            string[] results = await Task.WhenAll(tasks);
+            // Task.WhenAll чекає завершення всіх задач у паралельному режимі
+            string[] responses = await Task.WhenAll(tasks);
 
-            stopwatch.Stop();
-            Console.WriteLine($"[ПАРАЛЕЛЬНО Task.WhenAll]: {creditCards.Count} карток оброблено за {stopwatch.ElapsedMilliseconds / 1000.0} секунд (Очікувано ~1 сек)");
+            Console.WriteLine($"Успішно отримано {responses.Length} відповідей:");
+            foreach (var r in responses)
+            {
+                Console.WriteLine($"  * {r}");
+            }
         }
 
-        // =====================================================================================
-        // БЛОК 4: Імітація виклику API обробки картки (затримка 1 секунда)
-        // =====================================================================================
-        public static async Task<string> ProcessCard(CreditCard creditCard)
+        public static async Task<string> ProcessCardAsync(CreditCard creditCard)
         {
-            await Task.Delay(1000);
-            string message = $"Credit Card Number: {creditCard.CardNumber} Name: {creditCard.Name} Processed";
-            Console.WriteLine($"Card {creditCard.CardNumber} processed.");
-            return message;
+            await Task.Delay(250);
+            return $"Картка {creditCard.CardNumber} авторизована";
         }
     }
 
-    // =========================================================================================
-    // БЛОК 5: Допоміжний клас моделі даних
-    // =========================================================================================
     public class CreditCard
     {
         public string CardNumber { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
-        public static List<CreditCard> GenerateCreditCards(int number)
+        public static List<CreditCard> GenerateCreditCards(int count)
         {
-            var creditCards = new List<CreditCard>(number);
-            for (int i = 0; i < number; i++)
+            var list = new List<CreditCard>(count);
+            for (int i = 1; i <= count; i++)
             {
-                creditCards.Add(new CreditCard
+                list.Add(new CreditCard
                 {
-                    CardNumber = "10000000" + i,
-                    Name = "CreditCard-" + i
+                    CardNumber = $"5375-1000-{i:D4}",
+                    Name = $"Користувач-{i}"
                 });
             }
-            return creditCards;
+            return list;
         }
     }
 }

@@ -118,10 +118,10 @@ public static partial class Program
 
     private static IRenderable GetTreeTable()
     {
-        var tree = new Tree("📁 src");
-        tree.AddNode("📁 foo").AddNode("📄 bar.cs");
-        tree.AddNode("📁 baz").AddNode("📁 qux").AddNode("📄 corgi.txt");
-        tree.AddNode("📄 waldo.xml");
+        var tree = new Tree(" src");
+        tree.AddNode(" foo").AddNode(" bar.cs");
+        tree.AddNode(" baz").AddNode(" qux").AddNode(" corgi.txt");
+        tree.AddNode(" waldo.xml");
 
         var table = new Table().SimpleBorder().BorderColor(Color.Grey);
         table.AddColumn(new TableColumn("Overview"));

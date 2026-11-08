@@ -1,20 +1,32 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Text;
 
 namespace GenericMemoizerPattern;
 
+/// <summary>
+/// 04. Патерн Generic Memoizer у мові C# для студентів.
+/// 
+/// Мета прикладу:
+/// Показати, як перетворити будь-яку звичайну функцію Func<T, TResult> на функцію з кешем
+/// за допомогою одного простого методу розширення .Memoize(), без повторення коду словника!
+/// </summary>
 internal class Program
 {
     static void Main()
     {
-        Console.WriteLine("=== 04. Патерн Generic Memoizer у мові C# ===\n");
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.WriteLine("================================================================================");
+        Console.WriteLine("  04. ПАТЕРН GENERIC MEMOIZER (АВТОМАТИЧНИЙ КЕШ ДЛЯ ФУНКЦІЙ)");
+        Console.WriteLine("================================================================================\n");
 
-        // 1. Мемоізація важкої бізнес-функції (імітація розрахунку вартості доставки)
-        Console.WriteLine("--- 1. Мемоізація бізнес-обчислення (двовимірний вхід) ---");
+        // 1. Мемоізація важкої бізнес-функції розрахунку тарифу доставки
+        Console.WriteLine("--- 1. Мемоізація бізнес-функції (два аргументи: зона і вага) ---");
+        
         Func<string, int, decimal> calculateDelivery = (zone, weight) =>
         {
             // Імітація важкої операції (запит до геосервісу, тарифікація)
-            Thread.Sleep(200);
+            Thread.Sleep(150);
             decimal baseRate = zone switch
             {
                 "EU-West" => 25.0m,
@@ -25,30 +37,27 @@ internal class Program
             return baseRate + (weight * 3.5m);
         };
 
+        // Завдяки методу розширення .Memoize() ми огортаємо функцію автоматичним кешем:
         var memoizedDelivery = calculateDelivery.Memoize();
 
-        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Перший виклик (холодний)");
-        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Другий виклик з тими ж аргументами (гарячий кеш)");
-        TestDeliveryCall(memoizedDelivery, "US-East", 5,  "Новий виклик (інші аргументи)");
-        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Повторний виклик першого запиту (гарячий кеш)\n");
+        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Перший виклик (холодний — обчислення)");
+        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Другий виклик з тими ж аргументами (гарячий — миттєво з кешу)");
+        TestDeliveryCall(memoizedDelivery, "US-East", 5,  "Новий виклик з іншими аргументами (обчислення)");
+        TestDeliveryCall(memoizedDelivery, "EU-West", 10, "Повторний виклик першого запиту (гарячий — з кешу)\n");
 
-        // 2. Рекурсивна мемоізація (Fixed-point / Recursive Memoizer)
-        Console.WriteLine("--- 2. Універсальна рекурсивна мемоізація (Фібоначчі) ---");
-        // Оголошуємо функцію вищого порядку, яка приймає посилання на саму себе
-        Func<Func<int, long>, Func<int, long>> fibonacciGenerator = recurse => n =>
-        {
-            if (n <= 1) return n;
-            return recurse(n - 1) + recurse(n - 2);
-        };
+        // 2. Зрозуміла рекурсивна мемоізація (числа Фібоначчі)
+        Console.WriteLine("--- 2. Рекурсивна мемоізація (Фібоначчі без зайвого ускладнення) ---");
+        Console.WriteLine("Замість складних лямбд-генераторів, рекурсивний кеш створюється через");
+        Console.WriteLine("замикання локальної функції з ConcurrentDictionary:\n");
 
-        var fastFib = fibonacciGenerator.MemoizeRecursive();
+        var fastFib = MemoizerExtensions.CreateRecursiveMemoizedFibonacci();
 
         var sw = Stopwatch.StartNew();
         long fibResult = fastFib(50);
         sw.Stop();
 
         Console.WriteLine($"Результат fastFib(50) = {fibResult}");
-        Console.WriteLine($"Час виконання з рекурсивним кешуванням: {sw.Elapsed.TotalMicroseconds:F2} μs\n");
+        Console.WriteLine($"Час виконання: {sw.Elapsed.TotalMicroseconds:F1} мкс (миттєво завдяки кешу!)\n");
     }
 
     private static void TestDeliveryCall(Func<string, int, decimal> func, string zone, int weight, string scenario)
@@ -58,17 +67,17 @@ internal class Program
         sw.Stop();
         Console.WriteLine($"[{scenario}]");
         Console.WriteLine($"  Вхід: Зона={zone}, Вага={weight} кг -> Вартість: ${cost}");
-        Console.WriteLine($"  Час:  {sw.ElapsedMilliseconds} ms ({sw.Elapsed.TotalMicroseconds:F0} μs)");
+        Console.WriteLine($"  Час:  {sw.ElapsedMilliseconds} мс ({sw.Elapsed.TotalMicroseconds:F0} мкс)");
     }
 }
 
 /// <summary>
-/// Бібліотека методів розширення для функціональної мемоізації.
+/// Прості та наочні методи розширення для мемоізації функцій у C#.
 /// </summary>
 public static class MemoizerExtensions
 {
     /// <summary>
-    /// Мемоізує одномісну чисту функцію за допомогою ConcurrentDictionary.
+    /// Мемоізує функцію з одним аргументом за допомогою ConcurrentDictionary.
     /// </summary>
     public static Func<T, TResult> Memoize<T, TResult>(this Func<T, TResult> func) where T : notnull
     {
@@ -77,7 +86,7 @@ public static class MemoizerExtensions
     }
 
     /// <summary>
-    /// Мемоізує двомісну чисту функцію за допомогою кортежу як ключа.
+    /// Мемоізує функцію з двома аргументами, використовуючи кортеж (T1, T2) як ключ словника.
     /// </summary>
     public static Func<T1, T2, TResult> Memoize<T1, T2, TResult>(this Func<T1, T2, TResult> func)
         where T1 : notnull
@@ -88,15 +97,20 @@ public static class MemoizerExtensions
     }
 
     /// <summary>
-    /// Рекурсивний мемоізатор для функцій, які викликають самі себе.
-    /// Дозволяє автоматично кешувати проміжні рекурсивні виклики.
+    /// Наочний приклад рекурсивної мемоізації для студентів:
+    /// Створює функцію розрахунку Фібоначчі, в якій локальний кеш автоматично зберігає
+    /// результати всіх проміжних підзадач.
     /// </summary>
-    public static Func<T, TResult> MemoizeRecursive<T, TResult>(
-        this Func<Func<T, TResult>, Func<T, TResult>> generator) where T : notnull
+    public static Func<int, long> CreateRecursiveMemoizedFibonacci()
     {
-        var cache = new ConcurrentDictionary<T, TResult>();
-        Func<T, TResult> self = null!;
-        self = arg => cache.GetOrAdd(arg, generator(x => self(x)));
-        return self;
+        var cache = new ConcurrentDictionary<int, long>();
+
+        long Fib(int n)
+        {
+            if (n <= 1) return n;
+            return cache.GetOrAdd(n, num => Fib(num - 1) + Fib(num - 2));
+        }
+
+        return Fib;
     }
 }

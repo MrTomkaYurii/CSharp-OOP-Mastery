@@ -7,83 +7,55 @@ namespace AsynchronousProgramming
 {
     /// <summary>
     /// =========================================================================================
-    /// МНОЖИННІ ЗАДАЧІ: Розвантаження викликаючого потоку (Thread Offloading через Task.Run)
+    /// МНОЖИННІ ЗАДАЧІ: Паралельне виконання пулу завдань через Task.WhenAll
     /// =========================================================================================
-    /// Демонструє запуск великої кількості асинхронних операцій (100,000 карток).
-    /// Пояснює різницю між синхронним створенням 100 тисяч об'єктів Task у головному потоці
-    /// та винесенням циклу планування в фоновий потік ThreadPool через Task.Run.
+    /// Демонструє створення невеликого пулу карток (20 шт) та їх одночасну асинхронну обробку.
+    /// Пояснює, чому Task.WhenAll чекає завершення всіх задач паралельно, а не послідовно.
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Точка входу в програму (Замір часу роботи Main)
-        // =====================================================================================
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            Console.WriteLine("Main Thread Started");
+            var stopwatch = Stopwatch.StartNew();
+            Console.WriteLine("Main Thread розпочато...");
 
-            // Генерація великого пулу даних (100,000 карток)
-            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(100000);
-            Console.WriteLine($"Credit Card Generated : {creditCards.Count}");
+            // Генеруємо 20 карток (наочна кількість для студентів)
+            int cardCount = 20;
+            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(cardCount);
+            Console.WriteLine($"Згенеровано {creditCards.Count} карток для перевірки.\n");
 
-            // Запуск асинхронної обробки карток
-            ProcessCreditCards(creditCards);
+            await ProcessCreditCardsAsync(creditCards);
 
-            Console.WriteLine("Main Thread Completed");
-            Console.WriteLine($"Main Thread Execution Time {stopwatch.ElapsedMilliseconds / 1000.0} Seconds");
-            Console.ReadKey();
+            stopwatch.Stop();
+            Console.WriteLine($"\nMain Thread завершено за {stopwatch.Elapsed.TotalSeconds:F2} сек.");
         }
 
-        // =====================================================================================
-        // БЛОК 2: Асинхронний метод планування пулу задач
-        // Створює список задач та очікує їх паралельне завершення через Task.WhenAll.
-        // =====================================================================================
-        public static async void ProcessCreditCards(List<CreditCard> creditCards)
+        public static async Task ProcessCreditCardsAsync(List<CreditCard> creditCards)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
+            var stopwatch = Stopwatch.StartNew();
             var tasks = new List<Task<string>>();
 
-            // ВАРІАНТ А: Створення задач у поточному потоці
-            // При дуже великих колекціях (100k+) створення об'єктів задач займає час процесора
             foreach (var creditCard in creditCards)
             {
-                var response = ProcessCard(creditCard);
-                tasks.Add(response);
+                tasks.Add(ProcessCardAsync(creditCard));
             }
 
-            // ВАРІАНТ Б (Альтернатива): Розвантаження головного потоку через Task.Run:
-            // await Task.Run(() =>
-            // {
-            //     foreach (var creditCard in creditCards)
-            //     {
-            //         tasks.Add(ProcessCard(creditCard));
-            //     }
-            // });
+            // Очікування завершення всіх 20 задач ОДНОЧАСНО:
+            string[] results = await Task.WhenAll(tasks);
 
-            // Очікування завершення всіх задач у паралельному режимі
-            await Task.WhenAll(tasks);
             stopwatch.Stop();
-            Console.WriteLine($"Processing of {creditCards.Count} Credit Cards Done in {stopwatch.ElapsedMilliseconds / 1000.0} Seconds");
+            Console.WriteLine($"Обробку {results.Length} карток виконано за {stopwatch.Elapsed.TotalSeconds:F2} сек.");
+            Console.WriteLine($"(Якби обробка була синхронною, це зайняло б {creditCards.Count * 0.2:F1} сек!)");
         }
 
-        // =====================================================================================
-        // БЛОК 3: Імітація обробки однієї кредитної картки (I/O затримка)
-        // =====================================================================================
-        public static async Task<string> ProcessCard(CreditCard creditCard)
+        public static async Task<string> ProcessCardAsync(CreditCard creditCard)
         {
-            await Task.Delay(1000);
-            string message = $"Credit Card Number: {creditCard.CardNumber} Name: {creditCard.Name} Processed";
-            return message;
+            // Імітація звернення до банку (200 мс)
+            await Task.Delay(200);
+            return $"Картка #{creditCard.CardNumber} ({creditCard.Name}) успішно перевірена.";
         }
     }
 
-    // =========================================================================================
-    // БЛОК 4: Доменна сутність та генератор тестових даних
-    // =========================================================================================
     public class CreditCard
     {
         public string CardNumber { get; set; } = string.Empty;
@@ -91,19 +63,16 @@ namespace AsynchronousProgramming
 
         public static List<CreditCard> GenerateCreditCards(int number)
         {
-            List<CreditCard> creditCards = new List<CreditCard>(number);
-            for (int i = 0; i < number; i++)
+            var list = new List<CreditCard>(number);
+            for (int i = 1; i <= number; i++)
             {
-                CreditCard card = new CreditCard()
+                list.Add(new CreditCard
                 {
-                    CardNumber = "10000000" + i,
-                    Name = "CreditCard-" + i
-                };
-
-                creditCards.Add(card);
+                    CardNumber = $"4149-0000-{i:D4}",
+                    Name = $"Клієнт #{i}"
+                });
             }
-
-            return creditCards;
+            return list;
         }
     }
 }

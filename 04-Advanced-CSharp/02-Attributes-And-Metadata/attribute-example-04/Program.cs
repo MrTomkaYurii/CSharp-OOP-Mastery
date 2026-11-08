@@ -107,7 +107,7 @@ static class AuditLogger
             if (attr.RequiresAudit)
             {
                 Console.WriteLine("\n" + new string('═', 70));
-                Console.WriteLine($"📋 АУДИТ ВИКЛИКУ МЕТОДУ");
+                Console.WriteLine($" АУДИТ ВИКЛИКУ МЕТОДУ");
                 Console.WriteLine(new string('─', 70));
                 Console.WriteLine($"Час: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
                 Console.WriteLine($"Метод: {methodName}");
@@ -139,7 +139,7 @@ static class AuditLogger
     public static void GenerateDocumentation(Type type)
     {
         Console.WriteLine("\n" + new string('═', 70));
-        Console.WriteLine($"📚 АВТОМАТИЧНА ДОКУМЕНТАЦІЯ: {type.Name}");
+        Console.WriteLine($" АВТОМАТИЧНА ДОКУМЕНТАЦІЯ: {type.Name}");
         Console.WriteLine(new string('═', 70));
 
         var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -168,7 +168,7 @@ static class AuditLogger
     public static void ShowMethodStatistics(Type type)
     {
         Console.WriteLine("\n" + new string('═', 70));
-        Console.WriteLine($"📊 СТАТИСТИКА МЕТОДІВ: {type.Name}");
+        Console.WriteLine($" СТАТИСТИКА МЕТОДІВ: {type.Name}");
         Console.WriteLine(new string('═', 70));
 
         int modifiers = 0;
@@ -225,13 +225,13 @@ public class EmployeeManagementSystem
 
         Employee emp1 = new Employee();
 
-        Console.WriteLine("\n\n🔹 СЦЕНАРІЙ 1: Створення нового працівника");
+        Console.WriteLine("\n\n СЦЕНАРІЙ 1: Створення нового працівника");
         Console.WriteLine(new string('─', 70));
 
         // КРИТИЧНА ТОЧКА 11: Виклик методу з аудитом (SetDetails має RequiresAudit = true)
         AuditLogger.InvokeWithAudit(emp1, "SetDetails", 2424, "Параска Іван", 45000.0);
 
-        Console.WriteLine("\n🔹 СЦЕНАРІЙ 2: Читання базової інформації (без аудиту)");
+        Console.WriteLine("\n СЦЕНАРІЙ 2: Читання базової інформації (без аудиту)");
         Console.WriteLine(new string('─', 70));
 
         // GetEmpID та GetEmpName НЕ мають RequiresAudit, тому логування не буде
@@ -241,20 +241,20 @@ public class EmployeeManagementSystem
         Console.WriteLine($"✓ ID: {id}");
         Console.WriteLine($"✓ Ім'я: {name}");
 
-        Console.WriteLine("\n🔹 СЦЕНАРІЙ 3: Читання конфіденційних даних (З аудитом)");
+        Console.WriteLine("\n СЦЕНАРІЙ 3: Читання конфіденційних даних (З аудитом)");
         Console.WriteLine(new string('─', 70));
 
         // КРИТИЧНА ТОЧКА 12: GetSalary має RequiresAudit = true, бо це конфіденційні дані
         double salary = (double)AuditLogger.InvokeWithAudit(emp1, "GetSalary");
         Console.WriteLine($"✓ Зарплата отримана: {salary} грн");
 
-        Console.WriteLine("\n🔹 СЦЕНАРІЙ 4: Підвищення зарплати (З аудитом)");
+        Console.WriteLine("\n СЦЕНАРІЙ 4: Підвищення зарплати (З аудитом)");
         Console.WriteLine(new string('─', 70));
 
         // КРИТИЧНА ТОЧКА 13: IncreaseSalary змінює дані - обов'язковий аудит
         AuditLogger.InvokeWithAudit(emp1, "IncreaseSalary", 15.0);
 
-        Console.WriteLine("\n🔹 СЦЕНАРІЙ 5: Перевірка нової зарплати");
+        Console.WriteLine("\n СЦЕНАРІЙ 5: Перевірка нової зарплати");
         Console.WriteLine(new string('─', 70));
         double newSalary = (double)AuditLogger.InvokeWithAudit(emp1, "GetSalary");
         Console.WriteLine($"✓ Нова зарплата: {newSalary} грн");
@@ -263,19 +263,19 @@ public class EmployeeManagementSystem
         // ДРУГИЙ ПРАЦІВНИК ДЛЯ ДЕМОНСТРАЦІЇ
         // ═══════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("\n\n🔹 СЦЕНАРІЙ 6: Робота з другим працівником");
+        Console.WriteLine("\n\n СЦЕНАРІЙ 6: Робота з другим працівником");
         Console.WriteLine(new string('─', 70));
 
         Employee emp2 = new Employee();
         AuditLogger.InvokeWithAudit(emp2, "SetDetails", 2425, "Шевченко Марія", 52000.0);
 
-        Console.WriteLine("\n🔹 СЦЕНАРІЙ 7: Порівняння зарплат (аудит обох викликів)");
+        Console.WriteLine("\n СЦЕНАРІЙ 7: Порівняння зарплат (аудит обох викликів)");
         Console.WriteLine(new string('─', 70));
 
         double salary1 = (double)AuditLogger.InvokeWithAudit(emp1, "GetSalary");
         double salary2 = (double)AuditLogger.InvokeWithAudit(emp2, "GetSalary");
 
-        Console.WriteLine($"\n💰 Різниця в зарплаті: {Math.Abs(salary1 - salary2)} грн");
+        Console.WriteLine($"\n Різниця в зарплаті: {Math.Abs(salary1 - salary2)} грн");
 
         // ═══════════════════════════════════════════════════════════════════
         // ПІДСУМОК
@@ -289,7 +289,7 @@ public class EmployeeManagementSystem
         Console.WriteLine("✓ Статистика та аналіз структури класів");
         Console.WriteLine("✓ Аудит доступу до конфіденційних даних");
         Console.WriteLine("✓ Централізована система безпеки без зміни бізнес-логіки");
-        Console.WriteLine("\n💡 Атрибути дозволяють додавати метадані до коду,");
+        Console.WriteLine("\n Атрибути дозволяють додавати метадані до коду,");
         Console.WriteLine("   які потім можна читати через Reflection для");
         Console.WriteLine("   автоматизації рутинних завдань!\n");
     }

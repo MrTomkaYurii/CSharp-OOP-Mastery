@@ -11,100 +11,77 @@ namespace AsynchronousProgramming
     /// =========================================================================================
     /// ТРОТТЛІНГ ТА КОНТРОЛЬ ПАРАЛЕЛІЗМУ: SemaphoreSlim для асинхронних операцій
     /// =========================================================================================
-    /// Безконтрольний запуск тисяч паралельних задач через Task.WhenAll може покласти базу даних
-    /// або вичерпати сокети. SemaphoreSlim(3) виступає як "турнікет", що дозволяє виконувати
-    /// одночасно не більше 3 задач, ставлячи решту в неблокуючу асинхронну чергу.
+    /// SemaphoreSlim(3) виступає як "турнікет", що дозволяє виконувати одночасно не більше
+    /// трьох задач, захищаючи зовнішній сервіс або базу даних від перевантаження.
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Семафор обмеження конкурентності
-        // Початкова кількість дозволів: 3 (максимум 3 задачі одночасно)
-        // =====================================================================================
-        private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(initialCount: 3);
+        // Дозволяємо одночасно виконувати щонайбільше 3 асинхронні запити
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(initialCount: 3, maxCount: 3);
 
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Main Thread Started");
+            Console.WriteLine("Main розпочато. Обмеження паралелізму: 3 одночасні задачі.\n");
 
-            // Генерація 15 карток для обробки
-            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(15);
-            Console.WriteLine($"Credit Card Generated : {creditCards.Count}");
+            List<CreditCard> creditCards = CreditCard.GenerateCreditCards(12);
+            Console.WriteLine($"Згенеровано {creditCards.Count} карток для пакетної обробки.\n");
 
-            // Запуск троттлінгу карток
-            ProcessCreditCards(creditCards);
+            await ProcessCreditCardsAsync(creditCards);
 
-            Console.WriteLine("Main Thread Completed");
-            Console.ReadKey();
+            Console.WriteLine("\nMain успішно завершено.");
         }
 
-        // =====================================================================================
-        // БЛОК 2: Асинхронний конвеєр із контрольованим шлюзом
-        // Кожна лямбда чекає своєї черги через await semaphoreSlim.WaitAsync().
-        // У блоці finally ОБОВ'ЯЗКОВО викликається semaphoreSlim.Release().
-        // =====================================================================================
-        public static async void ProcessCreditCards(List<CreditCard> creditCards)
+        public static async Task ProcessCreditCardsAsync(List<CreditCard> creditCards)
         {
             var stopwatch = Stopwatch.StartNew();
 
-            // Створення списку завдань із контролем доступу
             var tasks = creditCards.Select(async card =>
             {
-                // Неблокуюче очікування вільного слота в семафорі
-                await semaphoreSlim.WaitAsync();
-
+                // Неблокуюче асинхронне очікування вільного слота турнікета:
+                await _semaphore.WaitAsync();
                 try
                 {
-                    // Одночасно тут перебуває щонайбільше 3 потоки/задачі
-                    return await ProcessCard(card);
+                    return await ProcessCardAsync(card);
                 }
                 finally
                 {
-                    // Звільнення слота для наступної задачі в черзі
-                    semaphoreSlim.Release();
+                    // Гарантоване звільнення слота для наступної задачі в черзі:
+                    _semaphore.Release();
                 }
-            }).ToList();
+            });
 
-            // Очікування завершення всіх 15 операцій
-            await Task.WhenAll(tasks);
+            string[] results = await Task.WhenAll(tasks);
+
             stopwatch.Stop();
-
-            Console.WriteLine($"\nProcessing of {creditCards.Count} Credit Cards Done in {stopwatch.ElapsedMilliseconds / 1000.0} Seconds");
+            Console.WriteLine($"\nУсі {results.Length} карток оброблено за {stopwatch.Elapsed.TotalSeconds:F2} сек.");
         }
 
-        // =====================================================================================
-        // БЛОК 3: Імітація обробки картки (тривалість 1 сек)
-        // При 15 картках і ліміті 3 одночасних, загальний час: (15 / 3) * 1с = ~5 секунд.
-        // =====================================================================================
-        public static async Task<string> ProcessCard(CreditCard creditCard)
+        public static async Task<string> ProcessCardAsync(CreditCard card)
         {
-            await Task.Delay(1000);
-            string message = $"Credit Card Number: {creditCard.CardNumber} Processed";
-            Console.WriteLine($"[Thread {Thread.CurrentThread.ManagedThreadId}] {message}");
-            return message;
+            Console.WriteLine($"  -> Початок обробки {card.CardNumber} (Потік #{Environment.CurrentManagedThreadId})");
+            await Task.Delay(300); // Імітація роботи
+            Console.WriteLine($"  <- Завершено обробку {card.CardNumber}");
+            return $"OK: {card.CardNumber}";
         }
     }
 
-    // =========================================================================================
-    // БЛОК 4: Допоміжний клас моделі даних
-    // =========================================================================================
     public class CreditCard
     {
         public string CardNumber { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
-        public static List<CreditCard> GenerateCreditCards(int number)
+        public static List<CreditCard> GenerateCreditCards(int count)
         {
-            var creditCards = new List<CreditCard>(number);
-            for (int i = 0; i < number; i++)
+            var list = new List<CreditCard>(count);
+            for (int i = 1; i <= count; i++)
             {
-                creditCards.Add(new CreditCard
+                list.Add(new CreditCard
                 {
-                    CardNumber = "10000000" + i,
-                    Name = "CreditCard-" + i
+                    CardNumber = $"CARD-{i:D3}",
+                    Name = $"Клієнт #{i}"
                 });
             }
-            return creditCards;
+            return list;
         }
     }
 }

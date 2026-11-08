@@ -31,12 +31,12 @@ namespace CSharp8InterfaceFeatures
         {
             if (amount <= 0)
             {
-                Console.WriteLine("❌ Сума повинна бути більше нуля");
+                Console.WriteLine("[Помилка] Сума повинна бути більше нуля");
                 return false;
             }
             if (amount > 1000000)
             {
-                Console.WriteLine("❌ Сума перевищує ліміт транзакції");
+                Console.WriteLine("[Помилка] Сума перевищує ліміт транзакції");
                 return false;
             }
             return true;
@@ -54,23 +54,11 @@ namespace CSharp8InterfaceFeatures
             IPaymentProcessor processor = this; //Якщо не робити приведення, то default методи інтерфейсу недоступні в класі.
 
 
-                            // interface ILogger
-                            // {
-                            //    void LogInfo(string message) => Console.WriteLine($"INFO: {message}");
-                            // }
-                            // class MyLogger : ILogger
-                            // {
-                            //    public void Test()
-                            //    {
-                            //        ((ILogger)this).LogInfo("Hello"); // OK
-                            //    }
-                            // }
 
-                            // if (!((IPaymentProcessor)this).ValidateAmount(amount)) return 0;
 
             if (!processor.ValidateAmount(amount)) return 0;
 
-            Console.WriteLine($"💳 Обробка платежу картою: {amount} {currency}");
+            Console.WriteLine($"[Карта] Обробка платежу картою: {amount} {currency}");
             var fee = amount * 0.029m; // 2.9% комісія
             processor.LogTransaction(amount, currency, true);
             return fee;
@@ -88,7 +76,7 @@ namespace CSharp8InterfaceFeatures
 
             if (!processor.ValidateAmount(amount)) return 0;
 
-            Console.WriteLine($"₿ Обробка криптоплатежу: {amount} {currency}");
+            Console.WriteLine($"[Крипто] Обробка криптоплатежу: {amount} {currency}");
             var fee = amount * 0.01m; // 1% комісія
             processor.LogTransaction(amount, currency, true);
             return fee;
@@ -118,13 +106,7 @@ namespace CSharp8InterfaceFeatures
                 throw new ArgumentException($"Формат {format} не підтримується");
             }
 
-            //switch expression
-            //var result = value switch
-            //{
-            //    case1 => value1,
-            //    case2 => value2,
-            //    _ => defaultValue // Любий інший випадок   
-            //};
+
 
 
             return format.ToUpper() switch
@@ -158,7 +140,7 @@ namespace CSharp8InterfaceFeatures
         private readonly string content;
         public PdfDocument(string content) => this.content = content;
 
-        public void Generate() => Console.WriteLine("📄 Генерація PDF документу...");
+        public void Generate() => Console.WriteLine("[PDF] Генерація PDF документу...");
         public string GetContent() => $"[PDF] {content}";
     }
 
@@ -167,7 +149,7 @@ namespace CSharp8InterfaceFeatures
         private readonly string content;
         public DocxDocument(string content) => this.content = content;
 
-        public void Generate() => Console.WriteLine("📝 Генерація DOCX документу...");
+        public void Generate() => Console.WriteLine("[DOCX] Генерація DOCX документу...");
         public string GetContent() => $"[DOCX] {content}";
     }
 
@@ -176,7 +158,7 @@ namespace CSharp8InterfaceFeatures
         private readonly string content;
         public HtmlDocument(string content) => this.content = content;
 
-        public void Generate() => Console.WriteLine("🌐 Генерація HTML документу...");
+        public void Generate() => Console.WriteLine("[HTML] Генерація HTML документу...");
         public string GetContent() => $"<html><body>{content}</body></html>";
     }
 
@@ -185,7 +167,7 @@ namespace CSharp8InterfaceFeatures
         private readonly string content;
         public XmlDocument(string content) => this.content = content;
 
-        public void Generate() => Console.WriteLine("📋 Генерація XML документу...");
+        public void Generate() => Console.WriteLine("[XML] Генерація XML документу...");
         public string GetContent() => $"<document>{content}</document>";
     }
 
@@ -212,7 +194,7 @@ namespace CSharp8InterfaceFeatures
         {
             if (password.Length < 8)
             {
-                Console.WriteLine("⚠️  Пароль занадто короткий (мінімум 8 символів)");
+                Console.WriteLine("[Увага]  Пароль занадто короткий (мінімум 8 символів)");
                 return false;
             }
 
@@ -222,7 +204,7 @@ namespace CSharp8InterfaceFeatures
 
             if (!hasUpper || !hasLower || !hasDigit)
             {
-                Console.WriteLine("⚠️  Пароль повинен містити великі, малі літери та цифри");
+                Console.WriteLine("[Увага]  Пароль повинен містити великі, малі літери та цифри");
                 return false;
             }
 
@@ -236,7 +218,7 @@ namespace CSharp8InterfaceFeatures
                 return false;
 
             string hashedPassword = HashPassword(password);
-            Console.WriteLine($"✅ Користувач {username} зареєстрований");
+            Console.WriteLine($"[Успіх] Користувач {username} зареєстрований");
             Console.WriteLine($"   Хеш пароля: {hashedPassword}");
             return true;
         }
@@ -251,15 +233,15 @@ namespace CSharp8InterfaceFeatures
         public bool Authenticate(string username, string password)
         {
             // Використовує приватний метод HashPassword з інтерфейсу
-            Console.WriteLine($"🔐 Спроба входу користувача: {username}");
+            Console.WriteLine($"[Безпека] Спроба входу користувача: {username}");
 
             if (users.ContainsKey(username))
             {
-                Console.WriteLine("✅ Аутентифікація успішна");
+                Console.WriteLine("[Успіх] Аутентифікація успішна");
                 return true;
             }
 
-            Console.WriteLine("❌ Користувач не знайдений");
+            Console.WriteLine("[Помилка] Користувач не знайдений");
             return false;
         }
     }
@@ -268,8 +250,8 @@ namespace CSharp8InterfaceFeatures
     {
         public bool Authenticate(string username, string password)
         {
-            Console.WriteLine($"🔐 LDAP аутентифікація: {username}");
-            Console.WriteLine("✅ Підключення до Active Directory успішне");
+            Console.WriteLine($"[Безпека] LDAP аутентифікація: {username}");
+            Console.WriteLine("[Успіх] Підключення до Active Directory успішне");
             return true;
         }
     }
@@ -284,7 +266,7 @@ namespace CSharp8InterfaceFeatures
         // Внутрішній метод - для логування (доступний в межах assembly)
         internal void LogAccess(string endpoint, string user)
         {
-            Console.WriteLine($"📊 Access Log: {user} → {endpoint} at {DateTime.Now:HH:mm:ss}");
+            Console.WriteLine($"[Лог] Access Log: {user} → {endpoint} at {DateTime.Now:HH:mm:ss}");
         }
 
         // Приватний метод - для внутрішньої обробки
@@ -304,19 +286,19 @@ namespace CSharp8InterfaceFeatures
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                Console.WriteLine("⚠️  API ключ не може бути порожнім");
+                Console.WriteLine("[Увага]  API ключ не може бути порожнім");
                 return false;
             }
 
             if (!apiKey.StartsWith("sk_"))
             {
-                Console.WriteLine("⚠️  Невалідний формат API ключа (має починатися з 'sk_')");
+                Console.WriteLine("[Увага]  Невалідний формат API ключа (має починатися з 'sk_')");
                 return false;
             }
 
             if (apiKey.Length < 15)
             {
-                Console.WriteLine("⚠️  API ключ занадто короткий");
+                Console.WriteLine("[Увага]  API ключ занадто короткий");
                 return false;
             }
 
@@ -419,13 +401,13 @@ namespace CSharp8InterfaceFeatures
                 Console.WriteLine("║     C# 8.0 INTERFACE FEATURES - ПРАКТИЧНА ДЕМОНСТРАЦІЯ    ║");
                 Console.WriteLine("╚═══════════════════════════════════════════════════════════╝");
                 Console.WriteLine();
-                Console.WriteLine("  1️  Default Interface Methods (Платіжна система)");
-                Console.WriteLine("  2️  Static Members in Interfaces (Фабрика документів)");
-                Console.WriteLine("  3️  Private/Protected Members (Система аутентифікації)");
-                Console.WriteLine("  4️  Explicit Access Modifiers (API ендпоінти)");
-                Console.WriteLine("  0️  Вихід");
+                Console.WriteLine("  1  Default Interface Methods (Платіжна система)");
+                Console.WriteLine("  2  Static Members in Interfaces (Фабрика документів)");
+                Console.WriteLine("  3  Private/Protected Members (Система аутентифікації)");
+                Console.WriteLine("  4  Explicit Access Modifiers (API ендпоінти)");
+                Console.WriteLine("  0  Вихід");
                 Console.WriteLine();
-                Console.Write("➤ Оберіть опцію: ");
+                Console.Write("> Оберіть опцію: ");
 
                 var choice = Console.ReadLine();
 
@@ -446,10 +428,10 @@ namespace CSharp8InterfaceFeatures
                         DemoAccessModifiers();
                         break;
                     case "0":
-                        Console.WriteLine("До побачення! 👋");
+                        Console.WriteLine("До побачення! ");
                         return;
                     default:
-                        Console.WriteLine("❌ Невірний вибір!");
+                        Console.WriteLine("[Помилка] Невірний вибір!");
                         break;
                 }
 
@@ -462,7 +444,7 @@ namespace CSharp8InterfaceFeatures
         static void DemoDefaultMethods()
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════");
-            Console.WriteLine("  🔹 DEFAULT INTERFACE METHODS");
+            Console.WriteLine("  [Розділ] DEFAULT INTERFACE METHODS");
             Console.WriteLine("  Інтерфейс IPaymentProcessor містить default методи:");
             Console.WriteLine("  - LogTransaction() - логування всіх транзакцій");
             Console.WriteLine("  - ValidateAmount() - валідація суми платежу");
@@ -495,7 +477,7 @@ namespace CSharp8InterfaceFeatures
         static void DemoStaticMembers()
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════");
-            Console.WriteLine("  🔹 STATIC MEMBERS IN INTERFACES");
+            Console.WriteLine("  [Розділ] STATIC MEMBERS IN INTERFACES");
             Console.WriteLine("  Інтерфейс IDocument містить:");
             Console.WriteLine("  - Статичне поле SupportedFormats");
             Console.WriteLine("  - Статичний метод-фабрику CreateDocument()");
@@ -531,14 +513,14 @@ namespace CSharp8InterfaceFeatures
             }
             catch (ArgumentException ex)
             {
-                Console.WriteLine($"  ❌ {ex.Message}");
+                Console.WriteLine($"  [Помилка] {ex.Message}");
             }
         }
 
         static void DemoPrivateMembers()
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════");
-            Console.WriteLine("  🔹 PRIVATE/PROTECTED MEMBERS IN INTERFACES");
+            Console.WriteLine("  [Розділ] PRIVATE/PROTECTED MEMBERS IN INTERFACES");
             Console.WriteLine("  Інтерфейс IAuthenticationService містить:");
             Console.WriteLine("  - private HashPassword() - недоступний зовні");
             Console.WriteLine("  - private ValidatePasswordComplexity()");
@@ -574,7 +556,7 @@ namespace CSharp8InterfaceFeatures
         static void DemoAccessModifiers()
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════");
-            Console.WriteLine("  🔹 EXPLICIT ACCESS MODIFIERS");
+            Console.WriteLine("  [Розділ] EXPLICIT ACCESS MODIFIERS");
             Console.WriteLine("  Інтерфейс IApiEndpoint містить методи з різними рівнями:");
             Console.WriteLine("  - public HandleRequest()");
             Console.WriteLine("  - internal LogAccess() - доступний в межах assembly");

@@ -12,55 +12,37 @@ namespace TaskBasedAsynchronousProgramming
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Точка входу в програму
-        // =====================================================================================
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Main Thread Started");
+            Console.WriteLine("Головний потік Main розпочав роботу.");
 
-            SomeMethod();
+            await SomeMethodAsync();
 
-            Console.WriteLine("Main Thread Completed");
-            Console.ReadKey();
+            Console.WriteLine("Головний потік Main завершив роботу.");
         }
 
-        // =====================================================================================
-        // БЛОК 2: Асинхронний метод споживання об'єкта
-        // Очікує завершення Task<Employee> та працює з його властивостями.
-        // =====================================================================================
-        private async static void SomeMethod()
+        private static async Task SomeMethodAsync()
         {
-            // Отримання складного об'єкта через await
-            Employee emp = await GetEmployeeDetails();
+            // Отримання складного об'єкта через await без блокування потоку
+            Employee emp = await GetEmployeeDetailsAsync();
 
-            // Робота зі значеннями полів сутності
-            Console.WriteLine($"ID: {emp.ID}, Name: {emp.Name}, Salary: {emp.Salary}");
+            Console.WriteLine($"Отримано дані співробітника: ID: {emp.ID}, Ім'я: {emp.Name}, Зарплата: ${emp.Salary}");
         }
 
-        // =====================================================================================
-        // БЛОК 3: Фабричний асинхронний метод постачальника даних
-        // Повертає Task<Employee>. В реальному застосунку дані зчитуються з БД (EF Core) або JSON.
-        // =====================================================================================
-        static async Task<Employee> GetEmployeeDetails()
+        private static async Task<Employee> GetEmployeeDetailsAsync()
         {
-            // Імітація асинхронної паузи (наприклад, запит до бази даних)
+            // Імітація асинхронної паузи (наприклад, запит до бази даних або зовнішнього API)
             await Task.Delay(100);
 
-            Employee employee = new Employee()
+            return new Employee
             {
                 ID = 101,
-                Name = "James",
-                Salary = 10000
+                Name = "Олександр Коваленко",
+                Salary = 45000.00
             };
-
-            return employee;
         }
     }
 
-    // =========================================================================================
-    // БЛОК 4: Модель даних сутності (Entity / DTO)
-    // =========================================================================================
     public class Employee
     {
         public int ID { get; set; }

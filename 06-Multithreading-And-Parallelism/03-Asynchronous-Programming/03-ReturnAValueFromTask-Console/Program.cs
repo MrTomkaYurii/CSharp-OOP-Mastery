@@ -13,58 +13,50 @@ namespace AsynchronousProgramming
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Точка входу в програму (Консольний клієнт)
-        // Зчитує ім'я користувача та передає в асинхронний ланцюжок викликів.
-        // =====================================================================================
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Main Method Started......");
-            Console.WriteLine("Enter the Name: ");
-            string name = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Головний метод Main розпочато...");
+            Console.Write("Введіть ім'я: ");
+            string name = Console.ReadLine() ?? "Студент";
 
-            SomeMethod(name);
+            // Виклик та очікування асинхронного методу через await (без блокування потоку)
+            await SomeMethodAsync(name);
 
-            Console.WriteLine("Main Method End");
-            Console.ReadKey();
+            Console.WriteLine("Головний метод Main успішно завершено.");
         }
 
-        // =====================================================================================
-        // БЛОК 2: Метод-споживач асинхронного результату
-        // Очікує завершення Greetings(name) через 'await' і виводить результат на консоль.
-        // =====================================================================================
-        public async static void SomeMethod(string name)
+        public static async Task SomeMethodAsync(string name)
         {
-            Console.WriteLine("Some Method Started......");
+            Console.WriteLine("Виклик SomeMethodAsync розпочато...");
 
             // 'await' розпаковує Task<string> у звичайний string без блокування потоку
             var greetingsMessage = await Greetings(name);
 
             Console.WriteLine($"\n{greetingsMessage}");
-            Console.WriteLine("Some Method End");
+            Console.WriteLine("SomeMethodAsync завершено.\n");
         }
 
-        // =====================================================================================
-        // БЛОК 3: Мережевий I/O запит через HttpClient
-        // Виконує асинхронний GET-запит та асинхронне читання тіла відповіді.
-        // =====================================================================================
         public static async Task<string> Greetings(string name)
         {
-            string message = string.Empty;
-
-            // Навчальний приклад локального HttpClient
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7118/");
+                client.BaseAddress = new Uri("https://httpbin.org/");
+                client.Timeout = TimeSpan.FromSeconds(5);
 
-                // Неблокуючий мережевий виклик до Web API
-                HttpResponseMessage response = await client.GetAsync($"api/greetings/{name}");
-
-                // Неблокуюче читання потоку даних тіла відповіді
-                message = await response.Content.ReadAsStringAsync();
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync($"base64/{Uri.EscapeDataString(name)}");
+                    response.EnsureSuccessStatusCode();
+                    string message = await response.Content.ReadAsStringAsync();
+                    return $"Привіт, {name}! Відповідь сервера: {message}";
+                }
+                catch (Exception)
+                {
+                    // Fallback для демонстрації офлайн:
+                    await Task.Delay(200);
+                    return $"Привіт, {name}! (Локальна асинхронна генерація вітання)";
+                }
             }
-
-            return message;
         }
     }
 }

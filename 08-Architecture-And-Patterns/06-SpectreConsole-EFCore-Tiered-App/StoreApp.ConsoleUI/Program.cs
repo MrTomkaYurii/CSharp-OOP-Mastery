@@ -172,7 +172,7 @@ public sealed class StoreConsoleDashboard
     {
         var table = new Table()
             .Border(TableBorder.Rounded)
-            .Title("[bold white]📦 Актуальний каталог товарів на складі[/]")
+            .Title("[bold white] Актуальний каталог товарів на складі[/]")
             .AddColumn(new TableColumn("[bold]SKU[/]"))
             .AddColumn(new TableColumn("[bold]Назва товару[/]"))
             .AddColumn(new TableColumn("[bold]Категорія[/]"))
@@ -232,7 +232,7 @@ public sealed class StoreConsoleDashboard
 
         var panel = new Panel(new Rows(summaryMarkup, linesTable))
         {
-            Header = new PanelHeader($" 🧾 Квитанція замовлення {Markup.Escape(receipt.OrderNumber)} "),
+            Header = new PanelHeader($"  Квитанція замовлення {Markup.Escape(receipt.OrderNumber)} "),
             Border = BoxBorder.Rounded
         };
 

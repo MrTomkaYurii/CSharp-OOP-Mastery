@@ -118,17 +118,17 @@ public sealed class HostLifecycleObserverService : IHostedService
         // Підписуємося на три ключові фази життєвого циклу Generic Host
         _lifetime.ApplicationStarted.Register(() =>
         {
-            _logger.LogInformation("🟢 [Подія Lifetime] ApplicationStarted: Усі IHostedService стартували, хост готовий до роботи.");
+            _logger.LogInformation(" [Подія Lifetime] ApplicationStarted: Усі IHostedService стартували, хост готовий до роботи.");
         });
 
         _lifetime.ApplicationStopping.Register(() =>
         {
-            _logger.LogWarning("🟡 [Подія Lifetime] ApplicationStopping: Отримано сигнал зупинки! Зберігаємо проміжний стан...");
+            _logger.LogWarning(" [Подія Lifetime] ApplicationStopping: Отримано сигнал зупинки! Зберігаємо проміжний стан...");
         });
 
         _lifetime.ApplicationStopped.Register(() =>
         {
-            _logger.LogInformation("🔴 [Подія Lifetime] ApplicationStopped: Хост повністю зупинено.");
+            _logger.LogInformation(" [Подія Lifetime] ApplicationStopped: Хост повністю зупинено.");
         });
 
         return Task.CompletedTask;
@@ -156,14 +156,14 @@ public sealed class InfrastructureWarmupHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("🛠️ [Warmup] Перевірка локальних каталогів та прогрів кешу перед стартом воркерів...");
+        _logger.LogInformation("️ [Warmup] Перевірка локальних каталогів та прогрів кешу перед стартом воркерів...");
         await Task.Delay(150, cancellationToken);
         _logger.LogInformation("✅ [Warmup] Інфраструктуру успішно підготовлено.");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("🧹 [Warmup] Закриття інфраструктурних дескрипторів під час зупинки хоста.");
+        _logger.LogInformation(" [Warmup] Закриття інфраструктурних дескрипторів під час зупинки хоста.");
         return Task.CompletedTask;
     }
 }
@@ -190,7 +190,7 @@ public sealed class TelemetryProcessingWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("🚀 [Worker] Фоновий воркер обробки телеметрії розпочав цикл ExecuteAsync.");
+        _logger.LogInformation(" [Worker] Фоновий воркер обробки телеметрії розпочав цикл ExecuteAsync.");
 
         using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(250));
 
@@ -200,12 +200,12 @@ public sealed class TelemetryProcessingWorker : BackgroundService
             {
                 if (_queue.TryDequeue(out string? packet))
                 {
-                    _logger.LogInformation("📦 [Worker] Оброблено: {Packet} (залишилось у черзі: {Remaining})",
+                    _logger.LogInformation(" [Worker] Оброблено: {Packet} (залишилось у черзі: {Remaining})",
                         packet, _queue.Count);
                 }
                 else
                 {
-                    _logger.LogInformation("🏁 [Worker] Усі пакети телеметрії оброблено. Ініціюємо граційну зупинку хоста...");
+                    _logger.LogInformation(" [Worker] Усі пакети телеметрії оброблено. Ініціюємо граційну зупинку хоста...");
                     _lifetime.StopApplication();
                     break;
                 }
@@ -220,7 +220,7 @@ public sealed class TelemetryProcessingWorker : BackgroundService
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("🛡️ [Worker] Виконується StopAsync воркера: фіксація контрольної точки перед виходом...");
+        _logger.LogInformation("️ [Worker] Виконується StopAsync воркера: фіксація контрольної точки перед виходом...");
         await base.StopAsync(cancellationToken);
     }
 }

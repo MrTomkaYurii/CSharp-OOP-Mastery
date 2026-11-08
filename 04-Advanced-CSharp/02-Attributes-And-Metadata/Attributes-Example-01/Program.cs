@@ -122,7 +122,7 @@ class Program
         // ПРИКЛАД 1: Читання атрибута з класу Person
         // ════════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("🔍 ПРИКЛАД 1: Читання інформації про клас Person");
+        Console.WriteLine(" ПРИКЛАД 1: Читання інформації про клас Person");
         Console.WriteLine(new string('─', 60));
 
         // typeof(Person) - отримуємо ТИП класу Person (не створюємо об'єкт!)
@@ -151,7 +151,7 @@ class Program
         // Single() - бере ОДИН елемент (якщо більше або менше - буде помилка)
         var authorAttribute = allAttributes.OfType<AuthorAttribute>().Single();
 
-        Console.WriteLine("📝 Інформація про автора класу Person:");
+        Console.WriteLine(" Інформація про автора класу Person:");
         Console.WriteLine($"   Автор: {authorAttribute.Name}");
         Console.WriteLine($"   Дата створення: {authorAttribute.CreationDate}");
         Console.WriteLine($"   Версія: {authorAttribute.Version}");
@@ -166,7 +166,7 @@ class Program
         // ПРИКЛАД 2: Читання атрибутів з класу BankAccount
         // ════════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("🔍 ПРИКЛАД 2: Читання інформації про клас BankAccount");
+        Console.WriteLine(" ПРИКЛАД 2: Читання інформації про клас BankAccount");
         Console.WriteLine(new string('─', 60));
 
         Type bankAccountType = typeof(BankAccount);
@@ -181,7 +181,7 @@ class Program
         // Перевірка чи знайдено атрибут (може бути null якщо атрибута немає)
         if (bankAuthor != null)
         {
-            Console.WriteLine("📝 Інформація про автора класу BankAccount:");
+            Console.WriteLine(" Інформація про автора класу BankAccount:");
             Console.WriteLine($"   Автор: {bankAuthor.Name}");
             Console.WriteLine($"   Дата створення: {bankAuthor.CreationDate}");
             Console.WriteLine($"   Версія: {bankAuthor.Version}");
@@ -203,7 +203,7 @@ class Program
         // ПРИКЛАД 3: Клас БЕЗ атрибутів
         // ════════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("🔍 ПРИКЛАД 3: Клас Product (БЕЗ атрибутів)");
+        Console.WriteLine(" ПРИКЛАД 3: Клас Product (БЕЗ атрибутів)");
         Console.WriteLine(new string('─', 60));
 
         Type productType = typeof(Product);
@@ -226,7 +226,7 @@ class Program
         // ПРИКЛАД 4: Створення об'єктів класів (для порівняння)
         // ════════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("🎯 ВАЖЛИВО: Атрибути НЕ впливають на роботу класу!");
+        Console.WriteLine(" ВАЖЛИВО: Атрибути НЕ впливають на роботу класу!");
         Console.WriteLine(new string('─', 60));
 
         // Створюємо РЕАЛЬНІ об'єкти класів
@@ -243,7 +243,7 @@ class Program
         Console.WriteLine("\n✓ Об'єкт Product створено:");
         Console.WriteLine($"Товар: {product.Name}, Ціна: {product.Price} грн");
 
-        Console.WriteLine("\n💡 Як бачите, атрібути [Author] та [Description] НЕ впливають");
+        Console.WriteLine("\n Як бачите, атрібути [Author] та [Description] НЕ впливають");
         Console.WriteLine("   на створення об'єктів та роботу методів!");
         Console.WriteLine("   Вони просто зберігають МЕТАДАНІ про клас.");
 
@@ -253,7 +253,7 @@ class Program
         // ПРИКЛАД 5: Універсальний метод для аналізу будь-якого класу
         // ════════════════════════════════════════════════════════════════════
 
-        Console.WriteLine("🔧 ПРИКЛАД 5: Універсальний аналізатор класів");
+        Console.WriteLine(" ПРИКЛАД 5: Універсальний аналізатор класів");
         Console.WriteLine(new string('─', 60));
 
         AnalyzeClass(typeof(Person));
@@ -277,7 +277,7 @@ class Program
     // ════════════════════════════════════════════════════════════════════════
     static void AnalyzeClass(Type classType)
     {
-        Console.WriteLine($"📊 Аналіз класу: {classType.Name}");
+        Console.WriteLine($" Аналіз класу: {classType.Name}");
 
         // Отримуємо всі атрібути
         var attributes = Attribute.GetCustomAttributes(classType);
@@ -294,14 +294,14 @@ class Program
         var author = attributes.OfType<AuthorAttribute>().FirstOrDefault();
         if (author != null)
         {
-            Console.WriteLine($"   👤 Автор: {author.Name}");
+            Console.WriteLine($"    Автор: {author.Name}");
             Console.WriteLine($"      Дата: {author.CreationDate}, Версія: {author.Version}");
         }
 
         var description = attributes.OfType<DescriptionAttribute>().FirstOrDefault();
         if (description != null)
         {
-            Console.WriteLine($"   📝 Опис: {description.Text}");
+            Console.WriteLine($"    Опис: {description.Text}");
         }
     }
 }

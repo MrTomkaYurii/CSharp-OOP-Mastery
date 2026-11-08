@@ -98,18 +98,18 @@ public sealed class ScopedUnitOfWork : IDisposable
 
     public ScopedUnitOfWork()
     {
-        Console.WriteLine($"   🟢 [ScopedUnitOfWork #{ContextNumber}] Відкрито новий ізольований сеанс БД.");
+        Console.WriteLine($"    [ScopedUnitOfWork #{ContextNumber}] Відкрито новий ізольований сеанс БД.");
     }
 
     public Task SaveBatchAsync(string jobName)
     {
-        Console.WriteLine($"   💾 [ScopedUnitOfWork #{ContextNumber}] Успішно збережено зміни для «{jobName}».");
+        Console.WriteLine($"    [ScopedUnitOfWork #{ContextNumber}] Успішно збережено зміни для «{jobName}».");
         return Task.CompletedTask;
     }
 
     public void Dispose()
     {
-        Console.WriteLine($"   🔴 [ScopedUnitOfWork #{ContextNumber}] Сеанс закрито та з'єднання повернуто в пул.");
+        Console.WriteLine($"    [ScopedUnitOfWork #{ContextNumber}] Сеанс закрито та з'єднання повернуто в пул.");
     }
 }
 

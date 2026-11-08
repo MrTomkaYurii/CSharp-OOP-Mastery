@@ -84,14 +84,14 @@ public sealed class EmailNotificationChannel : INotificationChannel
 {
     public string ChannelName => "Email (SMTP)";
     public void Send(string message) =>
-        Console.WriteLine($"   📧 [{ChannelName}] Відправлено лист: {message}");
+        Console.WriteLine($"    [{ChannelName}] Відправлено лист: {message}");
 }
 
 public sealed class SmsNotificationChannel : INotificationChannel
 {
     public string ChannelName => "SMS-Шлюз";
     public void Send(string message) =>
-        Console.WriteLine($"   📱 [{ChannelName}] Відправлено SMS: {message}");
+        Console.WriteLine($"    [{ChannelName}] Відправлено SMS: {message}");
 }
 
 public sealed class TelegramNotificationChannel : INotificationChannel

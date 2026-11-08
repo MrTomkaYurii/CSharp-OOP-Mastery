@@ -8,77 +8,53 @@ namespace AsynchronousProgramming
     /// =========================================================================================
     /// ОБРОБКА ПОМИЛОК В АСИНХРОННОМУ I/O: Відловлювання винятків у Task<T>
     /// =========================================================================================
-    /// Демонструє виникнення помилок при асинхронному мережевому запиті (невірний ендпоінт,
-    /// недоступний сервер, 404/500 статуси через EnsureSuccessStatusCode).
-    /// Показує, як блок try/catch коректно перехоплює виняток, розгорнутий оператором 'await'.
+    /// Демонструє виникнення помилок при асинхронному мережевому запиті.
+    /// Показує, як класичний блок try/catch перехоплює виняток, розгорнутий оператором 'await'.
     /// </summary>
     internal class Program
     {
-        // =====================================================================================
-        // БЛОК 1: Точка входу в програму
-        // =====================================================================================
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Main Method Started......");
-            Console.WriteLine("Enter the Name: ");
-            string name = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Main розпочато...");
+            Console.Write("Введіть ім'я для запиту з помилкою: ");
+            string name = Console.ReadLine() ?? "Студент";
 
-            SomeMethod(name);
+            await SomeMethodAsync(name);
 
-            Console.WriteLine("Main Method End");
-            Console.ReadKey();
+            Console.WriteLine("Main успішно завершено.");
         }
 
-        // =====================================================================================
-        // БЛОК 2: Асинхронний метод із безпечною обробкою винятків (try/catch)
-        // Коли виникає HttpRequestException, оператор await розгортає його,
-        // дозволяючи зловити помилку класичним блоком catch.
-        // =====================================================================================
-        public async static void SomeMethod(string name)
+        public static async Task SomeMethodAsync(string name)
         {
-            Console.WriteLine("Some Method Started......");
+            Console.WriteLine("Спроба виконати асинхронний запит із потенційною помилкою...");
 
             try
             {
-                // Спроба виконати асинхронний запит до неіснуючого маршруту api/greetings2/...
-                var greetingsMessage = await Greetings(name);
+                var greetingsMessage = await GreetingsWithError(name);
                 Console.WriteLine($"\n{greetingsMessage}");
             }
             catch (HttpRequestException ex)
             {
-                // Безпечне перехоплення винятку мережевого рівня
-                Console.WriteLine($"\n[Помилка мережі]: Запит не вдався. Деталі: {ex.Message}");
+                Console.WriteLine($"\n[Очікувана помилка мережі]: Запит завершився з кодом збою. Деталі: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Загальний перехоплювач непередбачених збоїв
-                Console.WriteLine($"\n[Непередбачена помилка]: {ex.Message}");
+                Console.WriteLine($"\n[Загальний виняток]: {ex.Message}");
             }
-
-            Console.WriteLine("Some Method End");
         }
 
-        // =====================================================================================
-        // БЛОК 3: Мережевий метод із перевіркою валідності HTTP-статусу
-        // Метод звертається до невірного маршруту ("api/greetings2/{name}").
-        // EnsureSuccessStatusCode() гарантує викидання HttpRequestException при HTTP 404.
-        // =====================================================================================
-        public static async Task<string> Greetings(string name)
+        public static async Task<string> GreetingsWithError(string name)
         {
-            string message = string.Empty;
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7118/");
+                // Запит до ендпоінту, що гарантовано повертає статус помилки 404
+                client.BaseAddress = new Uri("https://httpbin.org/");
+                client.Timeout = TimeSpan.FromSeconds(5);
 
-                // Запит до невірного ендпоінту (викликає 404 Not Found)
-                HttpResponseMessage response = await client.GetAsync($"api/greetings2/{name}");
-                
-                // Якщо статус не 2xx (Success), генерується HttpRequestException
-                response.EnsureSuccessStatusCode();
-
-                message = await response.Content.ReadAsStringAsync();
+                HttpResponseMessage response = await client.GetAsync("status/404");
+                response.EnsureSuccessStatusCode(); // Викидає HttpRequestException для 4xx/5xx статусів
+                return await response.Content.ReadAsStringAsync();
             }
-            return message;
         }
     }
 }

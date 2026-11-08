@@ -58,6 +58,9 @@ public class Order
     public object Customer { get; set; } = null!;
     public string DeliveryRegion { get; set; } = string.Empty;
     public List<OrderItem> Items { get; set; } = new();
+    
+    // Зручна властивість для обчислення базової вартості
+    public decimal Subtotal => Items.Sum(i => i.Value);
 }
 
 public record OrderItem(string Name, int Weight, decimal Value);
@@ -170,25 +173,17 @@ public class OrderProcessingPipeline
     /// <summary>
     /// Динамічна компіляція дерева виразів у нативний предикат
     /// </summary>
+    /// <summary>
+    /// Динамічна компіляція дерева виразів (Expression Tree) у нативний C# делегат:
+    /// Побудова правила: (Order o) => o.Subtotal >= threshold
+    /// Наочно демонструє студентам структуру AST: Параметр -> Властивість -> Константа -> Порівняння.
+    /// </summary>
     private Func<Order, bool> CompileHighValueRule(decimal threshold)
     {
         var orderParam = Expression.Parameter(typeof(Order), "o");
-        var itemsProp = Expression.Property(orderParam, nameof(Order.Items));
-
-        // Побудова виклику: order.Items.Sum(i => i.Value) >= threshold
-        var sumMethod = typeof(Enumerable).GetMethods()
-            .First(m => m.Name == nameof(Enumerable.Sum) 
-                     && m.GetParameters().Length == 2 
-                     && m.ReturnType == typeof(decimal))
-            .MakeGenericMethod(typeof(OrderItem));
-
-        var itemParam = Expression.Parameter(typeof(OrderItem), "i");
-        var valueProp = Expression.Property(itemParam, nameof(OrderItem.Value));
-        var valueLambda = Expression.Lambda<Func<OrderItem, decimal>>(valueProp, itemParam);
-
-        var sumCall = Expression.Call(sumMethod, itemsProp, valueLambda);
+        var subtotalProp = Expression.Property(orderParam, nameof(Order.Subtotal));
         var thresholdConst = Expression.Constant(threshold);
-        var comparison = Expression.GreaterThanOrEqual(sumCall, thresholdConst);
+        var comparison = Expression.GreaterThanOrEqual(subtotalProp, thresholdConst);
 
         return Expression.Lambda<Func<Order, bool>>(comparison, orderParam).Compile();
     }

@@ -100,7 +100,7 @@ namespace Entertainment.Features
                 table.AddRow(row.ToArray());
             }
 
-            AnsiConsole.MarkupLine("[yellow]📦 Статус: {0}[/]",
+            AnsiConsole.MarkupLine("[yellow] Статус: {0}[/]",
                 movies != null && _cache.Get<List<Movie>>(cacheKey) != null ? "З кешу" : "З БД");
 
             Output.Results(moviesQuery, "Кешовані фільми (з моніторингом)", table);

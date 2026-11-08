@@ -62,7 +62,7 @@ public sealed class CatalogService
             product.StockQuantity += _settings.DefaultReplenishQuantity;
 
             _logger.LogInformation(
-                "📦 Поповнено склад для {Sku} ({Name}): {OldQty} -> {NewQty} од.",
+                " Поповнено склад для {Sku} ({Name}): {OldQty} -> {NewQty} од.",
                 product.Sku, product.Name, oldQty, product.StockQuantity);
         }
 
@@ -175,7 +175,7 @@ public sealed class OrderProcessingService
         await _orderRepository.CreateOrderInTransactionAsync(newOrder, deductions, ct);
 
         _logger.LogInformation(
-            "🧾 Оформлено замовлення {OrderNumber} для «{CustomerName}» на суму {FinalAmount} грн (знижка: {Discount} грн).",
+            " Оформлено замовлення {OrderNumber} для «{CustomerName}» на суму {FinalAmount} грн (знижка: {Discount} грн).",
             orderNumber, customerName, finalAmount, discount);
 
         // Отримуємо збережене замовлення з навігаційними властивостями для мапінгу в квитанцію
