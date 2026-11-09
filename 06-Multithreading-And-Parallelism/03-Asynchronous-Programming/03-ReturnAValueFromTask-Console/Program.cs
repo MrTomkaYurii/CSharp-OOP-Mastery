@@ -11,6 +11,20 @@ namespace AsynchronousProgramming
     /// Демонструє, як асинхронний метод повертає значення Task<string>.
     /// Ключове слово 'await' розгортає Task<T> і витягує чисте значення типу T (string)
     /// без блокування потоку, на відміну від блокуючих викликів .Result або .Wait().
+    /// 
+    /// ТЕОРЕТИЧНІ АСПЕКТИ: ЧОМУ ЗМІНЮЄТЬСЯ ІДЕНТИФІКАТОР ПОТОКУ (Thread ID):
+    /// 1. Якщо запустити цей код, ви побачите:
+    ///    - До await: працює початковий потік (наприклад, Thread #2).
+    ///    - На рядку await Task.Delay(300): потік #2 звільняється і йде займатися іншими справами.
+    ///    - Через 300 мс: системний таймер спрацьовує і звертається до ThreadPool: "Хто вільний?".
+    ///    - Після await: роботу підхоплює БУДЬ-ЯКИЙ вільний потік з пулу (наприклад, Thread #13)!
+    /// 2. Відсутність SynchronizationContext:
+    ///    - У консольних додатках та веб-серверах ASP.NET Core немає контексту синхронізації (SynchronizationContext = null).
+    ///    - Тому середовище .NET не намагається примусово повернути виконання у той самий потік #2,
+    ///      а продовжує роботу на вільному робочому потоці пулу. Це забезпечує максимальну швидкодію!
+    /// 3. await проти .Result:
+    ///    - .Result блокує потік #2, тримає його в очікуванні та пакує помилки в AggregateException.
+    ///    - await звільняє потік і автоматично розгортає виняток без зайвих обгорток.
     /// </summary>
     internal class Program
     {
@@ -31,14 +45,15 @@ namespace AsynchronousProgramming
             // Виклик та неблокуюче очікування асинхронного методу через await
             await ProcessCertificateAsync(name);
 
-            Console.WriteLine($"\n[Головний потік Main #{Thread.CurrentThread.ManagedThreadId}] Метод успішно завершено.");
+            Console.WriteLine($"\n[Потік після завершення Main #{Thread.CurrentThread.ManagedThreadId}] Метод успішно завершено.");
         }
 
         public static async Task ProcessCertificateAsync(string studentName)
         {
             Console.WriteLine($"\n[Потік #{Thread.CurrentThread.ManagedThreadId}] Виклик ProcessCertificateAsync розпочато...");
 
-            // 'await' розпаковує Task<string> у звичайний string без заморожування викликаючого потоку
+            // 'await' розпаковує Task<string> у звичайний string без заморожування викликаючого потоку.
+            // Після повернення з асинхронної паузи потік виконання може бути вже іншим робочим потоком з пулу!
             string certificateMessage = await GenerateCertificateAsync(studentName);
 
             Console.WriteLine($"[Потік #{Thread.CurrentThread.ManagedThreadId}] Отримано результат після await:");

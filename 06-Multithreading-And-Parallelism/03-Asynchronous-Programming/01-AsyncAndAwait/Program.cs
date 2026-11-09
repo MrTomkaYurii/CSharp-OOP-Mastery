@@ -7,9 +7,23 @@ namespace AsynchronousProgramming
     /// =========================================================================================
     /// ДЕМОНСТРАЦІЯ ПРОБЛЕМИ: Синхронне блокування потоку виконання (Thread Blocking)
     /// =========================================================================================
-    /// Цей проект показує класичну синхронну поведінку, де тривала операція заморожує
+    /// Цей проєкт показує класичну синхронну поведінку, де тривала операція заморожує
     /// викликаючий потік (Thread). Поки працює Thread.Sleep(), потік ОС не може виконувати
     /// жодної корисної роботи (UI замерзає, запити Web-сервера блокують пул).
+    /// 
+    /// ТЕОРЕТИЧНІ АСПЕКТИ ТА АРХІТЕКТУРА:
+    /// 1. Що таке системний потік (Thread):
+    ///    - Об'єкт Thread у .NET представляє реальний потік ядра операційної системи (OS Thread).
+    ///    - На кожен потік за замовчуванням виділяється ~1 МБ стекової пам'яті (у 64-бітних ОС).
+    ///    - Перемикання контексту (Context Switching) між сотнями потоків витрачає цінні такти CPU.
+    /// 2. Механіка Thread.Sleep(ms):
+    ///    - Переводить потік у стан очікування (WaitSleepJoin).
+    ///    - Потік не виконує інструкцій, але ПРОДОВЖУЄ УТРИМУВАТИ ресурси пам'яті та дескриптор ядра ОС.
+    /// 3. Небезпека "Thread Pool Starvation" (Виснаження пулу потоків):
+    ///    - Якщо у веб-сервері (ASP.NET Core) 1000 клієнтів одночасно викличуть метод із Thread.Sleep,
+    ///      усі робочі потоки з пулу ThreadPool будуть заблоковані. Нові клієнти отримають HTTP 503 / Timeout.
+    /// 4. Альтернатива:
+    ///    - Неблокуючий таймер Task.Delay, який звільняє потік назад у пул на час паузи.
     /// </summary>
     internal class Program
     {
@@ -19,13 +33,13 @@ namespace AsynchronousProgramming
         // =====================================================================================
         static void Main(string[] args)
         {
-            Console.WriteLine("Main Method Started......");
+            Console.WriteLine($"[Main #{Thread.CurrentThread.ManagedThreadId}] Main Method Started......");
 
             // Виклик синхронного блокуючого методу
             SomeMethod();
 
             // Цей рядок НЕ виконається, доки SomeMethod повністю не завершиться (через 10 сек)
-            Console.WriteLine("Main Method End");
+            Console.WriteLine($"[Main #{Thread.CurrentThread.ManagedThreadId}] Main Method End");
             Console.ReadKey();
         }
 
@@ -35,13 +49,13 @@ namespace AsynchronousProgramming
         // =====================================================================================
         public static void SomeMethod()
         {
-            Console.WriteLine("Some Method Started......");
+            Console.WriteLine($"[SomeMethod #{Thread.CurrentThread.ManagedThreadId}] Some Method Started......");
 
             // Блокування потоку: потік зупиняється на 10 секунд (Thread Starvation)
             Thread.Sleep(TimeSpan.FromSeconds(10));
 
             Console.WriteLine("\n");
-            Console.WriteLine("Some Method End");
+            Console.WriteLine($"[SomeMethod #{Thread.CurrentThread.ManagedThreadId}] Some Method End");
         }
     }
 }

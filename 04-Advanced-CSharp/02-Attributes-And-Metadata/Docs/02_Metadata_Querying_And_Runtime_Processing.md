@@ -7,7 +7,7 @@
 ## 1. Методи пошуку та отримання атрибутів
 
 ### 1.1. `Attribute.IsDefined` / `MemberInfo.IsDefined`
-Швидка перевірка наявності атрибута без створення його екземпляра:
+Швидка перевірка наявності атрибута **без створення його екземпляра в пам'яті (Heap)**:
 ```csharp
 MemberInfo member = typeof(Employee).GetMethod("PrintDetails")!;
 bool isAudited = Attribute.IsDefined(member, typeof(MethodInfoAttribute));
@@ -79,3 +79,33 @@ public class TestRunner
     }
 }
 ```
+
+---
+
+## 3. Оптимізація продуктивності: Кешування метаданих
+
+> [!WARNING]
+> Виклик `GetCustomAttributes()` у гарячих циклах (наприклад, при обробці кожного запиту в ORM чи серіалізаторі) є **антипатерном**, оскільки кожен виклик повторно десеріалізує потік `#Blob` та виділяє новий об'єкт у керованій купі (Heap Allocation).
+
+Для досягнення максимальної швидкодії фреймворки (Entity Framework Core, Dapper, ASP.NET Core) використовують потокобезпечне кешування через `ConcurrentDictionary`:
+
+```csharp
+public static class AttributeCache<TAttribute> where TAttribute : Attribute
+{
+    private static readonly ConcurrentDictionary<MemberInfo, TAttribute?> _cache = new();
+
+    public static TAttribute? Get(MemberInfo member)
+    {
+        return _cache.GetOrAdd(member, m => m.GetCustomAttribute<TAttribute>());
+    }
+}
+```
+
+### Порівняльна таблиця стратегій доступу до метаданих:
+
+| Підхід | Накладні витрати на CPU | Виділення пам'яті (GC) | Рекомендоване застосування |
+|:---|:---:|:---:|:---|
+| **`MemberInfo.IsDefined`** | Мінімальні | **0 байт** | Перевірка прапорців (наприклад, `[IgnoreField]`) |
+| **`GetCustomAttribute<T>()`** | Середні | Виділення нового об'єкта | Одноразова ініціалізація або рідкісні виклики |
+| **Кешування у `ConcurrentDictionary`** | Нульові (після прогріву) | 0 байт (після прогріву) | Високонавантажені сервери, ORM, парсери JSON |
+| **Source Generators (C# 9+)** | **0% (Compile-Time)** | **0 байт** | Сучасний підхід AOT/.NET без використання рефлексії |

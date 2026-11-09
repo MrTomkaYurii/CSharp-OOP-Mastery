@@ -115,12 +115,18 @@ namespace EX_01_async_await
             Console.WriteLine("Hello Guys!");
         }
 
-        // Асинхронна обгортка через Task.Run для винесення синхронного коду в ThreadPool
+        // Асинхронна обгортка через Task.Run для винесення синхронного коду в ThreadPool.
+        // Це класичний гібрид: багатопотоковість + асинхронне очікування.
+        // 1. Task.Run бере фоновий потік із ThreadPool для виконання Print() (багатопотоковість).
+        // 2. await відпускає поточний потік, запобігаючи заморожуванню інтерфейсу чи консолі (асинхронність).
         private static async Task PrintAsync_01()
         {
-            Console.WriteLine("Початок методу PrintAsync");
+            Console.WriteLine($"[Потік #{Thread.CurrentThread.ManagedThreadId}] Початок методу PrintAsync");
+            
+            // Винесення важкої синхронної роботи в потік із пулу:
             await Task.Run(() => Print());
-            Console.WriteLine("Кінець методу PrintAsync");
+            
+            Console.WriteLine($"[Потік #{Thread.CurrentThread.ManagedThreadId}] Кінець методу PrintAsync");
             Console.ReadKey();
         }
 
